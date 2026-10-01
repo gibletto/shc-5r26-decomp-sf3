@@ -1,0 +1,2407 @@
+# function	old name	new name	type	first use	storage   decompiler locals renamed by ApplyStageTables.java (tools/key-locals.py fills the last two)
+004010f0	iVar1	op		00401179	unique:00017000:1
+004010f0	piVar2	func		00401171	EAX:4
+004010f0	iVar3	err		00401224	EAX:4
+00401320	iVar3	lowest_freg		00401374	EBP:4
+00401320	puVar4	reserved_mask		00401336	ESI:4
+00401320	iVar5	reserved		00401329	EDI:4
+00401480	iVar1	op		004014e3	unique:00017000:1
+00401480	sVar2	filn		00401524	unique:00017100:2
+00401480	uVar3	line		00401529	unique:00017100:2
+00401480	sVar4	listno		0040152d	unique:00017100:2
+00401480	piVar5	holder		0040149e	EAX:4
+00401480	piVar6	stmt		004014dc	EAX:4
+00401480	iVar7	depth		004014bf	EBX:4
+004015e0	plVar1	next_label		004015ee	unique:00017200:4
+004015e0	block	lab		004015ec	unique:10000168:4
+004015e0	pplVar2	bucket		004015e3	ESI:4
+00401850	iVar1	parent_op		0040185f	unique:00017000:1
+00401850	cVar2	sclass		00401933	unique:00017000:1
+00401850	node_00	child		00401858	unique:00017200:4
+00401850	sVar3	nleaf		00401915	AX:2
+00401850	iVar5	leafno		0040190d	EAX:4
+00401850	psVar6	sym		00401931	ECX:4
+00401850	psVar7	leaf_symno		0040199e	ECX:4
+00401f70	puVar1	cell		00401f73	EAX:4
+00401fa0	puVar1	next_cell		00401fc8	unique:00017200:4
+00401fa0	block	cell		00401fa9	unique:1000003a:4
+004020a0	pbVar1	block_flag		00402166	unique:00006600:4
+004020a0	sVar2	symx		0040217c	unique:00017100:2
+004020a0	uVar3	flag		0040233f	unique:00017100:2
+004020a0	pvVar4	du		004020cf	unique:00017200:4
+004020a0	piVar5	node		004020f0	unique:00017200:4
+004020a0	iVar6	lp		00402126	unique:00017200:4
+004020a0	iVar7	outer		00402137	unique:00017200:4
+004020a0	pbVar10	block		0040233d	unique:10000211:4
+004020a0	iVar11	depth		00402132	EAX:4
+004020a0	bVar12	type		004022b5	CL:1
+004020a0	local_8	priority
+00402380	pvVar1	cdata		00402391	unique:00017200:4
+00402380	pbVar2	pred		004023f9	unique:00017200:4
+00402380	piVar3	next_use		00402488	unique:00017200:4
+00402380	pcVar5	dom_node		00402597	unique:00017200:4
+00402380	pcVar6	stmt		004025a7	unique:00017200:4
+00402380	piVar8	use		00402601	unique:00017200:4
+00402380	uVar9	start_pp		004024ef	AX:2
+00402380	pbVar13	block		004023bd	EDI:4
+00402380	piVar14	last_use		004024d2	EDI:4
+00402660	puVar1	other_use		00402670	unique:00017200:4
+00402660	piVar2	next_use		00402676	unique:00017200:4
+00402660	plVar4	lp		004026ed	unique:00017200:4
+00402660	plVar5	outer		004026f4	unique:00017200:4
+00402660	pvVar6	cdata		00402716	unique:00017200:4
+00402660	pnVar7	cell		0040273a	unique:00017200:4
+00402660	pnVar8	next_cell		00402741	unique:00017200:4
+00402660	piVar9	last_use		00402674	unique:10000063:4
+00402660	a	dom		004026ca	EAX:4
+00402660	pbVar10	prev_block		004026bb	ECX:4
+00402660	piVar11	use		00402720	ECX:4
+00402770	pbVar1	flag_hi		004027a8	unique:00006600:4
+00402770	puVar2	use		00402792	unique:00017200:4
+00402770	block_00	pred		004027be	EBX:4
+00402770	pbVar3	pred_link		00402828	EDI:4
+00402880	pbVar1	flag_hi		004028c6	unique:00006600:4
+00402880	puVar2	area_entry		004028b6	EAX:4
+00402880	block_00	pred		004028dc	EBX:4
+00402880	pbVar3	pred_link		00402946	EDI:4
+004029a0	bVar2	swapped		00402a21	unique:1000002f:1
+004029a0	pvVar3	du		004029b1	ECX:4
+004029a0	pvVar4	pos		00402a21	ECX:4
+004029a0	pvVar5	next_du		004029b1	EDX:4
+004029a0	iVar6	pp		004029ce	EBX:4
+004029a0	local_4	prev_item
+00402a50	uVar1	w		00402a5f	unique:00017200:4
+00402a50	bVar2	any		00402a68	AL:1
+00402a70	b	live_out		00402bf5	unique:00017200:4
+00402a70	pbVar1	succ		00402c7e	unique:00017200:4
+00402a70	bVar2	live_across		00402c58	unique:1000019f:1
+00402a70	uVar3	any		00402cd8	AL:1
+00402a70	uVar4	end_pp		00402c50	AX:2
+00402a70	pnVar5	link		00402b64	EAX:4
+00402a70	piVar6	latest		00402c4f	EAX:4
+00402a70	puVar7	area_entry		00402c5a	EAX:4
+00402a70	piVar8	node		00402c50	Stack[-0x98]:4
+00402a70	local_84	leafno
+00402a70	local_80	used_in
+00402a70	local_40	used_out
+00402d10	sVar1	leafno		00402d5d	unique:00017100:2
+00402d10	pbVar2	succ		00402d61	unique:00017200:4
+00402d10	uVar3	any		00402db9	AL:1
+00402d10	puVar4	area_entry		00402d29	EAX:4
+00402d10	pcVar5	node		00402d5d	EAX:4
+00402d10	local_40	live_set
+00402de0	pplVar1	bucket		00402dfd	unique:00006f00:4
+00402de0	pvVar2	area_entry		00402de6	EAX:4
+00402de0	plVar3	range		00402e27	EAX:4
+00402de0	puVar4	lreg_cell		00402e42	EAX:4
+00402e70	piVar1	opnd		00402eb1	unique:00017200:4
+00402e70	pdVar2	du		00402fb0	unique:00017200:4
+00402e70	plVar4	tail		004030fa	unique:00017200:4
+00402e70	bVar5	on_stack		00402f50	unique:1000010a:1
+00402e70	pdVar6	def		00402e93	EAX:4
+00402e70	uVar7	arg_index		00402eb5	EAX:4
+00402e70	bVar10	type_class		00403043	CL:1
+00403170	pvVar4	dst_chain		00403214	unique:00017200:4
+00403170	bVar5	seen		00403308	unique:100000d7:1
+00403170	block	clash		004031f8	EBP:4
+00403350	iVar1	ndefs		00403357	ECX:4
+00403350	local_4	found
+00403380	uVar1	pp		004033df	unique:00017100:2
+00403380	iVar2	bound		00403390	unique:00017200:4
+00403380	def_00	bound_def		0040339f	EAX:4
+00403380	piVar4	area		004033e3	EDX:4
+00403410	uVar1	pp		0040341a	EDI:4
+00403460	uVar1	block_end		004034cd	unique:00017100:2
+00403460	puVar2	other		00403468	unique:00017200:4
+00403460	plVar3	other_range		00403482	unique:00017200:4
+00403460	pbVar4	block		004034d3	EAX:4
+00403460	uVar5	pp		004034ad	DI:2
+00403520	puVar1	clash		00403548	EAX:4
+00403590	puVar1	clash		004035a0	unique:00017200:4
+00403590	plVar2	reg		004035c3	unique:00017200:4
+00403590	iVar3	avg		0040359c	EAX:4
+00403590	iVar4	nclash		0040359e	ESI:4
+004035d0	uVar1	flag		004035d9	unique:00017100:2
+00403630	pnVar1	stmt		00403649	unique:00017200:4
+00403630	pbVar2	block		00403662	unique:00017200:4
+00403670	node_00	child		00403676	unique:00017200:4
+004036a0	node_00	child		004036a5	unique:00017200:4
+004036e0	iVar1	op		00403702	unique:00017000:1
+004036e0	sVar2	symx		00403763	unique:00017100:2
+004036e0	piVar3	child		00403745	unique:00017200:4
+004036e0	cVar4	in_builtin		004036e0	unique:1000017b:1
+004036e0	bVar5	type_class		0040385d	AL:1
+004036e0	iVar6	is_builtin		00403783	EAX:4
+004038d0	piVar1	operand		004038d6	unique:00017200:4
+00403970	iVar1	parent_op		00403979	unique:00017000:1
+00403970	sVar2	leafno		004039a4	unique:00017100:2
+00403970	bVar3	type_class		00403989	AL:1
+00403a80	bVar1	all_numbered		00403aa1	unique:10000042:1
+00403b30	bVar1	type_class		00403b74	AL:1
+00403b30	uVar2	value_no		00403b6d	AX:2
+00403bc0	uVar1	sum		00403bcd	EAX:4
+00403bc0	iVar2	bucket		00403bda	EAX:4
+00403bc0	pnVar3	cell		00403be6	EAX:4
+00403bc0	uVar4	sign		00403bd0	EDX:4
+00403c10	uVar1	sum		00403c1c	EAX:4
+00403c10	uVar3	sign		00403c1f	EDX:4
+00403c10	pnVar4	cell		00403c3a	ESI:4
+00403c60	uVar1	leafno		00403c82	unique:00017100:2
+00403c60	uVar2	sign		00403c92	unique:1000003f:2
+00403c60	puVar3	def_entry		00403c63	EAX:4
+00403cb0	uVar1	leafno		00403cb4	unique:00017100:2
+00403cb0	uVar2	sign		00403cc7	unique:10000022:2
+00403cb0	piVar3	def_entry		00403cd5	EAX:4
+00403cf0	piVar1	rhs		00403cff	unique:00017200:4
+00403cf0	uVar2	hash		00403d13	EAX:4
+00403cf0	pnVar3	cell		00403d25	EAX:4
+00403cf0	iVar4	rhs_vn		00403cf7	EDX:4
+00403cf0	uVar5	sign		00403d15	EDX:4
+00403d50	iVar1	op		00403d97	unique:00017000:1
+00403d50	bVar2	cand_type		00403e00	unique:00017000:1
+00403d50	bVar3	type		00403e09	unique:00017000:1
+00403d50	pnVar6	cell		00403dd0	unique:00017200:4
+00403d50	iVar7	lhs_vn		00403d8b	EAX:4
+00403d50	uVar8	hash		00403dac	EAX:4
+00403d50	uVar10	sign		00403dae	EDX:4
+00403d50	iVar11	cand_rhs_vn		00403de1	EDI:4
+00403d50	local_10	rhs_vn
+00403eb0	piVar1	replaced		00403ec2	EAX:4
+00403f20	pbVar1	cell		00403f2a	unique:00017200:4
+00403f20	piVar2	next_member		00403f72	unique:00017200:4
+00403f20	piVar3	next		00403f7c	unique:00017200:4
+00403f20	piVar4	member		00403f78	unique:1000006f:4
+00403f20	sVar5	status		00403f4b	AX:2
+00403f20	piVar6	head		00403f64	EAX:4
+00403f20	ppnVar7	bucket		00403f21	ECX:4
+00403f90	uVar1	leafno		00403f9f	unique:00017100:2
+00403f90	node_00	child		00403fe8	unique:00017200:4
+00403f90	uVar2	sign		00403fb2	unique:1000002f:2
+00403f90	piVar3	def_entry		00403fc0	EAX:4
+00403f90	sVar4	status		00403f90	CX:2
+00404010	iVar1	parent_op		0040409d	unique:00017000:1
+00404010	uVar2	refcnt		0040407c	unique:00017100:2
+00404010	piVar3	next_member		00404131	unique:00017200:4
+00404010	pnVar4	cell		00404155	unique:00017200:4
+00404010	pbVar5	blk		00404171	unique:00017200:4
+00404010	node_00	member		00404122	unique:1000011a:4
+00404010	iVar8	child_rank		0040402f	EAX:4
+00404010	node_01	temp		004040fb	EAX:4
+00404010	node_02	temp_copy		00404127	EAX:4
+00404010	bVar9	type		004040cf	DI:1
+00404190	puVar1	next_entry		004041b2	unique:00017200:4
+00404190	pnVar2	next_cell		004041e0	unique:00017200:4
+00404190	pbVar3	next_expr_cell		0040420f	unique:00017200:4
+00404190	block	const_cell		004041da	unique:10000063:4
+00404190	block_00	expr_cell		00404209	unique:10000068:4
+00404190	block_01	leaf_entry		0040419c	unique:1000009d:4
+00404190	puVar4	leaf_bucket		00404193	ESI:4
+00404190	ppnVar5	expr_bucket		00404200	ESI:4
+00404190	ppnVar6	const_bucket		004041d1	EDI:4
+00404240	sVar1	nsymbols		0040424a	unique:00017100:2
+00404240	iVar2	rc		004043fa	EAX:4
+00404240	local_2	sym_index
+00404420	buf	flags_byte		0040442d	unique:00006600:4
+004045b0	piVar1	finfo		004045b8	unique:00017200:4
+004045b0	bVar2	more		00404611	unique:10000131:1
+004045b0	local_8	impvol_flag
+004045b0	local_7	param_count
+004045b0	local_6	scope_symx
+004045b0	local_4	param_symx
+004045b0	local_2	scope_count
+004046f0	psVar1	sinfo		004046fa	unique:00017200:4
+004046f0	bVar2	more		00404722	unique:100000e6:1
+004046f0	local_7	impvol_flag
+004046f0	local_6	sym_index
+004046f0	local_4	scope_count
+004046f0	local_2	member_count
+00404800	uVar1	written		0040480f	EAX:4
+00404830	sStack_2	extra
+00404ae0	bVar2	is_id		00404b40	unique:10000225:1
+00404ae0	bVar3	has_fr0set		00404b40	unique:10000228:1
+00404ae0	bVar4	is_block		00404b40	unique:10000231:1
+00404ae0	local_2	extra
+00404d80	bVar1	type_class		00404d96	AL:1
+00404dc0	bVar1	type_class		00404dd6	AL:1
+00404e00	piVar1	operand		00404e1f	EAX:4
+00404e00	sVar2	remaining		00404e14	BX:2
+00404e00	piVar4	prev		00404e14	EDI:4
+00404e60	piVar1	tree		00404e6a	EAX:4
+00404f00	uVar1	nread		00404f11	EAX:4
+00404f30	uVar1	written		00404f41	EAX:4
+00404f60	piVar2	cur		00404fb5	ESI:4
+00404f60	iVar3	n		00404faa	EDI:4
+00404f60	lVar4	smaller		00404f94	EDX:4,EAX:4
+00404fd0	pnVar1	last_cell		00405022	unique:00017200:4
+00404fd0	pnVar2	cell		0040502c	unique:00017200:4
+00404fd0	piVar3	pos		0040504e	EAX:4
+00404fd0	piVar4	copy		00405072	EAX:4
+00404fd0	local_8	blk
+00405150	pbVar1	succ		00405162	unique:00017200:4
+004051b0	plVar1	next_label		004052c3	unique:00017200:4
+004051b0	block	lab		004052c1	unique:10000165:4
+004051b0	pplVar2	bucket		004052a4	EDI:4
+00405380	stmt_00	child		004053b5	ESI:4
+004054b0	pnVar1	cell		004054b3	EAX:4
+004055b0	pbVar1	succ		004055d0	EAX:4
+004055f0	pbVar1	next_cell		0040560c	unique:00017200:4
+00405630	pbVar1	cell		00405633	EAX:4
+00405660	pbVar1	block		0040567a	EAX:4
+00405660	pbVar2	sets		0040568f	EAX:4
+00405660	puVar3	kill		004056a4	EAX:4
+00405660	puVar4	gen		004056b9	EAX:4
+00405660	puVar5	d_in		004056d0	EAX:4
+00405660	puVar6	reach_out		004056e7	EAX:4
+00405660	puVar7	def		004056fc	EAX:4
+00405660	puVar8	live_out		00405713	EAX:4
+00405660	puVar9	use		0040572a	EAX:4
+00405660	puVar10	l_in		00405741	EAX:4
+004057c0	pnVar1	next_cell		004057d1	unique:00017200:4
+004057c0	block_00	cell		004057cb	unique:1000015d:4
+004058a0	pbVar1	next_block		004058ce	unique:00017200:4
+00405920	parent	open_block		00405922	EAX:4
+00405920	node	close_block		00405929	EAX:4
+00405960	plVar1	next_lp		00405970	unique:00017200:4
+004059c0	pnVar1	cell		004059da	unique:00017200:4
+004059c0	pnVar2	new_cell		004059c3	EAX:4
+00405a00	pnVar1	cell		00405a03	EAX:4
+00405a30	plVar1	next_label		00405a3e	unique:00017200:4
+00405a30	block	lab		00405a3c	unique:10000082:4
+00405a30	pplVar2	bucket		00405a33	EBX:4
+00405ad0	pnVar1	next_cell		00405ad9	unique:00017200:4
+00405af0	pplVar1	next_link		00405b28	unique:00006600:4
+00405af0	pbVar3	block		00405b50	EAX:4
+00405b80	plVar1	inner		00405c01	unique:00017200:4
+00405b80	sVar2	brc		00405bf6	AX:2
+00405b80	sVar3	nestcnt		00405c13	DX:2
+00405c90	pcVar1	kind_name		00405cc1	EAX:4
+00405c90	cVar2	bit		00405dd9	BL:1
+00405c90	iVar3	i		00405dbb	EBX:4
+00405e30	iVar1	bitno		00405ec2	unique:00006600:4
+00405e30	pbVar2	block		00405f74	unique:00017200:4
+00405e30	bVar3	sign		00405ee7	unique:10000177:1
+00405e30	cVar4	bit		00405f47	BL:1
+00405e30	iVar5	i		00405ea7	EDI:4
+00406030	pnVar1	stmt		00406037	unique:00017200:4
+004060b0	pbVar1	flag_hi		00406113	unique:00006600:4
+004060b0	iVar2	op		00406195	unique:00017000:1
+004060b0	uVar3	flag		004060b6	unique:00017100:2
+00406240	iVar1	op		00406265	unique:00017000:1
+00406240	piVar2	operand		004062ac	unique:00017200:4
+00406240	piVar4	result		00406317	EAX:4
+00406240	node_00	kept		0040635b	EAX:4
+00406240	uVar6	side_effects		00406289	EDX:4
+00406400	iVar1	parent_op		00406420	unique:00017000:1
+00406400	piVar2	parent		00406419	unique:00017200:4
+00406400	iVar3	pos		00406409	EAX:4
+00406400	uVar4	flag		00406415	BP:2
+00406400	puVar5	op_name		004064f7	Stack[-0x18]:4
+00406400	uVar6	used		004064f7	Stack[-0x14]:4
+004065d0	iVar1	op		00406671	unique:00017000:1
+004065d0	piVar2	opnd		004065fd	unique:00017200:4
+004065d0	sVar3	status		004066d6	AX:2
+004065d0	piVar4	result		0040664f	EAX:4
+004065d0	iVar5	arith_class		004066b1	EAX:4
+004065d0	uVar6	from_type		004066ae	Stack[-0x10]:1
+00406760	bVar1	kind		00406769	DL:1
+004067e0	iVar1	to_class		004067eb	EAX:4
+004067e0	iVar2	from_class		004067fb	EAX:4
+00406910	bVar1	type		00406919	unique:00017000:1
+00406910	bVar3	size_class		0040691e	CL:1
+00406950	bVar1	src_type		0040697a	unique:00017000:1
+00406950	piVar2	cast		0040695e	unique:00017200:4
+00406950	piVar3	expr		004069a6	EAX:4
+00406950	piVar4	temp		004069da	EAX:4
+00406ac0	bVar1	type		00406ada	unique:00017000:1
+00406ac0	piVar2	cast		00406ace	unique:00017200:4
+00406ac0	piVar3	expr		00406b16	EAX:4
+00406ac0	piVar4	temp		00406b28	EAX:4
+00406c30	uVar1	b_word		00406c4a	unique:00017200:4
+00406c30	uVar2	a_word		00406c4f	unique:00017200:4
+00406c70	uVar1	b_word		00406c8a	unique:00017200:4
+00406c70	uVar2	a_word		00406c8f	unique:00017200:4
+00406cb0	iVar1	b_word		00406cd2	unique:00017200:4
+00406cb0	iVar2	a_word		00406cd4	unique:00017200:4
+00406cb0	iVar3	differ		00406cb1	EAX:4
+00406cb0	piVar4	next_a		00406ccc	EDX:4
+00406cb0	piVar5	next_b		00406ccf	EDI:4
+00406cf0	cVar1	bit		00406d1f	BL:1
+00406cf0	iVar2	i		00406d16	EBX:4
+00406d60	block	rec		00406ddc	unique:1000024f:4
+00406f80	puVar1	flag_ptr		00406fcb	unique:00006600:4
+00406f80	pnVar2	stmt		00406fa2	unique:00017200:4
+00407000	pbVar1	flag_hi		00407077	unique:00006600:4
+00407000	sVar2	symx		00407087	unique:00017100:2
+00407000	uVar3	flag		004071ac	unique:00017100:2
+00407000	pdVar4	du		0040722a	unique:00017200:4
+00407000	uVar5	any		00407211	AL:1
+00407000	pnVar7	cell		00407187	EAX:4
+00407000	piVar8	ref		00407382	EAX:4
+00407000	bVar9	type_class		004072af	CL:1
+00407000	pcVar10	s1		00407165	ESI:4
+00407000	pcVar11	s2		00407165	EDI:4
+00407000	bVar12	equal		0040710e	ZF:1
+00407000	local_40	live_set
+004073f0	bVar1	c		00407408	unique:00017000:1
+004073f0	pbVar2	p		0040741a	EAX:4
+004073f0	iVar3	cmp		00407424	EAX:4
+004073f0	pbVar4	q		0040741d	ECX:4
+004073f0	ppuVar5	name_ptr		004073fb	ESI:4
+004073f0	bVar6	below		0040740a	CF:1
+00407450	uVar1	flag		004074c5	unique:00017100:2
+00407450	pnVar2	link		004074bc	unique:00017200:4
+00407450	pdVar3	next_du		004074e8	unique:00017200:4
+00407450	piVar4	ref		00407463	EAX:4
+00407450	bVar5	type_class		00407480	CL:1
+00407450	pdVar6	tail		004074f8	EDI:4
+00407510	iVar1	op		00407539	unique:00017000:1
+00407510	pdVar2	du		0040751b	unique:00017200:4
+00407510	node_00	ref		0040752e	unique:00017200:4
+00407510	pdVar3	next_du		004076e6	unique:00017200:4
+00407510	iVar4	pos		0040755b	EAX:4
+00407510	pdVar5	other_web		00407591	ECX:4
+00407510	piVar7	rhs		004076a1	EBX:4
+00407510	piVar8	operand		004076af	ESI:4
+00407510	pdVar9	tail		004076f9	EDI:4
+00407720	cVar1	sclass		00407849	unique:00017000:1
+00407720	sVar2	symx		0040782e	unique:00017100:2
+00407720	piVar3	call		0040796f	unique:00017200:4
+00407720	bVar4	type_class		00407783	AL:1
+00407720	bVar5	size_class		004078a0	AL:1
+00407720	pnVar7	cell		004079e5	EAX:4
+00407720	node_00	operand		004079b6	EDI:4
+00407a10	node_00	child		00407a16	unique:00017200:4
+00407a10	iVar1	found		00407a1e	EAX:4
+00407a70	plVar1	reg		00407a8f	EAX:4
+00407b00	iVar1	op		00407b09	unique:00017000:1
+00407b00	piVar2	ancestor		00407b06	unique:00017200:4
+00407b00	iVar3	count		00407b00	EAX:4
+00407b30	ppcVar1	next_bucket		00407d41	unique:0000a300:4
+00407b30	iVar2	parent_op		00407c43	unique:00017000:1
+00407b30	sVar3	symx		00407d02	unique:00017100:2
+00407b30	pnVar4	cell		00407b41	unique:00017200:4
+00407b30	source	cdata		00407b6e	unique:00017200:4
+00407b30	pcVar5	use		00407b88	unique:00017200:4
+00407b30	plVar6	lp		00407b98	unique:00017200:4
+00407b30	plVar7	outer		00407ba4	unique:00017200:4
+00407b30	plVar9	reg		00407cb1	EAX:4
+00407b30	iVar10	weight		00407b9f	EDI:4
+00407b30	local_10	priority
+00407b30	local_8	bucket
+00407b30	local_4	nrefs
+00407d70	iVar1	is_builtin		00407dcf	EAX:4
+00407d70	uVar2	bucket		00407e8d	EAX:4
+00407d70	pcVar3	cdata		00407fc5	EAX:4
+00407d70	pcVar4	use		00407ffd	EAX:4
+00407d70	bVar5	size_class		00407e09	CL:1
+00407d70	bVar6	kind		00407e2a	DL:1
+00407d70	sVar7	contents		00407e8b	BX:2
+00407d70	uVar8	value		00407e70	EBP:4
+00407d70	piVar9	operand		00407d9a	EDI:4
+00407d70	local_4	prev_item
+00408020	bVar1	type		00408034	unique:00017000:1
+00408020	cVar2	sclass		004080e0	unique:00017000:1
+00408020	uVar3	leafno		00408138	unique:00017100:2
+00408020	uVar4	sign		0040814b	unique:10000085:2
+00408020	bVar5	on_stack		004080c5	unique:100000ba:1
+00408020	sVar6	bucket		00408149	AX:2
+00408020	uVar7	arg_index		0040802c	EAX:4
+00408020	pcVar8	obj		00408194	EAX:4
+00408020	pcVar9	use		004081c4	EAX:4
+00408020	bVar10	size_class		00408039	CL:1
+00408020	local_4	prev_item
+004081f0	pvVar1	mem		004081f6	EAX:4
+00408210	pnVar1	stmt		0040821c	unique:00017200:4
+00408210	pbVar2	block		00408235	unique:00017200:4
+00408240	iVar1	op		0040825d	unique:00017000:1
+00408240	bVar3	type_class		0040826b	AL:1
+00408240	pnVar4	cell		004082c2	EAX:4
+00408390	node_00	child		00408397	unique:00017200:4
+00408390	bVar1	skip		004083d0	unique:10000040:1
+00408390	iVar2	pos		004083be	EAX:4
+00408400	bVar1	c		00408418	unique:00017000:1
+00408400	pbVar2	p		0040842a	EAX:4
+00408400	iVar3	cmp		00408434	EAX:4
+00408400	pbVar4	q		0040842d	ECX:4
+00408400	ppuVar5	name_ptr		0040840b	EDX:4
+00408400	bVar6	below		0040841a	CF:1
+00408460	sVar1	symx		004084a7	unique:00017100:2
+00408460	iVar7	fmac_count		00408463	ECX:4
+00408650	piVar1	next_child		00408676	unique:00017200:4
+00408650	node_00	child		00408676	ESI:4
+004086b0	iVar1	op		004086f1	unique:00017000:1
+004086b0	pcVar3	str		004086d2	Stack[-0x10]:4
+00408a80	bVar1	type_class		00408abd	CL:1
+00408b20	pbVar1	p		00408b40	unique:00006c00:4
+00408b20	iVar2	i		00408b23	EBX:4
+00408b70	cVar1	c		00408bcd	unique:00015500:1
+00408b70	bVar2	kind		00408c47	CL:1
+00408b70	local_14	text
+00408d60	bVar1	len		00408dd6	AL:1
+00408d60	iVar2	leafno		00408d74	EBP:4
+00408d60	puVar3	flag_ptr		00408f3f	ESI:4
+00408d60	iVar4	symno		00408daf	EDI:4
+00408d60	local_10	name_buf
+00408fa0	iVar1	indent		00408fb4	unique:00006600:4
+00408fa0	iVar2	i		00409015	EBP:4
+00409070	puVar1	set		004091f1	unique:00017200:4
+00409070	pnVar2	cell		004092e6	unique:00017200:4
+00409070	iVar3	i		004092f0	unique:1000034d:4
+00409340	iVar1	col		00409342	EDI:4
+00409390	pbVar1	block		004093bf	unique:00017200:4
+00409390	pnVar2	stmt		004093c6	unique:00017200:4
+00409450	puVar1	type_ptr		0040954a	unique:00006600:4
+00409450	iVar3	op		004094f4	unique:00017000:1
+00409450	uVar4	type		0040954d	unique:00017000:1
+00409450	bVar5	rhs_type		0040981e	unique:00017000:1
+00409450	sVar6	filn		00409568	unique:00017100:2
+00409450	uVar7	line		0040956c	unique:00017100:2
+00409450	sVar8	listno		00409570	unique:00017100:2
+00409450	pdVar9	du		0040945d	unique:00017200:4
+00409450	pnVar10	link		00409481	unique:00017200:4
+00409450	bVar11	dead		004094f4	unique:10000436:1
+00409450	bVar15	lhs_size		00409830	DL:1
+00409450	local_4	repl
+00409ac0	pnVar1	stmt		00409acc	unique:00017200:4
+00409ac0	pbVar2	block		00409ae5	unique:00017200:4
+00409af0	sVar1	symx		00409b1f	unique:00017100:2
+00409af0	node_00	child		00409af6	unique:00017200:4
+00409bb0	sVar1	symx		00409bee	unique:00017100:2
+00409bb0	node_00	child		00409bd0	unique:00017200:4
+00409bb0	cVar2	in_builtin		00409bb0	unique:1000013b:1
+00409bb0	bVar3	type_class		00409ca9	AL:1
+00409bb0	iVar4	is_builtin		00409c0e	EAX:4
+00409d60	piVar1	operand		00409d66	unique:00017200:4
+00409e00	iVar1	parent_op		00409e0a	unique:00017000:1
+00409e00	uVar2	leaf_flags		00409e28	unique:00017100:2
+00409e00	bVar3	type		00409e85	AL:1
+00409e00	bVar4	type_class		00409ed7	AL:1
+00409f90	bVar1	all_numbered		00409fb4	unique:10000042:1
+0040a010	uVar2	base_vn		0040a048	unique:00017100:2
+0040a010	piVar3	ref		0040a062	unique:00017200:4
+0040a010	bVar4	found		0040a0b4	unique:10000099:1
+0040a010	pnVar5	cell		0040a0b4	EAX:4
+0040a120	puVar1	flag_ptr		0040a184	unique:00006600:4
+0040a120	pbVar2	flag_hi		0040a2eb	unique:00006600:4
+0040a120	iVar3	lhs_op		0040a12a	unique:00017000:1
+0040a120	uVar4	leaf_flags		0040a2bf	unique:00017100:2
+0040a120	uVar5	leaf_flags2		0040a34b	unique:00017100:2
+0040a120	node_00	lhs		0040a127	unique:00017200:4
+0040a120	bVar6	type_class		0040a2a6	AL:1
+0040a380	bVar1	type_class		0040a3c4	AL:1
+0040a380	uVar2	value_no		0040a3bd	AX:2
+0040a410	uVar1	sum		0040a41c	EAX:4
+0040a410	uVar3	sign		0040a41f	EDX:4
+0040a410	pnVar4	cell		0040a43a	EDI:4
+0040a460	bVar1	b_type		0040a46a	unique:00017000:1
+0040a460	bVar2	a_type		0040a46d	unique:00017000:1
+0040a4c0	uVar1	sum		0040a4cd	EAX:4
+0040a4c0	iVar2	bucket		0040a4da	EAX:4
+0040a4c0	pnVar3	cell		0040a4e6	EAX:4
+0040a4c0	uVar4	sign		0040a4d0	EDX:4
+0040a510	puVar1	cell		0040a513	EAX:4
+0040a550	iVar1	op		0040a597	unique:00017000:1
+0040a550	bVar2	cand_type		0040a600	unique:00017000:1
+0040a550	bVar3	type		0040a609	unique:00017000:1
+0040a550	pnVar6	cell		0040a5d0	unique:00017200:4
+0040a550	iVar7	lhs_vn		0040a58b	EAX:4
+0040a550	uVar8	hash		0040a5ac	EAX:4
+0040a550	uVar10	sign		0040a5ae	EDX:4
+0040a550	iVar11	cand_rhs_vn		0040a5e1	EDI:4
+0040a550	local_10	rhs_vn
+0040a680	piVar1	rhs		0040a68f	unique:00017200:4
+0040a680	uVar2	hash		0040a6a3	EAX:4
+0040a680	pnVar3	cell		0040a6b5	EAX:4
+0040a680	iVar4	rhs_vn		0040a687	EDX:4
+0040a680	uVar5	sign		0040a6a5	EDX:4
+0040a6e0	puVar1	flag_ptr		0040a76f	unique:00006600:4
+0040a6e0	sVar2	leafno		0040a6fe	unique:00017100:2
+0040a6e0	sVar3	symno		0040a707	unique:00017100:2
+0040a6e0	puVar4	next_cell		0040a705	unique:00017200:4
+0040a6e0	piVar5	last		0040a762	unique:00017200:4
+0040a6e0	puVar6	prev_link		0040a6f4	unique:100000aa:4
+0040a6e0	block	cell		0040a6f4	unique:100000ae:4
+0040a6e0	puVar7	prev		0040a6f4	unique:100000f9:4
+0040a6e0	local_1	type_class
+0040a7e0	pnVar1	cell		0040a7e3	EAX:4
+0040a810	pdVar1	du		0040a81c	EAX:4
+0040a860	bVar1	type_class		0040a86b	AL:1
+0040aa30	iVar1	rc		0040aa36	EAX:4
+0040aad0	uVar1	byte_06		0040abd2	AL:1
+0040aad0	sVar2	class_short		0040ab96	AX:2
+0040aad0	uVar3	nread		0040ab7b	EAX:4
+0040aad0	pcVar4	sym_name		0040abb1	EAX:4
+0040aad0	iVar5	size		0040abc8	EAX:4
+0040aad0	local_d	attr_bits
+0040aad0	local_c	byte_38
+0040aad0	local_b	name_length
+0040aad0	local_a	flag_bits
+0040aad0	local_9	type_byte
+0040aad0	local_8	word_16
+0040aad0	local_6	sym_index
+0040aad0	local_4	word_18
+0040aed0	local_b	flag_bits
+0040aed0	local_a	val16
+0040aed0	local_8	val32
+0040aed0	local_4	ext34
+0040af70	local_1	kind_val
+0040afa0	local_2	val_read
+0040b010	local_1	len
+0040b090	local_1	type_byte
+0040b0c0	local_4	size_val
+0040b100	local_1	val_read
+0040b130	bVar1	more		0040b200	unique:100001c5:1
+0040b130	pvVar2	info		0040b13e	EAX:4
+0040b130	iVar3	size		0040b165	EAX:4
+0040b130	pvVar4	array		0040b1d7	EAX:4
+0040b130	local_8	impvol_flag
+0040b130	local_7	param_count
+0040b130	local_6	entry
+0040b130	local_4	sym_index
+0040b130	local_2	cnt
+0040b320	psVar1	info_words		0040b37c	unique:00017200:4
+0040b320	bVar2	more		0040b3b2	unique:10000187:1
+0040b320	pvVar3	info		0040b32d	EAX:4
+0040b320	pvVar4	array		0040b430	EAX:4
+0040b320	local_7	impvol_flag
+0040b320	local_6	sym_index
+0040b320	local_4	cnt
+0040b320	local_2	count2
+0040b4d0	uVar1	got		0040b4df	EAX:4
+0040b500	uVar1	got		0040b510	EAX:4
+0040b5a0	iVar1	op		0040b5f8	unique:00017000:1
+0040b5a0	piVar2	expr		0040b662	EDX:4
+0040b5a0	piVar3	lhs		0040b657	EDI:4
+0040b790	sVar1	start_no		0040b904	unique:00017100:2
+0040b790	sVar2	exit_no		0040b90a	unique:00017100:2
+0040b790	pbVar3	blk		0040b7e6	unique:00017200:4
+0040b790	pbVar4	item		0040b7ec	unique:00017200:4
+0040b790	pbVar6	other_succ		0040b948	unique:00017200:4
+0040b790	cVar7	blocked		0040b834	AL:1
+0040b790	piVar8	stmt		0040b832	EAX:4
+0040b790	piVar9	cond		0040b899	EAX:4
+0040b790	uVar10	flags		0040b8ad	EAX:4
+0040b790	piVar11	empty		0040b8e9	EAX:4
+0040b790	pbVar12	next_item		0040b932	EAX:4
+0040bb20	sVar1	def_blkno		0040bb73	unique:00017100:2
+0040bb20	expr_00	sub		0040bb35	unique:00017200:4
+0040bb20	pdVar2	du		0040bb5a	unique:00017200:4
+0040bb20	pnVar3	link		0040bb61	unique:00017200:4
+0040bb20	bVar5	no_chain		0040bbc6	unique:10000074:1
+0040bb20	cVar6	sub_result		0040bb42	AL:1
+0040bb20	cVar8	result		0040bb4a	BL:1
+0040bb20	local_8	outside_defs
+0040bbf0	uVar1	is_zero		0040bc6d	EAX:4
+0040bca0	iVar1	op		0040bda9	unique:00017000:1
+0040bca0	sVar2	blkno		0040bd50	unique:00017100:2
+0040bca0	pdVar3	du		0040bd11	unique:00017200:4
+0040bca0	piVar4	def		0040bd43	unique:00017200:4
+0040bca0	piVar5	init		0040bdbc	unique:00017200:4
+0040bca0	bVar6	have_init		0040bdd3	unique:100000ff:1
+0040bca0	bVar7	have_step		0040bdd3	unique:10000108:1
+0040bca0	iVar8	opno		0040bdaf	EAX:4
+0040bca0	pnVar9	link		0040be6b	EDX:4
+0040bf20	pnVar1	item		0040bf2a	unique:00017200:4
+0040bf20	cVar2	ok		0040bf43	AL:1
+0040bf60	node_00	sub		0040bf72	unique:00017200:4
+0040bf60	cVar1	ok		0040bf61	AL:1
+0040bfd0	iVar1	op		0040bffb	unique:00017000:1
+0040bfd0	value_00	limit		0040bff8	unique:00017200:4
+0040bfd0	bVar2	kind		0040c0af	AL:1
+0040bfd0	uVar6	count		0040c081	EDI:4
+0040bfd0	local_8	overflow
+0040c2d0	pbVar1	second		0040c34b	unique:00017200:4
+0040c2d0	new_node	final_val		0040c2f9	EAX:4
+0040c2d0	pbVar2	succ		0040c360	EBX:4
+0040c380	pbVar1	blk		0040c411	unique:00017200:4
+0040c380	iVar2	next_ofs		0040c482	EDX:4
+0040c380	iVar3	ofs		0040c4b2	EDX:4
+0040c4f0	pbVar1	blk		0040c526	unique:00017200:4
+0040c4f0	pbVar2	pred		0040c557	unique:00017200:4
+0040c4f0	bVar3	changed		0040c5ff	unique:100000fa:1
+0040c4f0	iVar5	next_ofs		0040c506	ESI:4
+0040c4f0	puVar6	p		0040c555	EDI:4
+0040c4f0	local_40	in_set
+0040c4f0	local_20	out_set
+0040c620	pbVar1	blk		0040c648	unique:00017200:4
+0040c620	pbVar2	succ		0040c683	unique:00017200:4
+0040c620	bVar3	changed		0040c72a	unique:100000e8:1
+0040c620	iVar5	next_ofs		0040c638	ECX:4
+0040c620	local_c0	in_set
+0040c620	local_80	out_set
+0040c620	local_40	old_in
+0040c750	pbVar1	sets		0040c765	unique:00017200:4
+0040c750	bits	in_bits		0040c768	unique:00017200:4
+0040c750	bits_00	gen_bits		0040c76e	unique:00017200:4
+0040c750	bits_01	kill_bits		0040c770	unique:00017200:4
+0040c750	bits_02	out_bits		0040c773	unique:00017200:4
+0040c750	pbVar2	blk		0040c8f1	unique:00017200:4
+0040c910	bits	in_bits		0040c928	unique:00017200:4
+0040c910	bits_00	use_bits		0040c92e	unique:00017200:4
+0040c910	bits_01	def_bits		0040c931	unique:00017200:4
+0040c910	bits_02	out_bits		0040c934	unique:00017200:4
+0040c910	pbVar1	blk		0040cab2	unique:00017200:4
+0040cad0	pnVar1	item		0040cadc	unique:00017200:4
+0040cb00	bVar1	ty		0040cb30	unique:00017000:1
+0040cb00	node_00	sub		0040cb0f	unique:00017200:4
+0040cb00	uVar2	bits		0040cb9f	unique:00017200:4
+0040cb00	sVar3	def_count		0040cbd9	unique:10000088:2
+0040cb00	bVar4	kind		0040cb35	AL:1
+0040cb00	pnVar5	link		0040cbf0	EAX:4
+0040cb00	puVar6	in_p		0040cb9f	ECX:4
+0040cb00	puVar7	dst		0040cb9f	EDX:4
+0040cb00	puVar8	dst_next		0040cba7	EDX:4
+0040cb00	puVar9	gen_p		0040cb9f	EBX:4
+0040cb00	iVar10	bit		0040cbcd	EBX:4
+0040cb00	ppiVar11	def		0040cbbc	EDI:4
+0040cb00	local_2c	word_p
+0040cb00	local_20	reach
+0040ccc0	pnVar1	item		0040cccc	unique:00017200:4
+0040ccc0	pbVar2	blk		0040cce5	unique:00017200:4
+0040ccf0	node_00	sub		0040ccf6	unique:00017200:4
+0040cd20	sVar1	nleaf		0040cd46	unique:00017100:2
+0040cd20	pnVar2	link		0040cd36	unique:00017200:4
+0040cd20	bVar3	len		0040cd7d	AL:1
+0040cd20	puVar4	arg_blkno		0040ce32	EAX:4
+0040cd20	puVar5	arg_leaf		0040ce2e	EDX:4
+0040cd20	_Format	fmt		0040ce38	Stack[-0x44]:4
+0040cd20	puVar7	arg_name		0040ce4f	Stack[-0x38]:4
+0040cd20	iVar8	kind		0040ce63	Stack[-0x30]:4
+0040cd20	piVar9	linked		0040ce63	Stack[-0x2c]:4
+0040cd20	local_14	row
+0040cd20	local_10	name_buf
+0040ce90	iVar1	op		0040d092	unique:00017000:1
+0040ce90	uVar2	symno		0040cebd	unique:00017100:2
+0040ce90	pbVar3	next_pred		0040cfe9	unique:00017200:4
+0040ce90	pnVar4	last		0040d00c	unique:00017200:4
+0040ce90	pnVar5	item		0040d0c5	unique:00017200:4
+0040ce90	pnVar6	next_item		0040d0cc	unique:00017200:4
+0040ce90	bVar7	leaves_ok		0040cf11	unique:10000125:1
+0040ce90	bVar8	no_setjmp		0040cf11	unique:10000128:1
+0040ce90	bVar9	params_simple		0040cfd7	unique:1000012b:1
+0040ce90	pbVar10	pred		0040cfe1	unique:10000210:4
+0040ce90	bVar12	ptype		0040d09d	AL:1
+0040ce90	piVar13	arg		0040d0eb	EAX:4
+0040ce90	iVar14	n		0040cee8	ECX:4
+0040ce90	iVar16	i		0040ce93	EDX:4
+0040ce90	puVar17	flagp		0040cf58	EDX:4
+0040ce90	pcVar18	s1		0040cef0	ESI:4
+0040ce90	pcVar19	s2		0040cef0	EDI:4
+0040d180	cVar1	nparams		0040d1e7	unique:00017000:1
+0040d180	bVar2	dst_type		0040d2d4	unique:00017000:1
+0040d180	bVar3	src_type		0040d2d7	unique:00017000:1
+0040d180	sVar4	filn		0040d1fb	unique:00017100:2
+0040d180	uVar5	line		0040d1ff	unique:00017100:2
+0040d180	sVar6	listno		0040d203	unique:00017100:2
+0040d180	sVar7	param_symx		0040d296	unique:00017100:2
+0040d180	piVar8	stmt		0040d19b	EAX:4
+0040d180	iVar9	nargs		0040d261	EAX:4
+0040d180	node_00	temp		0040d380	EAX:4
+0040d180	pnVar11	item		0040d3a6	EAX:4
+0040d180	local_94	i
+0040d180	local_88	arg
+0040d180	local_80	param_list
+0040d4e0	ppbVar1	succ_head		0040d507	unique:00006600:4
+0040d4e0	pbVar2	blk		0040d4f2	unique:00017200:4
+0040d4e0	pbVar3	item		0040d54b	EAX:4
+0040d4e0	ppbVar4	link		0040d4e8	EDX:4
+0040d610	piVar1	node		0040d610	EAX:4
+0040d620	iVar1	opno		0040d626	EAX:4
+0040d690	bVar1	ptype		0040d79e	unique:00017000:1
+0040d690	sVar2	param		0040d78a	unique:00017100:2
+0040d690	uVar5	words		0040d949	ECX:4
+0040d690	iVar6	ofs		0040d6c0	EDX:4
+0040d690	iVar8	last		0040d6b3	EBX:4
+0040d690	iVar9	n		0040d6d8	EBX:4
+0040d690	psVar12	dst		0040d950	EDI:4
+0040d690	local_26	int_regs
+0040d690	local_25	float_regs
+0040d690	local_24	i
+0040d690	asStack_18	reg_params
+0040d960	puVar1	src		0040da2d	unique:00007900:4
+0040d960	sVar2	old_count		0040d9c3	unique:00017100:2
+0040d960	pvVar3	callee_info		0040d97a	unique:00017200:4
+0040d960	sVar4	new_count		0040d9cb	AX:2
+0040d960	psVar5	info		0040d9a9	EAX:4
+0040d960	puVar6	scopes		0040d9da	EAX:4
+0040d960	puVar8	dst		0040da27	EAX:4
+0040d960	iVar9	ofs		0040d9ed	EDX:4
+0040d960	local_4	old_n
+0040da60	ppsVar1	scopes		0040da80	unique:00006600:4
+0040da60	node_00	sub		0040da68	unique:00017200:4
+0040da60	sVar2	count		0040da83	AX:2
+0040da60	psVar3	array		0040da94	EAX:4
+0040daf0	psVar1	info		0040db39	EAX:4
+0040daf0	pvVar2	array		0040db76	EAX:4
+0040daf0	iVar4	ofs		0040dbe9	ECX:4
+0040daf0	psVar5	member		0040dc11	EDX:4
+0040daf0	piVar6	encl		0040db06	EDI:4
+0040daf0	iVar7	j		0040dbf9	EDI:4
+0040daf0	local_e	kept
+0040daf0	local_c	block_info
+0040daf0	local_4	i
+0040dcd0	piVar1	entry		0040dcdf	EAX:4
+0040dcd0	psVar2	info		0040dd36	EAX:4
+0040dcd0	pvVar3	array		0040dd60	EAX:4
+0040dcd0	iVar5	slot		0040dda0	ECX:4
+0040dcd0	iVar6	ofs		0040dd77	EBX:4
+0040dcd0	sVar7	count		0040dda3	BP:2
+0040dcd0	local_4	i
+0040de10	sVar1	old_count		0040de4d	unique:00017100:2
+0040de10	psVar2	info		0040de33	EAX:4
+0040de10	puVar3	members		0040de5f	EAX:4
+0040de10	iVar4	i		0040de74	ECX:4
+0040de10	iVar5	ofs		0040de72	EDX:4
+0040de10	puVar6	dst		0040de81	EBX:4
+0040dec0	ptr	info		0040deed	unique:00017200:4
+0040dec0	ptr_00	array		0040df09	unique:00017200:4
+0040dec0	puVar1	entry		0040dee6	EAX:4
+0040dec0	iVar2	ofs		0040deda	ESI:4
+0040dec0	iVar3	i		0040dec9	EDI:4
+0040df70	puVar1	src		0040dff4	unique:00006c00:4
+0040df70	psVar2	old_info		0040df9e	unique:00017200:4
+0040df70	ptr	copy		0040df77	EAX:4
+0040df70	pvVar3	array		0040dfc8	EAX:4
+0040e150	iVar1	op		0040e156	unique:00017000:1
+0040e150	iVar2	has_float		0040e188	EAX:4
+0040e210	node_00	lhs		0040e218	unique:00017200:4
+0040e210	piVar1	rhs		0040e226	unique:00017200:4
+0040e210	new_node	result		0040e241	EAX:4
+0040e260	piVar1	rhs		0040e2e5	unique:00017200:4
+0040e260	uVar2	is_const		0040e27d	EAX:4
+0040e330	uVar1	is_const		0040e35a	EAX:4
+0040e4a0	piVar1	rhs		0040e4b6	unique:00017200:4
+0040e4a0	uVar3	is_const		0040e50b	EAX:4
+0040e4a0	iVar4	shift		0040e567	EAX:4
+0040e610	bVar1	lhs_type		0040e685	unique:00017000:1
+0040e610	piVar2	rhs		0040e626	unique:00017200:4
+0040e610	uVar3	is_const		0040e64d	EAX:4
+0040e610	iVar4	shift		0040e6b5	EAX:4
+0040e610	local_4	one
+0040e730	uVar1	is_const		0040e74c	EAX:4
+0040e730	new_node	result		0040e75e	EAX:4
+0040e780	piVar1	rhs		0040e7aa	unique:00017200:4
+0040e780	uVar3	is_const		0040e7f0	EAX:4
+0040e920	uVar2	is_const		0040e98b	EAX:4
+0040e9c0	uVar1	is_const		0040e9d3	EAX:4
+0040e9c0	piVar2	result		0040e9e8	EAX:4
+0040ea40	sVar1	filn		0040ea4a	unique:00017100:2
+0040ea40	uVar2	line		0040ea4f	unique:00017100:2
+0040ea40	sVar3	listno		0040ea55	unique:00017100:2
+0040ea40	piVar4	rhs		0040ea6c	unique:00017200:4
+0040ea40	uVar6	is_const		0040eac7	EAX:4
+0040eb60	iVar1	parent_op		0040eb94	unique:00017000:1
+0040eb60	sVar2	filn		0040eb6a	unique:00017100:2
+0040eb60	uVar3	line		0040eb76	unique:00017100:2
+0040eb60	sVar4	listno		0040eb7c	unique:00017100:2
+0040eb60	uVar5	is_const		0040ebd0	EAX:4
+0040eb60	piVar6	result		0040ebe2	EAX:4
+0040eca0	pcVar1	digit		0040ecfe	unique:00006c00:4
+0040eca0	uVar2	is_unsigned		0040eccd	unique:00048100:4
+0040eca0	bVar3	changed		0040ed97	unique:10000071:1
+0040eca0	iVar4	ndigits		0040eccd	EAX:4
+0040eca0	uVar7	words		0040ed4c	ECX:4
+0040eca0	iVar9	j		0040ed18	EBP:4
+0040eca0	pcVar10	dst		0040ed5b	EDI:4
+0040edc0	bVar1	lhs_type		0040ee9d	unique:00017000:1
+0040edc0	sVar2	filn		0040edca	unique:00017100:2
+0040edc0	uVar3	line		0040edcf	unique:00017100:2
+0040edc0	sVar4	listno		0040edd5	unique:00017100:2
+0040edc0	piVar5	rhs		0040edec	unique:00017200:4
+0040edc0	uVar7	is_const		0040ee4a	EAX:4
+0040edc0	iVar8	shift		0040ef2f	EAX:4
+0040efc0	bVar1	lhs_type		0040f059	unique:00017000:1
+0040efc0	sVar2	filn		0040efca	unique:00017100:2
+0040efc0	uVar3	line		0040efcf	unique:00017100:2
+0040efc0	sVar4	listno		0040efd5	unique:00017100:2
+0040efc0	piVar5	rhs		0040efec	unique:00017200:4
+0040efc0	uVar7	is_const		0040f04a	EAX:4
+0040efc0	iVar8	shift		0040f09b	EAX:4
+0040efc0	iStack_4	one
+0040f0f0	uVar1	is_const		0040f106	EAX:4
+0040f190	sVar1	filn		0040f19a	unique:00017100:2
+0040f190	uVar2	line		0040f19f	unique:00017100:2
+0040f190	sVar3	listno		0040f1a5	unique:00017100:2
+0040f190	bVar7	kind		0040f376	AL:1
+0040f190	iVar9	is_cond		0040f25f	EAX:4
+0040f450	sVar1	filn		0040f45a	unique:00017100:2
+0040f450	uVar2	line		0040f45f	unique:00017100:2
+0040f450	sVar3	listno		0040f465	unique:00017100:2
+0040f450	uVar6	is_const		0040f4e6	EAX:4
+0040f610	piVar1	result		0040f665	EAX:4
+0040f680	piVar1	operand		0040f688	unique:00017200:4
+0040f6f0	iVar1	op		0040f70e	unique:00017000:1
+0040f6f0	uVar2	line		0040f6fa	unique:00017100:2
+0040f6f0	sVar3	filn		0040f6ff	unique:00017100:2
+0040f6f0	sVar4	listno		0040f705	unique:00017100:2
+0040f6f0	uVar7	is_const		0040f7e3	EAX:4
+0040f8b0	piVar1	rhs		0040f8dc	unique:00017200:4
+0040f8b0	iVar2	op		0040f8c6	AL:1
+0040f8b0	iVar5	result_val		0040f917	EDI:4
+0040f9f0	bVar1	ty		0040f9f9	unique:00017000:1
+0040f9f0	cVar2	kind		0040fa03	CL:1
+0040f9f0	iVar4	result		0040f9f3	EBX:4
+0040fa70	uVar1	limit		0040fa70	EAX:4
+0040fb60	new_node	inner		0040fb7e	unique:00017200:4
+0040fb60	iVar1	new_op		0040fb72	AL:1
+0040fbc0	cVar1	result		0040fc25	AL:1
+0040fc50	uVar1	is_zero		0040fc68	EAX:4
+0040fc50	piVar2	chosen		0040fc82	EAX:4
+0040fc50	new_node	result		0040fc85	EAX:4
+0040fca0	iVar1	op		0040fcba	unique:00017000:1
+0040fca0	sVar2	filn		0040fcaa	unique:00017100:2
+0040fca0	uVar3	line		0040fcaf	unique:00017100:2
+0040fca0	sVar4	listno		0040fcbc	unique:00017100:2
+0040fca0	uVar5	is_const		0040fce5	EAX:4
+0040fe00	piVar1	rhs_inner		0040fe20	unique:00017200:4
+0040fe00	iVar2	bitop		0040fe61	AL:1
+0040fe00	node_00	lhs_var		0040ff4e	EBX:4
+0040fe00	local_c	rhs_var
+00410100	bVar1	kind		00410126	AL:1
+00410100	local_14	res
+00410100	local_4	converted
+00410250	bVar1	cast_type		0041025e	unique:00017000:1
+00410250	bVar2	inner_type		00410266	unique:00017000:1
+00410250	piVar3	parent		00410258	unique:00017200:4
+00410250	new_node	inner		0041025b	unique:00017200:4
+00410250	bVar4	new_type		00410261	AL:1
+00410250	iVar5	inner_unsigned		004102be	ECX:4
+00410360	iVar1	outer_rank		00410377	EAX:4
+00410360	iVar3	inner_rank		0041039d	EAX:4
+00410360	local_8	ok
+00410440	iVar1	outer_rank1		0041044f	EAX:4
+00410440	iVar2	cast_rank1		00410463	EAX:4
+00410440	iVar3	cast_rank		00410470	EAX:4
+00410440	iVar4	inner_rank		00410486	EAX:4
+00410440	bVar5	inner_kind		00410494	CL:1
+00410440	iVar6	result		00410482	EDI:4
+00410520	iVar1	rank		00410521	EAX:4
+00410520	bVar2	kind		00410573	DL:1
+004105b0	iVar1	op		004105cf	unique:00017000:1
+004105b0	iVar2	same		00410628	EAX:4
+004105b0	piVar4	second		0041085f	EAX:4
+004105b0	bVar5	ty		00410856	BL:1
+004105b0	uVar6	value		0041067f	Stack[-0x14]:4
+004105b0	piVar7	third		004107e2	Stack[-0x10]:4
+00410950	iVar1	op		00410979	unique:00017000:1
+00410950	iVar2	result		00410951	EAX:4
+00410950	bVar3	kind		0041098d	CL:1
+00410950	piVar4	ref		004109f5	ECX:4
+00410a10	node_00	sub		00410a18	unique:00017200:4
+00410a10	iVar1	result		00410a11	EAX:4
+00410b40	puVar1	flagp		00410bd9	unique:00006600:4
+00410b40	pnVar2	item		00410b9c	unique:00017200:4
+00410b40	puVar4	next_def		00410c1a	unique:00017200:4
+00410b40	piVar5	next_const		00410c49	unique:00017200:4
+00410b40	pbVar6	next_expr		00410c78	unique:00017200:4
+00410b40	block_00	expr_cell		00410c76	unique:10000142:4
+00410b40	ppnVar7	const_bucket		00410c3e	ESI:4
+00410b40	ppnVar8	expr_bucket		00410c6d	EDI:4
+00410d00	pnVar1	next		00410d0a	unique:00017200:4
+00410d00	block	item		00410d08	unique:10000022:4
+00410d30	pdVar1	next_du		00410d40	unique:00017200:4
+00410d30	pnVar2	next		00410d4a	unique:00017200:4
+00410d30	block	link		00410d48	unique:100000d8:4
+00410d30	block_00	du		00410d3c	unique:1000015a:4
+00410d30	sVar3	i		00410e15	DI:2
+00410e30	bVar1	ty		00410e49	unique:00017000:1
+00410e30	sVar2	nleaf		00410ea5	unique:00017100:2
+00410e30	bVar3	kind		00410e4e	DL:1
+00410f30	puVar1	next_def		00410f57	unique:00017200:4
+00410f30	piVar2	next_const		00410f80	unique:00017200:4
+00410f30	pbVar3	next_expr		00410faf	unique:00017200:4
+00410f30	block	const_cell		00410f7e	unique:10000075:4
+00410f30	block_00	expr_cell		00410fad	unique:10000086:4
+00410f30	ppnVar4	const_bucket		00410f75	ESI:4
+00410f30	ppnVar5	expr_bucket		00410fa4	ESI:4
+00410ff0	node_00	sub		00411026	unique:00017200:4
+004110a0	pnVar1	item		004110a5	unique:00017200:4
+004110c0	cVar1	rhs_inv		004111ae	unique:00017000:1
+004110c0	iVar2	op		00411351	unique:00017000:1
+004110c0	sVar3	def_blkno		004111f0	unique:00017100:2
+004110c0	piVar4	sub		004110c8	unique:00017200:4
+004110c0	pnVar5	link		004111d6	unique:00017200:4
+004110c0	plVar6	outer		00411221	unique:00017200:4
+004110c0	bVar7	ty		00411287	AL:1
+004110c0	cVar8	inv		00411312	AL:1
+004110c0	uVar9	lpno		00411255	AX:2
+004110c0	piVar10	temp		004113b1	EAX:4
+004110c0	plVar11	lp		00411221	EBX:4
+00411540	iVar1	op		0041159f	unique:00017000:1
+00411540	iVar2	lhs_op		004115bd	unique:00017000:1
+00411540	uVar3	is_zero		004115e2	EAX:4
+00411630	piVar1	limit		00411637	unique:00017200:4
+00411630	cVar2	limit_byte		00411677	unique:10000087:1
+00411820	iVar1	op		0041183e	unique:00017000:1
+00411820	bVar2	runs		0041195e	unique:100000ee:1
+00411820	cVar3	covers		00411967	AL:1
+00411820	uVar5	span		004119ab	ESI:4
+00411820	piVar7	repet_p		004119e5	EDI:4
+00411b70	uVar1	flags		00411b96	unique:00017200:4
+00411b70	uVar2	trips		00411bbe	unique:00017200:4
+00411b70	pnVar3	item		00411bc5	unique:00017200:4
+00411b70	sVar4	nstmts		00411bcf	CX:2
+00411b70	pbVar5	body		00411bb8	ECX:4
+00411c70	iVar1	op		00411ca5	unique:00017000:1
+00411e70	node_00	sub		00411e7d	unique:00017200:4
+00411eb0	piVar1	four		00411eb7	EAX:4
+00411eb0	uVar3	sign		00411efc	EDX:4
+00411f80	piVar1	lhs		00411fb4	unique:00017200:4
+00411f80	piVar2	rhs		00411fb7	unique:00017200:4
+00411f80	piVar3	result		00411f81	EAX:4
+00412030	piVar1	body		0041206c	EAX:4
+00412030	iVar2	n		00412067	ESI:4
+004120b0	uVar1	span		004120b1	ECX:4
+004120b0	iVar2	diff		00412119	ECX:4
+004120b0	uVar3	sign		00412128	EDX:4
+00412160	pnVar1	item		00412165	unique:00017200:4
+00412180	sVar1	blkno		004121ea	unique:00017100:2
+00412180	pdVar3	du		004121af	unique:00017200:4
+00412180	bVar5	have_init		004122ac	unique:100000c4:1
+00412180	bVar6	have_step		004122ac	unique:100000cf:1
+00412180	pnVar7	step_item		004121d7	unique:1000018b:4
+00412180	local_10	init
+00412180	local_c	step_val
+00412180	local_8	step_link
+00412380	pbVar1	flagp		004123b8	unique:00006600:4
+00412380	pdVar2	du		0041238b	unique:00017200:4
+00412380	pbVar3	blk		004123bc	unique:00017200:4
+00412380	iVar4	result		00412380	EAX:4
+004123d0	pbVar1	flagp		00412423	unique:00006600:4
+004123d0	sVar2	blkno		004123ed	unique:00017100:2
+004123d0	iVar3	result		004123d1	EAX:4
+004123d0	pbVar4	succ		004123eb	EDI:4
+00412460	sVar1	blkno		004124f5	unique:00017100:2
+00412460	piVar3	var		004124b1	ECX:4
+00412460	pnVar4	link		004124ed	EDI:4
+00412560	piVar1	rhs		0041256c	unique:00017200:4
+004126e0	iVar1	op		0041270e	unique:00017000:1
+004126e0	piVar2	body		0041273c	EAX:4
+00412760	sVar1	i		004127a9	SI:2
+004127d0	piVar2	next_stmt		00412b5b	unique:00017200:4
+004127d0	iVar4	ok		00412946	EAX:4
+004127d0	local_2	state
+00412be0	bVar1	ty		00412cd7	unique:00017000:1
+00412be0	sVar2	symx		00412d07	unique:00017100:2
+00412be0	piVar4	scale		00412cbc	unique:00017200:4
+00412be0	iVar5	ok		00412c3a	EAX:4
+00412d40	bVar1	ty		00412d51	unique:00017000:1
+00412d40	piVar2	lhs		00412d45	unique:00017200:4
+00412d40	piVar3	rhs		00412d73	unique:00017200:4
+00412e20	piVar1	cond		00412e24	unique:00017200:4
+00412e20	piVar2	var		00412e30	unique:00017200:4
+00412fe0	piVar1	result		00412fe7	EAX:4
+004132c0	piVar1	value		004132c7	EAX:4
+004133a0	iVar1	n		004133a2	ESI:4
+004133d0	sVar1	leafno		00413410	AX:2
+004133d0	sVar3	symno		00413407	CX:2
+00413440	plVar1	next_life		004134b4	unique:00017200:4
+00413440	iVar2	lr_addr		004134cb	unique:00017200:4
+00413440	puVar3	next		0041350a	unique:00017200:4
+00413440	plVar4	next_lreg		00413573	unique:00017200:4
+00413440	pcVar5	next_use		004135f5	unique:00017200:4
+00413440	block	item		00413630	unique:00017200:4
+00413440	pbVar6	next_blk		00413635	unique:00017200:4
+00413440	pnVar7	next_item		00413647	unique:00017200:4
+00413440	puVar8	cell		004134bf	unique:100001d1:4
+00413440	block_00	use		004135ef	unique:10000259:4
+00413440	pbVar9	blk		0041362e	unique:10000293:4
+00413440	block_01	life		00413482	unique:10000318:4
+00413440	block_02	call		00413662	unique:10000367:4
+00413440	block_03	freq		0041368e	unique:10000394:4
+00413440	pcVar10	cdata		0041362e	unique:10000404:4
+00413440	pplVar12	slot		00413569	EBP:4
+00413440	block_04	lr		0041356e	EDI:4
+00413440	local_c	bucket
+00413440	local_4	i
+004136c0	bVar1	kind		00413715	AL:1
+004136c0	pnVar2	item		0041372b	EAX:4
+004136c0	parent_00	assign		00413737	EAX:4
+004136c0	list	lhs		0041373e	EAX:4
+004136c0	list_00	rhs		00413745	EAX:4
+004136c0	psVar3	param		004136fd	EBX:4
+004136c0	local_4	n
+00413850	block	item		0041385d	unique:00017200:4
+00413850	pnVar1	next		0041387b	unique:00017200:4
+00413850	ppnVar2	link		00413870	unique:10000050:4
+00413850	ppiVar3	node_link		0041386b	EBP:4
+004138d0	bVar1	swapped		0041390e	unique:1000001d:1
+004138d0	pnVar2	pred		004138e3	unique:10000025:4
+004138d0	pnVar3	cur		004138e3	unique:10000029:4
+004138d0	pnVar4	prev		004138e3	unique:1000002d:4
+004138d0	pnVar5	next		004138e3	unique:10000073:4
+00413930	piVar1	group		00413986	unique:00017200:4
+00413930	piVar2	after		004139df	unique:00017200:4
+00413930	bVar3	swapped		0041396f	unique:1000002d:1
+00413930	puVar4	pred		00413946	unique:1000003e:4
+00413930	puVar5	cur		00413946	unique:10000042:4
+00413930	puVar6	prev		00413946	unique:10000046:4
+00413930	puVar7	next		00413946	unique:100000b7:4
+00413930	piVar8	pred2		004139a1	EAX:4
+00413930	piVar9	prev2		004139a1	ESI:4
+00413930	piVar10	cur2		004139a1	EDI:4
+00413930	local_4	group_pred
+00413a00	uVar1	got		00413a34	EAX:4
+00413a00	local_4	rec
+00413a00	local_2	no_flag1
+00413a00	local_1	no_flag2
+00413a60	uVar1	got		00413a81	EAX:4
+00413a60	local_4	rec
+00413a60	local_2	sym_index
+00413aa0	sVar1	kind		00413b64	unique:00017100:2
+00413aa0	plVar2	lr		00413b15	unique:00017200:4
+00413aa0	pvVar3	chain		00413b38	unique:00017200:4
+00413aa0	iVar5	node_addr		00413b4f	EAX:4
+00413aa0	uVar6	got		00413c92	EAX:4
+00413aa0	bVar7	kind2		00413b88	CL:1
+00413aa0	pplVar8	slot		00413b10	ESI:4
+00413aa0	iVar9	i		00413aff	EDI:4
+00413aa0	local_5	type_byte
+00413aa0	local_4	lreg_no
+00413aa0	local_2	preg
+00413d50	piVar1	cell		00413dca	unique:00017200:4
+00413d50	piVar3	stmt		00413f07	unique:00017200:4
+00413d50	pnVar4	item		00413eea	unique:1000026a:4
+00413d50	pnVar5	next_item		00413eea	unique:100002be:4
+00413d50	puVar6	area		00413e20	EAX:4
+00413d50	piVar7	expr		00413f1d	ECX:4
+00413d50	uVar8	end_side		00413ee1	BX:2
+00413d50	iVar9	pp		00413f4c	EBP:4
+00413d50	pbVar10	blk		00413edd	EDI:4
+00413d50	local_c	prev_area
+00413d50	local_4	slot
+00414030	puVar1	range		00414042	unique:00017200:4
+00414030	uVar2	got		00414062	EAX:4
+00414140	iVar1	tmp		00414150	unique:00017200:4
+00414140	piVar2	next		00414160	unique:00017200:4
+00414140	bVar3	swapped		00414175	unique:10000076:1
+00414140	piVar4	cur		0041414e	unique:10000084:4
+00414140	block	next_range		004141b4	ECX:4
+00414220	sVar1	pregno		0041423a	unique:00017100:2
+00414220	pmVar3	cur		0041426c	unique:00017200:4
+00414220	iVar4	merged		004142e8	unique:00017200:4
+00414220	iVar5	mem_no		00414274	ESI:4
+00414360	bVar2	swapped		004143e0	unique:100000a7:1
+00414360	pmVar3	cur		004143b7	unique:100000c0:4
+00414360	pmVar4	prev		004143b7	unique:100000c4:4
+00414360	pmVar5	next		004143d7	unique:10000124:4
+00414440	sVar1	pregno		004144e0	unique:00017100:2
+00414440	plVar2	tmp		004144e9	unique:00017200:4
+00414440	pplVar4	other		004144de	EBX:4
+00414440	pplVar5	slot		00414467	ESI:4
+00414440	iVar6	i		00414452	EDI:4
+00414570	plVar1	bound		004145a1	unique:00017200:4
+00414570	sVar2	bound_symx		004145a9	AX:2
+00414570	uVar3	got		004145d0	EAX:4
+00414570	local_4	cnt
+00414570	local_2	sym_index
+00414680	sVar1	set		00414688	unique:00017100:2
+00414680	pcVar2	node_p		004146b2	unique:00017200:4
+00414760	pplVar1	next_p		004147b3	unique:00006600:4
+00414760	plVar2	lr		0041478c	ESI:4
+00414820	puVar2	cell		0041495e	unique:00017200:4
+00414820	pvVar3	chain		00414a31	unique:00017200:4
+00414820	pcVar5	name		004148a9	EAX:4
+00414820	iVar6	col		0041493f	EDI:4
+00414bc0	node_00	sub		00414bca	unique:00017200:4
+00414bc0	piVar1	head		00414cc6	unique:10000105:4
+00414bc0	piVar2	entry		00414c3f	EAX:4
+00414bc0	piVar3	last		00414c35	EBX:4
+00414d20	pbVar1	succ_item		00414d51	EDX:4
+00414d80	puVar1	bucket		00414db2	unique:00006f00:4
+00414d80	puVar2	prev		00414dc3	unique:00017200:4
+00414d80	uVar3	sign		00414dab	unique:10000047:2
+00414d80	puVar4	cur		00414ded	unique:10000085:4
+00414d80	puVar5	next		00414ded	unique:10000096:4
+00414d80	puVar6	entry		00414d85	EAX:4
+00414e30	puVar1	group		00414e4c	unique:00017200:4
+00414e30	puVar2	member		00414e60	unique:100000df:4
+00414e30	node_00	other_stmt		00414e9b	EAX:4
+00414e30	iVar4	opno		00414eae	EAX:4
+00414e30	local_4	bucket
+00414f20	uVar1	differ		00414f2e	EAX:4
+00414f20	iVar2	opno_a		00414f5a	EAX:4
+00414f20	iVar3	opno_b		00414f65	EAX:4
+00414f20	iVar4	is_ctrl		00414f98	EAX:4
+004150c0	iVar1	parent_op		004150ef	unique:00017000:1
+004150c0	pnVar2	next		004150cb	unique:00017200:4
+004150c0	piVar3	next_stmt		004150dd	unique:00017200:4
+004150c0	piVar4	stmt		00415102	EAX:4
+00415110	puVar2	rec_a		0041517c	EAX:4
+00415110	pvVar3	rec_b		00415191	EAX:4
+00415260	pbVar1	cur		00415274	ECX:4
+00415260	pbVar2	next		0041528f	ECX:4
+004152a0	pbVar1	pred		004152ba	unique:00017200:4
+004152a0	pbVar2	other		004152d8	unique:00017200:4
+004152a0	pbVar3	member		00415311	unique:00017200:4
+00415330	pbVar1	flagp		00415430	unique:00006600:4
+00415330	uVar5	merged_flag		0041537e	AX:2
+00415330	pbVar6	member		004153f8	EAX:4
+00415330	iVar7	nsucc_a		004153ac	EDX:4
+00415330	iVar8	nsucc_b		004153bf	EBP:4
+00415330	local_4	res
+00415530	pbVar1	flagp		00415589	unique:00006600:4
+00415530	uVar2	result		00415575	EAX:4
+004155d0	uVar1	differ		004155ee	EAX:4
+004155d0	iVar2	opno_a		0041562d	EAX:4
+004155d0	iVar3	opno_b		00415638	EAX:4
+004155d0	iVar4	is_ctrl		0041566d	EAX:4
+004155d0	stmt_b_00	prev_b		004156c8	EAX:4
+00415730	iVar1	result		00415730	EAX:4
+00415780	puVar1	bucket		004157ac	unique:00006f00:4
+00415780	puVar2	prev		004157bf	unique:00017200:4
+00415780	puVar3	cur		004157eb	unique:10000055:4
+00415780	puVar4	next		004157eb	unique:10000066:4
+00415780	puVar5	entry		00415785	EAX:4
+00415780	uVar6	slot		004157a2	ECX:4
+00415830	puVar1	group		00415843	unique:00017200:4
+00415830	psVar2	blk_a		0041585d	unique:00017200:4
+00415830	psVar3	blk_b		00415860	unique:00017200:4
+00415830	puVar4	pair		00415857	unique:10000123:4
+00415830	cVar5	not_ctrl		004158b1	AL:1
+00415830	uVar6	labno		00415883	EAX:4
+00415830	node	label_stmt		00415894	EAX:4
+00415830	node_00	goto_stmt		004158a0	EAX:4
+00415830	puVar7	first_item		0041587d	ECX:4
+00415830	node_01	target_stmt		0041587d	EDI:4
+00415830	local_8	bucket
+00415990	iVar1	parent_op		00415a87	unique:00017000:1
+00415990	puVar2	tail		004159a3	unique:00017200:4
+00415990	iVar3	other		00415a2f	unique:00017200:4
+00415990	cVar4	not_ctrl		004159dc	AL:1
+00415990	uVar5	labno		004159b5	EAX:4
+00415990	piVar6	new_stmt		004159d1	EAX:4
+00415990	piVar7	target		00415ae5	Stack[-0x20]:4
+00415990	local_4	bucket
+00415b30	puVar5	group_bucket		00415b76	ESI:4
+00415c80	sVar1	saved_label		00415c80	unique:1000015c:2
+00415c80	piVar2	saved_loop		00415c80	unique:1000015e:4
+00415c80	uVar4	labno		00415d0d	EAX:4
+00415da0	sVar1	saved_label		00415da0	unique:100000bc:2
+00415da0	piVar2	saved_loop		00415da0	unique:100000be:4
+00415da0	stmt_00	last		00415e1f	EAX:4
+00415e70	piVar1	cand		00415f5b	unique:00017200:4
+00415e70	sVar2	saved_label		00415e70	unique:10000394:2
+00415e70	piVar3	saved_loop		00415e70	unique:10000396:4
+00415e70	uVar6	labno		00415fe7	EAX:4
+00415e70	local_8	test_group
+00416100	iVar1	op		00416184	unique:00017000:1
+00416100	uVar3	labno		00416139	EAX:4
+004162e0	plVar1	rec		004162eb	EAX:4
+004162e0	pbVar2	list		0041631b	EAX:4
+00416420	pbVar1	old_block		0041648c	unique:1000008b:4
+00416420	plVar2	rec		0041642b	EAX:4
+00416530	plVar1	rec		0041654b	unique:00017200:4
+00416530	uVar2	absno		00416538	EDX:4
+00416530	uVar3	sign		0041653d	EDX:4
+00416570	plVar1	tail		004165a9	unique:00017200:4
+00416570	plVar2	next		004165af	unique:00017200:4
+00416570	plVar3	rec		00416574	EAX:4
+00416570	uVar4	absno		0041658f	EDX:4
+00416570	uVar5	sign		00416594	EDX:4
+004165e0	pbVar1	blk		00416637	unique:00017200:4
+004165e0	pbVar2	pred		0041667c	unique:00017200:4
+004165e0	uVar3	bits		0041668c	unique:00017200:4
+004165e0	bVar5	changed		004166e4	unique:10000077:1
+004165e0	iVar6	next_ofs		004165f1	EAX:4
+004165e0	local_20	doms
+00416710	iVar1	parent_op		00416726	unique:00017000:1
+00416710	iVar2	child_op		00416746	unique:00017000:1
+00416710	sVar3	listno		0041685f	unique:00017100:2
+00416710	uVar4	line		0041686d	unique:00017100:2
+00416710	uVar5	is_zero		004167a6	EAX:4
+00416710	iVar6	result		00416831	EAX:4
+00416940	parent_op_00	op		0041694e	unique:00017000:1
+00416940	piVar1	other_node		00416bba	unique:00017200:4
+00416940	ptVar2	new_head		00416d4e	unique:100003f6:4
+00416940	block	entry		00416a4f	EAX:4
+00416940	block_00	cur		00416bba	ESI:4
+00416940	ptVar6	next		00416d51	ESI:4
+00416940	ptStack_14	prev
+00416940	local_10	fold_result
+00416db0	pptVar1	link		00416dc8	unique:00006600:4
+00416db0	ptVar2	prev		00416dc1	ECX:4
+00416db0	ptVar3	cur		00416dc1	EDX:4
+00416e00	sVar1	filn		00416e0f	unique:00017100:2
+00416e00	uVar2	line		00416e13	unique:00017100:2
+00416e00	sVar3	listno		00416e17	unique:00017100:2
+00416e00	ptVar4	cur		00416e5b	unique:10000123:4
+00416e00	ptVar5	next_term		00416e5b	unique:100001b1:4
+00416e00	piVar7	result		00416f03	EAX:4
+00416e00	uVar8	sign		00416ee2	EDX:4
+00416f40	ptVar1	next		00416f5d	unique:00017200:4
+00416f80	piVar1	next		00416f9e	unique:00017200:4
+00416fe0	iVar1	shift_op		00416fec	unique:00017000:1
+00416fe0	iVar2	op		00417041	unique:00017000:1
+00416fe0	iVar3	rc		00417054	EAX:4
+00416fe0	piVar6	innermost		00417082	ESI:4
+00417120	ppVar1	succ		00417131	unique:10000073:4
+00417120	ppVar2	prev		00417131	unique:10000077:4
+00417120	ppVar3	new_head		0041717d	unique:100000b4:4
+00417120	ppVar4	cls		00417150	EAX:4
+004171d0	puVar1	next		004171e3	unique:00017200:4
+004171d0	ppVar2	cls		004171fb	unique:00017200:4
+00417230	ppVar1	cls		00417246	unique:00017200:4
+00417270	iVar1	i		00417273	EBX:4
+00417270	ppiVar2	slot		0041728b	EBP:4
+004172d0	ppiVar1	slot		004172e2	ECX:4
+004172d0	iVar2	i		004172d6	ESI:4
+00417310	iVar1	i		00417312	ESI:4
+00417310	ppiVar2	slot		0041731c	EDI:4
+00417340	iVar1	test_op		004173a6	unique:00017000:1
+00417340	piVar2	rhs		004173c8	unique:00017200:4
+00417340	pnVar3	stmt		00417499	unique:00017200:4
+00417340	pbVar4	blk		0041739b	EAX:4
+00417340	piVar5	rhs_base		004173d5	ECX:4
+004174e0	piVar1	next_use		004174f4	unique:00017200:4
+004174e0	pnVar2	next_item		00417501	unique:00017200:4
+004174e0	pnVar3	item		004174ff	unique:100000a0:4
+004174e0	piVar4	iv		004174ee	ESI:4
+004174e0	piVar5	next_iv		0041753f	ESI:4
+004175a0	pbVar1	flag_byte		0041766c	unique:00006600:4
+004175a0	pnVar2	stmt		004175ab	unique:00017200:4
+004175a0	bVar3	kind		004175de	AL:1
+004175a0	iVar4	sole		0041770f	EAX:4
+004175a0	local_4	rhs
+004179a0	sVar1	lpno		004179c6	unique:00017100:2
+004179a0	plVar2	lp		004179bf	unique:00017200:4
+004179a0	pnVar3	link		004179b7	ESI:4
+00417a00	sVar1	lpno		00417a25	unique:00017100:2
+00417a00	pnVar2	link		00417a0f	unique:00017200:4
+00417a00	plVar3	lp		00417a1e	unique:00017200:4
+00417a00	piVar4	ref		00417a60	unique:00017200:4
+00417a00	bVar5	all_inside		00417a5c	unique:1000002a:1
+00417a00	iVar6	inside		00417a45	EAX:4
+00417ab0	iVar1	found		00417ab1	EAX:4
+00417af0	pnVar1	item		00417b15	EAX:4
+00417b60	piVar1	adjust		00417e49	unique:00006600:4
+00417b60	iVar2	test_op		00417e2a	unique:00017000:1
+00417b60	sVar3	first_ivno		00417c86	unique:00017100:2
+00417b60	piVar4	use		00417d1e	unique:00017200:4
+00417b60	cVar5	rank		00417bb1	AL:1
+00417b60	cVar6	child_rank		00417bc8	AL:1
+00417b60	bVar7	ty		00417d57	AL:1
+00417b60	iVar8	child_unsigned		00417c04	EAX:4
+00417b60	uVar9	is_zero		00417c5a	EAX:4
+00417b60	piVar10	operand		00417da7	EAX:4
+00417f20	sVar1	ivno		00417f28	unique:00017100:2
+00417f60	piVar1	use		00417f6f	unique:00017200:4
+00417f60	pnVar2	item		00417f75	EAX:4
+00417f60	piVar3	factor_copy		00417f94	EAX:4
+00417fb0	iVar1	ok		00417fcd	EAX:4
+00418000	piVar1	use		00418007	unique:00017200:4
+00418000	bVar2	no_plain_use		0041802d	AL:1
+00418000	uVar3	result		00418001	EAX:4
+00418040	ppiVar1	parent_link		004180ec	unique:00006600:4
+00418040	pbVar2	flag_byte		004182d9	unique:00006600:4
+00418040	sVar3	iv_leaf		00418060	unique:00017100:2
+00418040	sVar4	use_blkno		00418347	unique:00017100:2
+00418040	pnVar5	next_item		004181f4	unique:00017200:4
+00418040	pbVar6	pred		00418257	unique:00017200:4
+00418040	cVar7	cond		0041821f	AL:1
+00418040	piVar9	ref_root		00418173	EAX:4
+00418040	pnVar10	item		004181f4	EAX:4
+00418040	pbVar11	test_blk		00418250	EAX:4
+00418040	bVar13	ty		004180e7	BP:1
+00418040	local_21	penalty
+00418040	local_20	temp_assign
+00418040	local_18	temp
+00418040	local_14	use_size
+00418040	local_10	test_use
+00418040	local_c	test_size
+00418040	local_4	test_assign
+004184d0	iVar1	parent_op		004184d7	unique:00017000:1
+004184d0	piVar2	parent		004184de	unique:00017200:4
+004184d0	piVar3	cur		004184da	unique:10000003:4
+004184f0	iVar1	parent_op		00418502	unique:00017000:1
+004184f0	piVar2	parent		004184ff	unique:00017200:4
+004184f0	iVar3	index		00418522	EAX:4
+004184f0	cVar4	result		004184f5	BL:1
+00418540	piVar1	step_copy		0041855f	EAX:4
+00418540	uVar2	overflow		00418571	EAX:4
+004185f0	iVar1	parent_op		00418649	unique:00017000:1
+004185f0	piVar6	parent		00418677	EDI:4
+004185f0	local_4	res
+004187b0	piVar1	next		004187bd	unique:00017200:4
+004187b0	piVar2	child		004187d4	unique:00017200:4
+004187b0	iVar3	index		004187d8	EAX:4
+00418820	iVar1	op		00418824	unique:00017000:1
+00418820	piVar3	rhs		004188b4	unique:00017200:4
+00418820	iVar4	step		0041882f	EAX:4
+00418920	pnVar1	factor		0041894f	unique:00017200:4
+00418920	piVar2	incr		0041892b	EAX:4
+00418920	piVar4	tail		0041899a	EAX:4
+004189c0	pnVar1	item		00418a2e	unique:00017200:4
+004189c0	piVar2	incr_assign		004189ca	EAX:4
+00418aa0	new_node	rhs_copy		00418ae4	EAX:4
+00418b60	pnVar1	next_link		00418b73	unique:00017200:4
+00418b60	pdVar2	web		00418b76	unique:00017200:4
+00418b60	block	link		00418b79	unique:00017200:4
+00418b60	block_00	cur_link		00418b6f	unique:1000004a:4
+00418b60	ppnVar3	prev_link		00418b7c	ECX:4
+00418bd0	to_tree_00	child		00418bdb	unique:00017200:4
+00418bd0	pnVar1	link		00418c09	unique:00017200:4
+00418bd0	pnVar2	back_link		00418c15	unique:00017200:4
+00418c40	piVar1	use		00418c4f	EAX:4
+00418ca0	tree_00	child		00418ca6	unique:00017200:4
+00418d30	tree_00	child		00418d36	unique:00017200:4
+00418d30	pnVar1	link		00418d54	unique:00017200:4
+00418d80	piVar4	copy		00418d97	EAX:4
+00418d80	iVar5	n		00418deb	ECX:4
+00418d80	piVar6	next_copy		00418d8d	EBP:4
+00418d80	local_4	children
+00418e10	sVar1	iv_leaf		00418e3e	unique:00017100:2
+00418e10	piVar2	use		00418e6e	unique:00017200:4
+00418e10	piVar3	temp		00418eca	EAX:4
+00418e10	pnVar4	item		00418edd	EAX:4
+00418e10	piVar5	temp_assign		00418f18	EAX:4
+00418e10	piVar6	expr		00419041	EAX:4
+00418e10	bVar8	ty		00418ebd	SI:1
+00418e10	local_10	test_use
+00418e10	local_c	test_size
+00418e10	local_4	test_assign
+00419090	new_node	rhs_copy		004190be	EAX:4
+00419110	iVar1	op		00419166	unique:00017000:1
+00419110	bVar2	ty		0041920d	AL:1
+00419110	uVar3	result		00419125	EAX:4
+00419270	iVar2	result		0041927e	EDI:4
+00419270	local_1	size_code
+00419300	uVar1	rhs_u		00419348	unique:00017200:4
+00419300	iVar2	lhs		004193ca	unique:00017200:4
+00419300	iVar3	rhs		004193d2	unique:00017200:4
+00419300	cVar4	sign_case		004193ee	AL:1
+00419300	uVar5	lhs_u		0041936c	ECX:4
+00419580	iVar1	ok		00419581	EAX:4
+004195f0	iVar1	op		00419631	unique:00017000:1
+004195f0	iVar2	rhs_op		00419675	unique:00017000:1
+004195f0	pbVar3	test_blk		0041962c	EAX:4
+00419700	sVar1	leafno		00419727	AX:2
+004197a0	iVar1	level		004197b0	EAX:4
+00419800	piVar1	file_rec		00419813	ECX:4
+00419860	iVar1	result		00419860	EAX:4
+00419860	iVar2	bit		00419862	EDX:4
+004198a0	iVar1	opc		004198d1	unique:00017000:1
+004198a0	piVar2	operand		004198ba	EAX:4
+004198a0	uVar3	argreg		00419d2b	EAX:4
+004198a0	bVar4	kind		00419c72	CL:1
+004198a0	iVar5	result		004198f0	EDI:4
+004198a0	local_20	terms
+00419df0	puVar1	flags		0041a005	unique:00006600:4
+00419df0	iVar2	op		00419ea8	unique:00017000:1
+00419df0	pvVar4	ref		00419e08	unique:00017200:4
+00419df0	plVar5	cur_lr		00419e19	unique:00017200:4
+00419df0	piVar6	arg		00419e31	unique:00017200:4
+00419df0	pdVar7	web		00419eca	unique:00017200:4
+00419df0	pnVar8	call		00419e28	unique:1000011c:4
+00419df0	uVar9	pp		00419ef3	AX:2
+00419df0	uVar11	regno		00419f31	EAX:4
+00419df0	bVar12	kind		00419fc9	CL:1
+00419df0	pcVar13	name_p		00419e94	ESI:4
+00419df0	pcVar14	builtin_p		00419e94	EDI:4
+0041a040	sVar1	symx		0041a145	unique:00017100:2
+0041a040	uVar2	regno		0041a058	EAX:4
+0041a040	piVar3	operand		0041a06c	EAX:4
+0041a040	iVar4	last_index		0041a077	EAX:4
+0041a040	bVar5	kind		0041a0bd	CL:1
+0041a040	iVar6	left		0041a169	ECX:4
+0041a040	pcVar7	name_p		0041a172	ESI:4
+0041a040	pcVar8	builtin_p		0041a172	EDI:4
+0041a040	bVar9	equal		0041a149	ZF:1
+0041a1a0	bVar1	kind		0041a1e8	AL:1
+0041a1a0	piVar2	operand		0041a1b5	EAX:4
+0041a1a0	iVar3	index		0041a1c0	EAX:4
+0041a1a0	uVar4	sign		0041a21e	EDX:4
+0041a1a0	local_5	used_fregs
+0041a2a0	iVar1	op		0041a383	unique:00017000:1
+0041a2a0	sVar2	symx		0041a304	unique:00017100:2
+0041a2a0	puVar3	range		0041a2c7	unique:00017200:4
+0041a2a0	piVar4	arg		0041a2fc	unique:00017200:4
+0041a2a0	pdVar5	web		0041a3a0	unique:00017200:4
+0041a2a0	pvVar6	ref		0041a52c	unique:00017200:4
+0041a2a0	pnVar7	call		0041a618	unique:00017200:4
+0041a2a0	bVar8	arg_in_reg		0041a520	unique:1000015f:1
+0041a2a0	bVar9	param_in_reg		0041a520	unique:1000016e:1
+0041a2a0	bVar10	seen_call		0041a602	unique:10000186:1
+0041a2a0	bVar11	conflict		0041a386	unique:1000021d:1
+0041a2a0	uVar12	pp		0041a54c	AX:2
+0041a2a0	uVar13	ref_pp		0041a562	AX:2
+0041a2a0	uVar15	arg_regno		0041a3ef	EAX:4
+0041a2a0	uVar16	param_regno		0041a3fa	EAX:4
+0041a2a0	bVar17	kind		0041a41d	CL:1
+0041a2a0	pcVar18	name_p		0041a363	ESI:4
+0041a2a0	pcVar19	builtin_p		0041a363	EDI:4
+0041a2a0	lr_00	arg_lr		0041a5c2	Stack[-0x2c]:4
+0041a2a0	local_4	first_regno
+0041a650	sVar1	clash_set		0041a695	unique:00017100:2
+0041a650	plVar2	lr		0041a66b	unique:00017200:4
+0041a650	puVar3	clash		0041a67f	unique:00017200:4
+0041a650	bVar4	in_reg		0041a827	unique:100000cd:1
+0041a650	bVar5	kind		0041a730	AL:1
+0041a650	uVar6	param_regno		0041a6f6	EAX:4
+0041a650	iVar7	conflict		0041a837	EAX:4
+0041a650	psVar8	other		0041a987	EDX:4
+0041a650	local_8	own_node
+0041a650	local_4	slot
+0041a9c0	pplVar1	slot		0041a9cf	EAX:4
+0041a9c0	plVar2	lr		0041a9d4	ECX:4
+0041a9c0	iVar3	n		0041a9c0	EDX:4
+0041aa00	sVar1	cpu		0041aaa4	unique:00017100:2
+0041aa00	psVar2	other		0041abaf	unique:00017200:4
+0041aa00	bVar3	in_reg		0041ab44	unique:1000005c:1
+0041aa00	iVar4	conflict		0041aa85	EAX:4
+0041aa00	uVar5	regno		0041aa96	EAX:4
+0041aa00	bVar6	kind		0041aacf	CL:1
+0041aa00	piVar7	clash		0041abaf	ECX:4
+0041aa00	uVar8	other_regno		0041abd5	EDI:4
+0041aa00	local_c	slot
+0041aa00	local_8	i
+0041aa00	local_4	other_node
+0041aca0	uVar1	regno		0041acbe	EAX:4
+0041aca0	bVar2	kind		0041ad3d	CL:1
+0041aca0	iVar3	last		0041acf5	ESI:4
+0041aca0	psVar4	param		0041ad23	ESI:4
+0041aca0	local_80	param_list
+0041ae10	bVar1	param_type		0041aea8	unique:00017000:1
+0041ae10	bVar2	bit		0041aed1	unique:1000003c:1
+0041ae10	bVar3	kind		0041ae6d	AL:1
+0041ae10	uVar4	sign		0041aedb	EDX:4
+0041ae10	uVar5	regno		0041ae22	EBX:4
+0041ae10	iVar6	last		0041ae44	ESI:4
+0041ae10	psVar7	param		0041ae73	ESI:4
+0041ae10	local_91	used_fregs
+0041ae10	local_80	param_list
+0041af70	cVar1	sclass		0041b32f	unique:00017000:1
+0041af70	sVar2	set_kind		0041afe4	unique:00017100:2
+0041af70	plVar3	lr		0041afe2	unique:00017200:4
+0041af70	psVar4	other		0041b137	unique:00017200:4
+0041af70	bVar5	assigned		0041b398	unique:10000176:1
+0041af70	uVar7	param_regno		0041b0ef	EAX:4
+0041af70	piVar8	clash		0041b2e4	EAX:4
+0041af70	bVar9	kind		0041b353	CL:1
+0041af70	piVar10	id_node		0041b0c7	ECX:4
+0041af70	iVar11	limit		0041b35e	ECX:4
+0041af70	pplVar13	slot		0041afd8	EDI:4
+0041af70	local_4	i
+0041b400	cVar1	sclass		0041b851	unique:00017000:1
+0041b400	sVar2	set_kind		0041b448	unique:00017100:2
+0041b400	psVar4	other		0041b610	unique:00017200:4
+0041b400	bVar5	own_kind		0041b6b3	AL:1
+0041b400	piVar8	own_node		0041b6a8	EAX:4
+0041b400	iVar9	limit		0041b883	ECX:4
+0041b400	pplVar12	slot		0041b440	EBP:4
+0041b400	piVar13	clash		0041b604	EDI:4
+0041b400	local_4	i
+0041b8b0	piVar1	node		0041b8b0	EAX:4
+0041b8e0	uVar1	pp		0041b8fe	unique:00017100:2
+0041b8e0	sVar2	symx		0041b917	unique:00017100:2
+0041b8e0	puVar3	range		0041b8f1	unique:00017200:4
+0041b8e0	piVar4	callee		0041b90e	unique:00017200:4
+0041b8e0	pnVar5	call		0041b949	unique:00017200:4
+0041b8e0	iVar6	is_mac		0041b937	EAX:4
+0041b960	source	obj		0041b96c	unique:00017200:4
+0041b960	plVar1	lr		0041b975	EAX:4
+0041b960	ppcVar2	list_head		0041b963	ESI:4
+0041b9b0	pbVar1	flag_byte		0041bc06	unique:00006600:4
+0041b9b0	iVar2	op		0041bd4c	unique:00017000:1
+0041b9b0	uVar3	flag		0041bb7b	unique:00017100:2
+0041b9b0	pvVar4	chain		0041bafd	unique:00017200:4
+0041b9b0	piVar5	link		0041bb8d	unique:00017200:4
+0041b9b0	bVar7	kind		0041badd	AL:1
+0041b9b0	cVar8	not_cond		0041bbae	AL:1
+0041b9b0	iVar9	leafno		0041b9c2	EAX:4
+0041b9b0	pnVar12	item		0041bb09	EAX:4
+0041b9b0	list	zero_const		0041bbd4	EAX:4
+0041b9b0	pcVar15	src_node		0041ba8a	ECX:4
+0041bdc0	sVar1	old_symx		0041bef1	unique:00017100:2
+0041bdc0	piVar2	wrapper		0041be45	EAX:4
+0041bdc0	bVar3	kind		0041be5b	CL:1
+0041bfc0	pplVar1	probe		0041c05c	unique:00006600:4
+0041bfc0	iVar3	pivot_profit		0041c04e	unique:00017200:4
+0041bfc0	iVar4	profit		0041c053	unique:00017200:4
+0041bfc0	plVar5	swap		0041c0aa	unique:00017200:4
+0041bfc0	pplVar6	slot		0041c076	EAX:4
+0041bfc0	iVar7	i		0041bfde	EBP:4
+0041bfc0	iVar8	j		0041c080	ESI:4
+0041c0e0	tree_00	child		0041c106	unique:00017200:4
+0041c0e0	iVar1	sub		0041c10f	EAX:4
+0041c0e0	iVar2	count		0041c0eb	EDI:4
+0041c130	uVar1	flag		0041c156	unique:00017100:2
+0041c130	iVar2	count		0041c131	EAX:4
+0041c190	iVar1	parent_op		0041c338	unique:00017000:1
+0041c190	plVar2	lr		0041c1b1	unique:00017200:4
+0041c190	pvVar3	ref		0041c1cc	unique:00017200:4
+0041c190	psVar5	chain		0041c38a	unique:00017200:4
+0041c190	uVar6	pp		0041c212	AX:2
+0041c190	uVar7	ref_pp		0041c22a	AX:2
+0041c190	piVar10	other		0041c225	EBX:4
+0041c190	pplVar11	slot		0041c1ac	EBP:4
+0041c190	iVar12	next_lregno		0041c196	ESI:4
+0041c190	local_8	index
+0041c4f0	uVar1	endpp		0041c51d	unique:00017100:2
+0041c4f0	sVar2	cpu		0041c537	unique:00017100:2
+0041c4f0	puVar3	area		0041c506	unique:00017200:4
+0041c4f0	pbVar4	blk		0041c523	unique:00017200:4
+0041c4f0	psVar5	chain		0041c575	unique:00017200:4
+0041c4f0	bVar6	kind		0041c583	CL:1
+0041c4f0	bVar7	ty		0041c625	CL:1
+0041c4f0	uVar8	fmask		0041c59b	EDX:4
+0041c6b0	bVar1	func_attr		0041c6cf	unique:00017000:1
+0041c6b0	bVar2	ty		0041c8d6	unique:00017000:1
+0041c6b0	iVar4	parent_op		0041cc67	unique:00017000:1
+0041c6b0	sVar5	cpu		0041c960	unique:00017100:2
+0041c6b0	pdVar6	web		0041c852	unique:00017200:4
+0041c6b0	bVar7	is_arg_reg		0041c7f7	unique:100000f5:1
+0041c6b0	uVar8	used_mask		0041c752	EAX:4
+0041c6b0	uVar9	reg_bit		0041c7b1	EAX:4
+0041c6b0	source	cdata		0041ca30	EAX:4
+0041c6b0	pcVar11	use		0041ca4a	EAX:4
+0041c6b0	parent	assign_node		0041cb53	EAX:4
+0041c6b0	piVar13	wrapper		0041cbcf	EAX:4
+0041c6b0	iVar14	index		0041cc57	EAX:4
+0041c6b0	uVar15	call_flag		0041c7c9	CX:2
+0041c6b0	psVar16	web_lr		0041c84c	EDX:4
+0041c6b0	local_18	reg_class
+0041c6b0	local_14	regno
+0041c6b0	local_10	item
+0041c6b0	local_8	next_lregno
+0041cce0	pnVar1	item		0041ccf9	unique:00017200:4
+0041cce0	pbVar2	blk		0041cd12	unique:00017200:4
+0041cd20	sVar1	symx		0041cd43	unique:00017100:2
+0041cd20	piVar2	child		0041cd32	unique:00017200:4
+0041cd20	iVar3	left		0041cd67	ECX:4
+0041cd20	pcVar4	name_p		0041cd70	ESI:4
+0041cd20	pcVar5	builtin_p		0041cd70	EDI:4
+0041cd20	bVar6	equal		0041cd47	ZF:1
+0041cda0	pplVar1	slot		0041cdbb	ESI:4
+0041cda0	iVar2	i		0041cda9	EDI:4
+0041ce00	sVar1	set_kind		0041ce0a	unique:00017100:2
+0041ce00	puVar2	use		0041ce23	unique:00017200:4
+0041ce00	pvVar4	ref		0041ce78	unique:00017200:4
+0041ce00	uVar5	weight		0041ce66	EAX:4
+0041ce00	iVar8	total		0041ce03	ESI:4
+0041cf10	pmVar1	old_head		0041cf10	unique:1000004c:4
+0041cf90	pvVar1	ref		0041cf98	unique:00017200:4
+0041cf90	iVar2	cexp		0041cfb2	unique:00017200:4
+0041cf90	node_00	other		0041cfb9	unique:00017200:4
+0041cf90	uVar3	other_pp		0041cfc5	AX:2
+0041d010	iVar1	op		0041d01f	unique:00017000:1
+0041d010	uVar2	flag		0041d019	unique:00017100:2
+0041d060	pbVar1	blk		0041d07b	unique:00017200:4
+0041d060	pnVar2	item		0041d09a	unique:100000c4:4
+0041d100	pnVar1	item		0041d112	unique:00017200:4
+0041d130	iVar1	child_op		0041d272	unique:00017000:1
+0041d130	sVar2	symx		0041d181	unique:00017100:2
+0041d130	node_00	child		0041d15f	unique:00017200:4
+0041d130	cVar3	saved_in_builtin		0041d140	unique:100001b8:1
+0041d130	iVar4	is_builtin		0041d1a1	EAX:4
+0041d330	bVar1	c		0041d348	unique:00017000:1
+0041d330	pbVar2	p		0041d35a	EAX:4
+0041d330	iVar3	cmp		0041d364	EAX:4
+0041d330	pbVar4	q		0041d35d	ECX:4
+0041d330	ppuVar5	slot		0041d33b	ESI:4
+0041d330	bVar6	less		0041d34a	CF:1
+0041d390	piVar1	operand		0041d39c	unique:00017200:4
+0041d440	iVar1	parent_op		0041d44a	unique:00017000:1
+0041d440	bVar2	ty		0041d454	unique:00017000:1
+0041d440	uVar3	leaf_flags		0041d467	unique:00017100:2
+0041d440	bVar4	kind		0041d49a	DL:1
+0041d5a0	uVar1	leaf_flags		0041d5d6	unique:00017100:2
+0041d5a0	bVar2	all_numbered		0041d609	unique:10000081:1
+0041d5a0	bVar3	touches_memory		0041d5fe	unique:100000de:1
+0041d5a0	bVar4	kind		0041d5e4	AL:1
+0041d6b0	iVar1	op		0041d6bb	unique:00017000:1
+0041d6b0	uVar2	addr_vn		0041d6e8	unique:00017100:2
+0041d6b0	piVar3	ref		0041d702	unique:00017200:4
+0041d6b0	bVar4	found		0041d754	unique:100000c5:1
+0041d6b0	pnVar5	item		0041d754	EAX:4
+0041d7e0	iVar1	lhs_op		0041d7e9	unique:00017000:1
+0041d7e0	uVar2	leaf_flags		0041d861	unique:00017100:2
+0041d7e0	bVar3	kind		0041d80c	AL:1
+0041d890	bVar1	kind		0041d8d4	AL:1
+0041d890	uVar2	vn		0041d8cd	AX:2
+0041d920	uVar1	sum		0041d92d	EAX:4
+0041d920	iVar2	bucket		0041d93a	EAX:4
+0041d920	pnVar3	cell		0041d946	EAX:4
+0041d920	uVar4	sign		0041d930	EDX:4
+0041d970	pnVar1	item		0041d973	EAX:4
+0041d9b0	iVar1	op		0041d9f7	unique:00017000:1
+0041d9b0	bVar2	cand_type		0041da60	unique:00017000:1
+0041d9b0	bVar3	node_type		0041da69	unique:00017000:1
+0041d9b0	pnVar6	item		0041da30	unique:00017200:4
+0041d9b0	iVar7	lhs_vn		0041d9eb	EAX:4
+0041d9b0	uVar8	hash		0041da0c	EAX:4
+0041d9b0	uVar10	sign		0041da0e	EDX:4
+0041d9b0	iVar11	cand_rhs_vn		0041da41	EDI:4
+0041d9b0	local_10	rhs_vn
+0041dae0	piVar1	rhs		0041daef	unique:00017200:4
+0041dae0	uVar2	hash		0041db03	EAX:4
+0041dae0	pnVar3	item		0041db15	EAX:4
+0041dae0	iVar4	rhs_vn		0041dae7	EDX:4
+0041dae0	uVar5	sign		0041db05	EDX:4
+0041db70	pnVar1	item		0041db73	EAX:4
+0041dbb0	pnVar1	item		0041dbb6	unique:00017200:4
+0041dbe0	cVar1	op_class		0041dc32	unique:00017000:1
+0041dbe0	pbVar2	blk		0041dc67	unique:00017200:4
+0041dbe0	piVar3	child		0041dbf3	EAX:4
+0041dbe0	iVar4	has_temp		0041dc45	EAX:4
+0041dc80	node_00	child		0041dc88	unique:00017200:4
+0041dc80	iVar1	found		0041dc90	EAX:4
+0041dcc0	iVar1	op		0041dccb	unique:00017000:1
+0041dcc0	block	item		0041dd5d	unique:10000142:4
+0041dcc0	ppnVar4	prev_link		0041dd5d	unique:10000147:4
+0041dcc0	psVar5	sym		0041dce7	EAX:4
+0041dcc0	pbVar6	blk		0041dd82	EAX:4
+0041dcc0	piVar7	stmt		0041dd92	EAX:4
+0041dcc0	bVar8	kind		0041dd17	DL:1
+0041dcc0	local_4	first
+0041de40	plVar1	lp		0041dea4	unique:00017200:4
+0041de40	pnVar2	next_item		0041ded9	unique:00017200:4
+0041de40	pbVar4	blk		0041e000	unique:00017200:4
+0041de40	bVar5	loop_pre		0041debe	unique:100001df:1
+0041de40	piVar6	prev		0041de77	unique:10000282:4
+0041de40	cVar7	not_cond		0041deed	AL:1
+0041de40	iVar8	killed		0041df02	EAX:4
+0041de40	pnVar10	item		0041df49	EBP:4
+0041de40	local_8	cur
+0041e060	piVar1	last		0041e068	unique:1000000a:4
+0041e060	piVar2	member		0041e07b	unique:1000000f:4
+0041e060	piVar3	next		0041e068	unique:10000051:4
+0041e0c0	iVar1	op		0041e0fa	unique:00017000:1
+0041e0c0	bVar3	kind		0041e13c	DL:1
+0041e190	piVar2	tail		0041e205	unique:10000011:4
+0041e270	sVar1	dom_no		0041e2dc	unique:00017100:2
+0041e270	pbVar2	pred		0041e2df	unique:00017200:4
+0041e270	bVar3	in_loop		0041e2a4	unique:100000c1:1
+0041e270	iVar4	killed		0041e2be	EAX:4
+0041e350	pnVar1	item		0041e357	unique:00017200:4
+0041e350	cVar2	not_cond		0041e38a	AL:1
+0041e350	piVar3	found		0041e366	EAX:4
+0041e3b0	tree_00	child		0041e3be	unique:00017200:4
+0041e3b0	piVar1	found		0041e3c7	EAX:4
+0041e3e0	iVar1	rc		0041e404	EAX:4
+0041e3e0	piVar2	stmt		0041e414	EAX:4
+0041e460	iVar1	op		0041e483	unique:00017000:1
+0041e460	tree_00	child		0041e468	unique:00017200:4
+0041e460	iVar2	found		0041e470	EAX:4
+0041e4b0	piVar1	operand		0041e50b	unique:00017200:4
+0041e4b0	iVar2	rc		0041e4c1	EAX:4
+0041e580	sVar1	symx		0041e593	unique:00017100:2
+0041e580	uVar2	leaf_flags		0041e616	unique:00017100:2
+0041e580	piVar3	lhs		0041e5d4	unique:00017200:4
+0041e580	bVar4	kind		0041e5fd	AL:1
+0041e580	iVar5	is_safe		0041e5b3	EAX:4
+0041e630	uVar1	bits		0041e647	unique:00017200:4
+0041e630	pbVar2	blk		0041e665	unique:00017200:4
+0041e630	bVar3	equal		0041e690	unique:10000010:1
+0041e630	puVar5	next_dst		0041e64f	ECX:4
+0041e630	puVar6	b_bits		0041e647	EDX:4
+0041e630	local_20	common
+0041e6b0	puVar1	type_ptr		0041e6fc	unique:00006600:4
+0041e6b0	iVar2	parent_op		0041e75a	unique:00017000:1
+0041e6b0	uVar3	count		0041e779	unique:00017100:2
+0041e6b0	piVar4	member		0041e772	unique:00017200:4
+0041e6b0	pnVar5	item		0041e976	unique:00017200:4
+0041e6b0	pbVar6	blk		0041e992	unique:00017200:4
+0041e6b0	bVar7	found		0041e98e	unique:1000019c:1
+0041e6b0	bVar8	appended		0041e8ef	unique:100001b6:1
+0041e6b0	bVar9	ty		0041e74d	AL:1
+0041e6b0	iVar11	child_rank		0041e6d7	EAX:4
+0041e6b0	cVar14	eligible		0041e6f2	BL:1
+0041e6b0	local_c	res
+0041e6b0	local_8	skip_cast
+0041e6b0	local_4	temp
+0041e9c0	pnVar1	last		0041ea38	unique:00017200:4
+0041e9c0	pnVar2	next		0041ea75	unique:00017200:4
+0041e9c0	cVar3	not_cond		0041ea89	AL:1
+0041e9c0	parent	assign_node		0041e9dc	EAX:4
+0041e9c0	list	zero_const		0041eafe	EAX:4
+0041eb50	pbVar1	next_item		0041eb61	unique:00017200:4
+0041eb50	piVar2	next_cell		0041eb91	unique:00017200:4
+0041eb50	pnVar3	next		0041ebd8	unique:00017200:4
+0041eb50	block	item		0041eb5b	unique:10000084:4
+0041eb50	block_00	cell		0041eb8b	unique:10000091:4
+0041eb50	ppnVar4	bucket		0041eb52	ESI:4
+0041eb50	ppnVar5	const_bucket		0041eb82	ESI:4
+0041ec30	psVar2	tail		0041ec99	unique:00017200:4
+0041ec30	sVar3	default_label		0041ecdd	AX:2
+0041ec30	local_9	default_flag
+0041ec30	local_8	table_no
+0041ec30	local_6	cnt
+0041ec30	local_4	offset
+0041ed40	sVar1	label		0041eda1	AX:2
+0041ed40	psVar2	cases		0041ed55	EAX:4
+0041ed40	iVar3	idx		0041ed8f	ECX:4
+0041ed40	sVar4	i		0041ed92	DI:2
+0041ed40	local_4	val_read
+0041edc0	local_2	val_read
+0041edf0	puVar1	rec		0041ee15	EAX:4
+0041edf0	DVar2	pos		0041ee40	EAX:4
+0041ef30	bVar1	flags		0041f0f8	unique:00017000:1
+0041ef30	puVar2	rec		0041ef67	unique:00017200:4
+0041ef30	piVar3	tree		0041ef8a	EAX:4
+0041ef30	piVar4	body		0041efd0	EAX:4
+0041ef30	iVar5	nparams		0041f041	EAX:4
+0041ef30	iVar6	loaded		0041ef58	ESI:4
+0041f170	piVar1	next		0041f1ac	unique:00017200:4
+0041f170	stmt_00	child		0041f1a7	EAX:4
+0041f260	stmt_00	anchor		0041f28b	EAX:4
+0041f310	iVar1	parent_op		0041f3e6	unique:00017000:1
+0041f310	piVar3	cur		0041f35e	EAX:4
+0041f310	iVar4	index		0041f3f4	EAX:4
+0041f450	bVar1	ty		0041f5d2	unique:00017000:1
+0041f450	bVar2	param_type		0041f5fb	unique:00017000:1
+0041f450	piVar4	info		0041f46d	unique:00017200:4
+0041f450	uVar5	new_symx		0041f47e	EAX:4
+0041f450	piVar6	body		0041f4e3	EAX:4
+0041f450	piVar7	map_entry		0041f585	EAX:4
+0041f450	piVar8	arg_copy		0041f59c	EAX:4
+0041f450	op1	param_id		0041f5a6	EAX:4
+0041f450	iVar10	param_ofs		0041f55e	EBP:4
+0041f450	node	arg		0041f560	EDI:4
+0041f6a0	tree_00	child		0041f6a6	unique:00017200:4
+0041f6d0	cVar1	sclass		0041fa9b	unique:00017000:1
+0041f6d0	sVar2	old_symx		0041f6ea	unique:00017100:2
+0041f6d0	sVar3	old_label		0041f969	unique:00017100:2
+0041f6d0	pvVar4	caller_info		0041f9ca	unique:00017200:4
+0041f6d0	uVar5	new_symx		0041f6f1	EAX:4
+0041f6d0	op2	value_copy		0041f8ae	EAX:4
+0041f6d0	psVar8	sw_case		0041fa3e	EAX:4
+0041f6d0	psVar9	table		0041fa68	EAX:4
+0041f6d0	piVar11	map_entry		0041fab5	EAX:4
+0041f6d0	iVar12	ofs		0041f9d8	ECX:4
+0041f6d0	psVar13	label_slot		0041f9e2	EBX:4
+0041fbc0	local_4	ent
+0041fc40	piVar1	next		0041fcc0	unique:00017200:4
+0041fc40	piVar2	new_ent		0041fc46	EAX:4
+0041fc40	local_4	prev_item
+0041fce0	piVar1	next		0041fced	unique:00017200:4
+0041fce0	piVar2	ent		0041fceb	unique:10000042:4
+0041fce0	ppiVar3	bucket		0041fce2	EDI:4
+0041fd50	iVar1	op		0041fd5e	unique:00017000:1
+0041fd50	sVar2	callee		0041fdb1	unique:00017100:2
+0041fd50	node	operand		0041fd57	unique:00017200:4
+0041fd50	psVar4	callee_symx		0041fdb8	ECX:4
+0041fff0	piVar1	next		0041fff9	unique:00017200:4
+00420010	iVar1	op		0042004c	unique:00017000:1
+00420010	bVar2	arg_type		0042007e	unique:00017000:1
+00420010	bVar3	param_type		00420081	unique:00017000:1
+00420010	sVar4	callee		0042001b	unique:00017100:2
+00420010	piVar5	scan		00420049	unique:00017200:4
+00420010	bVar6	param_kind		0042008b	AL:1
+00420010	bVar7	arg_kind		0042009d	BL:1
+00420010	iVar8	nargs		0042002a	EBX:4
+00420010	piVar9	arg		0042006c	ESI:4
+00420010	psVar10	param		0042006c	EDI:4
+00420100	piVar1	counter		00420105	EAX:4
+00420100	iVar2	rc		0042012a	EAX:4
+00420130	piVar1	counter		00420135	EAX:4
+00420130	iVar2	rc		00420157	EAX:4
+00420160	pvVar3	info		00420352	EAX:4
+00420160	psVar4	sym		0042031e	EBX:4
+004203d0	pvVar1	info		004203ff	unique:00017200:4
+004203d0	iVar2	ofs		00420466	EBX:4
+004203d0	iVar3	symx		004203d2	ESI:4
+004203d0	iVar4	next_symx		00420469	ESI:4
+004204b0	node	block_node		004204bf	unique:00017200:4
+004204b0	uVar1	symx		004204c6	EAX:4
+00420520	piVar1	next_group		0042053e	unique:00017200:4
+00420520	ptr	info		00420597	unique:00017200:4
+00420520	ptr_00	extra		004205b3	unique:00017200:4
+00420520	block	group		0042053c	unique:100000d2:4
+00420520	iVar2	i		0042057c	ESI:4
+00420520	iVar3	ofs		00420589	EDI:4
+00420520	puVar4	slot		00420612	EDI:4
+00420680	piVar1	group		00420683	EAX:4
+00420710	piVar1	label_stmt		00420711	EAX:4
+00420710	piVar2	empty		00420724	EAX:4
+00420740	iVar1	idx		00420740	EAX:4
+00420820	psVar1	table		00420834	unique:00017200:4
+00420840	psVar1	sw_case		0042086a	EAX:4
+00420840	iVar2	i		0042084a	EDI:4
+00420870	psVar1	next		0042087c	unique:00017200:4
+00420870	ptr	table		0042087a	unique:1000002b:4
+004208b0	piVar1	child		004208b6	unique:00017200:4
+00420930	piVar1	node		00420931	EAX:4
+004209d0	piVar1	sibling		004209ef	unique:00017200:4
+004209d0	iVar2	index		004209f2	EAX:4
+00420a10	iVar1	index		00420a44	EAX:4
+00420a10	piVar2	cur		00420a49	EDX:4
+00420a10	piVar3	next		00420a56	EDX:4
+00420a10	piVar4	prev		00420a49	EBP:4
+00420aa0	node_00	cur		00420ad3	EBX:4
+00420aa0	piVar2	next		00420ae0	EBX:4
+00420aa0	local_4	prev_item
+00420b30	iVar1	new_op		00420b81	unique:00017000:1
+00420b30	piVar2	operand		00420bc1	unique:00017200:4
+00420b30	piVar3	node		00420b31	EAX:4
+00420b30	uVar4	flags		00420ba0	CX:2
+00420c10	piVar1	first		00420c18	unique:00017200:4
+00420c10	piVar2	second		00420c1f	unique:00017200:4
+00420c50	piVar4	copy		00420c67	EAX:4
+00420c50	iVar5	n		00420cbb	ECX:4
+00420c50	piVar6	next_copy		00420c5d	EBP:4
+00420c50	local_4	children
+00420d30	piVar1	parent		00420d53	unique:00017200:4
+00420d30	piVar2	next		00420d66	unique:00017200:4
+00420d30	uVar3	flags		00420d9b	AX:2
+00420d30	piVar4	prev		00420d66	ECX:4
+00420dd0	piVar1	parent		00420def	unique:00017200:4
+00420dd0	piVar2	next		00420e02	unique:00017200:4
+00420dd0	uVar3	flags		00420e26	AX:2
+00420dd0	piVar4	prev		00420e02	ECX:4
+00420e60	piVar1	outer		00420e7f	unique:00017200:4
+00420e60	piVar2	next		00420e92	unique:00017200:4
+00420e60	uVar3	old_flags		00420ef9	AX:2
+00420e60	uVar4	flags		00420ec8	CX:2
+00420e60	piVar5	prev		00420e92	ECX:4
+00420f60	piVar1	last		00420f7c	unique:00017200:4
+00420f60	piVar2	next		00420f7f	unique:00017200:4
+00420fa0	piVar1	prev		00420fc6	unique:00017200:4
+00420fa0	iVar2	index		00420fdb	EDI:4
+00421020	piVar1	node		00421021	EAX:4
+00421050	bVar1	kind		00421082	AL:1
+00421050	piVar2	node		00421051	EAX:4
+00421150	piVar1	node		00421151	EAX:4
+00421150	iVar2	leafno		00421179	EAX:4
+00421190	piVar1	operand		00421199	unique:00017200:4
+004211e0	tail	then_jumps		0042124e	unique:100000ee:4
+004211e0	item	cond_block		004211ec	unique:100000f2:4
+004212c0	pbVar2	saved_breaks		004212c0	unique:1000019e:4
+004212c0	to	loop_start		00421348	unique:100001a6:4
+004212c0	pbVar3	saved_continues		004212c0	unique:100001aa:4
+004212c0	plVar4	lp		00421336	EAX:4
+00421460	pbVar2	saved_breaks		00421460	unique:100001a3:4
+00421460	to	loop_start		004214e8	unique:100001ab:4
+00421460	pbVar3	saved_continues		00421460	unique:100001af:4
+00421460	plVar4	lp		004214d6	EAX:4
+00421610	pbVar1	flag_byte		00421687	unique:00006600:4
+00421610	pbVar3	saved_breaks		00421610	unique:10000391:4
+00421610	item	loop_start		0042170c	unique:10000399:4
+00421610	pbVar4	saved_continues		00421610	unique:1000039d:4
+00421610	plVar7	lp		004216f8	EAX:4
+00421610	local_10	continue_target
+00421920	pbVar1	saved_switch_block		00421920	unique:100000b6:4
+00421920	uVar2	saved_has_default		00421920	unique:100000ba:2
+00421920	pbVar3	saved_breaks		00421920	unique:100000bc:4
+00421920	local_4	saved_loop_flag
+00421a50	pnVar1	next		00421a58	unique:00017200:4
+00421a50	pnVar2	head		00421a50	EAX:4
+00421a80	plVar1	lp		00421a9a	EAX:4
+00421b20	puVar1	type_ptr		00421cc3	unique:00006600:4
+00421b20	piVar2	const_node		00421bd5	unique:00017200:4
+00421b20	bVar3	ty		00421b43	AL:1
+00421b20	bVar4	type_class		00421b63	AL:1
+00421b20	uVar6	is_zero		00421be5	EAX:4
+00421b20	piVar7	index_expr		00421cdb	EAX:4
+00421b20	piVar8	inner		00421c6f	EDI:4
+00421b20	local_c	max_index
+00421b20	local_8	has_offset
+00421b20	local_4	offset
+00421e20	piVar1	range		00421e2e	EBX:4
+00421e20	iVar2	i		00421e3d	EBP:4
+00421e20	local_1	res
+00421eb0	ppiVar1	operands		00422034	unique:00006600:4
+00421eb0	iVar2	op		00421ebb	unique:00017000:1
+00421eb0	uVar4	kind		00421f6d	EAX:4
+00421eb0	piVar5	operand		00422004	EAX:4
+00421eb0	iVar7	sign_b		0042209f	EAX:4
+00421eb0	piVar8	cur		00422367	EAX:4
+00421eb0	bVar9	inner_type		0042218c	CL:1
+00421eb0	uVar10	sign_mask		00421f83	EDX:4
+00421eb0	local_9	wide_type
+00421eb0	local_8	left_type
+00421eb0	local_4	op_type
+00422440	iVar1	index		00422449	EAX:4
+00422440	iVar2	result		00422442	EDI:4
+00422520	bVar1	var_type		00422562	unique:00017000:1
+00422520	iVar2	inner_op		00422608	unique:00017000:1
+00422520	piVar3	parent		00422531	unique:00017200:4
+00422520	piVar4	inner		00422537	unique:00017200:4
+00422520	iVar5	val		0042265b	unique:00017200:4
+00422520	piVar6	right_inner		00422683	unique:00017200:4
+00422750	iVar1	kind		00422751	EAX:4
+00422750	iVar2	sign_b		00422806	ESI:4
+00422750	iVar3	sign_a		004227f1	EDI:4
+00422850	ppiVar1	inner_ptr		00422976	unique:00006600:4
+00422850	bVar2	node_type		0042285b	unique:00017000:1
+00422850	bVar3	rhs_type		0042286a	unique:00017000:1
+00422850	iVar4	op		004228a4	unique:00017000:1
+00422850	node_00	rhs		004228a1	unique:00017200:4
+00422850	iVar6	rhs_signed		00422936	EAX:4
+004229f0	node_00	operand		004229f7	unique:00017200:4
+00422a60	piVar1	new_tree		00422a8c	EAX:4
+00422b10	pdVar1	du		00422b62	unique:00017200:4
+00422bd0	bVar1	all_const		00422ecf	unique:10000391:1
+00422bd0	bVar2	split		00422e83	unique:10000403:1
+00422bd0	piVar4	constant		00422d5a	EAX:4
+00422bd0	piVar5	copy		00422d78	EAX:4
+00422bd0	piVar6	operand		00422e49	EAX:4
+00422bd0	iVar7	op		00422e83	BL:1
+00422bd0	local_4	assign_node
+00423010	iVar1	op		00423024	unique:00017000:1
+00423010	piVar2	def		00423018	unique:00017200:4
+00423010	piVar3	rhs		0042302e	unique:00017200:4
+00423010	pnVar4	link		0042305c	unique:00017200:4
+00423010	piVar5	result		00423011	EAX:4
+00423090	iVar1	parent_op		0042312a	unique:00017000:1
+00423090	iVar2	ref_parent_op		00423157	unique:00017000:1
+00423090	uVar3	ref_count		00423172	unique:00017100:2
+00423090	piVar4	ref		0042316b	unique:00017200:4
+00423090	pnVar5	link		00423331	unique:00017200:4
+00423090	bVar6	candidate		004230ea	unique:100001c7:1
+00423090	cVar7	conditional		004231fb	AL:1
+00423090	iVar8	child_rank		004230ca	EAX:4
+00423090	node_00	temp_copy		00423300	EAX:4
+00423090	piVar11	cur_ref		0042316b	EBX:4
+00423090	node_01	scaled_ref		004232b1	EBX:4
+00423090	local_8	assign
+00423090	local_4	temp
+004233c0	iVar1	rank		004233c0	EAX:4
+00423480	iVar1	op		0042350e	unique:00017000:1
+00423480	piVar2	assign		00423487	unique:00017200:4
+00423480	iVar4	effect		004234ab	EAX:4
+00423570	iVar1	op		0042359b	unique:00017000:1
+00423570	tree_00	child		0042357f	unique:00017200:4
+00423570	iVar2	effect		00423587	EAX:4
+004235e0	tree_00	child		0042360a	EAX:4
+004235e0	uVar1	differs		0042361e	EAX:4
+00423670	piVar1	a_operand		0042370f	unique:00017200:4
+00423670	piVar2	b_operand		00423719	unique:00017200:4
+00423670	uVar3	diff		00423722	EAX:4
+00423670	uVar4	result		00423673	ESI:4
+00423780	uVar1	bit		004237bf	EDI:4
+00423810	puVar1	word_ptr		00423885	EAX:4
+00423810	iVar3	next_offset		00423887	ECX:4
+00423810	ppiVar4	def		0042383c	EDI:4
+00423810	local_8	num
+004239b0	cVar1	ch		00423b01	unique:00015500:1
+004239b0	uVar2	len		004239f3	EAX:4
+004239b0	iVar3	status		00423a8b	EAX:4
+004239b0	uVar4	words		00423b24	ECX:4
+004239b0	pcVar5	src		00423b36	ESI:4
+004239b0	pcVar6	dest		00423b36	EDI:4
+004239b0	local_2	record_size
+00423bb0	bVar1	ch		00423d9e	unique:00017000:1
+00423bb0	iVar2	cmp		00423dba	EAX:4
+00423bb0	pbVar3	s1		00423db0	ECX:4
+00423bb0	pcVar4	s2		00423d99	EDX:4
+00423bb0	bVar5	below		00423da0	CF:1
+00423bb0	local_2	format_version
+00423f00	uVar1	result		00423f11	EAX:4
+00423f00	local_2	len
+00423f90	iVar1	tail		0042406e	unique:00017200:4
+00423f90	iVar2	next		00424074	unique:00017200:4
+00423f90	buf_00	name		0042401d	EAX:4
+00423f90	local_6	cnt
+00423f90	local_4	i
+004240b0	piVar1	tail		004241b0	unique:00017200:4
+004240b0	iVar2	next		004241b6	unique:00017200:4
+004240b0	uVar3	result		004240cd	EAX:4
+004240b0	puVar4	item		0042417c	EAX:4
+004240b0	local_8	cnt
+004240b0	local_6	len
+004240b0	local_4	i
+004241f0	piVar1	tail		004242f0	unique:00017200:4
+004241f0	iVar2	next		004242f6	unique:00017200:4
+004241f0	uVar3	result		0042420d	EAX:4
+004241f0	puVar4	item		004242bc	EAX:4
+004241f0	local_8	cnt
+004241f0	local_6	len
+004241f0	local_4	i
+00424330	piVar1	tail		0042443b	unique:00017200:4
+00424330	iVar2	next		00424441	unique:00017200:4
+00424330	uVar3	result		0042434d	EAX:4
+00424330	puVar4	item		004243fc	EAX:4
+00424330	local_8	cnt
+00424330	local_6	len
+00424330	local_4	i
+00424470	piVar1	tail		00424582	unique:00017200:4
+00424470	iVar2	next		00424588	unique:00017200:4
+00424470	uVar3	result		0042448d	EAX:4
+00424470	puVar4	item		0042453c	EAX:4
+00424470	local_a	cnt
+00424470	local_8	tag
+00424470	local_6	len
+00424470	local_4	i
+004245c0	uVar1	result		004245d5	EAX:4
+004245c0	puVar2	item		00424618	EAX:4
+004245c0	iVar3	i		004245d3	EBX:4
+004245c0	puVar4	tail		004245f9	EBP:4
+004245c0	local_e	cnt
+004246c0	uVar1	result		004246d5	EAX:4
+004246c0	puVar2	item		00424718	EAX:4
+004246c0	iVar3	i		004246d3	EBX:4
+004246c0	puVar4	tail		004246f9	EBP:4
+004246c0	local_e	cnt
+004247d0	uVar1	result		004247e1	EAX:4
+004247d0	local_4	marker
+004247d0	local_2	size_val
+004248c0	uVar1	count		004248d1	EAX:4
+004248c0	local_1	ch
+00424a20	uVar1	result		00424a64	EAX:4
+00424a20	iVar2	status		00424aad	EAX:4
+00424b60	local_2	format_version
+00424de0	cVar1	ch		00424df6	unique:00015500:1
+00424de0	uVar2	result		00424e0b	EAX:4
+00424de0	iVar3	remaining		00424def	ECX:4
+00424de0	pcVar4	p		00424df6	EDI:4
+00424de0	local_2	len
+00424e70	sVar1	name_len		00424eba	unique:00017100:2
+00424e70	iVar2	rec		00424e7c	unique:00017200:4
+00424e70	uVar3	result		00424e9b	EAX:4
+00424e70	local_2	cnt
+00424f10	cVar1	ch		00424f65	unique:00015500:1
+00424f10	puVar2	item		00424f1c	unique:00017200:4
+00424f10	uVar3	result		00424f3a	EAX:4
+00424f10	iVar4	remaining		00424f5c	ECX:4
+00424f10	pcVar5	p		00424f65	EDI:4
+00424f10	local_4	cnt
+00424f10	local_2	len
+00424fb0	cVar1	ch		00425005	unique:00015500:1
+00424fb0	puVar2	item		00424fbc	unique:00017200:4
+00424fb0	uVar3	result		00424fda	EAX:4
+00424fb0	iVar4	remaining		00424ffc	ECX:4
+00424fb0	pcVar5	p		00425005	EDI:4
+00424fb0	local_4	cnt
+00424fb0	local_2	len
+00425050	puVar1	item		0042505b	unique:00017200:4
+00425050	uVar2	result		00425079	EAX:4
+00425050	local_4	cnt
+00425050	local_2	len
+004250f0	cVar1	ch		0042514e	unique:00015500:1
+004250f0	puVar2	item		004250fc	unique:00017200:4
+004250f0	uVar3	result		0042511a	EAX:4
+004250f0	iVar4	remaining		0042513d	ECX:4
+004250f0	pcVar5	p		0042514e	EDI:4
+004250f0	local_6	cnt
+004250f0	local_4	tag
+004250f0	local_2	len
+004251a0	puVar1	item		004251b0	unique:00017200:4
+004251a0	uVar2	result		004251cd	EAX:4
+004251a0	local_e	cnt
+00425260	puVar1	item		00425270	unique:00017200:4
+00425260	uVar2	result		0042528d	EAX:4
+00425260	local_e	cnt
+00425330	uVar1	result		00425341	EAX:4
+00425330	local_2	marker
+00425400	uVar1	count		00425421	EAX:4
+00425400	local_1	ch
+00425490	uVar1	count		004254ae	EAX:4
+004254f0	uVar1	count		0042550e	EAX:4
+00425540	sVar1	cmp		0042554a	AX:2
+00425570	sVar1	cmp		0042557a	AX:2
+004255a0	sVar1	cmp		004255ae	AX:2
+004255e0	sVar1	cmp		004255ee	AX:2
+00425630	sVar1	cmp		0042563e	AX:2
+00425670	sVar1	cmp		0042567e	AX:2
+004256b0	iVar1	cmp		00425729	EAX:4
+004256b0	local_8	b_bits
+004256b0	local_4	a_bits
+00425740	sVar1	cmp		0042574a	AX:2
+00425770	sVar1	cmp		0042577a	AX:2
+004257a0	sVar1	cmp		004257ae	AX:2
+004257e0	sVar1	cmp		004257ee	AX:2
+00425830	sVar1	cmp		0042583e	AX:2
+00425870	sVar1	cmp		0042587e	AX:2
+004258b0	iVar1	cmp		00425957	EAX:4
+004258b0	local_10	b_hi
+004258b0	local_c	b_lo
+004258b0	local_8	a_hi
+004258b0	local_4	a_lo
+00425970	uVar1	cmp		0042597a	AX:2
+004259a0	uVar1	cmp		004259aa	AX:2
+004259d0	uVar1	cmp		004259de	AX:2
+00425a10	uVar1	cmp		00425a1e	AX:2
+00425a60	uVar1	cmp		00425a6e	AX:2
+00425aa0	uVar1	cmp		00425aae	AX:2
+00425ae0	iVar1	cmp		00425bb5	EAX:4
+00425ae0	local_4c	a_exp
+00425ae0	local_4a	b_exp
+00425ae0	local_48	a_class
+00425ae0	local_44	b_class
+00425ae0	local_40	a_sign
+00425ae0	local_3c	b_sign
+00425ae0	local_38	a_mant
+00425ae0	local_28	b_mant
+00425ae0	local_18	b_packed
+00425ae0	local_c	a_packed
+00425c90	uVar1	quotient		00425cb0	EAX:4
+00425cc0	iVar1	divisor		00425cc5	unique:00017200:4
+00425cc0	uVar2	truncated		00425cdc	EAX:4
+00425ee0	uVar1	shift		00425ee4	unique:00017200:4
+00425f40	uVar1	shift		00425f44	unique:00017200:4
+00425fe0	uVar1	quotient		00426001	unique:0006fa00:8
+00426290	uVar1	tmp_exp		00426300	unique:10000211:2
+00426290	uVar2	tmp_sign		00426300	unique:10000217:4
+00426290	local_2c	b_exp
+00426290	local_2a	a_exp
+00426290	local_28	b_mant
+00426290	local_24	b_mant_1
+00426290	local_20	a_mant
+00426290	local_1c	a_mant_1
+00426290	local_18	a_sign
+00426290	local_14	b_sign
+00426290	local_10	action
+00426290	local_c	result_sign
+00426290	local_8	b_class
+00426290	local_4	a_class
+00426520	uStack_4	neg_rhs
+00426550	local_2c	b_exp
+00426550	local_2a	a_exp
+00426550	local_28	quot
+00426550	local_24	quot_1
+00426550	local_20	rem
+00426550	local_1c	result_sign
+00426550	local_18	action
+00426550	local_14	b_mant
+00426550	local_10	b_class
+00426550	local_c	b_sign
+00426550	local_8	a_class
+00426550	local_4	a_sign
+004266c0	sVar1	bits		004267eb	AX:2
+004266c0	uStack_2c	b_exp
+004266c0	uStack_2a	a_exp
+004266c0	uStack_28	product
+004266c0	uStack_24	product_1
+004266c0	uStack_20	result_sign
+004266c0	uStack_1c	action
+004266c0	uStack_18	a_mant
+004266c0	iStack_14	b_class
+004266c0	uStack_10	b_sign
+004266c0	iStack_c	a_class
+004266c0	uStack_8	a_sign
+004266c0	uStack_4	b_mant
+00426830	uVar1	tmp_mant		004268e1	unique:00017200:4
+00426830	uVar2	tmp_exp		004268a0	unique:10000235:2
+00426830	uVar3	tmp_mant_1		004268a0	unique:1000023b:4
+00426830	uVar4	tmp_sign		004268a0	unique:1000023f:4
+00426830	local_34	b_exp
+00426830	local_32	a_exp
+00426830	local_30	b_mant
+00426830	local_2c	b_mant_1
+00426830	local_28	b_mant_2
+00426830	local_24	a_mant
+00426830	local_20	a_mant_1
+00426830	local_1c	a_mant_2
+00426830	local_18	a_sign
+00426830	local_14	b_sign
+00426830	local_10	action
+00426830	local_c	result_sign
+00426830	local_8	b_class
+00426830	local_4	a_class
+00426b30	uStack_8	neg_rhs
+00426b30	uStack_4	neg_rhs_1
+00426b70	puVar1	word_ptr		00426cb2	unique:00007400:4
+00426b70	sVar3	w		00426cd3	DX:2
+00426b70	sVar4	bits		00426cfc	SI:2
+00426b70	local_3c	b_exp
+00426b70	local_3a	a_exp
+00426b70	local_38	result_sign
+00426b70	local_34	a_mant
+00426b70	local_30	a_mant_1
+00426b70	local_14	b_sign
+00426b70	local_10	a_class
+00426b70	local_c	a_sign
+00426b70	local_8	b_mant
+00426d50	puVar1	word_ptr		00426ec3	unique:00007400:4
+00426d50	iVar2	cmp		00426e76	EAX:4
+00426d50	sVar4	count		00426eaf	SI:2
+00426d50	sVar5	w		00426ee7	SI:2
+00426d50	local_38	b_exp
+00426d50	local_36	a_exp
+00426d50	local_34	rem
+00426d50	local_1c	action
+00426d50	local_18	b_class
+00426d50	local_14	b_sign
+00426d50	local_10	a_class
+00426d50	local_c	a_sign
+00426d50	local_8	b_mant
+00426f40	uVar3	tmp_sign		00426fbf	unique:10000287:4
+00426f40	iVar5	res_exp		004271e5	ESI:4
+00426f40	local_40	b_exp
+00426f40	local_3e	a_exp
+00426f40	local_3c	a_mant
+00426f40	local_38	a_mant_1
+00426f40	local_34	a_mant_2
+00426f40	local_30	a_mant_3
+00426f40	local_2c	a_sign
+00426f40	local_28	b_mant
+00426f40	local_24	b_mant_1
+00426f40	local_20	b_mant_2
+00426f40	local_1c	b_mant_3
+00426f40	local_14	b_sign
+00426f40	local_10	action
+00426f40	local_c	result_sign
+00426f40	local_8	b_class
+00426f40	local_4	a_class
+004272e0	iVar1	act		004272f6	EAX:4
+00427360	uStack_c	neg_rhs
+00427360	uStack_8	neg_rhs_1
+00427360	uStack_4	neg_rhs_2
+004273a0	puVar1	word_ptr		004274f0	unique:00007400:4
+004273a0	sVar3	w		00427514	DX:2
+004273a0	sVar4	bits		00427563	SI:2
+004273a0	iVar5	res_exp		004275be	EDI:4
+004273a0	local_30	action
+004273a0	local_2c	a_mant
+004273a0	local_28	a_mant_1
+004273a0	local_24	a_mant_2
+004273a0	local_20	b_class
+004273a0	local_1c	b_sign
+004273a0	local_18	a_class
+004273a0	local_14	a_sign
+004273a0	local_10	b_exp
+004273a0	local_c	b_mant
+00427660	puVar1	word_ptr		0042780d	unique:00007400:4
+00427660	sVar5	w		00427831	DX:2
+00427660	local_30	rem
+00427660	local_2c	rem_1
+00427660	local_28	rem_2
+00427660	local_24	action
+00427660	local_20	b_class
+00427660	local_1c	b_sign
+00427660	local_18	a_class
+00427660	local_14	a_sign
+00427660	local_10	b_exp
+00427660	local_c	b_mant
+00427920	sVar1	status		00427920	AX:2
+00427960	uVar1	sign		00427971	EDI:4
+00427960	local_4	magnitude
+004279a0	uVar1	sign		004279b1	EDI:4
+004279a0	local_4	magnitude
+004279e0	uVar1	sign		004279f1	EDI:4
+004279e0	local_4	magnitude
+00427a20	iVar1	value		00427a28	unique:00017200:4
+00427a20	uVar2	top		00427a6c	unique:1000005c:4
+00427a20	sVar3	status		00427a2a	SI:2
+00427a20	local_8	mant
+00427a20	local_4	mant_1
+00427ac0	local_c	mant
+00427ac0	local_8	mant_1
+00427ac0	local_4	mant_2
+00427b20	local_10	mant
+00427b20	local_c	mant_1
+00427b20	local_8	mant_2
+00427b20	local_4	mant_3
+00427b70	sVar1	shift		00427bd4	unique:0000a200:2
+00427b70	local_e	exponent
+00427b70	local_c	mant
+00427b70	local_8	fp_class
+00427b70	local_4	sign
+00427c60	sVar1	shift		00427d10	AX:2
+00427c60	local_12	exponent
+00427c60	local_10	mant
+00427c60	local_c	mant_1
+00427c60	local_8	fp_class
+00427c60	local_4	sign
+00427dc0	sVar1	shift		00427e74	AX:2
+00427dc0	local_16	exponent
+00427dc0	local_14	mant
+00427dc0	local_10	mant_1
+00427dc0	local_c	mant_2
+00427dc0	local_8	fp_class
+00427dc0	local_4	sign
+00427f20	local_1a	exponent
+00427f20	local_18	sign
+00427f20	local_14	fp_class
+00427f20	local_10	mant
+00427f20	local_c	dmant
+00427f20	local_8	dmant_1
+00427f20	local_4	dmant_2
+00428020	local_1e	exponent
+00428020	local_1c	sign
+00428020	local_18	fp_class
+00428120	local_12	exponent
+00428120	local_10	sign
+00428120	local_c	mant
+00428120	local_8	mant_1
+00428120	local_4	fp_class
+00428200	sVar1	bits		004282ef	AX:2
+00428200	local_22	exponent
+00428200	local_20	sign
+00428200	local_10	low_bits
+00428200	local_8	mant
+00428200	local_4	mant_1
+00428320	sVar1	bits		004283ed	AX:2
+00428320	local_16	exponent
+00428320	local_14	sign
+00428320	local_10	mant
+00428320	local_c	mant_1
+00428320	local_8	mant_2
+00428320	local_4	fp_class
+00428430	sVar1	bits		0042850f	AX:2
+00428430	local_16	exponent
+00428430	local_14	sign
+00428430	local_10	mant
+00428430	local_c	mant_1
+00428430	local_8	mant_2
+00428430	local_4	fp_class
+00428540	uVar1	bits		00428544	unique:00017200:4
+004285b0	uVar1	hi		004285b8	unique:00017200:4
+004286d0	cVar1	ch		00428849	unique:00015500:1
+004286d0	bVar2	c1		00428700	unique:00017000:1
+004286d0	pbVar3	s1		00428712	EAX:4
+004286d0	iVar6	status		004288bf	EAX:4
+004286d0	pbVar7	s2		00428715	ECX:4
+004286d0	piVar8	entry		004286f7	EDX:4
+004286d0	bVar10	below		00428702	CF:1
+004286d0	local_b	text_len
+004286d0	local_a	err_code
+004286d0	local_6	file_index
+004286d0	local_4	rec_line
+00428940	uVar1	exit_code		00428942	SI:2
+00428a20	iVar1	offset		00428a37	EAX:4
+00428a70	cVar1	ch		00428a76	unique:00017000:1
+00428a70	iVar2	i		00428a70	EAX:4
+00428aa0	cVar1	ch		00428aad	unique:00017000:1
+00428aa0	sVar2	i		00428aa0	CX:2
+00428ad0	piVar1	entry		00428aeb	ECX:4
+00428ad0	iVar2	offset		00428ae1	EDX:4
+00428b10	cVar1	ch		00428b33	unique:00017000:1
+00428b10	pcVar2	env		00428b23	EAX:4
+00428b10	iVar3	i		00428b49	EDX:4
+00428b10	pcVar4	result		00428b1a	EDI:4
+00428c40	cVar1	ch		00428c67	unique:00015500:1
+00428c40	pFVar3	fp		00428d07	EAX:4
+00428c40	uVar4	len		00428c60	ECX:4
+00428c40	uVar5	words		00428cae	ECX:4
+00428c40	iVar6	remaining		00428ce9	ECX:4
+00428d70	iVar2	i		00428d7f	ESI:4
+00428d70	puVar3	entry		00428d86	EDI:4
+00428e10	cVar1	ch		00428e97	unique:00015500:1
+00428e10	pcVar2	dir		00428e22	EAX:4
+00428e10	DVar3	pid		00428e64	EAX:4
+00428e10	pcVar5	p		00428ea5	EAX:4
+00428e10	uVar6	len		00428e90	ECX:4
+00428e10	local_4	ok
+00428f30	bVar1	top_byte		00428ff9	unique:00017000:1
+00428f30	uVar3	bits		00428f60	ECX:4
+00429020	bVar1	top_byte		0042910a	unique:00017000:1
+00429020	uVar2	lo_word		0042903d	unique:00017200:4
+00429020	uVar5	bits		00429052	ESI:4
+00429140	puVar1	mant		00429140	unique:100000a6:4
+00429140	uVar2	tmp_word		00429285	EAX:4
+00429140	uVar3	status		0042914d	SI:2
+004292a0	puVar1	mant		004292a0	unique:100000ea:4
+004292a0	uVar2	tmp_word		00429362	EAX:4
+004292a0	uVar3	tmp_word_1		00429379	ECX:4
+004292a0	uVar4	status		004293de	SI:2
+00429460	uVar1	rounded		00429487	EAX:4
+00429500	uVar1	old		00429524	unique:00017200:4
+00429500	puVar2	s		0042951a	ECX:4
+00429500	uVar3	carry		00429501	EDX:4
+00429500	iVar4	i		00429509	ESI:4
+00429500	puVar5	d		0042951a	EDI:4
+00429540	uVar1	old		00429565	unique:00017200:4
+00429540	puVar2	s		0042955b	EDX:4
+00429540	puVar3	d		0042955b	EBX:4
+00429540	uVar4	borrow		00429543	ESI:4
+00429540	iVar5	i		0042954a	EDI:4
+00429590	uVar1	a_word		00429615	unique:00017200:4
+00429590	uVar2	b_word		0042961b	unique:00017200:4
+00429590	iVar5	i		00429685	ECX:4
+004296b0	uVar1	old		004296c2	unique:00017200:4
+004296b0	uVar2	negated		004296c7	EAX:4
+004296b0	puVar3	p		004296c2	ECX:4
+004296b0	iVar4	borrow		004296b1	EDX:4
+004296b0	iVar5	i		004296b8	EDI:4

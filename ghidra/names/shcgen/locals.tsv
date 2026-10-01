@@ -1,0 +1,2270 @@
+# function	old name	new name	type	first use	storage
+00401000	psVar5	sym		00401294	EAX:4
+00401000	local_a	sym_type
+00401000	local_9	storage_class
+00401000	local_8	skipped
+00401000	local_6	sym_index
+00401000	local_4	sym_size
+00401470	pvVar1	list		004014cf	EAX:4
+00401470	psVar2	ext		004014e0	EAX:4
+00401470	local_4	skipped
+00401500	uVar1	slot		0040150b	EBX:4
+00401500	iVar2	block_offset		0040159f	ESI:4
+00401500	puVar3	cursor		00401603	EDI:4
+00401500	local_d	remaining
+00401500	local_c	blocks
+00401500	local_8	block_count
+00401500	local_4	block_entries
+00401670	puVar1	cursor		00401735	EBP:4
+00401670	uVar2	slot		0040167b	ESI:4
+00401670	iVar3	block_count		004016eb	EDI:4
+00401670	local_a	remaining
+00401670	local_8	blocks
+00401670	local_4	block_entries
+00401780	sVar1	index		004017f9	AX:2
+00401850	pvVar1	list		00401851	EAX:4
+00401870	buf	index_cursor		00401944	EBP:4
+00401870	iVar2	block_count		004018fd	ESI:4
+00401870	local_a	remaining
+00401870	local_8	blocks
+00401870	local_4	block_entries
+004019a0	buf	flag_byte		00401a8f	HASH:e1e631d495:4
+004019a0	buf_00	index_cursor		00401ab5	EBX:4
+004019a0	iVar1	block_offset		00401a4a	ESI:4
+004019a0	local_e	remaining
+004019a0	local_c	blocks
+004019a0	local_8	block_count
+004019a0	local_4	block_entries
+00401b20	pcVar1	src		00401bcb	HASH:27fda0e9928:4
+00401b20	iVar2	i		00401bc3	EAX:4
+00401b20	pcVar3	copy		00401b30	ESI:4
+00401b20	local_fd	name_length
+00401b20	local_fc	name_buf
+00401c00	bVar1	ch		00401c3c	HASH:5f459046df:1
+00401c00	puVar2	entry_name		00401c71	HASH:5fcf341af8:4
+00401c00	iVar3	cmp		00401c12	EAX:4
+00401c00	sVar4	i		00401c1e	CX:2
+00401c00	pbVar5	entry_p		00401c51	EBX:4
+00401c00	iVar6	id		00401c03	ESI:4
+00401c00	pbVar7	name_p		00401c4e	EDI:4
+00401c00	bVar8	below		00401c3e	CF:1
+00401c90	puVar1	regs_p		00401d7a	HASH:27f0888e7bd:4
+00401c90	iVar2	op		00401c9b	HASH:5f2b6eb052:1
+00401c90	pgVar3	child		00401c98	HASH:5f4fc3eaaf:4
+00401c90	pnVar4	desc		00401cda	HASH:5f77091056:4
+00401c90	sVar5	reg		00401d4b	AX:2
+00401c90	uVar6	excluded		00401d42	EAX:4
+00401c90	uVar8	mask		00401f01	DX:2
+00401f30	puVar1	flags_p		0040204e	HASH:27ff09421f6:4
+00401f30	puVar2	regs_p		00402093	HASH:27f13ab2382:4
+00401f30	iVar3	child_op		00401f81	HASH:5f22e252bf:1
+00401f30	cVar5	child_class		004020c0	HASH:5f5663a8af:1
+00401f30	cVar6	builtin		004020f0	HASH:5f8b5b5b8f:1
+00401f30	pnVar7	desc		00401f3b	HASH:5f1540f305:4
+00401f30	ptVar8	tmpl		0040207e	HASH:5fe6942f54:4
+00401f30	bVar9	ea_kind		00401fcf	AL:1
+00401f30	pgVar11	child_node		00402118	HASH:7bfcdf616f9:4
+00402200	puVar1	flags_p		0040221c	HASH:27fe67c10d4:4
+00402200	node_00	child		0040220d	HASH:5f0f78e1ff:4
+00402200	pnVar2	desc		00402210	HASH:5fc938e1a1:4
+00402200	bVar3	handled		00402438	HASH:79fb1ae3443:1
+00402200	bVar4	ea_kind		0040226f	AL:1
+00402200	sVar5	reg		0040234d	AX:2
+00402200	peVar6	operand		00402517	EAX:4
+00402560	puVar1	flags_p		004025a1	HASH:27f2cec1802:4
+00402560	puVar2	regs_p		00402bb0	HASH:27f6b4583cc:4
+00402560	node_00	child		0040256b	HASH:5f828ad83b:4
+00402560	pnVar3	desc		004025a4	HASH:5f37592e78:4
+00402560	plVar4	ref		004027ac	HASH:5fe5faea0b:4
+00402560	peVar6	operand		00402652	EAX:4
+00402560	peVar10	addr_ea		00402b43	ECX:4
+00402560	uVar11	mask		00402baa	DX:2
+00402560	sVar12	reg		0040291c	BX:2
+00402560	local_8	access_type
+00402d90	puVar1	flags_p		00402dcd	HASH:27f72e6d52f:4
+00402d90	node_00	child		00402d97	HASH:5fafa0ca2e:4
+00402d90	pnVar2	desc		00402dd0	HASH:5f6ff432e5:4
+00402d90	peVar5	src		00403098	ECX:4
+00402d90	peVar6	operand		00402e29	ESI:4
+004031a0	puVar1	flags_p		004031dd	HASH:27fbd29e01c:4
+004031a0	puVar2	regs_p		00403396	HASH:27f66375349:4
+004031a0	piVar3	disp_p		00403469	HASH:27fae2bcf2d:4
+004031a0	iVar4	parent_op		00403243	HASH:5f76bfdde8:1
+004031a0	pnVar5	desc		004031e0	HASH:5fa5deb8d8:4
+004031a0	pnVar6	child_desc		0040322f	HASH:5fa1409740:4
+004031a0	peVar8	operand		0040343d	EAX:4
+004031a0	uVar9	reg_bit		00403393	DX:2
+004031a0	pgVar10	child_node		00403323	HASH:7bf98126289:4
+004034e0	puVar1	flags_p		0040354e	HASH:27f7bcb6697:4
+004034e0	puVar2	regs_p		00403569	HASH:27f01696ab1:4
+004034e0	piVar3	disp_p		0040369d	HASH:27f6cd63d2d:4
+004034e0	pnVar4	desc		00403586	HASH:5fc09841ad:4
+004034e0	pnVar5	child_desc		0040375f	HASH:5ff94edd40:4
+004034e0	ptVar6	tmpl		00403501	EAX:4
+004034e0	uVar7	excluded		004035a0	EAX:4
+004034e0	peVar8	operand		00403671	EAX:4
+004034e0	bVar10	ea_kind		004036ab	CL:1
+004034e0	pgVar11	child_node		004035a0	HASH:7bf92395b31:4
+004034e0	pgVar12	parent_node		004036e7	HASH:7bf1e2566d8:4
+004037e0	puVar1	flags_p		00403a69	HASH:27f810421c0:4
+004037e0	piVar2	disp_p		00403bc6	HASH:27fa6352de0:4
+004037e0	bVar3	child_type		0040389b	HASH:5f6aa1f1b2:1
+004037e0	cVar4	usage		00403990	HASH:5f012b1a01:1
+004037e0	iVar5	parent_op		004039c6	HASH:5f36915aef:1
+004037e0	node_00	parent		004037f6	HASH:5ff2f491a6:4
+004037e0	pnVar6	desc		0040398d	HASH:5fa19af2a7:4
+004037e0	sVar8	reg		00403a10	AX:2
+004037e0	node_01	other_operand		00403870	EAX:4
+004037e0	peVar15	operand		00403ab7	ESI:4
+004037e0	pgVar16	child_node		00403d20	HASH:7bf2cae17ab:4
+004037e0	local_1c	other_signed
+004037e0	local_14	child_signed
+004042e0	puVar1	regs_p		0040436c	HASH:27f5da42c32:4
+004042e0	puVar2	flags_p		0040463d	HASH:27f6129c959:4
+004042e0	pnVar3	desc		004042ee	HASH:5f10c7e72d:4
+004042e0	psVar6	sym		004045b0	EAX:4
+004042e0	peVar7	ea_copy		00404641	EAX:4
+004042e0	psVar8	lreg_rec		00404546	ECX:4
+00404830	puVar1	flags_p		004048c8	HASH:27ff0190507:4
+00404830	puVar2	regs_p		00404a21	HASH:27fadaa0eda:4
+00404830	node_00	parent		004048d0	HASH:5fb5f25296:4
+00404830	ptVar3	parent_tmpl		0040491d	HASH:5f68298e8f:4
+00404830	pnVar4	first_desc		004049ad	HASH:5f4fc17b69:4
+00404830	sVar6	reg		004048e5	AX:2
+00404830	plVar7	ref		00404853	EAX:4
+00404830	iVar8	position		004048f1	EAX:4
+00404830	iVar9	operand_count		0040494c	EAX:4
+00404830	uVar10	reg_bit		00404a94	DX:2
+00404830	local_4	saved_hit
+00404b20	peVar1	operand		00404b50	EAX:4
+00404b90	pnVar1	desc		00404bbc	HASH:5f2fbe3bb5:4
+00404b90	uVar2	size_code		00404c78	AL:1
+00404b90	sVar3	other_label		00404c93	AX:2
+00404b90	node_00	right_node		00404b9b	EDI:4
+00404b90	pgVar7	left_node		00404c73	HASH:3f299f26e3:4
+00404dd0	iVar1	saved_sptravel		00404deb	HASH:3f4ecbd304:4
+00404dd0	uVar2	saved_max_sptravel		00404deb	HASH:3f83b73c9d:4
+00404dd0	uVar3	then_max_sptravel		00404e33	HASH:3facccb48e:4
+00404dd0	pgVar4	operand		00404e81	EAX:4
+00404dd0	node_00	then_node		00404ddb	EDI:4
+00404ed0	iVar1	op		00404ef3	HASH:5f8e92d0e0:1
+00404ed0	pgVar2	left_node		00404edb	HASH:5f9acae412:4
+00404ed0	pnVar3	desc		00404eff	HASH:5fc781c0c9:4
+00404ed0	sVar6	label		0040500a	AX:2
+00404ed0	uVar10	branch_op		00404ff3	SI:2
+00404ed0	cStack_5	left_is_zero
+00404ed0	pgStack_4	right_node
+00405310	bVar1	desc_flags		0040531c	HASH:5fd3e0f1d6:1
+00405310	node_00	child		00405316	HASH:5f90370992:4
+004053a0	bVar2	return_space		0040552b	HASH:79f03070563:1
+004053a0	bVar3	both_static		00405f49	HASH:79facff6518:1
+004053a0	iVar8	operand_count		0040554a	EAX:4
+004053a0	ptVar11	tmpl		00405728	EAX:4
+004053a0	iVar16	next_i		00405558	EBX:4
+004053a0	pcVar17	name_p		00405e4a	ESI:4
+004053a0	pcVar18	builtin_p		00405e4a	EDI:4
+004053a0	ppeVar20	slots		00405750	HASH:7bfe4e8cd04:4
+004053a0	local_39	push_type
+004053a0	local_35	call_flags
+004053a0	local_30	nested
+004053a0	local_2c	arg_bytes
+004053a0	local_c	ret_size
+004053a0	local_8	entry_b
+004053a0	local_4	entry_a
+004053a0	sVar6	arg_reg		00405661	HASH:ff3d1ac794:2
+00406340	iVar1	op		004065c3	HASH:5f0939c84e:1
+00406340	pnVar2	desc		004063a1	HASH:5fd2924b18:4
+00406340	pcVar3	handler		004064d3	HASH:5f5d46d4a8:4
+00406340	ptVar6	tmpl		00406767	EAX:4
+00406830	sVar1	class_count		004068c7	HASH:5fc309ed10:2
+00406830	iVar2	next_link		004068b7	HASH:5f78e8bbf2:4
+00406830	bVar3	found		004068a1	HASH:79f91cfdb63:1
+00406830	iVar6	slot		0040687e	EBX:4
+00406830	sVar7	short_size		0040686f	SI:2
+00406830	psVar8	block		004068fb	EDI:4
+00406830	puVar9	fill		00406993	EDI:4
+00406830	local_4	mem
+004069c0	paVar1	chunk		004069cd	EAX:4
+004069c0	pcVar2	mem		004069c7	EDI:4
+00406a40	paVar1	chunk		00406a45	EAX:4
+00406a70	psVar1	block		00406aa6	HASH:5f465ef1fb:4
+00406a70	psVar2	class_entry		00406a94	HASH:79f07f2685c:4
+00406a70	bVar3	found		00406aba	HASH:79f3770d2e9:1
+00406a70	local_4	slot
+00406b00	puVar1	free_entry		00406b34	HASH:5f0941f5dc:4
+00406b00	paVar2	prev		00406b13	HASH:79fd85c6b76:4
+00406bc0	iVar1	line_kind		00406bf4	EAX:4
+00406bc0	pgVar2	tree		00406cac	EAX:4
+00406ed0	sVar1	reg		0040705a	AX:2
+00406ed0	pgVar2	cond		00406edf	EAX:4
+00406ed0	local_a	jump_reg
+004071c0	sVar1	saved_continue		004072fc	HASH:12303f52e0c28d:2
+004071c0	pgVar4	init		004071cf	EAX:4
+004071c0	peVar5	target		00407281	EAX:4
+004071c0	node_00	body		0040737c	EBX:4
+004071c0	local_c	jump_reg
+00407640	sVar1	saved_break_label		0040766f	HASH:10303fb24824c7:2
+00407640	sVar2	saved_continue_label		0040766f	HASH:12303fb24824c7:2
+00407640	node_00	cond_next		004077cc	ESI:4
+00407860	sVar1	saved_continue_label		0040792a	HASH:12303fcde24cdf:2
+00407860	labno_00	top_label		0040795a	AX:2
+00407860	local_8	jump_reg
+00407af0	bVar1	var_reg		00407bc2	HASH:5fe6103d5f:1
+00407af0	iVar2	stmt_op		00407c55	HASH:5f781923aa:1
+00407af0	sVar3	scope_symx		00407b92	HASH:5fef6b7f3c:2
+00407af0	puVar4	scope_block		00407b80	HASH:5f7bab6152:4
+00407af0	uVar5	saved_gpr_mask		00407b4f	HASH:10303f3b25bd35:2
+00407af0	uVar6	saved_fpr_mask		00407b4f	HASH:12303f3b25bd35:2
+00407af0	iVar8	sym		00407ba3	EAX:4
+00407af0	uVar9	fpr_bits		00407bec	DX:2
+00407af0	sVar11	i		00407c0b	DI:2
+00407d80	kind_00	kind_byte		00407d95	HASH:7ff0b534e68:1
+00407e20	local_1	rec_kind
+00407ee0	local_1	rec_kind
+00407f10	bVar1	sclass		00407f70	HASH:5f6169ed89:1
+00407f10	puVar2	sym_bytes		00407f6e	ECX:4
+00407f10	uVar4	sym_index		00407f38	ESI:4
+00407f10	iVar5	sym_offset		00407f5e	EDI:4
+00407f10	kind_00	rec_kind		00407fb2	HASH:3f2e6d4371:2
+00408040	local_5	rec_kind
+00408040	local_4	sym_loc
+00408180	ppsVar1	ext_slot		00408505	HASH:27fb85faf16:4
+00408180	puVar2	range		00408404	HASH:5f6e143187:4
+00408180	psVar4	sym		004081a4	EAX:4
+00408180	local_e	ext_byte
+00408180	local_d	rec_kind
+00408180	local_c	n_ranges
+00408180	local_b	out_byte
+00408180	local_a	zero_word
+00408180	local_8	ext_value
+00408180	local_4	zero_dword
+004087a0	iVar1	bits_left		004087c9	EAX:4
+004087a0	uVar2	i		004087c2	EDX:4
+004087a0	uVar3	bit		004087c4	ESI:4
+004087a0	local_1	rec_kind
+00408830	local_3	rec_kind
+00408830	local_2	label_total
+00408880	iVar1	len		0040888d	EAX:4
+00408880	local_1	len_byte
+004088f0	cVar1	ch		004088f6	HASH:5f0ecac2e7:1
+004088f0	iVar2	len		004088f0	EAX:4
+00408910	local_1	out_attr
+00408970	uVar2	nread		004089cd	EAX:4
+00408970	sVar4	saved_const_section		004089b6	BP:2
+00408970	sVar5	saved_data_section		004089b6	DI:2
+00408970	local_a	const_tag
+00408970	local_9	data_tag
+00408970	local_8	saved_holds_data
+00408970	local_7	any_written
+00408970	local_6	in_attr_run
+00408970	local_5	init_type
+00408970	local_4	sym_index
+00408ce0	bVar1	sym_type		00408d11	HASH:5f46f3a483:1
+00408ce0	bVar2	sym_attr		00408d17	HASH:5ff8672892:1
+00408ce0	uVar3	old_loc		00408d45	HASH:5fc856e818:4
+00408ce0	uVar4	type_class		00408d40	CX:2
+00408ce0	puVar6	loc		00408d40	EDI:4
+00408ce0	local_8	pad_header
+00408ce0	local_4	pad_repeat
+004090f0	local_1a	short_val
+004090f0	local_18	str_length
+004090f0	uStack_16	ref_symx
+004090f0	local_14	reloc_flag
+004090f0	local_10	int_val
+004090f0	local_c	str_size
+004090f0	local_8	dbl_first
+004090f0	local_4	dbl_second
+004094f0	bVar1	type_class		00409512	AL:1
+004094f0	sVar2	size_code		00409546	AX:2
+004094f0	iVar3	result		004095c4	EAX:4
+004094f0	local_1	close_marker
+00409610	uVar1	sym_index		00409610	EAX:4
+00409610	iVar2	sym		00409673	EAX:4
+004096b0	iVar2	byte_i		004097b6	EDX:4
+004096b0	uVar3	i		004097b9	DI:2
+004096b0	local_b	gap_tag
+004096b0	local_a	gap_pad
+004096b0	local_9	next_type
+004096b0	local_8	init_result
+004096b0	local_4	gap_size
+00409a50	sVar1	size_code		00409aad	AX:2
+00409a50	iVar2	byte_i		00409b1a	EAX:4
+00409a50	uVar3	i		00409b1d	CX:2
+00409a50	local_8	rec_header
+00409a50	local_7	rec_size_code
+00409a50	auStack_6	rec_unit
+00409b50	iVar1	byte_i		00409bd6	EAX:4
+00409b50	uVar2	i		00409bd9	CX:2
+00409b50	local_c	rec_tag
+00409b50	local_b	symx_lo
+00409b50	local_a	symx_hi
+00409b50	auStack_9	rec_zero
+00409b50	local_4	zero_dword
+00409c10	cVar1	ch		00409c82	HASH:5f8b40ae64:1
+00409c10	pcVar2	old_count_field		0040a04b	HASH:3fcbf5aa4b:4
+00409c10	sVar5	i		00409c8d	BX:2
+0040a2e0	local_1	marker
+0040a310	bVar1	type_class		0040a318	CL:1
+0040a370	uVar1	cur_loc		0040a3cb	HASH:5fd007f13c:4
+0040a370	puVar3	loc_ptr		0040a3c5	ESI:4
+0040a3f0	iVar1	unreserved		0040a41f	EAX:4
+0040a3f0	uVar2	sym_index		0040a465	EAX:4
+0040a580	psVar1	param_symx		0040a5cb	HASH:419e1e37a1:4
+0040a580	pbVar2	param_flags		0040a5dd	HASH:41d74634da:4
+0040a580	piVar3	param_loc		0040a605	HASH:27fa6a95c22:4
+0040a580	puVar4	param_list		0040a5b1	HASH:79f24348179:4
+0040a580	bVar5	psd_flags		0040a7f1	AL:1
+0040a580	operand	arg_loc		0040a5f3	EAX:4
+0040a580	operand_00	home_loc		0040a6dd	EAX:4
+0040a580	uVar11	ea_kind		0040a615	HASH:3f4d2a8980:1
+0040a580	cVar12	base_reg		0040a627	HASH:79fcad436f1:1
+0040a580	local_13	mov_flags
+0040a580	local_12	i
+0040a580	local_10	work_reg
+0040a580	local_c	size_code
+0040ad10	uVar1	saved_gpr_mask		0040ad89	HASH:3fd88fb7ff:2
+0040ad10	bVar2	fpu_mode		0040af86	AL:1
+0040b0d0	puVar1	next_entry		0040b2c5	HASH:1606255dee1:4
+0040b0d0	uVar2	live_start		0040b36d	HASH:5f558b9be0:4
+0040b0d0	uVar3	live_end		0040b387	HASH:5fb507c085:4
+0040b0d0	bVar4	found		0040b18b	HASH:79f01f329aa:1
+0040b0d0	psVar5	lreg		0040b138	HASH:79fb4ae0655:4
+0040b0d0	prVar6	contents		0040b34e	HASH:27f2acccc35:4
+0040b0d0	pprVar7	link		0040b37f	HASH:27f4714478a:4
+0040b0d0	puVar10	remap_entry		0040b271	EAX:4
+0040b0d0	bVar12	var_reg		0040b187	CL:1
+0040b0d0	bVar13	scratch		0040b129	DL:1
+0040b0d0	puVar14	tail		0040b2c3	EDX:4
+0040b0d0	psVar15	other_entry		0040b41e	EDX:4
+0040b0d0	uVar16	found_scratch		0040b183	EBX:4
+0040b0d0	piVar17	live_range		0040b26f	ESI:4
+0040b0d0	prVar18	range		0040b370	EDI:4
+0040b4f0	piVar1	end_ptr		0040b5c3	HASH:27ff3edd827:4
+0040b4f0	piVar2	start_ptr		0040b5c6	HASH:27f221ae351:4
+0040b4f0	bVar3	entry_flags		0040b6f1	HASH:5f6ec6b5fc:1
+0040b4f0	sVar4	lreg		0040b500	HASH:79fba22fa5d:2
+0040b4f0	prVar5	merged_ranges		0040b544	EAX:4
+0040b4f0	pvVar6	merged_uses		0040b57c	EAX:4
+0040b4f0	iVar7	overlap		0040b614	EAX:4
+0040b4f0	piVar9	range		0040b5c3	ECX:4
+0040b4f0	uVar10	live_length		0040b5c1	EDX:4
+0040b4f0	puVar11	entry		0040b59f	ESI:4
+0040b4f0	local_24	swap_buf
+0040b770	iVar1	overlap		0040b771	EAX:4
+0040b770	prVar2	rb		0040b78b	EBX:4
+0040b7c0	uVar1	last_end		0040b828	HASH:5f9569f684:4
+0040b7c0	prVar2	next_a		0040b83b	HASH:5f22573bd7:4
+0040b7c0	prVar3	tail		0040b89d	EBX:4
+0040b7c0	prVar4	next_b		0040b89d	ESI:4
+0040b7c0	local_4	merged_head
+0040b8e0	uVar1	serial_a		0040b931	HASH:5f48142fee:4
+0040b8e0	uVar2	serial_b		0040b949	HASH:5f421c72f6:4
+0040b8e0	puVar5	next_a		0040b9a2	EBP:4
+0040b8e0	puVar6	out_block		0040b92d	ESI:4
+0040b8e0	iVar7	out_i		0040b91b	EDI:4
+0040b8e0	local_c	a_i
+0040b8e0	local_8	b_i
+0040b8e0	local_4	out_head
+0040ba90	puVar1	flags_ptr		0040bbae	HASH:27f19224f34:4
+0040ba90	pnVar2	desc		0040bbb2	HASH:5f07aca883:4
+0040ba90	sVar3	status		0040bb4e	AX:2
+0040ba90	local_4	fold_status
+0040bd00	sVar1	result		0040bd00	AX:2
+0040bd00	iVar2	int_result		0040bd36	EAX:4
+0040bd00	uVar3	uint_result		0040bd9c	EAX:4
+0040bd00	bVar4	type_class		0040bd0d	DL:1
+0040bd00	bVar5	type_bits		0040bd5c	BL:1
+0040bdb0	bVar1	type_bits		0040be77	AL:1
+0040bdb0	sVar2	result		0040beaf	AX:2
+0040bdb0	uVar3	uint_result		0040be93	EAX:4
+0040bdb0	bVar4	type_class		0040bdd3	DL:1
+0040bec0	piVar1	value_ptr		0040c160	HASH:27fe67f06c1:4
+0040bec0	bVar2	from_class		0040befe	AL:1
+0040bec0	sVar3	result		0040bf89	AX:2
+0040bec0	iVar4	int_result		0040bf2f	EAX:4
+0040bec0	uVar5	uint_result		0040c06a	EAX:4
+0040bec0	bVar6	from_type		0040bfc9	CL:1
+0040bec0	bVar7	to_class		0040bed3	DL:1
+0040bec0	bVar8	to_type		0040bf15	BL:1
+0040c1b0	bVar1	type_bits		0040c520	AL:1
+0040c1b0	sVar2	result		0040c1b0	AX:2
+0040c1b0	uVar3	uint_result		0040c4d6	EAX:4
+0040c1b0	iVar4	int_result		0040c547	EAX:4
+0040c1b0	bVar5	type_class		0040c44c	DL:1
+0040c5a0	bVar1	type_class		0040c74b	AL:1
+0040c5a0	uVar2	uint_result		0040c772	EAX:4
+0040c7c0	cVar1	bool_result		0040ccd2	AL:1
+0040c7c0	sVar2	result		0040c7c0	AX:2
+0040c7c0	iVar3	int_result		0040cc7c	EAX:4
+0040c7c0	bVar4	type_class		0040cc36	DL:1
+0040c7c0	bVar5	type_bits		0040ccad	BL:1
+0040cd30	sVar1	result		0040ce93	AX:2
+0040cd30	iVar2	int_result		0040cd64	EAX:4
+0040cd30	bVar4	type_class		0040cd41	CL:1
+0040cd30	bVar5	type_bits		0040ce26	CL:1
+0040cd30	local_8	left_truth
+0040cd30	local_4	right_truth
+0040ceb0	puVar1	flags_ptr		0040cf12	HASH:27fa21c43e4:4
+0040ceb0	puVar2	mask_ptr		0040d021	HASH:27f6f7fe9be:4
+0040ceb0	iVar3	node_op		0040cebb	HASH:5f784129e2:1
+0040ceb0	pgVar4	parent_node		0040cecd	HASH:5fc3cf1a7f:4
+0040ceb0	bVar5	type_class		0040d0f6	AL:1
+0040ceb0	uVar8	ea_mask		0040cfff	EAX:4
+0040ceb0	peVar9	operand		0040d03a	EAX:4
+0040ceb0	piVar12	frame_low_ptr		0040d58a	EAX:4
+0040ceb0	pgVar13	second_child		0040d4e3	ECX:4
+0040ceb0	pnVar16	desc		0040d36d	EBX:4
+0040ceb0	local_8	sel
+0040ceb0	local_4	alt_sel
+0040d5d0	uVar2	save_mask		0040d629	CX:2
+0040d5d0	iVar4	sp_disp		0040d5e4	ESI:4
+0040d690	iVar1	sp_disp		0040d6fc	EAX:4
+0040d690	uVar2	label_symx		0040d75d	EAX:4
+0040d690	iVar4	needs_r0		0040d692	ESI:4
+0040d7d0	op	value_ea		0040d97a	HASH:27f6dead630:4
+0040d7d0	puVar1	mask_ptr		0040d988	HASH:27f49e89cc6:4
+0040d7d0	pcVar2	slot		0040d7e2	HASH:27fd046f7a6:4
+0040d7d0	bVar3	reg		0040d7e6	HASH:5ffad9ec09:1
+0040d7d0	pnVar4	desc		0040d977	HASH:5f9fb6b8c8:4
+0040d7d0	iVar5	position		0040d940	EAX:4
+0040d7d0	uVar8	reg_bit		0040d7fa	BP:2
+0040d7d0	uVar9	freed_mask		0040d821	SI:2
+0040d9e0	puVar1	flags_ptr		0040daa8	HASH:27f9b0ea3b0:4
+0040d9e0	cVar2	value_reg		0040e025	HASH:5f668caeb4:1
+0040d9e0	node_00	left		0040d9eb	HASH:5ffd80619d:4
+0040d9e0	pnVar3	desc		0040daab	HASH:5f67454b57:4
+0040d9e0	pnVar4	right_desc		0040ddc3	HASH:5fda61e8cf:4
+0040d9e0	bVar5	left_reg_handed_over		0040dc7e	HASH:79f8f74f27c:1
+0040d9e0	uVar6	saved_var_gpr_mask		0040dbe7	HASH:3f52198ac8:2
+0040d9e0	ptVar9	tmpl		0040da02	EAX:4
+0040d9e0	iVar10	needs_r0		0040db97	EAX:4
+0040d9e0	puVar11	mask_ptr		0040dbaf	EAX:4
+0040d9e0	peVar12	operand		0040e016	EAX:4
+0040d9e0	bVar13	type_class		0040db29	CL:1
+0040d9e0	node_01	right		0040d9ee	EBP:4
+0040e050	bVar3	node_type		0040e6d7	HASH:5f669843f0:1
+0040e050	node_00	cond		0040e060	HASH:5fd67d75a7:4
+0040e050	pnVar4	desc		0040e072	HASH:5ffb055d43:4
+0040e050	node_01	else_node		0040e06d	EAX:4
+0040e050	uVar7	reg_mask		0040e7f4	EAX:4
+0040e050	uVar8	mask		0040e80e	DX:2
+0040e050	uVar9	pair_mask		0040e75b	DI:2
+0040e050	node_02	then_node		0040e05b	EDI:4
+0040e050	peVar11	operand		0040e7f4	HASH:79ffa26e631:4
+0040e880	bVar2	base_reg		0040e9f4	HASH:5f80308bfb:1
+0040e880	node_00	left		0040e898	HASH:5f30a53555:4
+0040e880	pnVar3	desc		0040e8a2	HASH:5fb1933c6c:4
+0040e880	bVar4	dest_passed		0040eae1	HASH:79fd1cfc18a:1
+0040e880	bVar5	ea_kind		0040e9c9	AL:1
+0040e880	sVar6	reg		0040e91d	AX:2
+0040e880	peVar7	operand		0040ec36	EDX:4
+0040e880	node_01	right		0040e893	EDI:4
+0040ec70	sVar3	true_label		0040ece0	HASH:5fae54ee71:2
+0040ec70	node_00	left		0040ec7d	HASH:5fa14851b1:4
+0040ec70	pnVar4	desc		0040ed2f	HASH:5f7eea1070:4
+0040ec70	uVar7	reg_mask		0040ef98	EAX:4
+0040ec70	uVar8	mask		0040ef57	DX:2
+0040ec70	ppnVar9	left_desc_ptr		0040ecf9	EBP:4
+0040ec70	node_01	right		0040ec78	EDI:4
+0040ec70	cVar10	ascending		0040eeeb	HASH:3fd6f5a794:1
+0040efd0	sVar3	false_label		0040f03b	HASH:5f03efd73c:2
+0040efd0	node_00	left		0040efdd	HASH:5f4e884b50:4
+0040efd0	pnVar4	desc		0040f08a	HASH:5f7e312f03:4
+0040efd0	uVar7	reg_mask		0040f2f3	EAX:4
+0040efd0	uVar8	mask		0040f2b2	DX:2
+0040efd0	ppnVar9	left_desc_ptr		0040f054	EBP:4
+0040efd0	node_01	right		0040efd8	EDI:4
+0040efd0	cVar10	ascending		0040f246	HASH:3faf2e24b3:1
+0040f320	iVar2	arg_op		0040f441	HASH:5f7e380270:1
+0040f320	uVar3	target_mask		0040f49e	HASH:5f9da17a86:2
+0040f320	node	call		0040f32d	HASH:5f99b5e400:4
+0040f320	left	callee		0040f339	HASH:5f428dac62:4
+0040f320	pnVar4	desc		0040f365	HASH:5f16bd63cb:4
+0040f320	node_00	arg		0040f444	HASH:3f5d5097ee:4
+0040f320	pgVar5	prev		0040f444	HASH:79f028b1cb8:4
+0040f320	uVar6	saved_var_gpr_mask		0040f491	HASH:3f59f0d10e:2
+0040f320	pgVar7	next_arg		0040f444	HASH:79fa693660a:4
+0040f320	peVar10	operand		0040f3c1	ECX:4
+0040f320	bVar11	ea_kind		0040f3ae	DL:1
+0040f320	uVar12	callee_regs		0040f43b	BX:2
+0040f320	uStack_c	return_size
+0040f320	iStack_4	pushed_bytes
+0040f610	iVar1	arg_op		0040f63f	HASH:5f9ea1146f:1
+0040f610	node	arg		0040f63c	HASH:5f7bf5ae70:4
+0040f610	bVar3	ea_kind		0040f765	AL:1
+0040f610	sVar4	reg		0040f78a	AX:2
+0040f610	pnVar6	desc		0040f760	ECX:4
+0040f610	op	callee_ea		0040f693	EBX:4
+0040f610	pgVar7	arg_list		0040f625	EBP:4
+0040f610	op_00	result_ea		0040f733	HASH:79f3b39c457:4
+0040f610	local_6	result_mask
+0040f840	bVar3	found_pair		0040fa41	HASH:79fab886101:1
+0040f840	iVar4	arg_count		0040f84c	EAX:4
+0040f840	pgVar5	arg		0040f8d6	EAX:4
+0040f840	bVar7	fpu_kind		0040f9aa	CL:1
+0040f840	cVar8	pair_reg		0040fa32	CL:1
+0040f840	pnVar9	desc		0040fa68	EDX:4
+0040f840	uVar10	gpr_bit		0040f88a	BX:2
+0040f840	uVar11	fpr_bit		0040f8cc	BX:2
+0040f840	uVar12	free_fprs		0040f8ae	BP:2
+0040f840	uVar13	pair_mask		0040fa2e	DI:2
+0040f840	local_12	gprs_left
+0040f840	local_10	free_gprs
+0040f840	local_e	fprs_left
+0040f840	local_4	stacked_count
+0040faa0	bVar2	info_flags		0040fab1	HASH:5f7055f2a2:1
+0040faa0	iVar3	arg_count		0040fac8	EAX:4
+0040faa0	pgVar4	imm_arg		0040fad3	EAX:4
+0040fca0	bVar1	arg_type		0040fea6	AL:1
+0040fca0	iVar2	arg_index		0040fcbc	EAX:4
+0040fca0	pgVar3	arg		0040fd15	EAX:4
+0040fca0	pnVar4	desc		0040fd2f	EAX:4
+0040fca0	uVar5	next_i		0040fd3f	EAX:4
+0040fca0	uVar6	i		0040fd87	EAX:4
+0040fca0	bVar7	type_class		0040feaa	CL:1
+0040fca0	local_4	missing
+0040ff00	iVar3	arg_op		004101be	HASH:5fed923ab2:1
+0040ff00	pnVar4	desc		004100c6	HASH:5f41242d93:4
+0040ff00	bVar5	var_regs_narrowed		004104e2	HASH:79f49f1298d:1
+0040ff00	node	arg		004101c2	HASH:3fb4d2f574:4
+0040ff00	ptVar10	tmpl		004100f3	EAX:4
+0040ff00	iVar12	arg_count		00410191	EAX:4
+0040ff00	local_4	saved_var_gpr_mask
+00410890	cVar1	builtin_id		0041089b	HASH:5fca8ea1cd:1
+00410890	cVar2	first_class		0041094d	HASH:5fc5e11661:1
+00410890	plVar3	lab		00410bb9	HASH:5f97d7fe3e:4
+00410890	pnVar4	desc		00410cd7	HASH:5f5700e36f:4
+00410890	iVar6	sym_index		00410a0b	EAX:4
+00410890	iVar7	labno		00410bd0	EAX:4
+00410890	pgVar8	first_arg		00410d51	EAX:4
+00410890	pgVar9	second_arg		00410d74	EAX:4
+00410890	peVar10	operand		00410ded	EAX:4
+00410890	bVar11	ea_type		00410b58	CL:1
+00410eb0	sVar3	cpu		00410ffc	HASH:5f6fb180c7:2
+00410eb0	pnVar5	desc		00410eee	HASH:5f9ee3a7a8:4
+00410eb0	node	args		00410eb7	EDI:4
+004111e0	bVar1	node_type		0041120b	HASH:5ffcca3434:1
+004111e0	cVar2	handler_kind		0041122b	HASH:5f20dfbcd4:1
+004111e0	iVar3	node_op		004112d8	HASH:5ff3b38b77:1
+004111e0	ptVar5	tmpl		0041132d	EAX:4
+004111e0	local_8	unary_select
+004111e0	local_4	binary_select
+004113d0	cVar1	variant_flags		004113d8	HASH:5f29a6a38e:1
+004113d0	bVar2	failed		00411456	HASH:79f452ec3d3:1
+004113d0	bVar3	bit		0041145b	CL:1
+004113d0	cVar4	matched		004113ec	DL:1
+004113d0	uVar5	flag_bit		00411400	EBP:4
+004113d0	local_2	bits_set
+004113d0	local_1	variant_index
+004114e0	peVar1	copy		00411507	EAX:4
+004114e0	iVar2	steps		00411543	EAX:4
+004114e0	sVar5	i		00411504	DI:2
+00411690	peVar1	first		004116ed	EAX:4
+00411690	peVar2	second		00411733	EAX:4
+00411690	sVar3	i		004116ea	BP:2
+00411910	labno	negative_label		00411954	AX:2
+00411910	labno_00	end_label		00411967	AX:2
+00411910	peVar1	opnd		00411937	EAX:4
+00411910	sVar3	i		004119a5	BP:2
+00411910	iVar4	rotations		0041191e	EDI:4
+00411b40	peVar1	first		00411b47	EAX:4
+00411b40	peVar2	second		00411b8c	EAX:4
+00411c10	iVar1	size		00411c15	EAX:4
+00411c30	peVar1	opnd		00411c65	EAX:4
+00411c30	iVar2	n_out		00411c3f	EBP:4
+00411c30	iVar3	next_out		00411c5e	EBP:4
+00411c30	local_4	entry_count
+00411cb0	iVar1	n		00411cb6	ESI:4
+00411cd0	iVar1	count		00411cd1	EAX:4
+00411d00	iVar1	bits		00411dd9	HASH:41fe0cdc48d:4
+00411d00	bVar2	negate		00411dbc	HASH:79fec35242d:1
+00411d00	sVar3	shift_steps		00411e45	AX:2
+00411d00	peVar4	dst_copy		00411d50	EAX:4
+00411d00	peVar5	src_copy		00411d5e	EAX:4
+00411d00	iVar6	run_length		00411dcf	EAX:4
+00411d00	iVar8	cost		00411dbc	EDI:4
+00411d00	bVar9	wide		00411d08	CF:1
+00411d00	bVar10	negative		00411d20	SF:1
+00411fe0	local_c	macro_opnds
+00411fe0	local_4	entries_used
+00412200	iVar1	entries_used		0041221d	EAX:4
+00412200	peVar2	opnd		00412242	EAX:4
+00412200	peVar3	reg_copy		00412252	EAX:4
+00412200	local_8	macro_opnds
+00412390	uVar1	opnd_desc		00413512	HASH:5f171db112:4
+00412390	peVar7	opnd		004131ac	EAX:4
+00412390	pgVar8	target_node		00413588	EAX:4
+00412390	ptVar9	tmpl		004135a5	EAX:4
+00412390	uVar11	source_kind		0041351b	ECX:4
+00412390	uVar12	usage2_flag		004124ee	DX:2
+00412390	local_3a	saved_type
+00412390	local_39	size_code
+00412390	local_38	opnd0
+00412390	local_34	opnd1
+00412390	local_30	opnd2
+00412390	local_2c	opnd3
+00412390	local_28	opnd4
+00412390	local_24	opnd5
+00412390	local_20	opnd6
+00412390	local_18	left_node
+00412390	local_14	macro_opnds
+00412390	local_c	right_node
+00412390	local_8	parent_node
+00412390	local_4	second_code
+00413930	cVar1	reg		00413ace	HASH:5f5dc57b07:1
+00413930	peVar2	reg_opnd		00413ae3	EAX:4
+00413bf0	uVar1	saved_type		00413c42	HASH:5fde266679:1
+00413bf0	pnVar2	desc		00413bfe	HASH:5fbe7522e1:4
+00413bf0	ptVar3	tmpl		00413c71	EAX:4
+00413bf0	bVar4	ea_kind		00413c0c	DL:1
+00413bf0	local_1c	opnd0
+00413bf0	local_18	opnd1
+00413bf0	local_14	opnd2
+00413d00	ptVar1	tmpl		00413d49	EAX:4
+00413d00	local_1c	opnd0
+00413d00	local_18	opnd1
+00413d00	local_14	opnd2
+00413d80	reg	usage		00413d95	HASH:5f72908e17:1
+00413d80	pnVar1	desc		00413d8e	HASH:5f3412761b:4
+00413d80	peVar2	saved		00413e3a	HASH:5fa3b28681:4
+00413d80	ptVar4	tmpl		00413df9	EAX:4
+00413d80	bVar5	ea_kind		00413ee3	CL:1
+00413d80	bVar6	single_push		0041409b	ZF:1
+00413d80	index	new_index		00413ff0	HASH:79f7fb5bdf9:1
+00413d80	disp	new_disp		00413fc6	HASH:3f288ed8ad:4
+00413d80	labels	new_labels		00413fbb	HASH:3ffea229ed:4
+00413d80	local_20	opnd0
+00413d80	local_1c	opnd1
+00413d80	local_18	opnd2
+00413d80	local_14	opnd3
+00413d80	local_10	opnd4
+00413d80	local_c	opnd5
+00413d80	local_8	opnd6
+00413d80	local_4	push8
+004141b0	sVar1	label		004141d9	HASH:5fbcc1ffbc:2
+004141b0	pnVar2	desc		004141ba	HASH:5f66cff66c:4
+004141b0	iVar4	is_zero		004141ca	EAX:4
+004141b0	peVar5	label_opnd		004141e6	EAX:4
+004141b0	local_1d	false_op
+004141b0	local_1c	opnd0
+004141b0	local_18	opnd1
+004141b0	local_14	opnd2
+004141b0	local_10	opnd3
+004141b0	local_c	opnd4
+004141b0	local_8	opnd5
+004141b0	local_4	opnd6
+00414400	pnVar1	desc		0041440b	HASH:5f18823522:4
+00414400	ptVar2	tmpl		0041446f	HASH:5fa1225543:4
+00414400	sVar3	reg		00414565	AX:2
+00414400	iVar4	first		0041443c	EAX:4
+00414400	iVar8	step		00414437	EBX:4
+00414400	uVar9	reg_bit		0041453b	EBX:4
+00414400	uVar11	regs_left		00414549	DI:2
+00414400	n_00	addr_index		004144c7	HASH:79f962d8672:4
+00414400	local_21	saved_nested_emit
+00414400	local_1c	opnd0
+00414400	local_18	opnd1
+00414400	local_14	opnd2
+00414400	local_10	opnd3
+00414400	local_c	opnd4
+00414400	local_8	opnd5
+00414400	local_4	opnd6
+004146a0	peVar1	opnd2		0041471f	EAX:4
+004146a0	peVar2	opnd1		00414729	EAX:4
+004146a0	pgVar3	no_node		0041471c	HASH:3ff433f647:4
+004146a0	local_5	mac_size
+004146a0	local_4	right_saved
+004147f0	pnVar1	desc		0041481f	HASH:5f2e9324bc:4
+004147f0	sVar2	reg		00414847	AX:2
+004147f0	iVar3	i		004147fc	EAX:4
+004147f0	node_00	operand		0041481a	EAX:4
+004147f0	ptVar4	tmpl		004148b2	EAX:4
+004147f0	local_1c	slot_src
+004147f0	local_18	slot_reg
+00414900	plVar1	lab		00414df6	HASH:5fc1ce140d:4
+00414900	bVar3	type_class		00414d79	AL:1
+00414900	peVar6	opnd_a		004149a1	EAX:4
+00414900	peVar7	opnd_b		004149bc	EAX:4
+00414900	pgVar10	no_node		004149ad	HASH:3f08855633:4
+00414900	local_c	copied
+00414900	local_8	move_size
+00414900	local_4	copy_len
+00415030	pvVar1	block_size		00415103	HASH:5f74657291:4
+00415030	plVar2	lab		0041518a	HASH:5f4824a445:4
+00415030	pgVar3	right		0041503c	EAX:4
+00415030	iVar6	n		0041526a	EAX:4
+00415030	local_8	move_size
+00415460	cVar1	sclass		004154df	HASH:5f19316048:1
+00415460	uVar2	old_offset		004157a7	HASH:5f4a91054a:4
+00415460	iVar3	shift		004156b3	HASH:3f073c4751:4
+00415460	uVar6	obj_size		00415643	ESI:4
+00415460	psVar7	sym		004154d9	EDI:4
+00415460	local_14	rec_tags
+00415460	local_12	sym_no
+00415460	cStack_10	sect_kind
+00415460	cStack_f	unit_class
+00415460	local_c	elem_count
+00415460	local_8	sym_type
+00415460	local_4	zero_bytes
+00415920	uVar1	old_offset		0041593c	HASH:5fb9ea7dc3:4
+00415920	local_8	pad_rec
+00415920	local_4	pad_count
+00415cd0	iVar1	op		00415dc0	HASH:5f4c6e8d4a:1
+00415cd0	sVar2	status		00415d3f	AX:2
+00415cd0	pgVar3	node		00415d9d	EAX:4
+00415ec0	pgVar2	next_node		00416019	EAX:4
+004160f0	sVar2	reg		00416228	HASH:5f7254bc77:2
+004160f0	puVar3	next		004161b3	HASH:2053a9198d:4
+004160f0	puVar4	item		004161a0	HASH:79f1050d511:4
+004160f0	psVar8	entry_reg		00416228	EDX:4
+004160f0	uVar10	gpr_mask		0041623e	BX:2
+004160f0	uVar11	fpr_mask		00416259	SI:2
+004160f0	iVar12	ofs		00416196	EDI:4
+00416410	puVar1	blk		00416436	HASH:79fd1b649cf:4
+00416410	sVar3	param_sym		0041641e	SI:2
+00416410	iVar4	found		00416425	EDI:4
+00416480	sVar1	entry_id		00416489	HASH:5f41e84a76:2
+00416480	iVar2	is_param		004164c2	EAX:4
+00416480	iVar3	ofs		00416493	EBX:4
+00416480	iVar4	i		004164ae	ESI:4
+00416480	psVar5	entry		004164de	EDI:4
+004164f0	sVar1	entry_id		00416549	HASH:79ff50af8c6:2
+004164f0	uVar2	count		00416757	HASH:5f21a444c7:2
+004164f0	puVar3	next		0041658d	HASH:205860d035:4
+004164f0	puVar4	item		0041657a	HASH:79f9bdbcc5f:4
+004164f0	uVar5	got		004165c8	EAX:4
+004164f0	pvVar6	array		00416773	EAX:4
+004164f0	prVar7	ranges		004167e4	EAX:4
+004164f0	puVar8	entry		004165ac	ESI:4
+004164f0	buf_00	next_entry		004167e1	ESI:4
+004164f0	local_5	flag_byte
+004164f0	local_4	trailer
+004164f0	local_2	header
+00416890	prVar1	cur		00416913	HASH:79f8286b922:4
+00416890	uVar2	got		004168a7	EAX:4
+00416890	prVar3	new_range		0041696f	EAX:4
+00416890	prVar4	list		004168a0	ESI:4
+00416890	iVar5	msg		004168be	HASH:3f8e807f6f:4
+00416890	local_a	remaining
+00416890	local_8	range_start
+00416890	local_4	range_end
+004169b0	bVar1	limited_reg_args		00416ad9	HASH:79fc36423e5:1
+004169b0	iVar6	sym_index		00416b9a	EAX:4
+004169b0	iVar7	pair_free		00416bcd	EAX:4
+004169b0	bVar8	fpu_mode		00416d6c	CL:1
+004169b0	local_11	reg_args_left
+004169b0	local_10	gpr_used
+004169b0	local_e	slot_no
+004169b0	local_c	fpr_used
+004169b0	local_a	param_symno
+00417000	cVar1	base_reg		0041756a	HASH:5f714fd627:1
+00417000	bVar2	fpu_mode		0041716b	AL:1
+00417000	uVar5	home_reg		00417451	AL:1
+00417000	psVar11	symno_ptr		0041751d	EBX:4
+00417630	iVar1	found		00417631	EAX:4
+00417630	iVar2	range_end		00417634	EBX:4
+00417630	iVar3	pair_reg		00417696	EBX:4
+004176b0	sVar1	entry_symno		00417714	HASH:5f0703880a:2
+004176b0	puVar2	blk		00417702	HASH:5fae4242c9:4
+004176b0	psVar3	sym		0041773c	HASH:27f8bd83c6a:4
+004176b0	uVar4	saved_gpr_mask		004176b0	HASH:3f446735d0:2
+004176b0	uVar5	saved_fpr_mask		004176b0	HASH:3f1500a476:2
+004176b0	bVar6	fpu_mode		004178ab	AL:1
+004176b0	iVar8	sym_index		00417814	EAX:4
+004176b0	bVar9	sym_type		0041774c	CL:1
+004176b0	local_e	slot_no
+00417aa0	bVar3	fpu_mode		00417bf9	AL:1
+00417aa0	psVar4	scan		00417ad8	EAX:4
+00417aa0	iVar6	ofs		00417aa9	ESI:4
+00417aa0	iVar7	i		00417aab	EDI:4
+00417c50	puVar1	regs_ptr		00417d6d	HASH:27f05de0b2f:4
+00417c50	iVar2	grand_op		00417c7a	HASH:5fc72f55fd:1
+00417c50	pnVar3	desc		00417ce3	HASH:5f659b7c78:4
+00417c50	sVar4	same		00417de7	AX:2
+00417c50	iVar5	kind		00417c5e	EAX:4
+00417c50	peVar8	src_value		00417d1e	EBX:4
+00417ed0	puVar1	regs_ptr		0041811d	HASH:27f86fca4fb:4
+00417ed0	puVar2	flags_ptr		004181fe	HASH:27fd29728de:4
+00417ed0	pgVar3	parent		00417f84	HASH:5f2750c5dc:4
+00417ed0	pnVar4	desc		00417fcc	HASH:5f50f54ff2:4
+00417ed0	bVar6	kind		00418174	AL:1
+00417ed0	sVar7	result		00417fa1	AX:2
+00417ed0	sVar8	reg		004180b6	AX:2
+00417ed0	iVar9	too_long		00417fbc	EAX:4
+00417ed0	uVar11	fold_flags		00417ed4	EBP:4
+00418240	iVar1	too_long		00418241	EAX:4
+00418240	iVar2	count		0041826d	EAX:4
+004182a0	iVar1	count		004182a0	EAX:4
+004182f0	bVar1	type		004182f9	HASH:5fb96afac0:1
+004182f0	sVar2	ok		004182f0	AX:2
+004182f0	bVar3	basic		00418317	CL:1
+004182f0	bVar4	category		004182fe	DL:1
+00418360	bVar1	access_type		0041841e	HASH:5fa89451b5:1
+00418360	pnVar2	desc		00418379	HASH:5f8c19c8b3:4
+00418360	iVar3	offset		0041837c	HASH:5f0e113969:4
+00418360	bVar4	walking		004183cb	HASH:79fe408f52c:1
+00418360	bVar5	under_aster		004183d7	HASH:79f1a59c06b:1
+00418360	sVar7	ok		00418497	AX:2
+00418510	iVar1	op		0041858d	HASH:5f8f1309b7:1
+00418510	iVar2	offset		0041857c	HASH:5f9d56c558:4
+00418510	ptVar3	tmpl		004185ca	HASH:5f629fa5c3:4
+00418510	pnVar4	desc		004186ee	HASH:5f6a98c6f5:4
+00418510	bVar5	use_r0		004186c1	HASH:79fa9538a09:1
+00418510	pgVar11	base_node		0041853c	ESI:4
+00418510	node_00	r0_node		0041853c	EDI:4
+004187b0	puVar1	regs_ptr		00418a0e	HASH:27f97d23bcf:4
+004187b0	piVar2	disp_ptr		00418ad8	HASH:27f01d76ef0:4
+004187b0	puVar3	flags_ptr		004191bb	HASH:27fa66d1997:4
+004187b0	iVar4	op		00418ded	HASH:5fd53d8954:1
+004187b0	pnVar5	desc		004187e2	HASH:5fe3d1163c:4
+004187b0	iVar6	left_disp		00418d7c	HASH:5f91d9145b:4
+004187b0	pgVar7	grandparent		00418dea	HASH:5f89f55c99:4
+004187b0	ptVar8	tmpl		00418e13	HASH:5ff45bdda8:4
+004187b0	sVar10	reg		004188e0	AX:2
+004187b0	ppnVar13	desc_ref		00418971	EAX:4
+004187b0	plVar15	merged_labels		004192b7	EAX:4
+004187b0	peVar17	value_ea		00418c50	ECX:4
+004187b0	local_1a	left_class
+004187b0	local_18	right_class
+004187b0	local_16	fold_result
+004187b0	local_c	const_class
+004187b0	local_8	const_node
+004187b0	local_4	saved_content_hit
+00419570	piVar1	disp_ptr		004196c7	HASH:27fe99a7722:4
+00419570	pnVar2	left_desc		0041959d	HASH:5fa6aa9d51:4
+00419570	iVar3	right_disp		00419712	HASH:5fad514ee1:4
+00419570	uVar4	left_class		00419583	EAX:4
+00419570	uVar5	right_class		00419595	EAX:4
+00419570	plVar6	merged_labels		00419786	EAX:4
+00419570	bVar9	kind		004195b0	DL:1
+00419570	peVar10	right_ea		004195f9	EDI:4
+00419570	local_2	fold_result
+004197f0	pnVar1	desc		004197fb	HASH:5f56d69594:4
+004197f0	bVar5	ea_type		00419809	CL:1
+004197f0	bVar6	kind		0041982d	CL:1
+004197f0	peVar7	operand_ea		0041981c	ESI:4
+00419910	plVar1	merged		0041992d	EAX:4
+00419910	plVar3	prev		00419a7f	ECX:4
+00419910	plVar4	cur		00419af6	ECX:4
+00419d00	cVar1	reg		00419d6c	HASH:5f49a536df:1
+00419d00	peVar2	mem_operand		00419d3f	HASH:5f46e2bb99:4
+00419d00	iVar3	code_size		00419d0f	EAX:4
+00419d00	pcVar4	reg_ptr		00419d61	EAX:4
+00419d00	uVar5	written		00419dde	EAX:4
+00419d00	local_c	out_op
+00419d00	local_b	out_size
+00419d00	local_a	out_flg
+00419d00	local_9	out_misc
+00419e10	peVar1	mem_operand		00419e42	HASH:5f91ee7be4:4
+00419e10	iVar2	code_size		00419e1f	EAX:4
+00419e10	uVar3	written		00419e8a	EAX:4
+00419e10	local_c	out_op
+00419e10	local_b	out_size
+00419e10	local_a	out_flg
+00419ec0	peVar1	imm		00419f0a	HASH:5f81368588:4
+00419ec0	plVar2	lab		00419f2b	HASH:5f81e88f21:4
+00419ec0	local_104	nlabels
+00419ec0	local_100	out_buf
+00419ec0	local_fe	out_flg
+0041a060	peVar1	target		0041a11e	HASH:5f35620bc8:4
+0041a060	plVar2	lab		0041a143	HASH:5faa37075b:4
+0041a060	local_104	nlabels
+0041a060	local_100	out_buf
+0041a270	peVar1	target		0041a2b2	HASH:5ff54968a6:4
+0041a270	plVar2	lab		0041a2e2	HASH:5fc26eed7b:4
+0041a270	local_104	nlabels
+0041a270	local_100	out_buf
+0041a460	uVar1	written		0041a489	EAX:4
+0041a460	local_4	out_op
+0041a4b0	iVar1	code_size		0041a4bf	EAX:4
+0041a4b0	uVar2	written		0041a54d	EAX:4
+0041a4b0	local_14	out_op
+0041a4b0	local_13	out_size
+0041a580	iVar1	table_bytes		0041a58d	EAX:4
+0041a580	uVar2	written		0041a5e1	EAX:4
+0041a580	local_c	out_op
+0041a610	iVar1	code_size		0041a61f	EAX:4
+0041a610	uVar2	written		0041a672	EAX:4
+0041a610	local_c	out_op
+0041a610	local_b	out_size
+0041a610	local_6	out_pool_size
+0041a610	local_4	out_flg
+0041a6a0	iVar1	code_size		0041a6ae	EAX:4
+0041a6a0	uVar2	written		0041a6c8	EAX:4
+0041a6a0	local_2	out_op
+0041a6a0	local_1	out_size
+0041a6f0	iVar1	code_size		0041a6fe	EAX:4
+0041a6f0	uVar2	written		0041a748	EAX:4
+0041a6f0	local_8	out_op
+0041a6f0	local_7	out_size
+0041a6f0	local_2	out_pool_size
+0041a770	uVar1	written		0041a7c7	EAX:4
+0041a770	local_c	out_op
+0041a7f0	iVar1	code_size		0041a805	EAX:4
+0041a7f0	uVar2	written		0041a828	EAX:4
+0041a7f0	local_100	out_op
+0041a7f0	local_ff	out_size
+0041a7f0	local_fe	out_flg
+0041a8e0	pFVar1	opened		0041aa98	EAX:4
+0041a8e0	iVar2	n		0041a93e	ECX:4
+0041a8e0	puVar3	word_ptr		0041a943	EDI:4
+0041ade0	uVar1	sign		0041adef	HASH:3ff0003f4c7:2
+0041ade0	psVar2	entry		0041ae00	ECX:4
+0041ade0	sVar3	reg		0041ae17	DX:2
+0041ae20	iVar1	first_link		0041ae59	HASH:5f65601810:4
+0041ae20	piVar2	blk		0041ae5d	HASH:79f67d7a7d4:4
+0041ae20	iVar3	link		0041ae61	HASH:5f99e12852:4
+0041ae20	bVar4	stored		0041ae8f	HASH:79f4dceb171:1
+0041ae20	piVar5	slot_ptr		0041ae6e	EAX:4
+0041ae20	pvVar6	new_blk		0041ae95	EAX:4
+0041ae20	uVar7	i		0041ae6c	ECX:4
+0041ae20	psVar8	entry		0041ae3b	ESI:4
+0041abe0	uVar1	saved_fpr_mask		0041abe0	HASH:3f4a704106:2
+0041abe0	uVar2	saved_gpr_mask		0041abe0	HASH:3f4ef201fe:2
+0041abe0	bVar3	has_fpu		0041ad6e	AL:1
+0041abe0	sVar4	reg		0041ac6f	AX:2
+0041abe0	iVar5	ofs		0041acc9	EAX:4
+0041aed0	puVar1	flags_ptr		0041af38	HASH:27fc8548138:4
+0041aed0	bVar2	has_fpu		0041af14	AL:1
+0041aed0	pgVar3	right		0041af77	EAX:4
+0041aed0	pgVar4	operand		0041aff0	EAX:4
+0041aed0	bVar5	type_class		0041aee0	DL:1
+0041b070	puVar1	flags_ptr		0041b25f	HASH:27f683b5c3f:4
+0041b070	puVar2	mask_ptr		0041b2e1	HASH:27f88ce80a0:4
+0041b070	iVar3	op		0041b1a3	HASH:5fa94256e1:1
+0041b070	uVar6	lreg_sign		0041b810	HASH:3ff55003919:2
+0041b070	bVar7	has_parent_desc		0041b1ce	HASH:4bf8bc0bd85:1
+0041b070	bVar8	contains_call		0041b732	HASH:79fcc2fb0fa:1
+0041b070	pnVar10	desc		0041b105	EAX:4
+0041b070	pgVar14	operand		0041b597	EAX:4
+0041b070	pgVar15	second_arg		0041b5bc	EAX:4
+0041b070	pgVar16	child		0041b8a4	EAX:4
+0041b070	cVar17	parent_usage		0041b1ce	CL:1
+0041b070	psVar19	lreg_row		0041b0a9	ECX:4
+0041b070	ppuVar20	name_entry		0041b533	ECX:4
+0041b070	iVar21	cmp		0041b55b	EDX:4
+0041b070	pbVar24	builtin_chars		0041b554	EBX:4
+0041b070	pbVar25	suffix_chars		0041b551	EDI:4
+0041ba90	psVar1	slot		0041ba9e	EBX:4
+0041ba90	uVar2	i		0041ba9c	EDI:4
+0041bae0	prVar1	prev		0041bb44	HASH:79f429c6530:4
+0041bae0	prVar2	next_range		0041bb44	HASH:79f09cf51fe:4
+0041bae0	iVar3	reg		0041bb24	EAX:4
+0041bae0	uVar5	bit		0041bb19	DI:2
+0041bae0	local_2	reg_no
+0041bc70	prVar1	new_range		0041bd51	EAX:4
+0041bc70	prVar2	tail		0041bd71	EAX:4
+0041bc70	uVar3	bit		0041bc9e	SI:2
+0041bc70	sVar4	reg		0041bd8e	DI:2
+0041bda0	prVar1	prev		0041be53	HASH:5f5acf83ef:4
+0041bda0	prVar2	range		0041bde5	HASH:3fe90f7763:4
+0041bda0	iVar3	index		0041bdc4	ECX:4
+0041bda0	prVar4	rest		0041be4b	EDX:4
+0041be70	peVar1	opnd_ea		0041be78	HASH:5f9538f0d2:4
+0041be70	pnVar2	desc		0041bed4	HASH:5f75f28f44:4
+0041be70	node_00	child		0041bf42	HASH:5f6f2c6baa:4
+0041be70	bVar3	ea_kind		0041beda	CL:1
+0041bfb0	bVar1	found		0041bfec	HASH:79fe21d21bd:1
+0041bfb0	pdVar2	entry		0041bff0	EDX:4
+0041c000	uVar1	lreg_sign		0041c039	HASH:3ff61571e17:2
+0041c000	pdVar2	found		0041c010	EAX:4
+0041c000	pdVar3	entry		0041c048	EDI:4
+0041c070	pgVar1	sum		0041c075	HASH:5f3a18f35d:4
+0041c070	iVar2	shape		0041c08e	EAX:4
+0041c070	pgVar3	base		0041c0ab	EAX:4
+0041c0e0	iVar1	op		0041c0f0	HASH:5f798f28ed:1
+0041c0e0	iVar2	shape		0041c115	EAX:4
+0041c120	sVar1	next_low		0041c14b	HASH:12379f14ae31e8:2
+0041c120	sVar2	high		0041c130	AX:2
+0041c120	sVar3	low_bit		0041c178	AX:2
+0041c120	sVar4	bit		0041c120	DX:2
+0041c120	sVar5	nbits		0041c14b	SI:2
+0041c120	sVar6	next_high		0041c14b	DI:2
+0041c180	bVar1	found		0041c18e	HASH:79f951c17f0:1
+0041c180	sVar2	pos		0041c180	AX:2
+0041c180	sVar3	bit		0041c185	DX:2
+0041c1b0	sVar1	shift		0041c1b6	AX:2
+0041c200	puVar1	mask_ptr		0041cdb8	HASH:27f4c8b91e8:4
+0041c200	puVar2	flags_ptr		0041cdbf	HASH:27fce794a5d:4
+0041c200	node_00	parent		0041cb45	HASH:5f8dd20fd8:4
+0041c200	bVar3	fill_constant		0041c675	HASH:79fb2c2c26a:1
+0041c200	pnVar7	desc		0041c96e	EAX:4
+0041c200	plVar9	labels		0041cd5f	EAX:4
+0041c200	cVar10	top_bit		0041c967	CL:1
+0041c200	uVar11	selector		0041c23d	ECX:4
+0041c200	cVar12	width		0041c96c	DL:1
+0041c200	peVar13	source		0041c418	EDX:4
+0041c200	peVar14	result		0041c230	ESI:4
+0041c200	local_8	ea_type
+0041c200	local_7	ea_base
+0041c200	local_4	ea_labels
+0041ced0	pgVar1	left		0041cedd	HASH:5febbb121f:4
+0041ced0	sVar2	shift		0041cf01	AX:2
+0041ced0	pgVar3	right		0041ced7	EAX:4
+0041ced0	bVar4	type_class		0041cf4b	CL:1
+0041cfa0	pnVar1	desc		0041cfa7	HASH:5f17d89eb1:4
+0041d050	iVar1	size_class		0041d05d	EAX:4
+0041d080	bVar1	type_bits		0041d09d	AL:1
+0041d1a0	iVar1	op		0041d1b9	HASH:5f4c9fb092:1
+0041d1a0	uVar2	div_mode		0041d579	HASH:5f1f8c6bda:1
+0041d1a0	pgVar3	left		0041d1aa	HASH:5ffa4de301:4
+0041d1a0	pnVar4	desc		0041d9df	HASH:5f06435a78:4
+0041d1a0	bVar5	type_class		0041d4cc	CL:1
+0041d1a0	bVar6	type_bits		0041d9b4	CL:1
+0041d1a0	peVar7	right_ea		0041da35	ECX:4
+0041d1a0	peVar8	left_ea		0041da05	EDX:4
+0041d1a0	pgVar9	right		0041d1ad	EDI:4
+0041db10	cVar1	builtin_id		0041dc94	HASH:5f8275bee8:1
+0041db10	bVar2	is_unsigned		0041dd5b	HASH:79f27a0fe20:1
+0041db10	bVar3	type_bits		0041dd28	AL:1
+0041db10	uVar4	size_code		0041dd5b	AL:1
+0041db10	pgVar7	right		0041db18	EBX:4
+0041db10	pgVar8	operand		0041dd5b	HASH:79ff02fa5eb:4
+0041e150	plVar1	next_ref		0041e161	HASH:5f89b03e83:4
+0041e190	puVar1	second_regs		0041e251	EDX:4
+0041e190	puVar2	first_count		0041e206	EBP:4
+0041e190	uVar3	slot_mask		0041e22a	SI:2
+0041e190	puVar4	second_count		0041e23b	EDI:4
+0041e190	local_4	first_regs
+0041e280	ptVar1	tmpl		0041e329	HASH:5f2646a172:4
+0041e280	bVar2	addr_moved		0041e5b1	HASH:79f92a1f76e:1
+0041e280	uVar5	taken		0041e5d8	AX:2
+0041e280	uVar6	ea_mask		0041e2ac	EAX:4
+0041e280	iVar7	n_free		0041e62d	EAX:4
+0041e280	uVar9	right_excluded		0041e662	BP:2
+0041e280	bVar10	saved_conflict		0041e475	ZF:1
+0041e280	local_1e	right_ftemp
+0041e280	local_1c	addr_reloaded
+0041e280	local_1a	right_fregs
+0041e280	local_18	tmpl_spill
+0041e280	local_16	left_fregs
+0041e280	local_14	right_temp
+0041e280	local_12	left_regs
+0041e280	local_10	tmpl_left_fexcl
+0041e280	local_e	tmpl_right_fexcl
+0041e280	local_c	moved
+0041e280	local_a	left_saved_regs
+0041e280	local_8	right_regs
+0041e280	local_6	tmpl_excluded
+0041e720	iVar1	n		0041e728	EAX:4
+0041e720	iVar2	bit		0041e721	ECX:4
+0041e740	puVar1	mask_ptr		0041e8c5	HASH:27f4de7d533:4
+0041e740	puVar2	flags_ptr		0041e906	HASH:27f4e9e2b19:4
+0041e740	pnVar3	desc		0041e76e	HASH:5f423cde80:4
+0041e740	iVar4	low		0041e92b	HASH:5f5471178d:4
+0041e740	uVar5	mask32		0041e74c	EAX:4
+0041e740	piVar9	frame_field		0041e77c	EDX:4
+0041e740	uVar10	keep_regs		0041e829	BX:2
+0041e740	uVar11	xfer_excluded		0041e782	BP:2
+0041e740	node_00	moved		0041e83c	ESI:4
+0041e740	local_2	new_reg
+0041e9e0	puVar1	mask_ptr		0041eb6e	HASH:27fbd9aefc0:4
+0041e9e0	puVar2	flags_ptr		0041ebb3	HASH:27f5ea5edb4:4
+0041e9e0	pnVar3	desc		0041ea0c	HASH:5f41cd3be6:4
+0041e9e0	iVar4	low		0041ebd8	HASH:5f9ddfafcf:4
+0041e9e0	sVar5	new_reg		0041eac9	AX:2
+0041e9e0	uVar6	mask32		0041e9ec	EAX:4
+0041e9e0	bVar7	ea_kind		0041ea63	CL:1
+0041e9e0	piVar8	frame_field		0041ea2c	ECX:4
+0041e9e0	local_8	other_opnd
+0041e9e0	local_4	xfer_excluded
+0041ec90	puVar1	mask_ptr		0041edbf	HASH:27ffc00b080:4
+0041ec90	puVar2	flags_ptr		0041ee78	HASH:27f28357879:4
+0041ec90	uVar3	right_reused		0041ed12	HASH:5fef88a608:2
+0041ec90	pnVar4	desc		0041ecaa	HASH:5fe8e71622:4
+0041ec90	iVar5	low		0041ee50	HASH:5f10d5337a:4
+0041ec90	bVar6	lower_top		0041ee21	HASH:79fe9b17f64:1
+0041ec90	uVar7	value_regs		0041ecb2	AX:2
+0041ec90	uVar8	result_excl		0041ecfa	AX:2
+0041ec90	sVar9	new_reg		0041ed39	AX:2
+0041ec90	uVar10	mask32		0041eca5	EAX:4
+0041ec90	uVar12	excl32		0041ecf5	EAX:4
+0041ec90	piVar13	frame_field		0041ee4d	EAX:4
+0041ec90	bVar14	ea_kind		0041ecc5	CL:1
+0041ec90	uVar15	new_mask		0041edbc	SI:2
+0041eef0	puVar1	mask_ptr		0041f03d	HASH:27f73e0a7dd:4
+0041eef0	puVar2	flags_ptr		0041f108	HASH:27f1eccdb5b:4
+0041eef0	pnVar3	desc		0041ef2f	HASH:5f3b4a1ff7:4
+0041eef0	bVar4	ea_kind		0041ef42	AL:1
+0041eef0	uVar6	xfer_excluded		0041efb3	AX:2
+0041eef0	uVar7	mask32		0041ef22	EAX:4
+0041eef0	piVar10	frame_field		0041f11b	EAX:4
+0041eef0	uVar11	right_reused		0041efa6	BP:2
+0041eef0	uVar12	new_mask		0041f070	SI:2
+0041eef0	local_a	saved_value_regs
+0041eef0	local_8	right_temp
+0041eef0	local_6	new_reg
+0041f1a0	pnVar1	desc		0041f1e9	HASH:5f44edd218:4
+0041f1a0	iVar2	uses_stack		0041f1a1	EAX:4
+0041f1a0	pgVar3	operand		0041f1e9	ECX:4
+0041f220	puVar1	mask_ptr		0041f38b	HASH:27f1cd364f3:4
+0041f220	pnVar2	desc		0041f230	HASH:5f9043257a:4
+0041f220	bVar3	ea_kind		0041f23e	AL:1
+0041f220	sVar4	new_reg		0041f321	AX:2
+0041f220	uVar5	excl32		0041f26a	EAX:4
+0041f220	uVar6	mask32		0041f2f5	EAX:4
+0041f220	uVar9	right_regs		0041f2fa	BP:2
+0041f220	local_2	saved_value_regs
+0041f450	puVar1	flags_ptr		0041f56c	HASH:27f4f6d42b6:4
+0041f450	bVar2	bank_count		0041f534	HASH:5f555127bc:1
+0041f450	pnVar3	desc		0041f4d4	HASH:5ff1ad9028:4
+0041f450	pnVar4	next_desc		0041f4d7	HASH:5f1d83f32b:4
+0041f450	iVar6	pos		0041f465	EAX:4
+0041f450	pgVar7	arg		0041f4bf	EAX:4
+0041f450	uVar8	mask32		0041f53d	EAX:4
+0041f450	uVar9	later_ftemp		0041f4e8	DI:2
+0041f450	local_e	later_temp
+0041f450	local_c	later_reused
+0041f450	local_a	earlier_target
+0041f450	local_8	later_freused
+0041f450	local_6	earlier_ftarget
+0041f450	local_4	stop_pos
+0041f6a0	puVar1	mask_ptr		0041f83f	HASH:27f20fea52f:4
+0041f6a0	uVar2	list_busy		0041f6b4	HASH:5f8281509a:2
+0041f6a0	pnVar3	next_desc		0041f729	HASH:5fabc7288e:4
+0041f6a0	iVar4	low		0041f7dc	HASH:5fdf831b3d:4
+0041f6a0	uVar5	xfer_excluded		0041f77d	AX:2
+0041f6a0	uVar6	value_regs		0041f6cd	EAX:4
+0041f6a0	iVar7	pos		0041f6f9	EAX:4
+0041f6a0	pgVar8	arg		0041f714	EAX:4
+0041f6a0	piVar9	frame_field		0041f7d9	ECX:4
+0041f6a0	uVar10	new_mask		0041f83c	DX:2
+0041f6a0	uVar11	arg_regs		0041f6da	DI:2
+0041f6a0	local_c	new_reg
+0041f6a0	local_a	later_reused
+0041f8d0	puVar1	flags_ptr		0041f9fc	HASH:27f23875b05:4
+0041f8d0	cVar2	node_pr		0041f9ca	HASH:5fbbfcecc7:1
+0041f8d0	uVar3	left_temp		0041f906	HASH:5ff7b6f080:2
+0041f8d0	pnVar4	left_desc		0041f900	HASH:5fee88e7ab:4
+0041f8d0	pnVar5	right_desc		0041f903	HASH:5f0ce241c8:4
+0041f8d0	bVar6	ea_kind		0041f983	AL:1
+0041f8d0	uVar7	shared		0041f956	AX:2
+0041f8d0	uVar8	right_regs		0041f9a1	EAX:4
+0041f8d0	local_6	swapped
+0041fa30	sVar1	rank_holder		0041fb6d	HASH:5fb703ad07:2
+0041fa30	bVar2	chosen		0041fbef	HASH:3febfd9a25:1
+0041fa30	uVar3	mask		0041fa3f	AX:2
+0041fa30	sVar4	reg		0041fa5b	AX:2
+0041fa30	sVar5	scan_last		0041faaf	AX:2
+0041fa30	sVar6	rank		0041fb2e	AX:2
+0041fa30	uVar7	extra_excluded		0041fa4b	CX:2
+0041fa30	iVar8	slot		0041fa5e	ECX:4
+0041fa30	sVar9	scan_step		0041fab7	SI:2
+0041fa30	local_10	pass
+0041fc40	sVar1	rank_holder		0041fd2b	HASH:5f0941c59e:2
+0041fc40	uVar2	mask		0041fc49	AX:2
+0041fc40	sVar3	reg		0041fc54	AX:2
+0041fc40	sVar4	scan_last		0041fc94	AX:2
+0041fc40	sVar5	rank		0041fcee	AX:2
+0041fc40	iVar6	slot		0041fc60	EDX:4
+0041fc40	bVar7	chosen		0041fda7	BL:1
+0041fc40	sVar8	best		0041fc77	BX:2
+0041fc40	sVar9	next_best		0041fd51	BX:2
+0041fc40	local_10	scan_step
+0041fde0	sVar1	rank_holder		0041fedc	HASH:5f3cf3b2b8:2
+0041fde0	cVar2	chosen		0041ff70	HASH:3fac0a05b7:1
+0041fde0	uVar3	mask		0041fdef	AX:2
+0041fde0	sVar4	reg		0041fe00	AX:2
+0041fde0	sVar5	scan_last		0041fe32	AX:2
+0041fde0	sVar6	rank		0041fe9d	AX:2
+0041fde0	sVar8	scan_step		0041fe36	SI:2
+0041fde0	local_10	pass
+0041ffd0	sVar1	rank		0042006d	AX:2
+0041ffd0	uVar2	bit		0041ffdc	EDX:4
+0041ffd0	iVar3	reg_id		0042001f	EDI:4
+00420080	sVar1	high_reg		00420096	HASH:27fda2bbb12:2
+00420080	sVar2	rank		0042013a	AX:2
+00420140	piVar2	frame_field		004201b9	EAX:4
+00420140	uVar3	sign		00420148	EDX:4
+004201e0	prVar1	section		004201f1	ESI:4
+00420220	bVar2	use_compare_chain		0042034f	HASH:79fc2ac4259:1
+00420220	sVar3	saved_break_label		00420220	HASH:10303fbad74a7a:2
+00420220	sVar4	default_label		004202d8	HASH:3fc9fff782:2
+00420220	sVar5	saved_case_label		00420220	HASH:12303fbad74a7a:2
+00420220	pgVar7	selector		00420259	EAX:4
+00420220	prVar9	swi_entry		00420572	EAX:4
+00420220	uVar10	case_range		004202f1	ECX:4
+00420600	uVar2	nread		00420684	EAX:4
+00420600	piVar3	case_rec		004207ce	EAX:4
+00420600	iVar4	msg_no		00420830	HASH:3ff1fa6e72:4
+00420600	local_12	case_label
+00420600	local_10	buf
+00420600	local_8	swi_offset
+00420600	local_4	case_value
+004208f0	piVar1	case_rec		0042091f	HASH:79f4887b07c:4
+004208f0	sVar2	remaining		0042091f	HASH:79f5bf75cd0:2
+004208f0	peVar3	ea1		00420936	EAX:4
+004208f0	uVar5	used_regs		0042096a	SI:2
+00420b40	piVar1	cur_case		00420bd8	HASH:3fbba4239c:4
+00420b40	piVar2	prev_case		00420bd8	HASH:79f2ba36cd6:4
+00420b40	piVar3	next_case		00420bd8	HASH:79f0d560d28:4
+00420b40	iVar4	value		00420bdc	EBX:4
+00420b40	sVar5	remaining		00420c1c	DI:2
+00420c50	sVar1	equal		00420c7e	AX:2
+00420ca0	sVar1	labels_equal		00420cf0	AX:2
+00420ca0	sVar2	equal		00420d01	SI:2
+00420d10	peVar1	opnd		00420d82	HASH:5f588bf78d:4
+00420d10	bVar2	size_code		00420d5f	AL:1
+00420d10	iVar3	nbytes		00420d82	ECX:4
+00420e10	pbVar1	bit_byte		004212f0	HASH:41011ba22b:4
+00420e10	plVar2	labels		004212a2	HASH:5fc0ade0cf:4
+00420e10	bVar6	dst_kind		0042106e	CL:1
+00421410	bVar1	type_bits		0042143a	DL:1
+004214f0	puVar1	flags_ptr		00421548	HASH:27fa32b7b67:4
+004214f0	puVar2	mask_ptr		00421558	HASH:27f32bb938e:4
+004214f0	uVar3	done_freused		00421837	HASH:39f88d29af8:2
+004214f0	uVar4	opnd_ftemp		0042183b	HASH:5f63dd6484:2
+004214f0	iVar5	low		00421597	HASH:5ff29e6882:4
+004214f0	pnVar6	desc		00421687	HASH:5f9d748644:4
+004214f0	sVar7	new_reg		0042160e	AX:2
+004214f0	uVar8	mask32		0042152e	EAX:4
+004214f0	piVar12	frame_field		00421594	EDX:4
+004214f0	ppgVar14	opnd_ptr		00421525	EDI:4
+004214f0	pgVar15	opnd		004216a0	HASH:7bfe0bbe0cd:4
+004214f0	local_1a	macro
+004214f0	local_14	done_temp
+004214f0	local_10	busy32
+004214f0	local_c	xfer_dst
+004214f0	local_4	i
+00421890	puVar1	flags_ptr		0042198b	HASH:27fa5cb8345:4
+00421890	puVar2	mask_ptr		00421c40	HASH:27fd35b1688:4
+00421890	pnVar3	desc		00421a33	HASH:5f5f39f251:4
+00421890	bVar4	mul_is_right		004218d2	HASH:79f75450783:1
+00421890	pgVar5	final_slot		00421c1f	HASH:3f8aed4c0d:4
+00421890	sVar8	reg		00421d71	AX:2
+00421890	uVar9	mask32		00421a66	EAX:4
+00421890	peVar10	opnd_ea		00421a58	ECX:4
+00421890	ppgVar11	opnd_ptr		00421a83	EBP:4
+00421890	ppgVar13	next_ptr		004219a2	EDI:4
+00421890	local_1c	live_regs
+00421890	local_18	addend
+00421890	local_10	operands
+00421890	local_4	addend_slot
+00421e00	sVar1	bit_pos		00421e4b	AX:2
+00421e00	iVar2	fits		00421e02	ESI:4
+00421e00	piVar3	val_ptr		00421e43	EDI:4
+00421ea0	bVar1	right_type		00421fa6	HASH:5ff3ad989d:1
+00421ea0	node_00	left		00421eab	HASH:5feaa7e062:4
+00421ea0	bVar2	right_narrow		00421f0a	HASH:79f7f328d16:1
+00421ea0	bVar3	left_narrow		00421eea	HASH:79f7934db3e:1
+00421ea0	bVar4	type_bits		00421ed4	AL:1
+00421ea0	iVar5	right_unsigned		00421f47	EAX:4
+00421ea0	pgVar7	left_inner		00421eea	EDI:4
+00421ea0	local_10	right_opnd
+00421ea0	local_c	right_inner
+00421ea0	local_8	left_unsigned
+004220a0	puVar1	save		004220a2	EAX:4
+00422100	prVar1	src_file		0042211f	ECX:4
+00422180	puVar1	flag_byte		004222e1	HASH:27f6c6e6461:4
+00422180	iVar2	op		0042222b	HASH:5f3357c2e1:1
+00422180	ptVar3	tmpl		00422250	HASH:5f121960cf:4
+00422180	pnVar4	desc		004222e4	HASH:5f1ebc8108:4
+00422180	plVar5	labels		0042263a	HASH:5fa16de4ce:4
+00422180	peVar10	opnd_ea		004224ca	EAX:4
+00422180	puVar13	mask_ptr		004223a0	ECX:4
+00422180	peVar14	other_ea		004227b5	ECX:4
+00422180	uVar16	reg_mask		00422717	DX:2
+00422180	node_00	right		004221dc	EBP:4
+00422180	pgVar18	parent_node		00422ec2	HASH:17bfea8e921a:4
+00422180	pgVar19	left_opnd		0042337f	HASH:7bf8920efe2:4
+00422180	local_16	left_target_reg
+00422180	local_14	right_target_reg
+00422180	local_12	reselect
+00422180	local_8	saved_hit
+00422180	local_4	right_mask
+00423410	iVar1	op		00423434	HASH:5f0fd68def:1
+00423410	ppvVar2	targets		0042342c	HASH:5f590d478d:4
+00423410	cVar3	left_class		004235ef	AL:1
+00423410	uVar4	column		00423616	AL:1
+00423410	sVar5	left_index		00423449	AX:2
+00423410	cVar6	right_class		004235fb	BL:1
+00423410	sVar7	right_index		0042362a	BX:2
+00423410	ptVar8	choice		00423582	EBX:4
+00423410	pgVar9	left_opnd		004234f2	HASH:79f00055ac0:4
+00423410	local_6	ret
+00423410	local_4	matrix
+00423800	pnVar1	desc		00423810	HASH:5f78540174:4
+00423800	pgVar2	parent		00423816	HASH:5f4c0e7e89:4
+00423800	pgVar3	inner		00424723	HASH:5fdff2e33f:4
+00423800	bVar4	matched		00424a7c	HASH:79f6382e169:1
+00423800	cVar5	short_shift		00423d3e	AL:1
+00423800	uVar12	sign		00424021	EDX:4
+00423800	mask	const_value	int	0042386d	EDI:4
+00423800	local_4	value_ea
+00424c80	puVar1	mask_ptr		00424ea1	HASH:27fbbef61f5:4
+00424c80	puVar2	flag_byte		00424fb9	HASH:27f204ddbd4:4
+00424c80	iVar4	op		004255e5	HASH:5f65baf580:1
+00424c80	pnVar5	desc		00424cc9	HASH:5f2bca6887:4
+00424c80	pvVar9	new_ea		00424dfe	EAX:4
+00424c80	puVar13	extra_slot		00424e75	EBX:4
+00424c80	puVar14	next_slot		00424e8e	EBX:4
+00424c80	peVar15	opnd_ea		00424f34	EBX:4
+00424c80	node_00	left_opnd		0042573b	HASH:7bf3bbce3fe:4
+00424c80	local_1a	slot_count
+00424c80	local_14	written_regs
+00424c80	local_c	spec
+00424c80	local_8	slot_regs
+004258c0	sVar1	reg		004258fd	AX:2
+00425950	uVar1	op		0042596d	HASH:5fd2e0bb36:2
+00425950	uVar2	written		00425a82	EAX:4
+00425950	ptVar3	entry		004259de	ESI:4
+00425b20	uVar1	op		00425b44	HASH:5fe4928733:2
+00425b20	ptVar2	first		00425b41	HASH:5faa01cf60:4
+00425b20	ptVar3	entry		00425b4d	EDI:4
+00425b20	local_2	opnd_code
+00425c60	bVar1	base_reg		00425e7a	HASH:5f85f10cef:1
+00425c60	pnVar2	opnd_desc		00425cee	HASH:5fd437c081:4
+00425c60	iVar3	ea_kind	unsigned char	00425e50	AL:1
+00425c60	uVar4	source		00425c70	EAX:4
+00425c60	sVar5	reg		00425ca6	BX:2
+00425c60	local_4	operand
+00425f60	puVar1	mask_ptr		00426a2d	HASH:27ff966d9ab:4
+00425f60	uVar2	result		004260eb	HASH:5ff0e60e47:1
+00425f60	cVar3	swap		00426be4	HASH:5fee56a305:1
+00425f60	bVar4	result_slot_known		0042624e	HASH:79fe8258540:1
+00425f60	pgVar6	extra_opnd		0042650a	EAX:4
+00425f60	peVar9	opnd_ea		00426468	EDX:4
+00425f60	pnVar10	desc		0042696b	EDX:4
+00425f60	pcVar14	slot_regs		0042624e	EBP:4
+00425f60	ptVar16	entry		00426ad0	ESI:4
+00425f60	local_30	slot
+00425f60	local_2e	target_reg
+00425f60	local_1c	right_opnd
+00425f60	local_18	slot_uses
+00425f60	local_10	target_mask
+00425f60	local_c	left_opnd	gen_node *
+00425f60	local_8	spec_kind
+00425f60	local_4	chosen_mask
+00426c90	iVar1	op		00426ca1	HASH:5f8cb5baae:1
+00426d00	peVar1	operand		00426da1	EAX:4
+00426dd0	pbVar1	written_bits		00426f26	HASH:27fbe9188ff:4
+00426dd0	iVar2	labno		00426e89	EAX:4
+00426dd0	uVar3	regs		00426f3f	EAX:4
+00426fb0	puVar1	mask_ptr		0042775e	HASH:27f9a2197ef:4
+00426fb0	ptVar2	entry		004270e4	HASH:27fb8f9b089:4
+00426fb0	pcVar3	spec_entry		004270c1	HASH:27f4f2bef29:4
+00426fb0	pgVar4	left		00426fbb	HASH:5f10c45093:4
+00426fb0	ptVar5	entries		00427052	HASH:5f8c80d561:4
+00426fb0	pnVar6	desc		004272fc	HASH:5f20235c0e:4
+00426fb0	bVar7	kind		00426fde	AL:1
+00426fb0	sVar8	same		004274b5	AX:2
+00426fb0	pgVar12	extra_opnd		004273cc	EAX:4
+00426fb0	iVar13	count		00427594	EAX:4
+00426fb0	bVar15	size_bits		00427630	CL:1
+00426fb0	bVar16	kind_bits		00427613	DL:1
+00426fb0	iVar17	slot_index		00427059	EDX:4
+00426fb0	local_34	slot
+00426fb0	local_32	entry_index
+00426fb0	local_2c	opnd1
+00426fb0	local_24	phase1_regs
+00426fb0	local_14	right_opnd
+00426fb0	local_10	phase1_mask
+00426fb0	local_4	slot_regs
+004278c0	puVar1	mask_ptr		004286d0	HASH:27fd7bf4bcb:4
+004278c0	sVar2	cpu		00427e83	HASH:5f4466dfc0:2
+004278c0	iVar3	disp		00427a74	HASH:5f6137cdf7:4
+004278c0	uVar5	reg		0042800a	AX:2
+004278c0	peVar7	const_ea		0042807c	EAX:4
+004278c0	bVar8	fpu_kind		00427ae1	CL:1
+004278c0	uVar10	avoid_mask		004280f3	HASH:39f08f3af4b:2
+004278c0	local_4	found
+00428910	pnVar1	desc		00428917	HASH:5f71a2ffa1:4
+00428910	bVar2	float_kind		00428965	AL:1
+00428910	local_4	is_zero
+004289f0	peVar1	value_ea		00428a7a	HASH:27f64edd26f:4
+004289f0	puVar2	regs_ptr		00428af6	HASH:27ffed079b3:4
+004289f0	puVar3	mode_flags_ptr		00428c1f	HASH:27f73faeedd:4
+004289f0	pnVar4	desc		00428a77	HASH:5ff9bcf236:4
+004289f0	bVar5	track_fpscr		00428a10	HASH:79f4234de4f:1
+004289f0	cVar7	second_freg		00428b1b	AL:1
+004289f0	sVar9	chosen		00428aa8	AX:2
+004289f0	iVar10	result		00428a25	EAX:4
+004289f0	uVar11	excluded_mask		00428a9c	EAX:4
+004289f0	peVar12	reg_ea		00428b65	EAX:4
+004289f0	uVar14	reg_bits		00428af0	DX:2
+00429060	uVar3	reg_mask		00429341	EAX:4
+00429060	uVar5	last_regs44_bit		00429331	BP:2
+00429060	local_4	chosen_tmpl
+004293c0	bVar1	done		004294c6	HASH:79f35de40ba:1
+004293c0	bVar2	fpu_level		00429486	AL:1
+004293c0	iVar3	fits_16bit		0042943b	EAX:4
+004293c0	ptVar4	tmpl		004294bf	EAX:4
+004293c0	puVar5	variant		004293c8	ESI:4
+004294f0	iVar2	new_disp		00429504	EAX:4
+00429590	peVar2	temp_copy		004295b2	EAX:4
+00429600	iVar1	node_op		00429604	HASH:5f18f738b5:1
+00429600	peVar2	dst_copy		0042964e	EAX:4
+00429600	peVar3	src_copy		0042965c	EAX:4
+00429770	peVar1	dst_copy		00429786	EAX:4
+00429770	peVar2	src_copy		00429794	EAX:4
+004297f0	src_00	fpul_ea		00429821	EAX:4
+004297f0	local_c	list_ea0
+004297f0	local_8	list_ea1
+004297f0	local_4	entries_used
+00429990	src_00	fpul_ea		004299c1	EAX:4
+00429990	local_c	list_ea0
+00429990	local_8	list_ea1
+00429990	local_4	entries_used
+00429b80	src_00	fpul_ea		00429bb1	EAX:4
+00429b80	local_c	list_ea0
+00429b80	local_8	list_ea1
+00429b80	local_4	entries_used
+00429d60	local_c	list_ea0
+00429d60	local_8	list_ea1
+00429d60	local_4	entries_used
+00429f90	cVar1	builtin_no		00429f97	HASH:5fdaea4bb9:1
+00429f90	peVar2	operand_copy		00429fac	EAX:4
+0042a180	cVar1	slot_reg		0042a2d9	HASH:5ffd61317f:1
+0042a180	pnVar2	desc		0042a277	HASH:5f8bdcda44:4
+0042a180	bVar3	addend_first		0042a1c2	HASH:79f1bd83e91:1
+0042a180	bVar4	ea_kind		0042a285	AL:1
+0042a180	ptVar6	tmpl		0042a32a	EAX:4
+0042a180	ppgVar7	slot		0042a270	ESI:4
+0042a180	iVar8	i		0042a24f	EDI:4
+0042a180	local_34	addend
+0042a180	local_30	tmpl_opnd0
+0042a180	local_2c	tmpl_opnd1
+0042a180	local_28	tmpl_opnd2
+0042a180	local_24	tmpl_opnd3
+0042a180	local_14	operands
+0042a180	local_8	addend_in_memory
+0042a180	local_4	mac_src
+0042a510	cVar1	reach_class		0042a51a	HASH:5f755d036b:1
+0042a5b0	bVar1	result_type		0042a659	HASH:5f30f72f2a:1
+0042a5b0	bVar2	type_class		0042a65f	AL:1
+0042a5b0	uVar5	sign_mask		0042a648	EDX:4
+0042a790	iVar1	node_op		0042a79a	HASH:5fa356d5e6:1
+0042a790	local_2	labno
+0042a930	sVar1	reg		0042a94c	AX:2
+0042a9d0	local_4	label_ea
+0042aab0	sVar1	reg		0042aacc	AX:2
+0042ab90	pVar1	rec_op		0042ab9b	HASH:5f5cea0d64:1
+0042ab90	prVar2	section		0042aed8	HASH:3f50483084:4
+0042ab90	sVar4	labno		0042ac62	AX:2
+0042ab90	uVar5	placement		0042abe8	EAX:4
+0042ab90	pool_size_00	new_pool_size		0042abed	EDI:4
+0042ab90	local_18	branch_rec
+0042b220	uVar1	value		0042b231	HASH:5fd98b8308:4
+0042b270	prVar1	src_file		0042b27a	HASH:5f09ae9776:4
+0042b270	bVar2	found		0042b28d	ZF:1
+0042b370	iVar1	rc		0042b3f4	EAX:4
+0042b630	uVar1	bytes_read		0042b640	EAX:4
+0042b680	sVar1	count_read		0042b696	AX:2
+0042b680	uVar2	bytes_read		0042b691	EAX:4
+0042b6f0	uVar1	bytes_written		0042b6ff	EAX:4
+0042b770	plVar1	prev		0042b77e	HASH:79f4bc0f3a1:4
+0042b770	plVar2	first		0042b773	EBX:4
+0042b7e0	bVar1	kind		0042b7f8	AL:1
+0042b7e0	plVar2	labels_copy		0042b812	EAX:4
+0042b820	bVar1	type_bits		0042b82a	HASH:5f43c077f7:1
+0042b820	iVar2	size_bytes		0042b821	EAX:4
+0042b950	bVar1	c		0042b998	HASH:5f7a2fb051:1
+0042b950	iVar2	sym		0042b95a	EAX:4
+0042b950	iVar3	cmp		0042b9b4	EAX:4
+0042b950	ppuVar4	rt_name		0042b988	ECX:4
+0042b950	pbVar6	sym_char		0042b9aa	EDX:4
+0042b950	pbVar7	rt_char		0042b9ad	EBX:4
+0042b950	bVar8	below		0042b99a	CF:1
+0042b9e0	uVar1	idx		0042ba10	EAX:4
+0042ba50	uVar1	idx		0042ba56	EAX:4
+0042baa0	pVar1	rec_op		0042bab5	HASH:5f3252552d:1
+0042baa0	plVar2	imm_labels		0042bcd1	HASH:5f537e123c:4
+0042baa0	bVar3	fits		0042c621	HASH:1bf0add2833:1
+0042baa0	cVar4	word_sym		0042bbb0	AL:1
+0042baa0	bVar5	use_ea2		0042bc6a	AL:1
+0042baa0	peVar9	disp_ea		0042c39e	EAX:4
+0042baa0	peVar10	labels_ea		0042c38f	ECX:4
+0042baa0	iVar11	literal_bytes		0042baa6	EBX:4
+0042baa0	peVar12	new_literal		0042baab	EBP:4
+0042baa0	uVar13	pool_size		0042baa9	EDI:4
+0042baa0	local_9	lit_flag
+0042baa0	local_8	lit_ref
+0042baa0	local_4	code_bytes
+0042c7b0	plVar1	ref		0042c7d0	HASH:5f2af9f50b:4
+0042c7b0	uVar2	hash		0042c7d2	EAX:4
+0042c7b0	iVar3	found		0042c7b3	EBX:4
+0042c810	sVar1	second_labno		0042c8b6	HASH:5f53a759fb:2
+0042c810	plVar2	entry_ref		0042c83a	HASH:5f9f1e226c:4
+0042c810	plVar3	ref		0042c89a	HASH:5fe5943343:4
+0042c810	bVar4	matched		0042c913	HASH:79f97421e99:1
+0042c810	iVar5	count		0042c851	HASH:79f4ca22afd:4
+0042c810	iVar6	slot		0042c870	HASH:79fd3382395:4
+0042c810	iVar7	equal		0042c817	EAX:4
+0042c810	iVar8	next_slot		0042c876	EBX:4
+0042c810	local_18	seen_count
+0042c810	local_14	slot_used
+0042c950	plVar1	ref		0042c96e	HASH:5f109afec0:4
+0042c950	plVar2	chain		0042c9e9	HASH:5f8ecadb90:4
+0042c950	plVar3	chain_next		0042c9ef	HASH:5fd7fdc99b:4
+0042c950	uVar4	hash		0042c970	EAX:4
+0042c950	plVar5	new_entry		0042c983	EAX:4
+0042c950	plVar6	ref_tail		0042c996	EAX:4
+0042c950	plVar7	new_ref		0042c9bb	EAX:4
+0042ca30	plVar1	next_entry		0042ca40	HASH:5f08f7979e:4
+0042ca30	plVar2	next_ref		0042ca49	HASH:5f21a21b29:4
+0042ca30	ptr	entry		0042ca3e	HASH:79fd2f84c42:4
+0042ca30	ptr_00	ref		0042ca47	HASH:79f00f57353:4
+0042ca30	iVar3	i		0042ca77	ECX:4
+0042ca30	iVar4	freed		0042ca36	EBX:4
+0042ca30	pplVar5	bucket		0042ca7c	EDI:4
+0042cac0	uVar1	written		0042cad4	EAX:4
+0042cac0	local_1	flag_byte
+0042cb00	cVar1	attr_bit		0042cb16	AL:1
+0042cb00	iVar2	is_word		0042cb05	ESI:4
+0042cb30	uVar1	low_bits		0042cb4b	AL:1
+0042cb30	iVar2	kind		0042cb30	EAX:4
+0042cb60	sVar1	param_symno		0042cc19	HASH:27f0a040b70:2
+0042cb60	bVar3	param_flags		0042cc3b	HASH:5f6c149412:1
+0042cb60	puVar4	chunk		0042cbe0	HASH:79f76c2fbb6:4
+0042cb60	iVar6	func_sym		0042cbb7	EAX:4
+0042cb60	psVar10	param_symx		0042cbfc	ESI:4
+0042cb60	pcVar11	param_loc		0042cbfc	EDI:4
+0042cb60	local_b	param_no
+0042cb60	local_4	slot_index
+0042cf00	sVar1	local_symx		0042cf37	HASH:5f2732317b:2
+0042cf00	puVar2	chunk		0042cf21	HASH:5f6f2adc7f:4
+0042cf00	bVar3	type_class		0042cf7a	AL:1
+0042cf00	iVar8	slot		0042cf2d	EBX:4
+0042cf00	psVar9	symx_ptr		0042d0ae	ESI:4
+0042d0e0	psVar3	entry		0042d146	ESI:4
+0042d0e0	local_2	zero_count
+0042d220	sVar1	reg		0042d24e	DX:2
+0042d220	uVar2	bit		0042d225	EBX:4
+0042d280	uVar1	bit		0042d285	EBX:4
+0042d280	sVar2	reg		0042d2ae	SI:2
+0042d2e0	sVar1	reg		0042d30e	CX:2
+0042d2e0	uVar2	bits		0042d2e5	EBX:4
+0042d350	sVar1	reg		0042d36d	CX:2
+0042d350	uVar2	bit		0042d371	DI:2
+0042d3b0	bVar1	bank_count		0042d3c6	HASH:5fba946b9c:1
+0042d3b0	sVar2	next_reg		0042d3ed	HASH:79fc8d914b3:2
+0042d3b0	sVar3	no_reg		0042d3b0	AX:2
+0042d3b0	sVar4	reg		0042d419	AX:2
+0042d3b0	sVar5	remaining		0042d3e4	CX:2
+0042d3b0	uVar6	bank_mask		0042d3d9	EDX:4
+0042d3b0	uVar7	bit		0042d3c1	EDI:4
+0042d420	bVar1	bank_count		0042d436	HASH:5fa4c935d1:1
+0042d420	sVar2	next_reg		0042d45d	HASH:79f3a73aa5c:2
+0042d420	sVar3	no_reg		0042d420	AX:2
+0042d420	sVar4	reg		0042d49b	AX:2
+0042d420	sVar5	remaining		0042d454	CX:2
+0042d420	uVar6	bank_mask		0042d449	ESI:4
+0042d420	uVar7	bits		0042d431	EDI:4
+0042d4a0	iVar1	sym		0042d4ac	EAX:4
+0042d4a0	bVar2	type_class		0042d566	CL:1
+0042d4a0	uVar4	sign		0042d575	EDX:4
+0042d4a0	iVar5	var_size		0042d4f5	EDI:4
+0042d4a0	local_4	align
+0042d6a0	sVar1	cpu		0042dd24	HASH:5f2de1dbb5:2
+0042d6a0	plVar2	sym_ref		0042d86b	HASH:5f99bc173b:4
+0042d6a0	bVar3	src_kind		0042d808	AL:1
+0042d6a0	iVar5	variant		0042d9e4	EAX:4
+0042d6a0	bVar7	type_class		0042d6ca	CL:1
+0042d6a0	iVar8	max_disp		0042d9cd	ECX:4
+0042d6a0	uVar9	sign		0042d7f4	EDX:4
+0042d6a0	ptVar11	tmpl		0042d6e8	EDI:4
+0042ddd0	sVar1	cpu		0042ddd8	HASH:5fd79a90be:2
+0042ddd0	uVar2	block_size		0042de88	HASH:5f4757a4c4:4
+0042ddd0	plVar3	sym_ref		0042e014	HASH:5fbf27b54b:4
+0042ddd0	bVar4	type_class		0042de4d	AL:1
+0042ddd0	bVar5	ea_kind		0042dfb1	AL:1
+0042ddd0	bVar6	dst_kind		0042e338	AL:1
+0042ddd0	uVar8	dst_offset		0042e4d1	EAX:4
+0042ddd0	iVar10	src_variant		0042e61d	EAX:4
+0042ddd0	iVar13	dst_variant		0042e59b	EDX:4
+0042ddd0	local_10	sym_index
+0042ddd0	local_4	chosen_tmpl
+0042e760	ptVar1	tmpl		0042e7b6	EAX:4
+0042e760	bVar2	src_kind		0042e769	CL:1
+0042e820	bVar1	src_kind		0042e835	AL:1
+0042e820	ptVar2	tmpl		0042e899	EAX:4
+0042e930	sVar1	cpu		0042e94d	HASH:5f62010dc2:2
+0042e930	uVar2	labno		0042e9bf	EAX:4
+0042e930	plVar3	dst_labels		0042ea09	EAX:4
+0042e930	local_4	chosen_tmpl
+0042ee70	sVar1	cpu		0042ee8d	HASH:5fc0298f8a:2
+0042ee70	uVar2	labno		0042eeff	EAX:4
+0042ee70	plVar3	src_labels		0042ef49	EAX:4
+0042ee70	local_4	chosen_tmpl
+0042f830	puVar1	cached		0042fa06	HASH:27f496fcc49:4
+0042f830	prVar2	slot		0042f9bd	HASH:27fa94e9316:4
+0042f830	pnVar3	desc		0042f9ff	HASH:5fb46cf8f4:4
+0042f830	bVar4	record		0042f967	HASH:79f50dfb63c:1
+0042f830	bVar5	is_r0_variable		0042f967	HASH:79f2b7407fb:1
+0042f830	bVar6	is_fpr		0042f8b5	HASH:79f28c218a2:1
+0042f830	sVar8	lreg_no		0042f8ff	AX:2
+0042f830	bVar9	bit		0042f99b	CL:1
+0042f830	psVar10	lreg_row		0042f917	ECX:4
+0042f830	local_10	contents
+0042fa50	uVar1	oldest		0042faab	CX:2
+0042fa50	uVar2	i		0042fa95	BX:2
+0042fa50	iVar3	used		0042fa60	EDI:4
+0042faf0	puVar1	cached		0042fc61	HASH:27f4d70b8c2:4
+0042faf0	prVar2	slot		0042fb94	HASH:27fc0eb3c35:4
+0042faf0	pnVar3	parent_desc		0042fc85	HASH:5f32acd08f:4
+0042faf0	bVar4	is_fpr		0042fb6a	HASH:79f7426333d:1
+0042faf0	plVar7	labels		0042fc2a	EAX:4
+0042faf0	bVar8	bit		0042fbf8	CL:1
+0042faf0	uVar9	mask		0042fc5e	DX:2
+0042faf0	local_4	contents
+0042fcb0	sVar1	bit		0042fcb5	BX:2
+0042fcb0	uVar2	pending		0042fcc6	ESI:4
+0042fcb0	sVar3	i		0042fd24	DI:2
+0042fdb0	sVar1	i		0042fe0a	AX:2
+0042fdb0	sVar2	bit		0042fdb4	CX:2
+0042fdb0	uVar3	pending		0042fdc1	EBX:4
+0042fe80	prVar1	slot		0042feeb	HASH:27f77c1c2a8:4
+0042fe80	uVar2	lreg		0042fece	HASH:5f81b1df0b:2
+0042fe80	bVar3	fpu_mode		0042febd	AL:1
+0042fe80	prVar4	contents		0042fec0	ESI:4
+0042fe80	sVar5	i		0042feff	DI:2
+0042ff60	bVar1	is_fpr		00430075	HASH:79f481056e1:1
+0042ff60	bVar2	fpu_mode		0042ffae	AL:1
+004300d0	prVar1	slot		0043014f	HASH:27f2b1101a1:4
+004300d0	bVar2	type		004300db	HASH:5fbb1b1e80:1
+004300d0	uVar3	lreg		00430135	HASH:5fc72a1b0c:2
+004300d0	bVar4	is_fpr		00430135	HASH:79f0ac1e39f:1
+004300d0	bVar5	fpu_mode		00430112	AL:1
+004300d0	sVar6	lreg_no		0043013f	AX:2
+00430220	puVar1	save_ptr		0043022a	EAX:4
+00430220	plVar2	labels		00430289	EAX:4
+00430220	iVar3	ix		0043023f	EBX:4
+00430220	sVar4	i		00430293	SI:2
+00430320	plVar1	labels		00430369	EAX:4
+00430320	iVar2	ix		0043032b	ECX:4
+00430320	sVar3	i		00430377	SI:2
+004303e0	puVar1	block		00430432	HASH:3f7ef777dd:4
+004303e0	sVar2	i		00430412	DI:2
+00430490	bVar1	type		00430541	HASH:5fce9d7c78:1
+00430490	pnVar2	desc		0043049f	HASH:5fb479d6ff:4
+00430490	ptVar4	tmpl		00430874	EAX:4
+00430490	uVar6	sign		0043052f	EDX:4
+00430490	peVar7	operand		004304c0	EDI:4
+00430890	cVar2	offset		00430ba3	HASH:5fd7533de3:1
+00430890	node_00	child		004308a3	HASH:5fb5c6ea3e:4
+00430890	pnVar3	child_desc		004308a6	HASH:5fdf0bdf09:4
+00430890	bVar4	found		00430d66	HASH:79fb3ef916d:1
+00430890	cVar11	offset_in_byte		00430bac	AH:1
+00430890	pgVar6	source		004308d1	EAX:4
+00430890	iVar8	byte_offset		004309e3	EAX:4
+00430890	iVar9	word_disp		004309f6	EAX:4
+00430890	iVar12	word_bit		00430a46	EDX:4
+00430890	iVar13	long_bit		00430a4c	EBX:4
+00430890	peVar14	dest_ea		004308c7	EDI:4
+00430890	local_18	chosen
+00430890	local_10	assigned
+00430d80	iVar1	sixteens		00430d8f	EAX:4
+00430d80	iVar2	eights		00430db0	EAX:4
+00430d80	iVar3	twos		00430dce	EAX:4
+00430d80	uVar4	sign		00430d88	EDX:4
+00430e00	sVar1	steps		00430e05	AX:2
+00430e20	bVar1	base		00430e4d	HASH:5fdf528a45:1
+00430e20	uVar2	mask		00430e21	EAX:4
+00430f00	uVar1	bit		00430f20	HASH:37f38f40a57:4
+00430f00	sVar2	reg		00430f10	CX:2
+00430f30	uVar1	sign		00430f7b	HASH:3ff0cc7fe2e:2
+00430f30	uVar2	bit		00430f48	EDX:4
+00430f30	uVar3	reg		00430f55	SI:2
+00430ff0	pgVar1	dst		00430ff8	HASH:5f0344cc05:4
+00430ff0	pnVar2	desc		00431012	HASH:5f8e700991:4
+00430ff0	plVar3	labels		00431211	HASH:5f32d692b3:4
+00430ff0	bVar4	type_class		00431078	AL:1
+00430ff0	bVar5	src_kind		00431521	AL:1
+00430ff0	uVar8	src_offset		00431684	EAX:4
+00430ff0	iVar10	src_far		004317ce	EAX:4
+00430ff0	bVar12	type_kind		00431084	CL:1
+00430ff0	pgVar13	src		00430ffc	EDX:4
+00430ff0	iVar15	dst_far		0043174c	EDX:4
+00430ff0	bVar16	kind		004311b6	BL:1
+00430ff0	op	src_ea		00431068	ESI:4
+00430ff0	op_00	dst_ea		00431038	EDI:4
+00430ff0	local_c	chosen
+00431950	puVar1	flags		00431983	HASH:27f4805a4b8:4
+00431950	pgVar2	left		0043195b	HASH:5f9a7c9720:4
+00431950	pnVar3	desc		004319b1	EAX:4
+00431950	pgVar4	right		00431956	ECX:4
+00431a30	puVar1	flags		00431aae	HASH:27f943d8afa:4
+00431a30	puVar2	regs		00431d0f	HASH:27f38f5e63b:4
+00431a30	pgVar3	left		00431a3d	HASH:5f2d3b4afb:4
+00431a30	pnVar4	left_desc		00431aef	HASH:5f5e751b85:4
+00431a30	sVar6	same		00431b9b	AX:2
+00431a30	peVar7	operand		00431b10	EAX:4
+00431a30	ptVar8	tmpl		00431bc0	EAX:4
+00431a30	node_00	right		00431a38	EBX:4
+00431e40	iVar1	handler_index		00431e58	ESI:4
+00431ed0	puVar1	flags		00431ef1	HASH:27fd9667b26:4
+00431ed0	pgVar2	child		00431ed8	HASH:5ffa2ad9cd:4
+00431ed0	pnVar3	child_desc		00431f32	HASH:5f512eab85:4
+00431ed0	iVar4	reused		00431ed1	EAX:4
+00431ed0	bVar5	kind		00431f40	CL:1
+00431f90	pnVar1	desc		00431fb2	HASH:5fa9be3001:4
+00431f90	iVar2	bit_pos		00431fa4	EAX:4
+00431fe0	pnVar1	desc		00431ff9	HASH:5f8c4bc40f:4
+00431fe0	iVar2	bit_pos		00431ff3	EAX:4
+00432030	plVar1	prev		0043203f	HASH:79fac4de5e8:4
+00432030	sVar2	label		00432054	AX:2
+00432030	plVar3	cell		0043206f	EAX:4
+00432030	ptVar4	entry		00432093	EBX:4
+004320a0	sVar1	label		004320d6	HASH:5fd77a6976:2
+004320a0	plVar2	ref		004320bd	HASH:5f0228c585:4
+004320a0	uVar3	sign		004320d1	HASH:3ff1a7da673:2
+004320a0	sVar4	label_no		004320f9	DX:2
+004320a0	sVar5	found		004320f9	DI:2
+00432110	pgVar1	left		00432132	HASH:5faa6a1dc9:4
+00432110	pnVar2	desc		00432142	HASH:5fb4c35b4f:4
+00432110	bVar3	kind		00432187	AL:1
+00432110	uVar4	symno		0043219e	EAX:4
+00432110	pgVar5	right		004321c5	EAX:4
+00432110	peVar6	operand		00432168	EDX:4
+00432110	uVar7	right_abs		00432116	EBX:4
+00432110	uVar8	left_abs		0043211b	EBP:4
+00432110	uVar9	left_temps		00432119	ESI:4
+00432110	local_4	right_temps
+00432290	peVar1	operand		004322bc	HASH:5f44fda5e4:4
+00432290	piVar2	size		00432299	EAX:4
+004326c0	local_1	operand_count
+004327d0	bVar1	kind		00432839	AL:1
+004327d0	sVar2	msgno		0043294e	AX:2
+004327d0	iVar3	max_disp		0043287e	EAX:4
+004327d0	buf_00	bytes		00432a2b	EAX:4
+004327d0	bVar4	scale		0043286e	CL:1
+004327d0	local_8	reg_code
+004327d0	local_7	byte_val
+004327d0	local_6	word_val
+00432ac0	sVar1	count		00432ac0	AX:2
+00432af0	iVar1	counted		00432b16	HASH:27fef261404:4
+00432af0	plVar2	ref		00432b1a	HASH:5f9a62ef81:4
+00432af0	local_4	labno_count
+00432b90	ppeVar1	ea1_slot		0043303b	HASH:27f01be20f0:4
+00432b90	pVar2	op		00432bf1	HASH:5f4ea57609:1
+00432b90	peVar3	opnd1		00432fae	HASH:5f8b8e1728:4
+00432b90	peVar4	opnd2		00432fb5	HASH:5fd9690af0:4
+00432b90	bVar5	kind2		00432d55	AL:1
+00432b90	local_2	tmp_byte
+00432b90	local_1	reg_byte
+00433180	uVar1	written		0043318f	EAX:4
+004331d0	uVar1	got		004331ee	EAX:4
+00433230	uVar1	written		0043324e	EAX:4
+00433280	pgVar1	last		004332ad	EAX:4
+00433280	pgVar2	fresh		004332d9	EAX:4
+00433280	sVar3	n		004332f6	BP:2
+00433350	pgVar1	sibling		0043336b	EAX:4
+00433350	iVar2	position		00433362	EDX:4
+00433350	bVar3	not_found		00433367	ZF:1
+00433390	pgVar1	prev		0043339f	HASH:5f75a4b25f:4
+00433390	pgVar2	cur		004333ae	HASH:79ff5d1b71e:4
+004333d0	iVar1	position		004333ea	EAX:4
+00433490	node_00	child		004334db	ESI:4
+00433490	pgVar1	next_child		004334c2	EDI:4
+00433500	uVar1	words		00433565	ECX:4
+00433500	uVar2	extra		00433559	EDX:4
+00433500	ppnVar3	cursor		0043356f	EDI:4
+00433580	pgVar1	node		00433580	EAX:4
+00433580	ppgVar2	next_slot		0043359f	ECX:4
+004335c0	pgVar1	first		004335d3	HASH:5f1da9e1ce:4
+004335f0	pgVar1	operand		0043360b	HASH:5f803a1468:4
+004335f0	sVar2	i		0043361d	AX:2
+004335f0	pgVar3	found		00433634	EAX:4
+00433640	pgVar1	operand		00433644	HASH:5f7ce557b1:4
+00433640	iVar2	count		00433647	EAX:4
+00433660	pgVar1	last		00433664	HASH:5f04269449:4
+00433660	pgVar2	next		0043366e	HASH:5fa9b97383:4
+004336a0	prVar1	entry		004336bc	ECX:4
+004336a0	iVar2	value		004336b1	EDX:4
+004336e0	prVar1	entry		004336fc	ECX:4
+004336e0	iVar2	value		004336f1	EDX:4
+00433720	uVar1	got		00433732	EAX:4
+00433720	pgVar2	new_node		00433772	EAX:4
+00433720	iVar3	i		00433790	ECX:4
+00433720	puVar4	cell		00433795	EDI:4
+00433720	local_1	ilb_byte	unsigned char
+00433b20	uVar1	got		00433b44	EAX:4
+00433c20	iVar1	op		00433ca1	HASH:5f2387a1e4:1
+00433c20	uVar2	got		00433c2e	EAX:4
+00433d00	iVar1	op		00433da6	HASH:5fd890cf1a:1
+00433d00	uVar2	got		00433d0e	EAX:4
+00433e00	uVar1	got		00433e0c	EAX:4
+00433e90	uVar1	got		00433e9c	EAX:4
+00433f40	iVar1	op		00433f58	HASH:5fb95c373f:1
+00433f40	uVar2	got		00433f7a	EAX:4
+00434160	uVar1	got		0043416c	EAX:4
+004341f0	uVar1	got		004341fc	EAX:4
+004342b0	uVar1	got		004342bc	EAX:4
+00434360	uVar1	got		0043436c	EAX:4
+004343f0	uVar1	got		004343fc	EAX:4
+004344b0	uVar1	got		004344bc	EAX:4
+00434590	uVar1	got		0043459c	EAX:4
+00434640	uVar1	got		0043464c	EAX:4
+004346e0	uVar1	got		004346ec	EAX:4
+004347a0	pgVar1	ancestor		004347b6	HASH:5ff6d800c8:4
+004347a0	pgVar2	walk		004347bc	HASH:5f0cd4c093:4
+004347a0	iVar3	new_depth		004347fe	HASH:79f5edb3b35:4
+004347a0	iVar4	level		004347e7	EAX:4
+004349a0	iVar1	op		004349ae	HASH:5fd866acb0:1
+004349a0	sVar2	i		004349fb	AX:2
+004349a0	iVar3	ix		004349f8	ECX:4
+00434a20	iVar1	count		00434a9d	HASH:5f9a0d5e45:4
+00434a20	pgVar2	last		00434ac7	EAX:4
+00434a20	piVar3	count_slot		00434b05	EDX:4
+00434b30	iVar1	op		00434b40	HASH:5fadd892ec:1
+00434b30	iVar2	count		00434c4a	HASH:5fd599323e:4
+00434b30	sVar3	full		00434bc7	AX:2
+00434b30	piVar5	count_slot		00434c44	EDX:4
+00434c70	iVar1	count		00434c7c	HASH:5fdedd6523:4
+00434c70	iVar2	arity		00434c93	ESI:4
+00434ce0	iVar1	op		00434cf0	HASH:5f26189745:1
+00434ce0	iVar2	count		00434de0	HASH:5f43c93059:4
+00434ce0	sVar3	full		00434d5d	AX:2
+00434ce0	piVar5	count_slot		00434dda	EDX:4
+00434e10	iVar1	op		00434e20	HASH:5f6ef7aab6:1
+00434e10	iVar2	count		00434f0c	HASH:5f14006388:4
+00434e10	sVar3	full		00434e89	AX:2
+00434e10	piVar5	count_slot		00434f06	EDX:4
+00434f30	iVar1	count		00434fcc	HASH:5f68719821:4
+00434f30	sVar2	full		00434f49	AX:2
+00434f30	piVar4	count_slot		00434fc6	EDX:4
+00434ff0	piVar1	count_slot		004350c4	HASH:4150d4b96b:4
+00434ff0	sVar2	full		00435048	AX:2
+004350f0	pgVar1	last		0043513d	EAX:4
+004351a0	sVar1	full		004351f8	AX:2
+004352c0	sVar1	full		00435318	AX:2
+004353c0	iVar1	count		0043545c	HASH:5fe55f2764:4
+004353c0	sVar2	full		004353d9	AX:2
+004353c0	piVar4	count_slot		00435456	EDX:4
+00435480	sVar1	full		004354ca	AX:2
+00435520	bVar1	done		00435a51	HASH:79fae6a3674:1
+00435520	bVar2	type_class		004359c3	AL:1
+00435520	pbVar5	cursor		00435590	EDI:4
+00435520	local_21	op_byte
+00435520	local_20	record
+00435bb0	sVar1	status		00435bdb	AX:2
+00435bb0	uVar2	sign		00435bc1	EDI:4
+00435bb0	local_4	magnitude
+00435bf0	iVar1	status		00435c1b	EAX:4
+00435bf0	uVar2	sign		00435c01	EDI:4
+00435bf0	local_4	magnitude
+00435c30	iVar1	value		00435c38	HASH:5f981d5cbb:4
+00435c30	uVar2	top		00435c7c	HASH:79f60af14f0:4
+00435c30	sVar3	inexact		00435c3a	SI:2
+00435c30	local_8	mant_hi
+00435c30	local_4	mant_lo
+00435cd0	iVar1	status		00435d1f	EAX:4
+00435cd0	local_c	mant_hi
+00435d30	sVar1	shift		00435d94	HASH:27fef74f98f:2
+00435d30	iVar2	status		00435d50	EAX:4
+00435d30	uVar3	status_hi		00435d5d	register:00000002:2
+00435d30	local_e	exponent
+00435d30	local_c	mantissa
+00435d30	local_8	fp_class
+00435d30	local_4	sign
+00435e00	iVar1	status		00435e0a	EAX:4
+00435e20	sVar1	shift		00435ed0	AX:2
+00435e20	uVar2	status		00435e41	EAX:4
+00435e20	uVar3	status_hi		00435e4e	register:00000002:2
+00435e20	local_12	exponent
+00435e20	local_10	mant_hi
+00435e20	local_c	mant_lo
+00435e20	local_8	fp_class
+00435e20	local_4	sign
+00435f60	iVar1	status		00435f6a	EAX:4
+00435f80	uVar1	status		00436066	EAX:4
+00435f80	local_1a	exponent
+00435f80	local_18	sign
+00435f80	local_14	fp_class
+00435f80	local_10	mantissa
+00435f80	local_c	dmant_hi
+00435f80	local_8	dmant_lo
+00436080	local_12	exponent
+00436080	local_10	sign
+00436080	local_c	mant
+00436080	local_8	mant_1
+00436080	local_4	fp_class
+00436160	uVar1	bits		00436164	HASH:5f1e873f04:4
+004361d0	uVar1	hi		004361d8	HASH:5f419e7f58:4
+004362b0	uVar1	quotient		004362d0	EAX:4
+004362e0	iVar1	divisor		004362e5	HASH:5f34c7885d:4
+004362e0	uVar2	truncated		004362fc	EAX:4
+00436500	uVar1	shift		00436504	HASH:5f29f08827:4
+00436560	uVar1	shift		00436564	HASH:5faba43ca6:4
+00436600	uVar1	quotient		00436621	HASH:43f0f0fef42:8
+004368b0	uVar1	tmp_exp		00436920	HASH:3ff3f9e8d3:2
+004368b0	uVar2	tmp_sign		00436920	HASH:3f9c937854:4
+004368b0	local_2c	b_exp
+004368b0	local_2a	a_exp
+004368b0	local_28	b_mant
+004368b0	local_24	b_mant_1
+004368b0	local_20	a_mant
+004368b0	local_1c	a_mant_1
+004368b0	local_18	a_sign
+004368b0	local_14	b_sign
+004368b0	local_10	action
+004368b0	local_c	result_sign
+004368b0	local_8	b_class
+004368b0	local_4	a_class
+00436b40	local_4	neg_rhs
+00436b70	local_2c	b_exp
+00436b70	local_2a	a_exp
+00436b70	local_28	quot
+00436b70	local_24	quot_1
+00436b70	local_20	rem
+00436b70	local_1c	result_sign
+00436b70	local_18	action
+00436b70	local_14	b_mant
+00436b70	local_10	b_class
+00436b70	local_c	b_sign
+00436b70	local_8	a_class
+00436b70	local_4	a_sign
+00436ce0	sVar1	bits		00436e0b	AX:2
+00436ce0	local_2c	b_exp
+00436ce0	local_2a	a_exp
+00436ce0	local_28	product
+00436ce0	local_24	product_1
+00436ce0	local_20	result_sign
+00436ce0	local_1c	action
+00436ce0	local_18	a_mant
+00436ce0	local_14	b_class
+00436ce0	local_10	b_sign
+00436ce0	local_c	a_class
+00436ce0	local_8	a_sign
+00436ce0	local_4	b_mant
+00436e50	uVar1	tmp_mant		00436f01	HASH:5fb41a6300:4
+00436e50	uVar2	tmp_exp		00436ec0	HASH:3f1a88f338:2
+00436e50	uVar3	tmp_mant_1		00436ec0	HASH:3f06530b78:4
+00436e50	uVar4	tmp_sign		00436ec0	HASH:3ffa80f4e8:4
+00436e50	local_34	b_exp
+00436e50	local_32	a_exp
+00436e50	local_30	b_mant
+00436e50	local_2c	b_mant_1
+00436e50	local_28	b_mant_2
+00436e50	local_24	a_mant
+00436e50	local_20	a_mant_1
+00436e50	local_1c	a_mant_2
+00436e50	local_18	a_sign
+00436e50	local_14	b_sign
+00436e50	local_10	action
+00436e50	local_c	result_sign
+00436e50	local_8	b_class
+00436e50	local_4	a_class
+00437150	local_8	neg_rhs
+00437150	local_4	neg_rhs_1
+00437190	puVar1	word_ptr		004372d2	HASH:27f565a2803:4
+00437190	sVar3	w		004372f3	DX:2
+00437190	sVar4	bits		0043731c	SI:2
+00437190	local_3c	b_exp
+00437190	local_3a	a_exp
+00437190	local_38	result_sign
+00437190	local_34	a_mant
+00437190	local_30	a_mant_1
+00437190	local_14	b_sign
+00437190	local_10	a_class
+00437190	local_c	a_sign
+00437190	local_8	b_mant
+00437370	puVar1	word_ptr		004374e3	HASH:27f1e8498a2:4
+00437370	iVar3	cmp		00437496	EAX:4
+00437370	sVar5	w		00437507	SI:2
+00437370	local_38	b_exp
+00437370	local_36	a_exp
+00437370	local_34	rem
+00437370	local_1c	action
+00437370	local_18	b_class
+00437370	local_14	b_sign
+00437370	local_10	a_class
+00437370	local_c	a_sign
+00437370	local_8	b_mant
+00437560	iVar1	act		00437576	EAX:4
+00437610	sVar1	status		00437610	AX:2
+00437650	sVar1	cmp		0043765a	AX:2
+00437680	sVar1	cmp		0043768a	AX:2
+004376b0	sVar1	cmp		004376be	AX:2
+004376f0	sVar1	cmp		004376fe	AX:2
+00437740	sVar1	cmp		0043774e	AX:2
+00437780	sVar1	cmp		0043778e	AX:2
+004377c0	iVar1	cmp		00437839	EAX:4
+004377c0	local_8	b_bits
+004377c0	local_4	a_bits
+00437850	sVar1	cmp		0043785a	AX:2
+00437880	sVar1	cmp		0043788a	AX:2
+004378b0	sVar1	cmp		004378be	AX:2
+004378f0	sVar1	cmp		004378fe	AX:2
+00437940	sVar1	cmp		0043794e	AX:2
+00437980	sVar1	cmp		0043798e	AX:2
+004379c0	iVar1	cmp		00437a67	EAX:4
+004379c0	local_10	b_hi
+004379c0	local_c	b_lo
+004379c0	local_8	a_hi
+004379c0	local_4	a_lo
+00437b90	cVar1	ch		00437ce1	HASH:5f29dd394f:1
+00437b90	iVar3	close_result		00437c6b	EAX:4
+00437b90	uVar4	n_words		00437d04	ECX:4
+00437b90	pcVar5	src		00437d16	ESI:4
+00437b90	pcVar6	dst		00437d16	EDI:4
+00437b90	local_2	fixed_size
+00437d90	bVar1	ch		00437f7e	HASH:5ffd91c90d:1
+00437d90	iVar2	cmp		00437f9a	EAX:4
+00437d90	pbVar3	s1		00437f90	ECX:4
+00437d90	pcVar4	s2		00437f79	EDX:4
+00437d90	bVar5	below		00437f80	CF:1
+00437d90	local_2	version_tag
+004380e0	uVar1	result		004380f1	EAX:4
+004380e0	local_2	str_len
+00438170	prVar1	tail		0043824e	HASH:5fdc934419:4
+00438170	prVar2	tail_next		00438254	HASH:5f965bf923:4
+00438170	buf	section		004381ad	EAX:4
+00438170	buf_00	name		004381fd	EAX:4
+00438170	local_6	n_entries
+00438170	local_4	i
+00438290	prVar1	tail		00438390	HASH:5f14164f16:4
+00438290	prVar2	tail_next		00438396	HASH:5f6a3ac0fe:4
+00438290	uVar3	result		004382ad	EAX:4
+00438290	prVar4	entry		0043835c	EAX:4
+00438290	local_8	n_entries
+00438290	local_6	str_len
+00438290	local_4	i
+004383d0	prVar1	tail		004384d0	HASH:5f664037b8:4
+004383d0	prVar2	tail_next		004384d6	HASH:5f0ebae42f:4
+004383d0	uVar3	result		004383ed	EAX:4
+004383d0	prVar4	entry		0043849c	EAX:4
+004383d0	local_8	n_entries
+004383d0	local_6	str_len
+004383d0	local_4	i
+00438510	prVar1	tail		0043861b	HASH:5f781db75a:4
+00438510	prVar2	tail_next		00438621	HASH:5fa554415d:4
+00438510	uVar3	result		0043852d	EAX:4
+00438510	prVar4	entry		004385dc	EAX:4
+00438510	local_8	n_entries
+00438510	local_6	str_len
+00438510	local_4	i
+00438650	prVar1	tail		00438762	HASH:5fae0df11b:4
+00438650	prVar2	tail_next		00438768	HASH:5f12355b28:4
+00438650	uVar3	result		0043866d	EAX:4
+00438650	prVar4	entry		0043871c	EAX:4
+00438650	local_a	n_entries
+00438650	local_8	file_no
+00438650	local_6	name_size
+00438650	local_4	i
+004387a0	uVar1	result		004387b5	EAX:4
+004387a0	prVar2	entry		004387f8	EAX:4
+004387a0	iVar3	i		004387b3	EBX:4
+004387a0	prVar4	tail		004387d9	EBP:4
+004387a0	local_e	n_entries
+004387a0	local_c	buf_a
+004387a0	local_8	buf_c0
+004387a0	local_7	buf_c2
+004387a0	local_6	buf_c3
+004387a0	local_5	buf_b0
+004387a0	local_4	buf_b1
+004387a0	local_3	buf_b2
+004387a0	local_2	buf_b3
+004388a0	uVar1	result		004388b5	EAX:4
+004388a0	prVar2	entry		004388f8	EAX:4
+004388a0	iVar3	i		004388b3	EBX:4
+004388a0	prVar4	tail		004388d9	EBP:4
+004388a0	local_e	n_entries
+004388a0	local_c	buf_b
+004388a0	local_8	buf_a0
+004388a0	local_7	buf_a1
+004388a0	local_6	buf_a2
+004388a0	local_5	buf_a3
+004388a0	local_4	buf_c0
+004388a0	local_3	buf_c1
+004388a0	local_2	buf_c2
+004388a0	local_1	buf_c3
+004389b0	uVar1	result		004389c1	EAX:4
+004389b0	local_4	version_tag
+004389b0	local_2	block_size
+00438aa0	uVar1	result		00438ab1	EAX:4
+00438aa0	local_1	ch
+00438b30	iVar1	close_result		00438bbd	EAX:4
+00438c70	local_2	version_tag
+00438ef0	cVar1	ch		00438f06	HASH:5fafb26410:1
+00438ef0	uVar2	result		00438f1b	EAX:4
+00438ef0	iVar3	remaining		00438eff	ECX:4
+00438ef0	pcVar4	p		00438f06	EDI:4
+00438ef0	local_2	str_len
+00438f80	sVar1	len		00438fca	HASH:5f2354dcf7:2
+00438f80	prVar2	section		00438f8c	HASH:5fc8909425:4
+00438f80	uVar3	result		00438fab	EAX:4
+00438f80	local_2	n_entries
+00439020	cVar1	ch		00439075	HASH:5faf453c14:1
+00439020	prVar2	entry		0043902c	HASH:5f48a0ee1c:4
+00439020	uVar3	result		0043904a	EAX:4
+00439020	iVar4	remaining		0043906c	ECX:4
+00439020	pcVar5	p		00439075	EDI:4
+00439020	local_4	n_entries
+00439020	local_2	str_len
+004390c0	cVar1	ch		00439115	HASH:5f533db113:1
+004390c0	prVar2	entry		004390cc	HASH:5fa93da255:4
+004390c0	uVar3	result		004390ea	EAX:4
+004390c0	iVar4	remaining		0043910c	ECX:4
+004390c0	pcVar5	p		00439115	EDI:4
+004390c0	local_4	n_entries
+004390c0	local_2	str_len
+00439160	prVar1	entry		0043916b	HASH:5fb1119345:4
+00439160	uVar2	result		00439189	EAX:4
+00439160	local_4	n_entries
+00439160	local_2	str_len
+00439200	cVar1	ch		0043925e	HASH:5f42b910e4:1
+00439200	prVar2	entry		0043920c	HASH:5f8abdbe1a:4
+00439200	uVar3	result		0043922a	EAX:4
+00439200	iVar4	remaining		0043924d	ECX:4
+00439200	pcVar5	p		0043925e	EDI:4
+00439200	local_6	n_entries
+00439200	local_4	file_no
+00439200	local_2	name_size
+004392b0	prVar1	entry		004392c0	HASH:5f41087efb:4
+004392b0	uVar2	result		004392dd	EAX:4
+004392b0	local_e	n_entries
+004392b0	local_c	buf_a0
+004392b0	local_b	buf_a1
+004392b0	local_a	buf_a2
+004392b0	local_9	buf_a3
+004392b0	local_8	buf_c0
+004392b0	local_7	buf_c2
+004392b0	local_6	buf_c3
+004392b0	local_5	buf_b0
+004392b0	local_4	buf_b1
+004392b0	local_3	buf_b2
+004392b0	local_2	buf_b3
+00439370	prVar1	entry		00439380	HASH:5f521f5f12:4
+00439370	uVar2	result		0043939d	EAX:4
+00439370	local_e	n_entries
+00439370	local_c	buf_b0
+00439370	local_b	buf_b1
+00439370	local_a	buf_b2
+00439370	local_9	buf_b3
+00439370	local_8	buf_a0
+00439370	local_7	buf_a1
+00439370	local_6	buf_a2
+00439370	local_5	buf_a3
+00439370	local_4	buf_c0
+00439370	local_3	buf_c1
+00439370	local_2	buf_c2
+00439370	local_1	buf_c3
+00439440	uVar1	result		00439451	EAX:4
+00439440	local_2	version_tag
+00439510	uVar1	result		00439531	EAX:4
+00439510	local_1	ch
+004395a0	prVar1	entry		004395bb	ECX:4
+004395a0	iVar2	offset		004395b1	EDX:4
+004395e0	prVar1	entry		004395eb	HASH:5ffa673d88:4
+00439620	cVar1	ch		00439647	HASH:5feef65b03:1
+00439620	pFVar3	fp		004396e7	EAX:4
+00439620	uVar5	n_words		0043968e	ECX:4
+00439750	iVar2	i		0043975f	ESI:4
+00439750	puVar3	entry		00439766	EDI:4
+004397f0	cVar1	ch		00439877	HASH:5fb472d702:1
+004397f0	pcVar2	dir		00439802	EAX:4
+004397f0	DVar3	pid		00439844	EAX:4
+004397f0	pcVar5	tmp_name		00439885	EAX:4
+004397f0	uVar6	remaining		00439870	ECX:4
+004397f0	local_4	env_ok
+00439910	cVar1	ch		00439a89	HASH:5ff13cf654:1
+00439910	bVar2	c		00439940	HASH:5f2fc16ee6:1
+00439910	prVar3	req		00439b18	HASH:3f127c1022:4
+00439910	pbVar4	s1		00439952	EAX:4
+00439910	iVar7	close_result		00439aff	EAX:4
+00439910	pbVar8	s2		00439955	ECX:4
+00439910	prVar9	src_file		00439937	EDX:4
+00439910	pcVar10	p		00439a89	EDI:4
+00439910	bVar11	below		00439942	CF:1
+00439910	local_b	text_len
+00439910	local_a	msg_code
+00439910	local_6	file_no
+00439910	local_4	line_out
+00439b80	uVar1	exit_code		00439b82	SI:2
+00439c60	bVar1	top_byte		00439d29	HASH:5fe8426d0d:1
+00439c60	uVar3	bits		00439c90	ECX:4
+00439d50	bVar1	top_byte		00439e3a	HASH:5f5dbc2d0b:1
+00439d50	uVar2	lo_word		00439d6d	HASH:5fe7fde22f:4
+00439d50	uVar5	bits		00439d82	ESI:4
+00439e70	puVar1	mant		00439e70	HASH:3f1e61ee59:4
+00439e70	uVar2	tmp_word		00439fb5	EAX:4
+00439e70	uVar3	status		00439e7d	SI:2
+00439fd0	puVar1	mant		00439fd0	HASH:3f1146d6f0:4
+00439fd0	uVar2	tmp_word		0043a092	EAX:4
+00439fd0	uVar3	tmp_word_1		0043a0a9	ECX:4
+00439fd0	uVar4	status		0043a10e	SI:2
+0043a190	uVar1	rounded		0043a1b7	EAX:4
+0043a230	uVar1	old		0043a254	HASH:5f9d0fb83d:4
+0043a230	puVar2	s		0043a24a	ECX:4
+0043a230	uVar3	carry		0043a231	EDX:4
+0043a230	iVar4	i		0043a239	ESI:4
+0043a230	puVar5	d		0043a24a	EDI:4
+0043a270	uVar1	old		0043a295	HASH:5fe298891f:4
+0043a270	puVar2	s		0043a28b	EDX:4
+0043a270	puVar3	d		0043a28b	EBX:4
+0043a270	uVar4	borrow		0043a273	ESI:4
+0043a270	iVar5	i		0043a27a	EDI:4
+0043a2c0	uVar1	a_word		0043a345	HASH:5fa2d23d3e:4
+0043a2c0	uVar2	b_word		0043a34b	HASH:5f976df0aa:4
+0043a2c0	iVar5	i		0043a3b5	ECX:4
+0043a2c0	auStack_14	saved_b
+0043a3e0	uVar1	old		0043a3f2	HASH:5f63ffe585:4
+0043a3e0	uVar2	negated		0043a3f7	EAX:4
+0043a3e0	puVar3	p		0043a3f2	ECX:4
+0043a3e0	iVar4	borrow		0043a3e1	EDX:4
+0043a3e0	iVar5	i		0043a3e8	EDI:4
+0043a420	cVar1	ch		0043a443	HASH:5f435b2be2:1
+0043a420	pcVar2	value		0043a433	EAX:4
+0043a420	iVar3	len		0043a459	EDX:4
+0043a420	pcVar4	result		0043a42a	EDI:4
+0043a550	pvVar1	block		0043a55b	EAX:4
+0043a570	pvVar1	block		0043a58e	EAX:4
+0043a570	iVar2	retry		0043a59f	EAX:4
+0043a5b0	pvVar1	block		0043a5be	EAX:4
+0043a5d0	uVar3	remaining		0043a5e4	ECX:4
+0043a5d0	iVar4	n		0043a5e8	ECX:4
+0043a5d0	uVar5	result		0043a5f4	ECX:4
+0043a6a0	pvVar1	block		0043a6c4	EAX:4
+0043a6a0	iVar2	retry		0043a6dc	EAX:4
+0043a6a0	dwBytes	bytes		0043a6a6	EDI:4
+0043a730	pFVar1	fp		0043a73c	EAX:4
+0043b430	cVar1	ch		0043b472	HASH:5f30172247:1
+0043b430	uVar3	name_len		0043b46b	ECX:4
+0043b430	piVar5	env_ptr		0043b4aa	EBP:4
+0043b430	pcVar6	p		0043b489	EDI:4
+0043b4d0	iVar1	handled		0043b4df	EAX:4
+0043c880	cVar1	ch		0043c931	HASH:5f91feb6b6:1
+0043c880	DVar3	path_len		0043c900	EAX:4
+0043c880	piVar4	entry		0043c888	ECX:4
+0043c880	uVar7	n_words		0043c995	ECX:4
+0043c880	local_1a8	bytes_written
+0043c880	local_1a4	message_text
+0043c880	local_104	program_path
+0043d150	iVar1	i		0043d154	ECX:4
+0043d150	puVar2	entry		0043d156	EDX:4
+0043dee0	uVar1	len		0043dee8	EAX:4
+0043dee0	pcVar2	copy		0043defc	EAX:4
+0043e790	iVar1	cmp		0043e7b5	EAX:4
+0043e7d0	option	env_string		0043e7ff	EAX:4
+0043e7d0	piVar2	wenv_ptr		0043e824	ESI:4
+0043eb50	pcVar1	p		0043eb62	EDI:4
+0043ed90	uVar1	chunk		0043ed9c	HASH:5fdb8e66c9:4
+0043ed90	puVar2	p		0043ed9e	ECX:4
+0043ed90	puVar3	chunk_ptr		0043edac	ECX:4
+0043ee10	bVar1	ch		0043ee85	HASH:7ffb23b7829:1
+0043ee10	uVar2	chunk		0043eea3	HASH:5f6169593c:4
+0043ee10	puVar4	dst		0043ee8e	EDI:4
+0043f2c0	BVar2	got_info		0043f3fa	EAX:4
+0043f2c0	pBVar3	lead_range		0043f442	EAX:4
+0043f2c0	lpWideCharStr	wide1		0043f4e6	EAX:4
+0043f2c0	iVar4	converted		0043f559	EAX:4
+0043f2c0	local_20	wide2
+0043f2c0	local_18	cmp_result
+0043f2c0	local_14	cp_info
+0043f5b0	uVar1	remaining		0043f5bc	ECX:4
+0043f5b0	pcVar2	p		0043f5c8	EDX:4
+0043f5e0	uVar1	ch		0043f7b4	HASH:5f8353e120:1
+0043f5e0	ppcVar3	slot		0043f72d	HASH:79f26664c50:4
+0043f5e0	puVar4	equals		0043f5f9	EAX:4
+0043f5e0	ppcVar6	env		0043f743	EAX:4
+0043f5e0	uVar9	n_words		0043f7db	ECX:4
+0043f5e0	bVar12	removing		0043f615	CF:1
+0043f830	piVar2	entry_ptr		0043f864	EDI:4
+0043f890	ppcVar1	dst		0043f8db	HASH:79fcf96cea1:4
+0043f890	iVar4	count		0043f891	ECX:4
+0043fdc0	pvVar2	new_block		0043fdff	EAX:4
+0043fdc0	iVar3	retry		0043fe18	EAX:4
+0043fe30	bVar1	lead		0043fe5a	HASH:5f0b817c0b:1
+0043fe30	uVar2	code_unit		0043fe5a	HASH:23f518eb606:4
+0043fee0	BVar1	deleted		0043fee5	EAX:4

@@ -1,0 +1,273 @@
+# address	name	type (C; empty = Ghidra's)	note
+00433270	g_op_names_upper		array of 128 x 4 (char *): uppercase IL operator names, used by the block dump (00405c30) and set_value_used_flag's trace | array of 128 x 4 bytes: uppercase operator name strings indexed by il_op (00410ff0, also the block dump) | Uppercase operator name table (char *[], indexed by il_op), printed by free_released_nodes "relnode=%08x, name=%s".
+004334f0	g_mode_wb		the string "wb" (fopen mode, 00424a20)
+004334f8	g_il_op_operand_count		array of shorts indexed by il_op: operand count read by read_il_operands
+004335f8	g_str_newline		The string "\n" (char array), used as a printf format by sort_lregs.
+00433688	g_str_percent_s_comma		"%s," printf format (dump_ilnode_list prints each statement's operator name)
+0043368c	g_str_block_number_comma		"B%d," printf format (dump_block_list, dump_cfg_blocks)
+00433694	g_str_percent_1d		"%1d" printf format for one flag bit (dump_loop_table, dump_cfg_blocks, dump_bitset)
+00433794	g_str_exit		"EXIT" (dump_loop_table when loop flag bit 1 is clear; "ENTER" follows at 0043379c)
+00433854	g_index_type_ranges		table at 00433850 of 4 x 12 bytes {type byte, int max, int min}: char 127/-128, uchar 255/0, short 32767/-32768, ushort 65535/0; Ghidra's symbol is at its +4 (the max of entry 0) (00421e20)
+004338f8	g_convert_table		array of 5 x 4: per source arithmetic class, a pointer to 5 conversion functions indexed by the target class (convert_constant)
+00433a68	g_fold_op_table		array of 128 x 4: per operator, a pointer to 5 folding functions (one per type_arith_class); 0 = not foldable (fold_constants) | array of 128 x 4 bytes: per-operator tables of constant folding routines indexed by the type class (00406760); 00416940 calls [op][class]; entries 0x25 (00433afc, negate) and 0x64 (00433bf8, < test) are read directly | Constant folder operator table: a pointer per il_op (array of 0x80 x 4 bytes), nonzero = foldable binary operator (fold_and_check_overflow, FUN_004065d0).
+00433c68	g_pattern_rules		array of 128 function pointers indexed by il_op (the simplify_* rules), called by apply_pattern_rule
+004342a0	g_gpr_alloc_order		array of bytes: general register allocation order (r14..r8 from index 4, filled by build_register_allocation_order); g_gpr_alloc_table points at it
+004342b0	g_fpr_alloc_order		array of bytes: the second register class's allocation order (registers 31.. down, from index options[0x149])
+004342d0	g_builtin_names		array of 50 x 4 (char *): the _builtin_ function names, 0-terminated (is_builtin_name)
+00434398	g_mac_builtin_names		array of 5 x 4 (char *): _builtin_macw/macwl/macl/macll, 0-terminated (is_mac_builtin_name)
+00434438	g_str_target_function_name		"\f===== TARGET FUNCTION NAME <%s> =====\n" printf format (allocate_registers, debug bits 0x03000000)
+00434648	g_str_func		"func" (dump_type, type kind 0x48)
+00434650	g_str_empty		"" (dump_tree_node: a symbol without a name; dump_type)
+00434668	g_op_names		array of 128 x 4 (char *): lowercase IL operator names, used by the tree dump (004086b0)
+00434a18	g_str_plus_percent_s		"+%s" printf format (dump_tree_node: the operator name)
+00434a1c	g_str_tree_bar		"|  " (dump_tree_node indentation when g_tree_dump_more[depth] == 1)
+00434a20	g_str_tree_space		"   " (dump_tree_node indentation otherwise)
+00434a70	g_str_close_bracket		"]" (dump_value_bytes, after the bytes)
+00434a74	g_str_percent_02x		"%02x" printf format (dump_value_bytes, one byte)
+00434a84	g_str_percent_s_close_bracket		"%s]" printf format (dump_type: the built type name)
+00434a94	g_str_void		"void" (dump_type)
+00434ad8	g_str_long		"long" (dump_type)
+00434ae0	g_str_int		"int" (dump_type)
+00434aec	g_str_char		"char" (dump_type)
+00434b3c	g_str_semicolon_newline		";\n" (dump_leaf_table, end of a row)
+00434bcc	g_str_percent_d		"%d" sprintf format (dump_leaf_table: the temporary's number after "TEMP")
+00434bd0	g_str_temp_upper		"TEMP"; dump_leaf_table copies it with an inlined strcpy (4-byte load of 00434bd0 + the byte at 00434bd4, which is this string's NUL, not a separate global)
+00434d24	g_str_loop_tree_bar		"|   " (dump_loop_tree indentation)
+00434f54	g_str_percent_5d_colon		"%5d:" printf format (dump_block_numbers)
+00434f5c	g_str_ggg		"ggg" dump_tree title (eliminate_dead_stores debug dump)
+00434f80	g_mode_rb_plus		"rb+" fopen mode (open_work_files: the switch file named at g_options+0x70); cf. g_mode_wb, g_mode_rb
+00434f84	g_mode_rb		the string "rb" (fopen mode, 004239b0)
+00435290	g_str_temp		"temp" + NUL (00435290..00435294): dump_du_chain copies it into its name buffer as a dword (00435290) plus a byte (00435294), an inlined strcpy, before sprintf of the number. Left untyped: char[5] is the data but absorbs DAT_00435294
+00435294	g_str_temp_nul		the terminating NUL of g_str_temp, read as a separate byte by the inlined strcpy in dump_du_chain; drop this row if g_str_temp is typed char[5]
+004352b0	g_str_setjmp		"setjmp" + NUL; optimize_tail_calls (0040ce90) compares the callee symbol name with it over 7 bytes (repe cmpsb, count 7): no tail call conversion in a function calling setjmp
+00435320	g_op_class		array of bytes indexed by il_op: 1 constant, 2 identifier, 4 / 8 operators (8 commutative, cse_find_expression), 0x10 indirection-like, 0x20 assignment operators, 0x80 ?: && || (cse_number_expression, assign_leaf_numbers) | array of 128 x 1: IL operator class bits: 1 const, 2 id, 4 unary/non-commutative binary, 8 commutative binary, 0x10 indirection/qualify, 0x20 assignment/inc/dec, 0x40 call, 0x80 &&/||/?: (build_dag and helpers) | array of one attribute byte per il_op; bit 0x20 = assignment operator (record_definition, build_block_dag_chain) | Operator class bytes, array of 0x80 x 1 byte indexed by il_op: 0x80 conditional operator (&&, ||, ?:), 0x40 call, 0x20, 0x10, 8, 4, 2 identifier, 1 common expression (count_expression_tree, count_variable_reference). | array of 128 x 1 byte, indexed by il_op: 1 const, 2 id, 4 unary/non-commutative arithmetic (CAST PLUS MINUS NOT CMPL SUB DIV MOD SL SR), 8 commutative (ADD MUL B_AND B_XOR B_OR), 0x10 memory reference (ASTER QUALIFY B_QUALIFY), 0x20 assignment (PRI PRD POI POD A_* ASSIGN), 0x40 call, 0x80 conditional (AND OR COND); read from shcmdl.exe. Used both as bits and as a class value (0041d130 switch)
+004355e8	g_fmt_3d		the string " %3d" (shcmdl_strings.txt), used as a printf format by the register dumps | The string " %3d" (char array), printf format in sort_lregs.
+004357c4	g_str_close_brace_newline		"}
+004359f4	g_pool_classes	pool_class *	Head of the allocator's size-class list (0xc-byte records {short size; free list +4; next +8}; struct pool_class in types_proposal.h). Ghidra types it int but it is a record pointer.
+004359f8	g_iv_reduced_count	int	Number of IV uses strength-reduced in the current loop (reduce_induction_variable stops above 2); reset by optimize_loop_induction.
+004359fc	g_iv_tested_count	int	Number of IV uses rehearsed by check_loop_test_replacement (stops above 2); reset by optimize_loop_induction.
+00435a00	g_iv_copy_list	node_list *	List of statement copies made by find_derived_induction_vars (8-byte cells {node, next}), freed by free_induction_tables; check_loop_test_replacement swaps nodes in it.
+00435a08	g_iv_test_type_table		Byte table indexed [IV size class * 0xb + loop-test size class] (8 = pointer): nonzero = the loop test may be replaced by the reduced variable (reduce_induction_variable, check_loop_test_replacement; accessed as 0x435a08 + ...).
+00435a88	g_pow2_table		Array of 32 x 4 bytes: 1 << n (check_arith_overflow for IL_SL).
+00435bb0	g_memory_safe_builtins		Null-terminated char *[] of builtins that do not disturb memory: _builtin_set_cr, _builtin_get_cr, _builtin_set_imask, _builtin_get_imask, _builtin_get_vbr, _builtin_get_gbr, _builtin_macw, _builtin_macwl, _builtin_macl, _builtin_macll, _builtin_prefetch (is_memory_safe_builtin).
+00435c1c	g_str_ttt		the string "ttt" (tree dump title, 00422a60)
+00435dd0	g_phase_banners		PTR_s_***_Analyzing_Source_Program_(f)_00435dd0: table of banner string pointers indexed by phase, fputs to stderr by print_phase_banner (00423970); 0x28 bytes up to the SCCS string at 00435df8 (would be char *[10]), entry count not verified, so no type
+00435e88	g_add_class_table		array of 4 x 4 shorts: action by operand classes for add (classify_add_operands)
+00435ea8	g_mul_class_table		array of 4 x 4 shorts: action for mul (classify_mul_operands)
+00435ec8	g_div_class_table		array of 4 x 4 shorts: action for div (classify_div_operands)
+00435f94	g_str_mode_ab		"ab": stock_fopen mode for the error file (options+0x60) in write_error_record
+00435f98	g_str_space		" ": fputs to stdout after the error code text in fatal_error_exit
+00435fa4	g_str_newline_indent		"\n  ": first fputs of fatal_error_exit, before the program name (*g_options_for_errors)
+0043603c	g_temp_name_buffer	char *	malloc'd buffer returned by make_temp_file_name
+00436040	g_pid_digit_count	int	number of decimal digits of g_temp_pid
+00436044	g_temp_pid	int	|GetCurrentProcessId()|, computed once
+00436048	g_temp_counter	int	sequence number of the next temp file name
+0043604c	g_str_mode_wbplus		"wb+": stock_fopen mode of open_temp_file
+00436050	g_str_dot_tmp		".tmp": suffix appended to the temp file name in open_temp_file
+00436060	stock_errno		errno (set by stock_dosmaperr)
+00436064	stock_doserrno	unsigned int	_doserrno
+00436088	stock_environ		_environ (char **)
+0043608c	stock_environ_initial		__initenviron (char **)
+00436090	stock_wenviron		_wenviron (wchar_t **)
+004360a0	stock_exitflag		_exitflag
+004360a4	stock_C_Exit_Done		_C_Exit_Done
+004360e8	stock_stdout		the CRT's stdout FILE record (fwprintf/fflush target of dump_bitset, dump_tree, dump_tree_node); not a pointer | CRT stdout FILE (_iob[1]) used for the dataflow dumps; 004360ec is its _cnt; stock CRT data, not stage data | CRT _iob entry used by the debug dumps (FILE, 0x20 bytes; 00423810 "Stopper Error", 00406cf0); stdout by the notes ("tree dumps to stdout") | _iob[2] (stderr FILE), 0x20-byte FILE record; written by fatal_error_exit
+004360ec	stock_stdout_cnt		CRT data: the _cnt field (+4) of the stdout FILE stock_stdout (004360e8); dump_reaching_sets 0040c750 / dump_live_sets 0040c910 decrement it and call FUN_0042a140(10, stdout) (_flsbuf) when < 0: the putc(newline, stdout) macro
+00436108	stock_stderr		CRT _iob entry after 004360e8 (FILE): the phase banner stream (00423970); stderr
+00436358	stock_error_mode	int	__error_mode
+0043635c	stock_app_type	int	__app_type
+00436378	stock_mbctype		_mbctype, array of 0x101 bytes
+0043647c	stock_mbcodepage	unsigned int	__mbcodepage
+00436480	stock_mblcid	unsigned int	__mblcid
+004365f8	stock_lc_codepage	unsigned int	__lc_codepage
+004368dc	stock_newmode	int	_newmode
+00436bd8	stock_rterrs		rterrs: array of N x 8 bytes {int msg; char *text} ending at 0x436c60
+00436cc8	stock_errtable		errtable for _dosmaperr: array of 45 x 8 bytes {oserr, errno} ending at 0x436e30
+00436ef8	stock_compare_string_mode	int	f_use in __crtCompareStringA (0 unknown, 1 W, 2 A)
+004371e0	g_leaf_cond_depth	int	assign_leaf_numbers: incremented entering the second operand of ?:/&&/||, decremented after them; non-zero makes assignment targets LF_CNDASS
+004371e4	g_call_list_tail	node_cell *	tail of the call-node list (8-byte cells {next, call node}) built by scan_tree_for_regalloc; head is g_call_list
+004371e8	g_tree_dump_more		array of shorts indexed by depth: 1 when the node at that depth has a following sibling (tree dump prints "|   " or spaces); 004371ea is element 1 of the same array, written by dump_tree_rec as [depth+1]
+00437b60	g_node_block_count	int	Number of blocks in g_node_block_table (alloc_node_blocks, link_node_blocks, free_node_blocks).
+00437b64	g_node_block_table	il_node *[0x2000]	Array of 4-byte block pointers filled by alloc_node_blocks (the il_node blocks, size 0x68 each).
+0043fb64	g_iv_cur_block	bblock *	The block whose statements find_derived_induction_vars is scanning (set by optimize_loop_induction); stored into use records (+0x14).
+0043fb68	g_test_replace_ok	int	Loop test replacement allowed: set by strength_reduce_induction_vars when option bit g_options+0x2c & 1, cleared on overflow (check_loop_test_replacement) or other variables in the test (check_test_variables); read by reduce_induction_variable.
+0043fb70	g_file_name_buf		char array receiving the source file name (source_file_name); size not visible here.
+0043fbf8	g_switch_depth	int	nesting depth of IL_SWITCH while renumbering an inline body (0041f6d0); index into g_switch_number_stack
+0043fbfe	g_switch_number_stack_m1		base of the 1-based short stack indexed by g_switch_depth (element n at 0043fbfe + 2n); the storage is 0043fc00
+0043fc00	g_switch_number_stack		array of 16 x 2 bytes (cleared as 8 dwords by 00420520): switch table numbers of the open IL_SWITCHes in an inline body
+0043fc20	g_option_record	option_record *	the option record read from the .int file (record size DAT_00459338) (004239b0)
+0043fc28	g_fatal_code_text		array of 8 bytes? (sprintf "%d" target in fatal_error_exit; extent not proven, next global at 0x43fc30)
+0043fc30	g_env_dir_buffer		array of 0x75 x 1 bytes (get_env_directory result: up to 0x74 chars + backslash/NUL); 0x43fc31/0x43fca3/0x43fca4 are accesses inside it
+0043fcb4	g_temp_file_count	int	number of entries in g_temp_files (max 8)
+0043fcb8	g_temp_files		array of 8 x 8 bytes: {char *name; FILE *fp} (0x43fcbc is the fp of entry 0)
+0043fd0c	g_temp_name_pending	char *	name being built by open_temp_file, moved into g_temp_files and cleared
+0043fd14	stock_pnhHeap		_pnhHeap new handler pointer (called by stock_callnewh)
+0043fe50	g_inline_continue_label	short	label number continue statements are redirected to while a loop's condition calls are expanded (00416100 creates it; 00415c80/00415da0/00415e70 save/clear/restore)
+0043fe54	g_inline_loop	il_node *	the loop statement whose condition calls are being expanded (0 outside); tested by 00416100, which reads its op (0x14/0x16) and operands
+0043fe60	g_inline_block_map	inline_map_entry *[20]	array of 20 x 4 bytes: hash buckets (old % 20) of inline_map_entry chains, map 2 (block numbers) of 0041fbc0/0041fc40
+0043feb4	g_inline_new_symbols	int	symbols made by the current expansion (00420100); stored in the callee's symbol +0x24 by 0041f260
+0043feb8	g_inline_call_list	inline_group *	the list record (0xc bytes, call items at +8) filled by 0041fd50 with the calls to expand; freed by 004206c0 | current inline group (0xc record from 00420680: prev, next, calls) built by 0041fd50; freed by 004206c0
+0043febc	g_inline_new_labels	int	labels made by the current expansion (00420130); stored in the callee's symbol +0x28
+0043fec0	g_inline_flags	unsigned char	bit 4 from options+0xb8, bit 2 set with it; (flags & 6) == 6 selects the inline passes (FUN_0041f140, FUN_0040dec0), flags & 2 with options+4 == 0 selects process_function_op0_inline | bit 0 expansion in progress (0041f140), bit 1 inline bodies available (cleared by 0041ef30/00401750), 00420520 frees maps when bits 0..2 are all set
+0043fec1	g_inline_scopes_changed	unsigned char	set to 1 whenever scope/function info is updated (append_callee_scopes, add_member_to_scope, ...) | set by 004204b0 when a block scope symbol with a scope record was made; 00420520 frees the records
+0043fec2	g_symbol_limit	short	last symbol table index (symbol count + slack); read_symbol_table allocates this + 1 entries | upper bound of g_compile_info+0xb0 (symbol count) for expansion (00420100, 0041fd50, 00401750)
+0043fec4	g_saved_symbol_count	short	process_input_functions saves options+0xb0 (as a short) before a function; restored elsewhere into options+0xb0 | restored into g_compile_info+0xb0 by 00420520; symbols above it are freed
+0043fec6	g_saved_label_count	short	restored into g_compile_info+0xac by 00420520
+0043fec8	g_inline_groups	inline_group *	head of the doubly linked list of inline groups (00420680, 004206c0, 00420520)
+0043fecc	g_saved_switch_count	short	restored into g_compile_info+0x14e (switch table counter) by 00420520
+0043fed0	g_inline_symbol_map	inline_map_entry *[20]	array of 20 x 4 bytes: hash buckets of inline_map_entry chains, map 1 (symbol numbers) of 0041fbc0/0041fc40
+0043ff24	g_inline_pass	unsigned int	loop counter of prepare_function_for_optimization (0 or 1 up to options[0x14c]) | expansion pass number (00401750 loops it up to g_compile_info+0x14c); 0041f6d0 keeps call line info on all but the last pass
+0043ff28	g_inline_candidates_tail	inline_call *	last inline_call appended by 0041fd50
+0043ff2c	g_inline_cond_depth	int	count of enclosing right operands of && / || / ?: during 0041fd50 (calls there are not expanded); cleared before each scan | number of enclosing conditional operands (2nd+ operand of COND/AND/OR) while 0041fd50 walks an expression
+0043ff30	g_iv_table	iv_entry[4]	Induction variable table, array of 4 x 16 bytes (entry 0 unused, entries 1..3; struct iv_entry in types_proposal.h): +0 use record list, +4 update statement, +8 step node, +0xc block. Indexed by ivno * 0x10.
+0043ff70	g_iv_negated_count		Counts IV-on-the-right subtractions in the current statement (scan_derived_induction_expr; reset by find_derived_induction_vars). Its address is also the end bound of g_iv_table.
+0043ff74	g_merge_match_depth	int	statements matched so far in the current backward comparison (00414f20/004155d0); 0 means nothing matched
+0043ff78	g_merge_pair_count	int	identical block pairs found (00415530), also the hash of 00415780's buckets
+0043ff80	g_identical_block_buckets		array of 16 x 4 bytes: buckets of 0x14-byte identical-block pair records (00415780, 00415830, 00415b30)
+0043ffc0	g_successor_groups		array of 16 x 4 bytes: buckets of 0x10-byte block-by-successor records (00414d80, 00414e30, 00415b30)
+00440000	g_merge_whole_blocks	unsigned char	1 during the identical-predecessor phase (004152a0), 0 after 00415b30; lets 00415110 record pairs whatever the successors
+00440002	g_merge_id	short	running number of recorded common tails (00415110, cleared by 00414e30)
+00440010	g_common_tail_buckets		array of 16 x 4 bytes: buckets of 0x18-byte common tail records (00415110, 00415990, 00415b30)
+00440050	g_spec_sym1		symbol of the first pointer parameter matched by 00412be0 (which 1); written as a short (_DAT access)
+00440052	g_spec_sym2		symbol of the second pointer parameter matched by 00412be0
+00440054	g_spec_index_sym	short	symbol of the for loop's index variable in the spec_chg pattern (004127d0, 00412d40)
+00440058	g_dump_line_info	int	tree dump prints "filn=%d line=%u listno=%d" when nonzero
+00440060	g_mem_object_lists	const_data *[0x80]	array of 128 x 4: buckets of 0x1c register-variable reference groups keyed by nleaf (record_register_variable_use) | Array of 0x80 x 4-byte list heads of memory objects (items chained via +0xc), turned into MEMORY ALLOCATED lregs by add_memory_lregs.
+00440260	g_lreg_table	lreg *[0x2000]	array of 4-byte logical register pointers indexed by lregno (entry 0 here, entry 1 at 00440264; 00414440/00414760 index it as 00440260 + i*4) | Array of 0x2000 x 4-byte lreg pointers, used from index 1 (g_lreg_count entries), sorted by profit (sort_lregs).
+00448260	g_lreg_array_end		Address of the last element of g_lreg_array (loop bound in resolve_argument_register_clashes).
+00448264	g_lreg_list	lreg *	head of the logical register list (proposed struct lreg, 0x2c bytes, next at +0x14; FUN_00407a70 appends); dump title "LOGICAL REGISTER LIST" | head of the 0x2c register candidate records (new_register_candidate); cleared by allocate_registers | head of the logical register list (0x2c records chained at +14) before the table is built (00414760, 00413440 frees it) | Head of the chain of lregs (0x2c-byte records, next at +0x14) built by FUN_00407a70; copied into g_lreg_array by sort_lregs_by_profit.
+00448268	g_float_reg_count	int	0xc, lowered by build_register_allocation_order for reserved registers | Number of float registers to colour (assign_float_registers, allocate_block_registers).
+0044826c	g_candidate_list_tail	lreg *	tail of g_candidate_list (link at +0x14)
+00448270	g_cmnexp_hash	const_data *[0x80]	array of 128 x 4: buckets of 0x1c common-expression candidate groups (hash_common_expression_candidate, weigh_common_expression_candidates clears them)
+00448470	g_float_arg_reg_limit	int	limit FUN_0041aca0's count is compared with for floating variables in record_register_variable_use (5 for the integer case) | First float register position that is not an argument register (positions < it are argument registers; assign_float_registers, lreg_conflicts_with_call).
+00448474	g_mem_lreg_count	int	collect_memory_frequencies 41cda0 zeroes it and counts lregs with pregno < 0; sort_lregs_by_mreg 414440 makes that many bubble passes, decrementing it to 0
+00448478	g_pp_count	int	program point counter: FUN_00406f80/FUN_00407000 number nodes (pp +0x44) and blocks (startpp/endpp) with it; build_lreg_clash_lists iterates 1..g_pp_count-1 | next [pp] number (block startpp/endpp, il_node.pp) in prepare_register_allocation / scan_tree_for_regalloc | number of lifehash buckets freed by 00413440
+0044847c	g_expp_counter	int	next [expp] number (number_expps); set to 1 by allocate_registers
+00448480	g_preg_map_double		byte map lreg pregno-1 -> physical register for double registers (cpu option 4, type size class 0x30) (00413aa0)
+00448484	g_preg_map_general		pointer, set to &g_gpr_alloc_order (004342a0) in process_input_functions | byte map pregno-1 -> physical general register (00413aa0)
+00448488	g_noalloc_leaf_regs		list of 0x10 records (link +0xc) freed at the end of allocate_registers' not-run path | list of 16-byte {leaf, lregno, pregno, next} records built by 00414bc0 when register allocation does not run
+0044848c	g_regalloc_block	bblock *	the block being scanned by prepare_register_allocation (+0x14 out set, +0x34 candidate list)
+00448490	g_next_lregno	int	Next lreg number after write_lreg_numbers; allocate_block_registers numbers its temps from it.
+00448494	g_int_reg_count	int	0xb, lowered by build_register_allocation_order for reserved registers (0xe in FUN_00406d60 when allocation is off) | set to 0xe on allocate_registers' not-run path | next physical register number for 00414bc0 (starts 0xe, counts down, after 4 becomes -1) | Number of general registers to colour (assign_physical_registers; 0xe when allocation is not run, 00406d60).
+00448498	g_const_data_list	const_data *	chain of the 0x1c candidate groups (link +0x10), for freeing | Chain of CONST DATA records (0x1c bytes, next at +0x10) made by allocate_block_registers.
+0044849c	g_float_arg_regs	int	number of floating-point argument registers used by order_params_stack_then_register | Last float argument register position (positions <= it are argument registers; assign_argument_registers, assign_parameter_registers).
+004484a0	g_mem_freq_list	mem_freq *	list of 0x1c-byte records (next +0c) sorted and numbered by 00414220/00414360; freed by 00413440 | List of 0x1c-byte memory frequency records (next at +0xc) built by add_memory_frequency_record.
+004484a4	g_regalloc_phase		1, 2, 3 during allocate_registers' phases | Register allocation phase set by 00406d60 (1 before, 2 physical registers, 3 block registers); replace_with_register_temp tests < 3.
+004484a8	g_preg_map_float		pointer, set to &g_fpr_alloc_order | byte map pregno-1 -> physical register for single float registers (type size class 0x28) (00413aa0)
+004484ac	g_lreg_count	int	number of logical registers: allocate_registers' not-run path sets it to 1; assign_registers_without_allocation and add_memory_lregs use it as the next lregno / g_lreg_table index; write_register_allocation_table, write_lreg_numbers, dump_logical_register_list loop 1..count (same name as the out4/out5 proposals)
+004484b0	g_call_list	node_cell *	head of the call-node list (see g_call_list_tail) | List of the function's calls: cells {next, il_node *call} (next first, unlike node_list); the call's operand 0 is the callee, its pp (+0x44) is compared with life ranges.
+004484c0	g_lifehash_buckets	lifetbl *[0x2000]	array of bucket pointers indexed by pp: lists of proposed life_range (0xc bytes) starting at that pp (make_life_area_entry, build_lreg_clash_lists); size not seen | array of g_lifehash_size x 4 bytes: lifehash buckets of 0xc lifetbl records (00413440)
+004504c4	g_current_lreg	lreg *	the lreg whose life area is being built (compute_lreg_priorities_and_life_areas); make_life_area_entry adds it to ranges
+004504c8	g_term_list	term *	term list of 00416940 (0xc records {char op, il_node *node, next +08}) | Head of the term list (0xc-byte cells {char op; il_node *node; next}, struct term) of the term collector FUN_00416940 / optimize_shift_chain.
+004504cc	g_reassoc_side_effect	unsigned int	the expression has side effects (flag +5e bit 2): terms are not reordered by symbol (00416710, 00416940)
+004504d0	g_released_nodes	il_node *	nodes to free after reassociation, chained through +3c (00416940; 00416f80 frees them, printing "relnode") | Nodes released by the term collector, chained through il_node+0x3c; freed by free_released_nodes.
+004504d4	g_negation_count	int	count of sign changes met while collecting terms (00416940) | Counts negations (IL_MINUS terms, sign-changing constant multiplications) while collecting terms; build_tree_from_terms negates an IL_MUL result when odd.
+004504d8	g_first_chain_node	char	1 before the chain nodes of a web are processed, cleared by compute_web_node_life_area once the first node is done
+004504dc	g_leafed_symbols		list of 8-byte {next, short symx} records of the symbols given a leaf (remember_leafed_symbol); reset_symbol_leaf_numbers clears their ms_leaf
+004504e0	g_max_error_level	int	raised by FUN_004197a0 to message code / 1000 + 1; terminate_optimizer exits with g_max_error_level * 2 + 1 | Highest error level reported (code/1000 + 1, report_message); the exit code is g_max_error_level*2+1 (fatal_error, 00401fe0).
+004504e4	g_function_file_pos	int	FUN_004296f0 (ftell) of the input before each function; process_function_expressions_only seeks back to it
+004504e8	g_switch_block	bblock *	the enclosing switch's block, made a predecessor of each case label's block (004164c0) | the block holding a switch's expression, saved/restored round nested switches by 00421920
+004504ec	g_node_alloc_hook		function pointer, set to FUN_00420950 (take an il_node off g_free_il_nodes); read_il_node calls it (error 0x109b when 0) | function pointer set to 004211b0 (alloc_inline_node) by 0041ef30
+004504f0	g_cse_cond_depth	char	depth of non-first operands of ?:/&&/|| in cse_number_conditional; non-zero blocks new value numbers | depth of conditionally evaluated operands (&&, ||, ?:) in build_dag; no new chain heads while nonzero | Depth of conditionally evaluated operands during count_global_expressions (count_conditional_operands). | nesting of conditional operators (0041d390 increments around the 2nd+ operands); no new CSE classes while non-zero
+004504f4	g_il_node_pool_count		the node count passed to init_il_node_pool (0x2000)
+004504f8	g_loop_test_copy	il_node *	Copy of the loop test used by check_loop_test_replacement / replace_loop_test_copy.
+004504fc	g_dag_unread_word1		dword cleared to 0 by build_block_dag_chain (00410b40) at the start of each block; no other reference in the export (written, never read)
+00450500	g_il_node_pool	il_node *	FUN_00417270(0x68, count) in init_il_node_pool (error 0xbcd when 0); reset_il_node_pool copies it into g_free_il_nodes
+00450504	g_pool_bytes_in_use	int	FUN_00417120 adds the allocated size, FUN_00417230 subtracts the freed size; checked after each function (> 0 error 0x1091, < 0 error 0x1092) | Bytes currently allocated from the pools (pool_alloc adds, pool_free subtracts).
+00450508	g_symbol_table_modified	char	set to 1 elsewhere; forces write_symbol_file | set when mark_referenced_functions_in_tree clears a function symbol's 0x80 bit
+00450510	g_leaf_def_hash		array of 128 bucket pointers (0x450510..0x450710) of 8-byte {next, short leafno, short count} entries: definitions per leaf (cse_record_leaf_definition)
+00450710	g_dag_unread_word2		dword cleared to 0 by build_block_dag_chain at the start of each block, never read; its address is also the end bound of g_leaf_def_hash (128 buckets 00450510..00450710) in cse_free_hash_tables 00404190
+00450714	g_options	option_record *	the options record returned by FUN_004239b0(1, argv[1]) (initialize_optimizer); fields used: +4 short optimise, +0x18 short cpu, +0x35/+0x37 bytes, +0x6c symbol file name, +0xac/+0xb0/+0xb4 ints (+0xb0 symbol count), +0xb8, +300 debug bits, +0x149/+0x14c chars, +0x150 reserved-register mask | pointer to the option/command record: +4 short, +0x18 short cpu (2 or 4; FPU forms when 4, or 2 with +0x37 == 3), +0x14a warnings switch, +0x64/+0x68/+0x6c/+0x70/+0x80 work file names, +0xb0/+0xb4 symbol count | record of compile options/counts: +0x18 cpu (2/4), +0x20 (non-zero: invert every loop), +0x2c bit 1 (float divide by constant as multiply), +0x37 fpu mode, +0xb0 symbol count, +0x14e next scope number | the option record: +04, +18 cpu kind (2, 4), +35 code merge, +37 fpu mode, +155 loop unrolling (00401a50, 00413aa0) | Pointer to the compiler option record (int in Ghidra): +0 main source name (char *), +0x18 short CPU (2 with +0x37 == 3: SH-3E-like single-precision FPU, 4: SH-4), +0x20 short, +0x2c option bits (bit 0: loop test replacement / pointer IV check), +0x35 char, +0xec source file list ({next, short filn, char *name}). | the compilation's info record (Ghidra int): +0xac label count, +0xb0 symbol count, +0xb8 inline function records, +0xc0 switch table index (00428ad0), +0x14c inline pass count (char), +0x14e switch table counter, +0x164 node pool size
+00450718	g_cfg_pending_jumps	block_list *	blocks that fall through to the next block created: connected by FUN_004055f0 when a block is opened (cfg_start_block, cfg_append_statement) | blocks that fall into the next block, collected by the CFG builder (00405540, 004161e0..004164c0) | list of 8-byte {block, next} cells (00405630): blocks whose flow falls into the next block made (004054b0, 00405540)
+0045071c	g_symbol_count	int	options+0xb4; write_symbol_file writes the table only when options+0xb0 (current count) exceeds it or g_symbol_table_modified | symbol count from g_options+0xb4 (read_symbol_table) | highest symbol number (00420520 loops 1..n)
+00450720	g_temp_symx	short	temporaries get negative symbol numbers: FUN_004133d0 and FUN_00421150 (new temporary) decrement it and store it as the temporary's symx / leaf symno; process_input_functions clears it per function | last temporary symbol number (counts down from 0; 004133d0, 00421150) | Symbol number of the latest temporary (decremented per new temp by FUN_004133d0/FUN_00421150); written into temp IL_ID nodes. | last compiler temporary's symbol number, decremented by 00421150 (negative)
+00450724	g_dag_block	bblock *	the block build_dag works on (00410b40 sets it; new_web stores it, record_block_use uses its sets) | block being processed by build_block_dag_chain; stored in du tables +0xc (FUN_0040a810)
+00450728	g_cfg_last_loop	loop *	loop record made by the last loop statement (004212c0, 00421460, 00421610) | the loop just closed at the current level: a new loop becomes its next (+0x20) and it the new loop's front; cleared after use (00421a80)
+0045072c	g_reg_file	FILE *	"wb" output from g_options+0x80, written by the register allocation (00413a00, 00414030): the .reg file | the .reg output file (00413a00, 00413aa0, 00414bc0 ...)
+00450730	g_value_number	short	value number counter [val_no] (cse_new_value_number); also cleared by the DAG chain pass FUN_00410b40, whose dump prints il_node+0x44 as val_no | last value number given to a common chain (il_node.pp in build_dag) | Cleared by count_global_expressions (glbx_cnt counter; 2-byte accesses). | last value number given by the CSE pass (0041d890, 0041d8f0); reset by 0041d060
+00450734	g_switch_file	FILE *	"rb+" input from g_options+0x70, read by 0041ec30 (seek, then a short, byte, count + records): probably the switch tables (.swi); could be the .int file | the switch table file (.swi): 0041ec30 reads, 0041edf0 appends
+00450738	g_func_node	il_node *	the IL_FUNC node being optimised (process_input_functions); symx gives its name for message 100 | the IL_FUNC node of the function being compiled (symx gives its name; flag 0x400 set when it makes calls) | the current IL_FUNC node: +4 symx of the function symbol (func_info at symbol +0x10), +0x14 first operand | the current function's IL_FUNC node (symx +04, body +14) | The current function's IL_FUNC node (+4 symx = function symbol, +0x14 body); dumped by "after glbx_cnt tree". | the function's IL_FUNC node: +4 symx, +0x14 body; dumped by 00408600
+00450740	g_const_hash	node_cell *[16]	array of 16 x 4: buckets of 8-byte {next, constant node} cells (find_equal_constant / add_constant_to_hash) | array of 16 list heads (8-byte nodes, next at +0) freed at the end of each block by build_block_dag_chain | array of 16 x 4 bytes: lists of 8-byte items (next at +0) freed by 00410f30 | array of 16 x 4 bytes: buckets of {next, node} cells holding constants (0041d920, freed 0041eb50); its end 00450780 is the next variable
+00450780	g_memory_refs	node_list *	list of 8-byte {node, next} cells: indirect loads available for common chaining (add_memory_reference; cleared by 00410d00) | 8-byte node list (next at +4) freed by free_dag_node_list | memory reference expressions numbered in the current block (0041db70, 0041d6b0, 0041dcc0)
+00450784	g_inline_node_free_list	il_node *	allocate_il_node_block: count nodes allocated in one block, chained through next (+0x18) | free nodes for inline bodies, chained through next (004211b0)
+00450788	g_du_tables	dutbl *	list of all 0x20 web records (link +0x14), new_web | list of 0x20-byte du tables (next at +0x14, owner il_node at +0x10) built by FUN_0040a810, freed by free_du_tables
+00450790	g_leaf_table	leaf [0x801]	array of 16-byte leaf entries (types.h: entry 1 at 004507a0), 0x800 entries freed by free_du_tables; 00450794 (.use), 00450798 (.lastnd), 0045079c (.symno), 0045079e (.flag), 004507ae (entry 1 .flag) are accesses into it | the leaf table (16-byte entries, entry 0 here; types.h: entry 1 at 004507a0); 004133d0 writes the fields of entry n through the next four addresses | Leaf table, array of 0x801 x 16 bytes (struct leaf; entry 0 unused, g_leaf_count entries), new_leaf. | the leaf table: array of 16-byte struct leaf (entry 1 at 004507a0); read as [nleaf*4] words, gen at +0 (00423810, 00410e30, 00410d30)
+004587a0	g_unroll_label_added	unsigned char	set when 00411c70 added a label for a loop's breaks
+004587a1	g_cse_changed	char	set by cse_replace_with_temporary; optimize_function rebuilds the CFG and leaves when set
+004587a4	g_cse_variables	node_list *	List of nodes collected by count_global_expressions ({node, next}); cleared at its start, IDs' leaves get lastnd 0 at its end. | variable references heading CSE classes (0041d970, 0041dcc0, 0041eb50)
+004587a8	g_defined_leaves		list of 8-byte {next, short nleaf} cells: leaves whose lastnd is set (record_defined_leaf) | 8-byte entries (next at +0, leaf number short at +4) drained and freed by build_block_dag_chain | list of 8-byte {next, short leaf} items whose leaf lastnd 00410f30 clears
+004587ac	g_def_count	short	definition point counter: startpp/endpp of each block, def number in record_definition (limit 0x100)
+004587ae	g_in_builtin_call	char	set while numbering the operands of a call to a builtin listed at 004342d0 (FUN_004073f0); constants then get no value number; also cleared by FUN_00410b40 | set while build_dag walks the arguments of a call to a _builtin_ function | Set while counting the operands of a call to a _builtin_str* function (FUN_004073f0); suppresses common-expression counting (count_expression_tree).
+004587b0	g_switch_has_default		set to 1 by cfg_add_statement for IL_DLABEL (accessed as 2 bytes in the clear) | set by the CFG builder for an IL_DLABEL (00405380), saved/cleared/restored by 00421920
+004587b4	g_switch_tables	switch_table *	list of switch_table records (0x10, next at +0) read for inline bodies (0041ec30, 0041edf0, 00420820, 00420870)
+004587b8	g_cfg_break_jumps	block_list *	blocks ending in break (004161e0) | list of {block, next} cells of break statements in the innermost loop/switch, saved/restored by 004212c0..00421920
+004587bc	g_loop_limit		the loop test's limit constant (00411630); Ghidra has a byte DAT plus an int _DAT here
+004587c0	g_debug_flags	unsigned int	options+300 (initialize_optimizer); dump/behaviour bits: 2 tree dumps, 4 leaf table, 0x800 mk_cfg, 0x1000 cp_lpblk, 0x2000 DAG chain, 0x80000 skip opt_exp, 0x10000000 no leak check, 0x40000000 loop flattening; the brief's DAT_004587c0 | known: the debug dump option bits | debug dump option bits (brief); this slice reads byte 0 bit 3 (disables simplify_mul/simplify_mul_assign), byte 1 bits 0x04 (pattern-matching dumps), 0x20 (DAG chain dump), 0x40 (set block gen), 0x4000 (free dutbl dumps), 0x100000 (dataflow dumps), byte 3 bit 0x20 (jdgdevlop/dt_opt dumps); accessed as 4 bytes and per byte | the debug dump option bits (brief); byte and 4-byte accesses | Known: debug dump option bits (_1_1_ & 1 opt_shift, _2_1_ & 0x80 loop ind, _3_1_ & 2 regalloc dumps; == 2 glbx_cnt dump). | debug dump option bits (from the option record +300 in 00401030): &8 array dump (00421b20), &0x10 short_size dump (00421eb0), &0x18000 block tree dump (00422a60), bit 0x100000 (byte 2 &0x10) leaf/kill/def set dumps (00423780, 00423810)
+004587c4	g_sym_file	FILE *	write_symbol_file: fopen(options+0x6c), fclose; write_symbol_bytes target | "rb" input from g_options+0x6c: the symbol table file (.sym), read by read_symbol_table | the symbol table input (.sym): 0040aad0 reads every symbol record from it through read_or_fail / read_count_or_fail
+004587c8	g_use_count	short	next use number (record_block_use), at most 0x200
+004587cc	g_exit_block	bblock *	set to g_open_block at the end of build_control_flow_graph | exit block: optimize_tail_calls walks its prelst; redirect_block_to_function_entry unlinks it | the function's exit block: its number is compared with successors (00414d20), its prelst (+08) walked (004152a0)
+004587d0	g_do_test_changed	unsigned char	Set by move_increment_out_of_do_test; 00401a50 then rebuilds (FUN_00402040).
+004587d4	g_cse_split_first	il_node *	first node of the class being split off (0041e190), reset by 0041de40
+004587d8	g_loops_flattened	char	cleared before FUN_004126e0 in optimize_function; when set, "after loopflat[S]/[E]" dumps and a rebuild follow | set by 004126e0 when a loop was flattened (00401a50 then rebuilds)
+004587dc	g_iv_count	int	Next induction variable number (1..3, more sets the loop's 0x80 flag); stored into ivno.
+004587e0	g_loop_init	int	the induction variable's initial constant (00412560)
+004587e4	g_leaf_count	short	leaf table entries in use (FUN_00419700 / FUN_004133d0 increment it, abort above 0x7ff); assign_leaf_numbers searches temporaries in 1..g_leaf_count | number of leaf table entries (dump_leaf_table) | number of leaf table entries (optimize_tail_calls scans entries 1..count) | number of leaf table entries in use (004133d0, limit 0x7ff) | Number of leaf table entries (max 0x800), new_leaf.
+004587e6	g_last_warned_line	short	source line of the last "no effect" warning 10 (discard_unused_values), one warning per line
+004587e8	g_loop_count	short	number of loop records allocated; more than 0x80 -> FUN_00405a30 (00421a80)
+004587ec	g_cfg_last_stmt	node_list *	last statement entry of g_current_block; 0 when no statement list is open (cfg_append_statement) | last statement entry of the block being filled by the CFG builder, 0 when no block is open (004054b0, 004161e0..) | last node_list cell of the current block's statements; 0 when a new block must start (004054b0)
+004587f0	g_loop_tree	loop *	the loop table root built by FUN_00405af0 in build_control_flow_graph, freed by FUN_00405960 (accesses are short *: loop.lpnumber) | root of the loop tree (loop *), dumped and freed by the drivers | root of the loop table, dumped with FUN_00405c90 in the jdgdevlop/dt_opt traces (Ghidra type short *) | root of the loop tree (00401a50 passes it to the loop passes; 004114c0 searches from it) | the first loop record allocated (00421a80)
+004587f4	g_last_loop_number	short	last loop number given by number_loops
+004587f6	g_cse_has_goto_or_label	char	set when an IL_GOTO / IL_GLABEL is seen by cse_number_expression; blocks new value numbers
+004587f8	g_b_chain	bblock *	the first block pushed by link_blocks_reverse_postorder (tail of the f_next chain) | first block of the b_chain (link bblock+0x24), dump_cfg_blocks | head of the b_chain (+0x24) block list used by solve_live_variables
+00458800	g_cse_const_hash	node_cell *[16]	array of 16 bucket pointers (0x458800..0x458840) of 8-byte {next, il_node *} entries: hashed constants (cse_add_constant)
+00458840	g_has_goto	unsigned char	set by cfg_add_statement for IL_GOTO; also the end marker of g_const_hash | convert_for_loops_to_do does nothing when set | set by the CFG builder on a goto (00405380); stops 004126e0 from flattening for/while loops
+00458844	g_dt_loop	loop *	loop being processed by convert_loop_to_decrement_test (set by find_dt_opt_loops)
+00458848	g_licm_pass	unsigned int	0 on the first invariant pass, 1 on the second (00401a50); bit 0 enables hoisting in 004110c0
+0045884c	g_cfg_cur_loop	loop *	stored into each new block's lptbl (+0x30) by cfg_append_statement / cfg_start_block | the loop the CFG builder is in; its flag (+04) gets 4/8/0x10/0x20/0x40/0x800 for labels, gotos, breaks, continues, returns, case labels | innermost loop record (lptbl of new blocks, 004054b0/00405540); flags adjusted by 00421920 | the innermost open loop: parent (fath) and child link target of a new loop (00421a80)
+00458850	g_make_du	char	00410b40's second argument: build_dag creates web records and use bits when nonzero | build_block_dag_chain's make_du argument; du tables (FUN_0040a810) and defs are recorded only when set
+00458851	g_single_iv_use		Set by reduce_induction_variable when the IV has exactly one use record.
+00458854	g_loop_test	il_node *	the test node of g_dt_loop (an il_node; Ghidra type char *) | the loop's test compare (00411540, 00411630) | The current loop's test expression (first statement of the start/exit block), optimize_loop_induction.
+00458858	g_cse_nesting	char	nesting depth of IF/FOR/WHILE/DO/SWITCH in cse_number_expression; non-zero blocks new value numbers
+0045885c	g_memory_clobbered	int	Set when the block has an indirect call or a call not in g_memory_safe_builtins (count_expression_tree); cleared per block. | set when the block so far stored through memory or called a non-builtin (0041d7e0, 0041d130); memory-dependent expressions are then not matched
+00458860	g_tree_out_file	FILE *	write_ilb_bytes writes the optimised tree to it (fwrite) | "wb" output from g_options+0x68, written by 00404f30: the optimised tree (.ilb)
+00458864	g_node_free_list	il_node *	free list of 0x68-byte IL nodes chained through next (+0x18): FUN_00420950 pops, FUN_00420980 pushes, reset_il_node_pool resets it to g_il_node_pool | free IL nodes chained through next (00420950, 00420980)
+00458868	g_cfg_cur_block	bblock *	the block statements are being added to during CFG construction (cfg_append_statement increments its tcount) | the most recently created block: new_bblock links it to the new one by bn_next (+0x28) | the block being filled by the CFG builder | the block statements are added to (004054b0, 00405540)
+0045886c	g_function_aborted	int	0 at the start of each function, 1 in abort_function_optimization | set to 1 by the fatal cleanup 004015e0; opt_exp skips the unsigned/float expansion when nonzero
+00458870	g_expr_hash	node_list *[0x80]	array of 128 bucket pointers (0x458870..0x458a70) of 8-byte {il_node *, next} entries: hashed expressions (cse_add_expression; FUN_00410b40 frees the same table) | array of 128 x 4: buckets of 8-byte {node, next} cells (find_equal_operator / add_operator_to_hash) | array of 128 list heads (8-byte nodes, next at +4) freed at the end of each block by build_block_dag_chain | array of 128 x 4 bytes: node_list buckets of arithmetic expressions (0041dae0, 0041d9b0, 0041dcc0, freed 0041eb50); its end 00458a70 is the next variable
+00458a70	g_cfg_next_block	bblock *	the empty block that receives the next statement during CFG construction (cfg_start_block, cfg_append_statement); at the end the exit block | the block that will be started next (00405540, 00416420) | the block made in advance that becomes current next (004054b0, 00405540); loop start blocks are taken from it
+00458a80	g_error_jmp_buf		jmp_buf of __setjmp3 in process_input_functions, target of _longjmp in abort_function_optimization (array; size from the CRT jmp_buf, 0x40 bytes)
+00458ac0	g_block_count	int	cleared in build_control_flow_graph; FUN_00405660 aborts when it exceeds 0xff | number of blocks created (new_bblock; at most 0x100)
+00458ac4	g_iv_update_stmt	il_node *	The IV update statement being reduced (entry +4), replaced by the inserted increment (insert_induction_increment).
+00458ac8	g_cur_loop	loop *	the loop being processed by the loop passes (hoisting, trip counts, unrolling) | The loop being optimised (optimize_loop_induction, move_increment_out_of_do_test); Ghidra types it int.
+00458acc	g_dt_opt_changed	int	set to 1 by rewrite_loop_count_down
+00458ad0	g_f_chain	bblock *	head of the depth-first block chain (f_next +0x20) built by link_blocks_reverse_postorder; register allocation walks blocks from here | first block of the f_chain (link bblock+0x20), the order the passes walk | head of the f_chain (+0x20) block list; cleared before the CFG rebuild (FUN_00405150) | the entry block; the f_next chain (+20) from it is every block | First basic block of the function (blocks follow via f_next +0x20). | the CFG's list head block: its f_chain (+0x20) runs over all blocks (0041d060, 0041dbe0, 0041e630); likely bblock * | the first basic block; blocks follow through f_next (+0x20) (00422a40, also 00410b00/0040c380)
+00458ad4	g_code_merged	unsigned char	set by 00415830/00415990 (00401a50 then rebuilds the CFG)
+00458ae0	g_label_hash	label_rec *[0x100]	array of 256 bucket pointers (0x458ae0..0x458ee0) of 0x10-byte records {?, bblock *, block_list *preds, next}; build_control_flow_graph connects each record's preds to its block, abort_function_optimization frees them (labels/jumps resolved after the walk) | array of 256 x 4 bytes: label record buckets (00416530, 00416570, freed by 004015e0)
+00458ee4	g_return_preds	block_list *	connected to the exit block at the end of build_control_flow_graph | blocks ending in a return (00416390)
+00458ee8	g_suppress_no_effect_warning	char	warning 10 is not given while nonzero (discard_unused_values)
+00458eec	g_tree_in_file	FILE *	read_ila_bytes reads the IL tree from it (fread), ftell/fseek in process_input_functions / process_function_expressions_only | "rb" input from g_options+100, read by 00404f00/004010f0: the front end's tree (.ila) | file the inline function bodies are read from (0041ef30)
+00458ef0	g_opt_exp_pass	int	opt_exp_all_blocks pass count; fold warnings and the usef trace only on pass 0
+00458ef4	g_fold_warnings		bits 2/4/8 set by fold_constants, reported and cleared by report_fold_warnings (byte accesses and a 4-byte clear)
+00458ef8	g_bn_chain	bblock *	the entry block created first by build_control_flow_graph; blocks in creation order follow via bn_next (cse_mark_unchained_blocks) | first block in creation order (link bn_next +0x28) | head of the bn_next (+0x28) block list; its first successor is the function entry (redirect_block_to_function_entry) | Head of the bn_next (+0x28) block chain, clear_unlinked_block_statements.
+00458efc	g_symtab	symbol *	the symbol table, 0x3c-byte entries indexed by il_node.symx (the brief's DAT_00458efc) | known: the symbol table (symbol *), allocated by read_symbol_table | symbol table, 0x3c-byte entries indexed by symx (allocated by 0040aad0 with FUN_0042a0e0(n+1,0x3c)); Ghidra type int / LPVOID | the symbol table (brief) | Known: points at the symbol table (0x3c-byte entries indexed by symx). | the symbol table, 0x3c-byte entries indexed by symx | the symbol table (0x3c-byte entries, index il_node.symx) (00422520)
+00458f00	g_tree_changed	int	set by eliminate_dead_store, tested and cleared by eliminate_dead_stores | set when a pass changed the tree (004114c0, 00411b70); 00401a50 loops on it | Set by strength_reduce_induction_vars when a loop was changed; 00401a50 then reruns (FUN_00410d30, reoptimize_loop_expressions).
+00458f04	g_cse_split_head	il_node *	head of the class being split off (0041e190); reinserted by 0041de40
+00458f08	g_opt_exp_identical_only	int	set to 1 by optimize_function only around the opt_exp_all_blocks run that follows build_dag_chains(1), then 0; while nonzero opt_exp (004060b0) only applies simplify_identical_operands (x-x, x/x ... on common expressions) and recounts nodes, skipping its normal rewrites
+00458f0c	g_cfg_continue_jumps	block_list *	blocks ending in continue (00416260) | list of {block, next} cells of continue statements in the innermost loop, saved/restored by 004212c0..00421610
+00458f10	g_def_nodes	il_node *[0x100]	array of il_node pointers indexed by definition number (link_ud_du_chains, FUN_00423780), up to 0x100 | array of il_node * indexed by definition number: add_to_gen_use_sets stores the defining node (00423780); build_kill_or_def_set reads node.nleaf from it (00423810). Size not seen
+00459310	g_env_lib_name_1	char *	set by select_env_var_names to "SHC_LIB" / "SHCPP_LIB"
+00459314	g_env_lib_name_2	char *	set by select_env_var_names to "SHC_LIB" / "SHCPP_LIB"
+00459318	g_env_tmp_name	char *	"SHC_TMP" / "SHCPP_TMP"; read by make_temp_file_name
+0045931c	g_env_lib_name_3	char *	"SHC_LIB" / "SHCPP_LIB"
+00459320	g_env_lib_name_4	char *	"SHC_LIB" / "SHCPP_LIB"
+00459324	g_env_inc_name	char *	"SHC_INC" / "SHCPP_INC"
+00459328	g_int_file_path	char *	malloc copy of the .int file path (004239b0), freed in 00424a20
+0045932c	g_input_tail_file	FILE *	temp file holding the rest of the .int file after the option record (004248c0), appended back by 00425400 (00424a20)
+00459330	g_options_for_errors	option_record *	copy of the option record pointer used by the error reporter FUN_004286d0 (+0xec, first word = file name) and the writers (004239b0, 00424a20, 00424b00) | the options/compile-info record read from the .int file by 004239b0 (same pointer as DAT_00450714); fields seen here: +0 source name (char *), +0x18 short (4 = double is 4 bytes), +0x37 bits (0 flush denormals, 1 chop rounding), +0x60 error file name, +0xc0 keyed offset list, +0xc8/+0xcc/+0x160 message counters, +0xec file name list, +0x124 bit 3, +0x14a
+00459334	g_version_mismatch	short	1 when the compiler version/copyright strings of the .int file differ (00423bb0); error 0xceb in 004239b0
+00459336	g_cpp_block_size	short	size of the optional block at option record +0x144 (004247d0, 00425330)
+00459338	g_option_record_size	short	size of the option record, first 2 bytes of the .int file (004239b0, 00423b80, 00424a20, 00424b30)
+0045933c	stock_crtheap		_crtheap HANDLE
+00459350	stock_pioinfo		__pioinfo[0] (lowio handle table; +0x10 = stderr handle)
+0045a460	stock_onexitend		__onexitend
+0045a464	stock_onexitbegin		__onexitbegin

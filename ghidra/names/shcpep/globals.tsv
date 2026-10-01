@@ -1,0 +1,231 @@
+# address	name	type (C; empty = Ghidra's)	note
+00424010	stock_lookuptable		[crt] CRT output.c state/class table: char class read at 0x423ff0+ch for ' '..'x', next state at 0x424010 + class*8 + state. Used by _output. Array, size not measured.
+00425000	stock_xc_a		[crt] CRT C++ initializer table start (_cinit: _initterm(__xc_a, __xc_z)).
+00425004	stock_xc_z		[crt] CRT C++ initializer table end.
+00425008	stock_xi_a		[crt] CRT C initializer table start (_cinit: _initterm(__xi_a, __xi_z)).
+00425010	stock_xi_z		[crt] CRT C initializer table end.
+00425014	stock_xp_a		[crt] CRT pre-terminator table start (doexit: _initterm(__xp_a, __xp_z) when !quick).
+00425020	stock_xp_z		[crt] CRT pre-terminator table end.
+00425024	stock_xt_a		[crt] CRT terminator table start (doexit: _initterm(__xt_a, __xt_z)).
+00425028	stock_xt_z		[crt] CRT terminator table end.
+00425118	g_sua_op_format		[s2] array of 256 x 2 bytes (short per psd_op): .sua body format class 1..0xc that read_sua_record_body switches on (8 = machine instruction with operands, 9 = pseudo instruction)
+00425318	g_alloc_size_classes	alloc_class_table *	[s2] pointer to the first size-class table block (alloc_class_table in types_proposal.h, malloc 0x108); used by alloc_zeroed, try_alloc_zeroed and the free routine 00407c30 | [s3] Head of the pooled allocator's size-class directory: a chain of 0x108-byte blocks (FUN_0041e370(0x108)) {short count; short pad; next at +4; 32 x {short size; void *chunks}} (pool_class_block in types_proposal.h). Read by pool_free, built by FUN_00407890/FUN_00407a20.
+00425320	g_op_dest_operand		[s2] array of 256 x 2 bytes (short per psd_op): which operand the op writes, 1 = ea1, 2 = ea2. regchgchk (00408120) checks ea1 for class 1 and ea2 for class 2; rename_register_until_redefined renames only ea1 in a class-2 record that redefines the register; also psd_overwrites_register, 00403fd0 | [s3] array of 256 x 2 bytes indexed by psd_op: which operand is the destination register (1 = ea1, 2 = ea2), used by record_changes_register.
+00425520	g_op_is_macro		[s3] array of 256 x 2 bytes indexed by psd_op: nonzero for the macro/pseudo ops that record_changes_register / operand_uses_register hand to macro_record_changes_register / macro_record_references_register.
+0042571f	g_runtime_call_reads_r0		[s3] array of bytes indexed by runtime-routine number (CALL label <= 0xb6): the routine reads r0 (macro_record_references_register, reg 0).
+004257df	g_runtime_call_reads_r1		[s3] array of bytes indexed by runtime-routine number: the routine reads r1 (macro_record_references_register, reg 1).
+00425897	g_runtime_call_changes_r0		[s3] array of bytes indexed by runtime-routine number: the routine changes r0 (macro_record_changes_register, reg 0).
+00425c98	s_open_mode_rb		
+00425c9c	g_extra_symbol_blocks		[s3] Chain of 0x588-byte blocks of symbol records created after loading (create_symbol_record): {short count; short total (first block); next at +4; 32 x 0x2c records}.
+00425d1c	g_runtime_call_sptravel		[s4] array of 0xb7 x 4 bytes (int): stack pointer change of a CALL to builtin runtime symbol labno (<0xb7), track_stack_pointer_travel | [s6] array of 0xb7 x 4 bytes: stack travel of a CALL to runtime routine labno (< 0xb7), used by compute_block_sptravel_delta.
+00425ff8	g_reg_mask_table	unsigned int [0x80]	[s1] array of 4-byte register mask words indexed by register number ((&DAT_00425ff8)[reg] throughout the use/def code); element 0 (read as plain DAT_00425ff8 in this slice) is r0's bit, tested against flow_block defs[0] and FUN_0040fb20 def masks. DAT_0042617c is element 0x61. Length not established | [s2] array of 4-byte masks indexed by register number (bit in the lo word for 0..0x5f, in the hi word for >= 0x60); at least 0x80 entries (00425ff8..004261f7); also used by refgchk 00408b10 | [s3] array of 128 x 4 bytes indexed by register number: each register's bit; registers < 0x60 are tested against one mask word, >= 0x60 against another. The DAT_ symbols inside it used by macro_record_changes_register / macro_record_references_register are elements, not separate globals: 00426034 = [0x0f] (r15), 004260b8/c8/d8/e8 = [0x30]/[0x34]/[0x38]/[0x3c], 00426178 = [0x60], 00426198 = [0x68], 004261a4 = [0x6b] (PC). | [s4] array of 128 x 4 bytes: register number -> bit in a 2-word register mask (reg < 0x60 word 0, else word 1). The DAT_00425ffc/004260xx/004261xx globals below are its elements (element n at 00425ff8 + 4n) | [s5] Array of 0x80 x 4 bytes: register number -> mask bit (regs 0..0x5f in mask word 0, 0x60..0x7f in word 1; reg 0 = 0x80000000). Ghidra also shows element addresses as separate DAT_s, which should not get their own symbols: 00425ffc [1] r1, 00426034 [0xf] r15, 00426038 [0x10], 0042617c [0x61] (T bit: JUMPT/JUMPF uses in match_common_record_run), 00426188 [0x64], 0042618c [0x65], 00426190 [0x66], 00426194 [0x67], 00426198 [0x68], 004261a4 [0x6b], 004261f4 [0x7f]. | [s6] array of 4-byte register bit masks indexed by register number (signed char; numbers < 0x60 go into the _lo words, >= 0x60 into the _hi words); at least 0x80 entries (00426034 = [0x0f], 0042617c = [0x61], 004261f4 = [0x7f]). Also read directly: [0x10] 00426038, [0x65] 0042618c, [0x67] 00426194, [0x68] 00426198 (multiply ops and ops 0x2e/0x30/0x31 use 0x68: probably MACL). | [s7] Array of 0x80 x 4 bytes: the mask bit of each register number. r0..r15 = 0x80000000>>n; 0x61 T, 0x62 GBR, 0x64 MACH, 0x65 MACL, 0x66 PR, 0x6b, 0x7f memory ... in the _hi word for numbers >= 0x60. The DAT_0042xxxx operands in my functions (0042617c, 00426180, 00426188, 0042618c, 00426190, 00426194, 00426198, 004261a4, 004261f4, 00426034, 00425ffc, 004260b8...) are elements of it.
+004261f8	g_line_kind5		[s3] char; run_node_optimization_passes sets it to 1 at a LINE record whose byte +0x10 is 5, else 0, and skips the AND/CMP-TST combine while it is set.
+004261fc	s_open_mode_wb		
+00426200	s_psd_f		
+00426208	s_sym_f		
+00426320	g_sua_record_class		[s4] array of 256 x 2 bytes: .sua record body class per op (switch in read_sua_record)
+00426520	g_op_is_code_record		[s4] array of 256 x 2 bytes: 1 when the op occupies a psd slot and counts toward the 0xf0-record block limit (load_next_code_node, advance_sua_record_stream)
+00426720	g_last_line_filno		[s4] filno of the last LINE-class .sua record (read_sua_record class 9), copied into FLABEL records
+00426724	g_last_line_linno		[s4] linno of the last LINE-class .sua record, copied into FLABEL records
+004268c8	g_shift_op_for_value_ratio		[s5] Array of 6 x 1 bytes {0x4b SHLL2, 0x4c SHLL8, 0x4d SHLL16, 0x5b SHLR2, 0x5c SHLR8, 0x5d SHLR16} (find_shift_op_between_values).
+004268d0	g_access_size_bytes		[s5] Array of 4 x 1 bytes {1, 2, 4, 0} indexed by psd.flg & 3 (form_predecrement_postincrement_addressing).
+00427548	g_op_reachability_class		[s5] Array of 256 x 1 bytes indexed by psd_op: 0 invalid, 1 directive (0x0c, 0x10, 0x11, 0x14-0x17, 0x1d-0x1f), 2 label (0x18-0x1b), 3 unconditional transfer (0x21, 0x22, 0x24, 0x8e, 0x92, 0x94, 0x96, 0x9a), 4 other (delete_unreachable_record).
+00427648	g_in_unreachable_code		[s5] 1 after an unconditional transfer until the next label (delete_unreachable_record); dword accesses.
+00427bfc	s_sp_pct_s_nl_00427bfc	char [5]	" %s\n" (a string too short for Ghidra to label)
+00427c48	s_nl_00427c48	char [2]	"\n" (a string too short for Ghidra to label)
+00427c4c	s_dot_00427c4c	char [2]	"." (a string too short for Ghidra to label)
+00427c50	s_pct_c_00427c50	char [3]	"%c" (a string too short for Ghidra to label)
+00427c54	s_sp_sp_sp_00427c54	char [4]	"   " (a string too short for Ghidra to label)
+00427c60	g_literal_label_serial		[s7] Word counter. With request->pic (+0x1a) set, each CALL/JUMP/JUMPT/JUMPF/MOVA_FC/RETURN target literal gets labno2 = -serial, then serial++ (emit_literal_pool_entries_for_record).
+00427c64	g_pool_pending_literal_bytes		[s7] Bytes of literals (2 per word, 4 per long) collected since the last branch decision. Becomes g_pool_carried_literal_bytes at a branch and is zeroed at a flush. Pool-rule state (see the hooks in tools/shcpep-fixes.py).
+00427c68	g_pool_code_bytes		[s7] Code bytes (compute_record_code_size) since the last branch decision.
+00427c6c	g_pool_carried_literal_bytes		[s7] Literal bytes still pending from earlier segments (kept branches). The pool size that is returned/written.
+00427c70	g_pool_carried_code_bytes		[s7] Code bytes since the last pool across kept branches. Set to 0x400 to force the next decision, e.g. after PROGRAM (0xc) or with literals pending at a function end.
+00427c74	g_pool_carried_has_word		[s7] 1 when the carried window holds word literals: the branch limit is then 0x1fe instead of 0x3fc. The 0x10 end rule uses 0x1ce vs 0x3cc.
+00427c78	g_pool_segment_has_word		[s7] 1 when the current segment added a word literal (or a frame offset literal within +-0x8001).
+00427c7c	g_pool_flush_pending		[s7] 1 = a flush was decided but the pool was empty (size 0, no byte written): the next branch record flushes unconditionally.
+00427c80	g_op_code_size_table	short [256]	[s7] Array of 256 x 2 bytes (short per psd_op): target code bytes of each op (MOV 2, BRA/RTS 4, CALL/JUMP 6, JUMPT/JUMPF 10, CASEJMP 58, OP_NON_10 4096). Read by compute_record_code_size. 00427cc8 is its OP_JUMP element.
+00427e80	g_mov_loc_size_table		[s7] Array of 8 x 8 bytes (signed char): MOV_LOC code size by [displacement class][direction/size class] (compute_record_code_size).
+00427ec0	g_sub_record_format_table	unsigned char [0x1e4]	[s7] Array of 0xf2 x 2 bytes: [0] = .sub serialization format (1 machine op, 2 casejmp, 3 ctbl, 4 cent, 5 label, 6 line, 7 none, 8 pseudo instruction, 9 OP_NON_10, 10 section); [1] = expected operand count (checked by write_sub_machine_op_record). 00427ec1 is the second byte.
+004280a8	g_scratch_ea	ea	the operand write_sub_instruction_record fills for a frame access and serializes (s7)
+004281bc	s_empty_004281bc	char [1]	"" (a string too short for Ghidra to label)
+004282b8	g_progress_banner_table		
+0042830c	g_temp_name_buffer		[s7] crt_malloc'd result of make_temp_file_name.
+00428310	g_pid_digit_count		[s7] Decimal digits of the process id (sizes the temp name).
+00428314	g_process_id		[s7] abs(GetCurrentProcessId()), computed once.
+00428318	g_temp_name_counter		[s7] Sequence number in temp names "%s%d.%d".
+0042831c	s_wb_plus_0042831c	char [4]	"wb+" (a string too short for Ghidra to label)
+00428320	s_dot_tmp_00428320	char [5]	".tmp" (a string too short for Ghidra to label)
+004283dc	s_ab_004283dc	char [3]	"ab" (a string too short for Ghidra to label)
+004283e0	s_sp_004283e0	char [2]	" " (a string too short for Ghidra to label)
+004283ec	s_nl_sp_sp_004283ec	char [4]	"\n  " (a string too short for Ghidra to label)
+004283f0	s_pct_d_004283f0	char [3]	"%d" (a string too short for Ghidra to label)
+00428460	stock_errno		[crt] CRT errno (9 EBADF, 0x16 EINVAL, 0x1c ENOSPC, 0x22 ERANGE, 0x18 EMFILE; errtable value in _dosmaperr).
+00428464	stock_doserrno		[crt] CRT _doserrno (OS error saved by _dosmaperr, _read, _write, _commit).
+00428468	stock_umaskval		[crt] CRT _umaskval (_sopen: ~_umaskval & pmode & _S_IWRITE picks the read-only attribute).
+0042846c	stock_osver		[crt] CRT _osver = GetVersion() >> 16 (entry).
+00428470	stock_winver		[crt] CRT _winver = _winmajor*256 + _winminor (entry).
+00428474	stock_winmajor		[crt] CRT _winmajor = GetVersion() & 0xff (entry).
+00428478	stock_winminor		[crt] CRT _winminor = (GetVersion() >> 8) & 0xff (entry).
+0042847c	stock_argc		[crt] CRT __argc (entry passes it to shcpep_main).
+00428480	stock_argv		[crt] CRT __argv (entry passes it to shcpep_main).
+00428488	stock_environ		[crt] CRT _environ (built by _setenvp, maintained by __crtsetenv).
+0042848c	stock_initenv		[crt] CRT __initenv (entry copies _environ into it before main; __crtsetenv calls copy_environ while they are equal).
+00428490	stock_wenviron		[crt] CRT _wenviron (__crtsetenv).
+00428498	stock_pgmptr		[crt] CRT _pgmptr = _pgmname (__setargv).
+004284a0	stock_exitflag		[crt] CRT _exitflag (byte; doexit stores (char)retcaller).
+004284a4	stock_C_Exit_Done		[crt] CRT _C_Exit_Done (doexit sets 1).
+004284a8	stock_aenvptr		[crt] CRT _aenvptr (entry: __crtGetEnvironmentStringsA result; _setenvp frees it).
+004284b0	stock_aexit_rtn		[crt] CRT _aexit_rtn (function pointer initialised to ___exit; __amsg_exit calls it with 255).
+004284b4	stock_error_mode		[crt] CRT __error_mode (_NMSG_WRITE: 1 = _OUT_TO_STDERR, 0 = default).
+004284b8	stock_app_type		[crt] CRT __app_type (_NMSG_WRITE, _free_osfhnd: 1 = _CONSOLE_APP).
+004284cc	stock_ConsoleCtrlHandler_Installed		[crt] CRT signal.c static flag tested by _signal before SetConsoleCtrlHandler.
+004284d0	stock_iob		[crt] CRT _iob: array of 20 x 0x20-byte FILE. 0x004284f0 = _iob[1] (stdout) and 0x00428510 = _iob[2] (stderr) as _crt_shim.c and __flsbuf show; the array ends at _cflush (0x00428750). Base derived from those two references (not itself referenced in this slice).
+004284f0	stock_stdout		[s7] CRT _iob[1] (stdout FILE struct, not a pointer): crt_printf, report_message_file_error_and_exit.
+00428510	stock_stderr		[s7] CRT _iob[2] (stderr FILE struct): emit_progress_banner.
+00428750	stock_cflush		[crt] CRT _cflush (incremented by _stbuf, _openfile, _getbuf).
+00428758	stock_namebuf0		[crt] CRT tmpnam.c static name buffer for tmpnam (_tmpnam: genfname + _access loop); 16 bytes before namebuf1.
+00428768	stock_namebuf1		[crt] CRT tmpnam.c second static name buffer (tmpfile), initialised by init_namebuf.
+00428780	stock_stdbuf		[crt] CRT _sftbuf.c static void *_stdbuf[2] (temporary stdout/stderr buffers, __stbuf). Array of 2 x 4 bytes.
+004287a0	stock_nullstring		[crt] CRT output.c pointer to "(null)" (%s/%Z with NULL).
+004287a4	stock_wnullstring		[crt] CRT output.c pointer to L"(null)" (%S with NULL).
+004287a8	stock_newmode		[s7] CRT _newmode: call_new_handler argument of crt_malloc / crt_calloc. | [crt] CRT _newmode (realloc retries through _callnewh only when set).
+004287b0	stock_NLG_Destination		[crt] CRT exsup _NLG_Destination {dwSig, uoffDestination +4, dwCode +8, uoffFramePointer +0xc}; _NLG_Notify writes 0x004287b4/b8/bc. Array of 4 x 4 bytes; base derived.
+004287c0	stock_XcptActTab		[crt] CRT _XcptActTab (winxfltr.c): 12-byte {XcptNum, SigNum, XcptAction} entries searched by siglookup.
+00428840	stock_XcptActTabCount		[crt] CRT _XcptActTabCount (siglookup's bound).
+00428850	stock_f_use_GetEnvironmentStrings		[crt] CRT aw_env.c static f_use (1 = W API, 2 = A API) in __crtGetEnvironmentStringsA.
+00428858	stock_mbctype		[crt] CRT _mbctype: array of 257 bytes (indexed c+1; _M1 lead 4, _M2 trail 8), filled by _setmbcp, read by _mbschr/_mbsrchr.
+0042895c	stock_mbcodepage		[crt] CRT __mbcodepage (0 = SBCS; _setmbcp, _mbschr, _mbsrchr).
+00428960	stock_mblcid		[crt] CRT __mblcid (_setmbcp: _CPtoLCID(codepage)).
+00428968	stock_mbulinfo		[crt] CRT __mbulinfo: array of 3 x 4 bytes (0x00428968/6c/70) set by _setmbcp.
+00428974	stock_fSystemSet		[crt] CRT mbctype.c static fSystemSet (_setmbcp falls back to setSBCS when set and GetCPInfo fails).
+00428978	stock_rgctypeflag		[crt] CRT mbctype.c __rgctypeflag: array of 4 bytes ORed into _mbctype per range set.
+00428980	stock_rgcode_page_info		[crt] CRT mbctype.c __rgcode_page_info: array of 0x30-byte {code_page, mbulinfo[3], rgrange[4][8]} entries up to 0x00428a70.
+00428a70	stock_badioinfo		[crt] CRT __badioinfo (ioinfo used for fh == -1 in __flsbuf's _osfile_safe).
+00428ce0	stock_rterrs		[crt] CRT crt0msg.c rterrs: array of 8-byte {rterrno, rterrtxt} entries to 0x00428d68 (_NMSG_WRITE).
+00428dd0	stock_errtable		[crt] CRT dosmap.c errtable: array of 8-byte {oscode, errnocode} entries to 0x00428f38 (_dosmaperr).
+00428f48	stock_pctype		[crt] CRT _pctype (pointer to the unsigned short ctype table; _output, strtoxl).
+00429154	stock_mb_cur_max		[crt] CRT __mb_cur_max (strtoxl uses _isctype when > 1; _wctomb).
+00429160	stock_cfltcvt_tab		[crt] CRT _cfltcvt_tab: array of function pointers (_cfltcvt +0, _cropzeros +4, _fassign +8, _forcdecpt +0xc, ...) that _output calls for %e/%f/%g; defaults point at _fptrap.
+004291b0	stock_lc_handle		[crt] CRT __lc_handle: array of 6 x 4-byte LCIDs; 0x004291b8 = __lc_handle[LC_CTYPE] (read by _wctomb, _toupper, __crtGetStringTypeA). Base derived from LC_CTYPE == 2 and __lc_codepage directly after it.
+004291c8	stock_lc_codepage		[crt] CRT __lc_codepage (getSystemCP, _wctomb, default code page of __crtCompareStringA/__crtGetStringTypeA).
+004291cc	stock_pfnMessageBoxA		[crt] CRT crtmbox.c static MessageBoxA pointer (__crtMessageBoxA).
+004291d0	stock_pfnGetActiveWindow		[crt] CRT crtmbox.c static GetActiveWindow pointer.
+004291d4	stock_pfnGetLastActivePopup		[crt] CRT crtmbox.c static GetLastActivePopup pointer.
+00429214	stock_fmode		[crt] CRT _fmode (_sopen's default text/binary mode).
+0042921c	stock_f_use_GetStringType		[crt] CRT a_str.c static f_use in __crtGetStringTypeA.
+0042922c	stock_f_use_CompareString		[crt] CRT a_cmp.c static f_use in __crtCompareStringA (1 = W, 2 = A).
+00429234	stock_f_use_LCMapString		[crt] CRT a_map.c static f_use in __crtLCMapStringA.
+00429238	g_sua_read_file		[s2] set by read_sua_record_body from its FILE * argument (its caller passes g_sua_input); read by read_sua_bytes and passed to FUN_0041bff0 (fread wrapper, FILE * parameter)
+00429240	g_symbol_sequence_counter		[s3] Incremented for every symbol record loaded and stored in the record's +0x1c.
+00429248	g_asa_read_buffer	unsigned char [8]	[s3] array of 8 bytes: load_symbol_aux_record_stream reads the tag byte and the 8-byte symbol header into it.
+00429348	g_asa_input		[s3] The .asa (symbol/aux) stream opened by load_symbol_aux_record_stream, read by read_asa_bytes.
+0042934c	g_string_pool_cursor		[s3] Next free byte in the current 0x100-byte name pool block (read_asa_counted_string).
+00429350	g_string_pool_end		[s3] End of the current name pool block.
+00429354	g_string_pool_block		[s3] Current 0x100-byte name pool block.
+00429358	g_ofb_record_out		[s4] output the write_ofb_* writers use, set by write_ofb_record from its first argument (always g_ofb_output)
+0042935c	g_sub_filno		[s7] Source file number of the record being written to .sub (set by the LINE/machine op/OP_NON_10 writers, 1 at each write_sub_record). Passed to FUN_00410e90 for write errors.
+00429360	g_sub_linno		[s7] Source line of the record being written to .sub (paired with g_sub_filno).
+00429364	g_sub_report_extra_arg		[s7] Zeroed by write_sub_record. Pushed as a 5th argument (after the text pointer) in every FUN_00410e90 call of the .sub writers, which takes only 4. Meaning unknown.
+00429368	g_request_being_loaded	request *	[s7] The request load_request_record_file allocates and fills. Copied to g_loaded_request when complete. Would be request *.
+00429374	g_temp_file_count		[s7] Entries used in g_temp_files (max 8).
+00429378	g_temp_files	temp_file [8]	[s7] Array of 8 x 8 bytes {char *path; FILE *file} (0042937c is element 0's file). Kept by open_temp_file, freed by close_and_delete_temp_files.
+004293cc	g_temp_path_in_progress		[s7] Temp path being built by open_temp_file (moved into g_temp_files).
+004293d0	g_message_number_text		[s7] Array of 8 bytes: sprintf("%d", msgno) buffer in report_message_file_error_and_exit.
+004293d8	g_env_directory	char [0x76]	[s7] Array of 0x76 bytes: get_env_directory's static result (up to 0x74 chars + '\\' + NUL). 0042944b/0042944c are its last bytes.
+00429458	stock_pnhHeap		[crt] CRT _pnhHeap (new handler called by _callnewh).
+00429460	stock_pgmname		[crt] CRT setargv.c static char _pgmname[MAX_PATH] (GetModuleFileNameA target in __setargv).
+00429570	g_word_literal_table	literal_table	[s7] Literal hash table for word literals: {head, tail, count, buckets[0x7f]} (0x208 bytes used, tables 0x210 apart). find_pool_literal / add_pool_literal / clear_pool_literal_table. Array of 1 x 0x210 bytes.
+00429780	g_long_literal_table	literal_table	[s7] Same layout as g_word_literal_table, for long literals.
+00429990	g_frame_offset_literal_table	literal_table	[s7] Same layout, for the out-of-range stack displacements of MOV_LOC/MOVA_LC (0x27/0x28) records.
+00429b98	g_branch_uses_lo		[s6] registers (bits for 0..0x5f) the branch and the records between it and the slot candidate read; fill_branch_delay_slots, accumulate_compare_test_record_masks, add_epilogue_register_masks, validate_branch_rewrite_masks, delay_slot_masks_disjoint, rewrite_delay_move_branch_sequence.
+00429b9c	g_branch_uses_hi		[s6] the same for registers >= 0x60 (T, GBR, PR, memory ...).
+00429ba0	g_branch_defs_lo		[s6] registers (low word) the branch window writes.
+00429ba4	g_branch_defs_hi		[s6] the same, high word.
+00429ba8	g_common_tail_b	psd *	[s5] First record of the common tail in block_b. | [s6] first common record in block b, passed as common_b.
+00429bac	g_common_tail_count		[s5] Number of common tail records (count_common_tail_records result; dword store). | [s6] number of common records found by 00413850 for the common-code merge (00413490); make_common_code_block sizes the new block from it.
+00429bb0	g_common_tail_a	psd *	[s5] First record of the common tail in block_a (count_common_tail_records out param, passed to FUN_00413ce0). | [s6] first common record in block a (out parameter of 00413850), passed to make_common_code_block as common_a.
+00429bb4	g_block_being_loaded	code_node *	[s4] first node of the block load_next_code_node is filling; 0 at each load_next_code_node_list
+00429bb8	g_last_loaded_node	code_node *	[s4] last node chained by load_next_code_node
+00429bbc	g_current_input_record		
+00429bc0	g_pushed_back_record	psd *	[s3] A psd record (0x18, from FUN_0040d8a0) pushed back to be returned by advance_sua_record_stream before reading the next .sua record; reset to 0 in optimize_current_node_list. | [s4] 0x18 record saved by advance_sua_record_stream when it injects the entry MOV; consumed and freed on the next advance
+00429bc4	g_last_block	code_node *	[s3] The last block of g_current_node_list (set in load_next_code_node and optimize_current_node_list); predecessor of a block being loaded in find_preceding_nonempty_block. | [s4] last block of g_current_node_list (optimize_current_node_list links next_block through it) | [s5] The last block linked into the block list: merge_common_block_tails appends after it and walks next_block to the end; rewrite_branch_target_chains sets it to the block before the one it re-merges. | [s6] the block before g_current_block / the tail of the list being built (optimize_current_node_list appends after it; rewrite_branch_targets_for_node_list sets the predecessor; 00409b70 falls back to it).
+00429bd0	g_empty_psd		[s2] array of 6 x 4 bytes (0x18, one psd): template copied into local psd buffers before dc_cpycd/0041a950 copies (00404750, 00404bd0, 00405a80) | [s4] array of 6 x 4 bytes: the zero psd template copied for synthesized LINE/BRA/LABEL records
+00429be8	g_last_labno		[s3] 2-byte value read by the 0xd terminator tag; shcpep_main stores it (sign-extended) back into request+0xac, the count the loader allocates symbol records for. | [s4] highest label number: read from the .asa terminator (tag 0xd), bumped by FUN_00414060 dc_mklab, written back by write_asb_label_count_record | [s6] last label number handed out; make_new_label_number pre-increments it (limit 0x7fff); shcpep_main stores it back to request +0xac; loaded in load_symbol_aux_record_stream (0040a630(&,2)).
+00429bec	g_block_flushed_early		[s4] set by flush_block_to_output; reset by optimize_current_node_list, tested by FUN_00401000
+00429bf0	g_current_request	request *	
+00429bf4	g_aux_record_count		[s3] Index of the next aux record while loading (tag 0xc), stored into the function symbol's +0x10; reset to 0 at the end.
+00429bf8	g_label_alloc_disabled		[s6] make_new_label_number returns 0 when == 1 (4-byte compare); no writer seen in the exports.
+00429bfc	g_sub_output		
+00429c00	g_sua_input		
+00429c04	g_switch_scan_block	code_node *	[s4] block cursor of FUN_00415630 (the sw_delete scan), reset by optimize_current_node_list | [s6] cursor block of delete_switch_markers_from_cursor (0 = start at g_current_node_list).
+00429c08	g_node_list_word_00429c08	int	Zeroed by optimize_current_node_list at each function; read nowhere in this stage.
+00429c10	g_asa_trailer_bytes		[s3] array of 0x20 bytes read by the 0xe tag. | [s4] array of 0x20 bytes from the .asa tag-0xe record, re-emitted by write_asb_trailer_record
+00429c30	g_brsrchk_switch_marker		[s6] find_block_label_jump: 0 normally, 1 when it stopped at SWBGN, -1 at SWEND (written as 4 bytes; Ghidra warns it overlaps smaller symbols).
+00429c34	g_cur_sptravel		[s4] running stack pointer offset (psd.sptravel), track_stack_pointer_travel | [s6] running stack pointer travel: 0040d9c0 adds/subtracts push/pop sizes and stores it in psd.sptravel; load_next_code_node resets it to 0 after JUMP/RETURN; make_common_code_block uses it for the new LABEL's sptravel.
+00429c38	g_current_block	code_node *	[s4] block most recently started by load_next_code_node; returned by load_next_code_node_list; flags |= 2 when the stream breaks a block | [s5] The block being completed: find_block_with_common_tail compares it, rewrite_branch_target_chains writes its target_labno (+6) and swaps it temporarily. | [s6] the block being loaded/processed (load_next_code_node sets it; rewrite_branch_targets_for_node_list sets it per block; move_target_block_after_jump reads and updates it).
+00429c40	g_rec_use_mask_lo		[s1] low word of registers read before set in the record sequence matched by FUN_00410cb0 (written there; read by match_leading_records, delete_matched_target_prefix, remove_target_prefix_executed_by_preds) | [s2] mask (registers 0..0x5f, bits from g_reg_mask_table) of registers a record uses or sets; cleared and filled by 004197b0 / 00419060 (a set register goes here and in g_rec_regs_set_lo); read by defer_memory_post_increment | [s4] word 0 of the mask FUN_004197b0 fills with every register a record references | [s5] Use mask word 0 of a record (FUN_004197b0), or the exposed uses of a run (match_common_record_run); dword accesses. | [s6] registers the delay-slot candidate reads (validate_branch_rewrite_masks computes them, delay_slot_masks_disjoint tests them). | [s7] Registers 0..0x5f the current record reads or writes (compute_record_register_masks / accumulate_*). OR'd into 00429b98 by validate_branch_rewrite_masks.
+00429c44	g_rec_use_mask_hi		[s1] high word of the same mask (FUN_00410cb0) | [s2] as g_rec_regs_touched_lo for registers >= 0x60 | [s4] word 1 of the same | [s5] Use mask word 1 (regs 0x60..0x7f), set together with g_rec_use_mask_lo. | [s6] the same, high word. | [s7] Same for register numbers >= 0x60 (T, GBR, MACH, MACL, PR, memory ...).
+00429c50	g_switch_marker_pairs		[s4] array of N x 8 bytes {SWBGN psd *, SWEND psd *} indexed by g_switch_depth (FUN_00414de0 sw_delete) | [s6] array of {psd *swbgn; psd *swend} (8 bytes each) indexed by g_switch_marker_depth (00429c54 is the swend half of entry 0); extent unknown. Used by delete_switch_marker_pair and 0040ea50.
+00429c54	g_switch_brackets_end		[s4] the SWEND column (+4) of g_switch_brackets
+00429cf0	g_block_complete		[s4] 1 when the block being loaded has ended (transfer, label, section record, 0xf0 records)
+00429cf4	g_block_code_count		[s4] code records in the current block (limit 0xf0)
+00429cf8	g_ofb_output		
+00429cfc	g_stream_func_aux_index		[s4] aux table index of the function the .sua stream is in (its FLABEL symbol +0x10); apply_function_register_remap
+00429d00	g_asa_trailer_value1	short	[s3] 2-byte value read by the 0xe tag (first). | [s4] 2 bytes from the .asa tag-0xe record (DAT_00429d01 is its high byte), re-emitted by write_asb_trailer_record
+00429d04	g_current_aux_index		[s1] index of the current function's 0x44-byte record in g_aux_record_table (assigned from a sign-extended short); fold_add_immediates / find_next_stack_adjust read +0 and +0x24 of that record (stack frame adjustment) | [s3] Aux record index of the function being processed (set from the FLABEL symbol's +0x10 in load_next_code_node); used by compute_setup_sequence_node_count, build_setup_sequence_node_records, expand_flagged_record_into_setup_nodes, drop_pr_save_restore_if_no_calls. | [s4] aux table index of the function whose nodes are being built (load_next_code_node FLABEL), for the max stack depth in track_stack_pointer_travel | [s5] Index of the current function's 0x44-byte record in g_aux_record_table (collect_enter_exit_register_masks, FUN_00416170). Read both as a word (MOVSX) and as a dword, so the type is left empty. | [s6] index of the current function's 0x44-byte aux record (g_aux_record_table + index*0x44); set in load_next_code_node. | [s7] Index of the current function's 0x44-byte record in g_aux_record_table (dword accesses, (short) casts when passed to count_saved_registers).
+00429d08	g_reuse_input_record		[s3] When 1, advance_sua_record_stream returns without reading (the current record is processed again); set after section/label records, cleared in run_prep_pass_and_emit_backend_files. | [s4] 1 = g_current_input_record not consumed yet (it starts the next block); advance_sua_record_stream then returns without reading
+00429d0c	g_current_section	request_section *	[s4] section record from find_section_record; +8 is its location counter, *it the section number | [s6] pointer to the current function's record from the request's +0x24 list (0040fae0 looks it up by number); its first short is copied into new label entries (+0x18). Record not typed yet.
+00429d10	g_symbol_records	symbol *	[s3] EXISTING NAME MISLEADING: it is the symbol record array (calloc(request+0xac, 0x2c) in load_symbol_aux_record_stream), later used as a cursor over the symbol records by run_prep_pass_and_emit_backend_files. Proposed: g_symbol_records.
+00429d14	g_in_program_section		[s3] Set to 1 by a PROGRAM (0xc) section record, 0 at other section records / end; run_prep_pass_and_emit_backend_files calls optimize_current_node_list while it is 1. | [s4] 1 after a PROGRAM (0xc) record; run_prep_pass_and_emit_backend_files runs optimize_current_node_list while set
+00429d18	g_label_ref_template	label_ref	copied into emit_branch_around_literal_pool's label list before it is filled
+00429d20	g_asb_output		
+00429d24	g_switch_scan_single_block		[s4] FUN_00415630 processes only the next block when set (flush_block_to_output sets it around the call) | [s6] 1 while 0040ea50 (emission) scans one block: delete_switch_marker_pair records 0 instead of the markers (nothing deleted) and delete_switch_markers_from_cursor does a single block. Reset in optimize_current_node_list.
+00429d28	g_last_symbol_record	symbol *	[s3] Pointer to the last loaded symbol record (0x2c records); run_prep_pass_and_emit_backend_files iterates the records up to it.
+00429d30	g_symbol_hash	symbol *[0x3fd]	[s3] array of 0x3fd x 4 bytes: symbol record hash buckets (index number % 0x3fd, chain at record +0x14, key short at +6). | [s4] array of 0x3fd x 4 bytes: symbol/label records (0x2c bytes, see label_sym) hashed by labno % 0x3fd, chained at +0x14 | [s5] Array of 0x3fd x 4 bytes: hash buckets (labno % 0x3fd) of the 0x2c-byte label/symbol records (proposed struct label_sym), chained through +0x14. | [s6] array of 0x3fd x 4 bytes: hash buckets (labno % 0x3fd) of the 0x2c-byte label entries chained by +0x14 (label_entry in types_proposal.h).
+0042ad24	g_input_finished		[s3] Set to 1 at the end of the .sua stream or at a non-PROGRAM section; ends the loops in run_prep_pass_and_emit_backend_files / optimize_current_node_list. | [s4] 1 at the end of the .sua input
+0042ad30	g_ea_template	ea	copied into emit_branch_around_literal_pool's operand before it is filled
+0042ad3c	g_after_switch_end		[s6] set to 1 by delete_switch_markers_in_block after a SWEND; from then on label records also go to delete_switch_marker_pair. Reset in optimize_current_node_list.
+0042ad40	g_section_end		[s3] Set to 1 when the stream reaches a section record, FLABEL or the end: the function's blocks are all loaded (optimize_current_node_list loops until it; merge_adjacent_nodes_and_clear_label_refs only drops labels then). | [s4] 1 ends the node list (FLABEL, section records, EOF); optimize_current_node_list loops until set
+0042ad44	g_last_allocation		[s4] last block returned by alloc_zeroed_flushing_blocks
+0042ad48	g_asa_trailer_value2	short	[s3] 2-byte value read by the 0xe tag (second). | [s4] 2 bytes from the .asa tag-0xe record (DAT_0042ad49 is its high byte)
+0042ad4c	g_current_symbol	symbol *	[s3] Current symbol record (0x2c): loader cursor, and the result of the last lookup in increment_label_ref_count, get_symbol_attr_* and many passes. Would be symbol_record * (types_proposal.h). | [s4] symbol record cursor (0x2c records): set by flush_pending_label_record and run_prep_pass_and_emit_backend_files for the write_asb_* writers | [s5] The label_sym found by the last hash lookup (a cursor shared by many functions); would be label_sym * if that struct is accepted. | [s6] the label entry last looked up (written by every inline hash walk, check_label_movable, 00407fe0). label_entry * if that struct is adopted.
+0042ad50	g_aux_record_table	aux_record *	
+0042ad58	g_rec_def_mask_lo		[s1] low word of registers set in the matched sequence (FUN_00410cb0); a nonzero AND with g_match_use_lo makes match_leading_records return -1 | [s2] mask (registers 0..0x5f) of registers a record sets; filled by 00419060 / 004197b0; read by defer_memory_post_increment | [s4] word 0 of the mask FUN_004197b0 fills with the registers a record writes | [s5] Def (registers set) mask word 0, from FUN_004197b0 / match_common_record_run. | [s6] registers the candidate writes. | [s7] Registers 0..0x5f the current record modifies.
+0042ad5c	g_rec_def_mask_hi		[s1] high word of the same mask | [s2] as g_rec_regs_set_lo for registers >= 0x60 | [s4] word 1 of the same | [s5] Def mask word 1. | [s6] the same, high word. | [s7] Same for register numbers >= 0x60.
+0042ad60	g_switch_marker_depth		[s4] nesting index into g_switch_brackets | [s6] SWBGN/SWEND nesting depth for g_switch_marker_pairs; reset in optimize_current_node_list.
+0042ad64	g_stage_flags		
+0042ad68	g_tail_merge_in_list	int	1 while rewrite_branch_targets_for_node_list / rewrite_branch_target_chains run merge_common_block_tails on blocks already in the node list (it then links the merged block after the other one); 0 while blocks are loaded (load_next_code_node).
+0042ad6c	g_entry_arg_move_pending		[s4] 1 at each node list start; advance_sua_record_stream injects MOV.L Rk,R0 (k = aux +0x28 in 4..7) once and clears it
+0042ad70	g_current_node_list	code_node *	
+0042ad80	g_reg_remap_table		[s4] array of 0x6d x 1 byte: register -> remapped register for the current expno (apply_function_register_remap)
+0042adf0	g_reg_remap_expno		[s4] expno g_reg_remap_table was built for
+0042adf4	g_copy_rest_verbatim		[s3] Set by FUN_0040d470; run_prep_pass_and_emit_backend_files then writes the current record and copies the remaining .sua bytes to .sub unchanged. | [s4] set by read_sua_record (classes 2 and 11); run_prep_pass_and_emit_backend_files then copies the rest of .sua to .sub verbatim
+0042adf8	g_lit_output		
+0042adfc	g_location_counter		[s4] byte offset of the next emitted record in the section; loaded from / saved to g_current_section +8; becomes label values (sym +8)
+0042ae00	g_request_result_0d4	int	Stored into request->result_0d4 by shcpep_main; never written in this stage (0).
+0042ae04	g_request	request *	[s3] Copy of g_current_request made in shcpep_main (accessed as an int elsewhere, e.g. +0x1a in emit_literal_pool_entries_for_record). | [s7] Copy of g_current_request made by shcpep_main. Read by emit_literal_pool_entries_for_record (+0x1a, +0x13d, +0x14b) and compute_record_code_size (+0x13d). Would be request *.
+0042ae08	g_flow_blocks	flow_block *	[s1] head of the flow block list: set by build_flow_blocks, walked by optimize_flow_graph / link_flow_block_targets_and_preds / delete_repeated_r0_constant_loads, cleared by free_flow_block(NULL)
+0042ae0c	g_block_end_record_bytes		[s4] sum of measure_serialized_record_size of the terminal records of a list (reset when a list starts); only written in this slice
+0042ae10	g_symbol_record_base	symbol *	[s3] Base of the calloc'd symbol record array (copy of g_code_record_array at load time); the 0xd/0xe tags compare against it.
+0042ae14	g_lib_env_name_14		[s7] SHC_LIB or "SHCPP_LIB" (also written to 0042ae18/20/24; distinct uses not seen in this stage).
+0042ae18	g_lib_env_name_18		[s7] SHC_LIB or "SHCPP_LIB".
+0042ae1c	g_tmp_env_name		[s7] SHC_TMP or "SHCPP_TMP" (select_env_variable_names). Directory for temp files.
+0042ae20	g_lib_env_name_20		[s7] SHC_LIB or "SHCPP_LIB".
+0042ae24	g_lib_env_name_24		[s7] SHC_LIB or "SHCPP_LIB".
+0042ae28	g_inc_env_name		[s7] SHC_INC or "SHCPP_INC".
+0042ae2c	g_request_record_path		
+0042ae30	g_request_trailer_file		[s7] Temp file holding the bytes after the request record (save_request_trailer_to_temp), copied back by copy_request_trailer_from_temp. NULL if none.
+0042ae34	g_loaded_request	request *	
+0042ae38	g_request_version_mismatch		[s7] 1 when a C request's compiler/copyright strings (+0x11c/+0x120) differ from this binary's: error 0xceb on load.
+0042ae3a	g_request_cpp_block_size		[s7] Byte size of the C++ block at request+0x144 (read_/write_request_cpp_block).
+0042ae3c	g_request_fixed_size		[s7] Size of the request's fixed part: the request file's first short (alloc size of the request).
+0042ae40	stock_nhandle		[crt] CRT _nhandle (number of ioinfo entries; +32 per block).
+0042ae50	stock_pioinfo		[crt] CRT __pioinfo: array of 64 x 4-byte pointers to 32-entry blocks of 8-byte ioinfo {osfhnd, osfile, pipech}, up to 0x0042af50 (_alloc_osfhnd's bound).
+0042af50	stock_crtheap		[s7] CRT _crtheap HANDLE (HeapAlloc/HeapFree). | [crt] CRT _crtheap (HeapCreate in _heap_init; HeapReAlloc in realloc).
+0042af54	stock_nstream		[crt] CRT _nstream (stream table size; _fcloseall, _rmtmp).
+0042af58	stock_piob		[crt] CRT __piob (pointer to the FILE * table; flsall walks 512 entries).
+0042bf60	stock_acmdln		[crt] CRT _acmdln = GetCommandLineA() (entry).
+0042bf64	stock_onexitend		[crt] CRT __onexitend (doexit walks back from it).
+0042bf68	stock_fpinit		[s7] CRT _FPinit function pointer (crt_cinit).
+0042bf6c	stock_onexitbegin		[crt] CRT __onexitbegin (doexit).

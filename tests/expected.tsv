@@ -1,0 +1,18 @@
+# tests/cases outputs with the default rules (tests/parity.py)
+argconst	obj:0:eb362823120f996b src:0:3452e2d3f3e42645
+macl	obj:0:5794f782e4d5ba52 src:0:025df92de1cadf80
+multiply	obj:0:7b95c784c449f92e src:0:2b2c95144e58ed0d
+multiply_opt0	obj:0:0f7a11195bf8c397 src:0:b1873554b9ab182c
+multiply_sh4	obj:0:f88f45ba70eafe16 src:0:b4503c800477da4f
+r0const	obj:0:649c68b5cb0accf9 src:0:e970d4ec9a56e1f8
+returns	obj:0:8cfe2e57273dd401 src:0:1d0122abb43f9635
+returns_size	obj:0:993cdd5394ef0547 src:0:75494ec991ac9a20
+slots	obj:0:6f886f419f0efbfc src:0:ca2b94669fc90061
+slots_noinline	obj:0:2b0794feb2544ea7 src:0:ca2b94669fc90061
+slots_pic	obj:0:1b6ce9e52dca70b2 src:0:74d92d52941a6894
+switch	obj:0:01ebaad53b1ec033 src:0:a41a98b2896f9b79
+switch_opt0	obj:0:b26118052d8f233d src:0:df3fce9435ab593b
+switch_sh1	obj:0:56079cfdc24cf58f src:0:514c825ca74e4242
+tested	obj:0:2ff9ac385b01bcbe src:0:3aa38d6e3d1738c6
+tested_little	obj:0:eb7187bb774231fb src:0:3aa38d6e3d1738c6
+threads	obj:0:47679f9ebfd2f2be src:0:a699898070d32999

@@ -1,0 +1,420 @@
+# address	name	type	note
+00441220	g_builtin_function_names		array of 8-byte {char *name; short; short id} entries ending with a null name (00401c00: built-in id of a declared function, stored in sym_entry +0c)
+00441226	g_builtin_function_ids		not a separate variable: the short id field (+6) of g_builtin_function_names entries (00441220 + 6, stride 8) read by lookup_builtin_function_id; better typed as the struct of g_builtin_function_names than named
+004415a0	g_emit_handler_by_op		array of 0x80 x 4 bytes indexed by il_op, read by emit_node_code: code pointers for 0x20..0x7f (00414400 for most, emit_logical_not_node 0x2c, emit_comparison_node 0x60/61/64..67, emit_logical_and_or_node 0x68/69, emit_comma_node 0x6c, emit_call_node 0x78, emit_conditional_node 0x7f); 0 = no handler (error 0x11fe); 1 = nothing to emit. Entries below 0x20 overlap the constant operands (g_ea_imm0 at 004415c0 ...)
+004415c0	g_ea_imm0	ea	#0 (00404b90: value of a failed AND/OR)
+004415cc	g_ea_imm1	ea	#1 (00404b90: value of a successful AND/OR)
+004415d8	g_ea_r0		ea constant R0 (type 1 EAREGD, base 0): CMP/EQ #0,R0 and XOR #1,R0 in emit_comparison_node / emit_logical_not_node
+004415e4	g_ea_imm8		ea constant #8 (EAIMM 8): emit_node_code ADD #8,R15 dropping a pushed 8-byte value
+004415f0	g_ea_r15		ea constant R15 (EAREGD 0x0f): the stack pointer operand of every ADD #n,R15 (emit_call_node, emit_node_code)
+004415fc	g_ea_imm_minus8		ea constant #-8 (EAIMM 0xfffffff8): emit_call_node reserves 8 bytes for a double result without FPU
+00441608	g_ea_predec_r15		ea constant @-R15 (EAPRDEC base 0x0f), the copy in this table (g_ea_push 004497f0 is another): emit_call_node pushes the struct return address / result space
+00441614	g_ea_postinc_r15		ea constant @R15+ (EAPOINC base 0x0f), copy of g_ea_pop 004497e0: emit_call_node reads pushed arguments
+004417b0	g_alloc_size_classes		= shcpep g_alloc_size_classes: first size-class table block (alloc_class_table, malloc 0x108) of alloc_zeroed / pool_free. Would be alloc_class_table * with the types_proposal.h struct
+004417b4	g_open_mode_rb		s9: mode string of load_request_record_file's stock_fopen ("rb" per shcpep s_open_mode_rb 00425c98; string too short for the strings dump). (also proposed: s_open_mode_rb)
+00443b40	g_test_short_reg_entries		array of tmpl_entry (3 x 12 bytes): EXTU (0x1700) r,r ; TST r,r ; end: zero test of a char/short value in a register, opnd_class 0 (004141b0)
+00443b68	g_test_short_mem_entries		array of tmpl_entry (3 x 12 bytes): load (macro 0xc00) ; TST: char/short value in memory (004141b0)
+00443b90	g_test_int_reg_entries		array of tmpl_entry (2 x 12 bytes): TST r,r ; end: int/pointer value in a register (004141b0)
+00443ba8	g_test_double_soft_entries		array of tmpl_entry (6 x 12 bytes) ending in CALL / TST: double test without SH-4 double support (004141b0)
+00443bf0	g_test_int_mem_entries		array of tmpl_entry (3 x 12 bytes): load (macro 0xc00) ; TST: int/pointer value in memory (004141b0)
+00443c18	g_test_float_soft_reg_entries		array of tmpl_entry (3 x 12 bytes): SHLL ; TST: float without an FPU, in a register (004141b0)
+00443c40	g_test_float_soft_mem_entries		array of tmpl_entry (4 x 12 bytes): load ; SHLL ; TST: float without an FPU, in memory (004141b0)
+00443c70	g_test_short_fixed_reg_entries		array of tmpl_entry (3 x 12 bytes): EXTU into a slot register ; TST: char/short value in a fixed register, opnd_class 1 (004141b0)
+00443c98	g_test_float_fpu_entries		array of tmpl_entry (5 x 12 bytes): load, FPSCR switch macro 0x3800, psd ops 0xb3 / 0xc0: float test with an FPU (004141b0)
+00443cd8	g_test_double_fpu_entries		array of tmpl_entry (7 x 12 bytes): load, MOVI, LDS, macro 0x3900, psd ops 0xdc / 0xc0: SH-4 double test (004141b0)
+00443d48	g_tmpl_ald000		tmpl_header ald000 (g_template_names 0045a378): returned by select_load_template
+00443db8	g_tmpl_ald001		tmpl_header ald001 (g_template_names 0045a378): returned by select_load_template
+00443e30	g_tmpl_ald002		tmpl_header ald002 (g_template_names 0045a378): returned by select_load_template
+00443e90	g_tmpl_ald003		tmpl_header ald003 (g_template_names 0045a378): returned by select_load_template
+00443f00	g_tmpl_ald005		tmpl_header ald005 (g_template_names 0045a378): returned by select_load_template
+00443f70	g_tmpl_ald009		tmpl_header ald009 (g_template_names 0045a378): returned by select_load_template
+00443fd0	g_tmpl_ald014		tmpl_header ald014 (g_template_names 0045a378): returned by select_load_template
+00444048	g_tmpl_ald016		tmpl_header ald016 (g_template_names 0045a378): returned by select_load_template
+004440b8	g_tmpl_ald020		tmpl_header ald020 (g_template_names 0045a378): returned by select_load_template
+00444128	g_tmpl_ald021		tmpl_header ald021 (g_template_names 0045a378): returned by select_load_template
+004441e8	g_tmpl_ald023		tmpl_header ald023 (g_template_names 0045a378): returned by select_load_template
+00444248	g_tmpl_ald028		tmpl_header ald028 (g_template_names 0045a378): returned by select_load_template
+004442a8	g_tmpl_ald029		tmpl_header ald029 (g_template_names 0045a378): returned by select_load_template
+00444308	g_tmpl_ald024		tmpl_header ald024 (g_template_names 0045a378): returned by select_load_template
+00444378	g_tmpl_ald025		tmpl_header ald025 (g_template_names 0045a378): returned by select_load_template
+004443f0	g_tmpl_ald026		tmpl_header ald026 (g_template_names 0045a378): returned by select_load_template
+00444460	g_tmpl_ald027		tmpl_header ald027 (g_template_names 0045a378): returned by select_load_template
+004444d8	g_tmpl_ald030		tmpl_header ald030 (g_template_names 0045a378): returned by select_load_template
+00444550	g_tmpl_ald037		tmpl_header ald037 (g_template_names 0045a378): returned by select_load_template
+004445c0	g_tmpl_ald031		tmpl_header ald031 (g_template_names 0045a378): returned by select_load_template
+00444630	g_tmpl_ald044		tmpl_header ald044 (g_template_names 0045a378): returned by select_load_template
+004446a0	g_tmpl_ald032		tmpl_header ald032 (g_template_names 0045a378): returned by select_load_template
+00444710	g_tmpl_ald033		tmpl_header ald033 (g_template_names 0045a378): returned by select_load_template
+00444780	g_tmpl_ald043		tmpl_header ald043 (g_template_names 0045a378): returned by select_load_template
+004447f8	g_tmpl_ald038		tmpl_header ald038 (g_template_names 0045a378): returned by select_load_template
+00444870	g_tmpl_ald039		tmpl_header ald039 (g_template_names 0045a378): returned by select_load_template
+004448f8	g_tmpl_ald034		tmpl_header ald034 (g_template_names 0045a378): returned by select_load_template
+00444980	g_tmpl_ald040		tmpl_header ald040 (g_template_names 0045a378): returned by select_load_template
+00444a08	g_tmpl_ald035		tmpl_header ald035 (g_template_names 0045a378): returned by select_load_template
+00444a90	g_tmpl_ald041		tmpl_header ald041 (g_template_names 0045a378): returned by select_load_template
+00444b18	g_tmpl_ald036		tmpl_header ald036 (g_template_names 0045a378): returned by select_load_template
+00444ba0	g_tmpl_ald042		tmpl_header ald042 (g_template_names 0045a378): returned by select_load_template
+00444c10	g_tmpl_ald045		tmpl_header ald045 (g_template_names 0045a378): returned by select_load_template
+00444c80	g_tmpl_ald046		tmpl_header ald046 (g_template_names 0045a378): returned by select_load_template
+00444ce0	g_tmpl_ast000		tmpl_header ast000 (g_template_names 0045a378): returned by select_store_template
+00444d50	g_tmpl_ast001		tmpl_header ast001 (g_template_names 0045a378): returned by select_store_template
+00444db0	g_tmpl_ast002		tmpl_header ast002 (g_template_names 0045a378): returned by select_store_template
+00444e20	g_tmpl_ast003		tmpl_header ast003 (g_template_names 0045a378): returned by select_store_template
+00444e90	g_tmpl_ast005		tmpl_header ast005 (g_template_names 0045a378): returned by select_store_template
+00444f08	g_tmpl_ast009		tmpl_header ast009 (g_template_names 0045a378): returned by select_store_template
+00444f78	g_tmpl_ast010		tmpl_header ast010 (g_template_names 0045a378): returned by select_store_template
+00444fd8	g_tmpl_ast011		tmpl_header ast011 (g_template_names 0045a378): returned by select_store_template
+00445038	g_tmpl_ast012		tmpl_header ast012 (g_template_names 0045a378): returned by select_store_template
+004450a8	g_tmpl_ast013		tmpl_header ast013 (g_template_names 0045a378): returned by select_store_template
+00445118	g_tmpl_ast014		tmpl_header ast014 (g_template_names 0045a378): returned by select_store_template
+00445190	g_tmpl_ast015		tmpl_header ast015 (g_template_names 0045a378): returned by select_store_template
+00445208	g_tmpl_ast016		tmpl_header ast016 (g_template_names 0045a378): returned by select_store_template
+00445280	g_tmpl_ast022		tmpl_header ast022 (g_template_names 0045a378): returned by select_store_template
+004452f0	g_tmpl_ast017		tmpl_header ast017 (g_template_names 0045a378): returned by select_store_template
+00445360	g_tmpl_ast028		tmpl_header ast028 (g_template_names 0045a378): returned by select_store_template
+004453d0	g_tmpl_ast018		tmpl_header ast018 (g_template_names 0045a378): returned by select_store_template
+00445458	g_tmpl_ast023		tmpl_header ast023 (g_template_names 0045a378): returned by select_store_template
+004454e0	g_tmpl_ast024		tmpl_header ast024 (g_template_names 0045a378): returned by select_store_template
+00445568	g_tmpl_ast019		tmpl_header ast019 (g_template_names 0045a378): returned by select_store_template
+004455f0	g_tmpl_ast025		tmpl_header ast025 (g_template_names 0045a378): returned by select_store_template
+00445678	g_tmpl_ast020		tmpl_header ast020 (g_template_names 0045a378): returned by select_store_template
+00445700	g_tmpl_ast026		tmpl_header ast026 (g_template_names 0045a378): returned by select_store_template
+00445788	g_tmpl_ast021		tmpl_header ast021 (g_template_names 0045a378): returned by select_store_template
+00445810	g_tmpl_ast027		tmpl_header ast027 (g_template_names 0045a378): returned by select_store_template
+00445880	g_tmpl_ast029		tmpl_header ast029 (g_template_names 0045a378): returned by select_store_template
+004458f0	g_tmpl_ast030		tmpl_header ast030 (g_template_names 0045a378): returned by select_store_template
+00445950	g_tmpl_alda001		tmpl_header alda001 (g_template_names 0045a378): returned by select_load_address_template
+004459b0	g_tmpl_alda002		tmpl_header alda002 (g_template_names 0045a378): returned by select_load_address_template
+00445a10	g_tmpl_alda003		tmpl_header alda003 (g_template_names 0045a378): returned by select_load_address_template
+00445a80	g_tmpl_alda004		tmpl_header alda004 (g_template_names 0045a378): returned by select_load_address_template
+00445af0	g_tmpl_alda005		tmpl_header alda005 (g_template_names 0045a378): returned by select_load_address_template
+00445b60	g_tmpl_alda006		tmpl_header alda006 (g_template_names 0045a378): returned by select_load_address_template
+00445bd0	g_tmpl_alda007		tmpl_header alda007 (g_template_names 0045a378): returned by select_load_address_template
+00445c30	g_tmpl_alda008		tmpl_header alda008 (g_template_names 0045a378): returned by select_load_address_template
+00445c90	g_tmpl_alda009		tmpl_header alda009 (g_template_names 0045a378): returned by select_load_address_template
+00445d00	g_tmpl_alda010		tmpl_header alda010 (g_template_names 0045a378): returned by select_load_address_template
+00445d70	g_tmpl_apusha001		tmpl_header apusha001 (g_template_names 0045a378): returned by select_push_address_template
+00445de0	g_tmpl_apusha002		tmpl_header apusha002 (g_template_names 0045a378): returned by select_push_address_template
+00445e40	g_tmpl_apusha003		tmpl_header apusha003 (g_template_names 0045a378): returned by select_push_address_template
+00445eb8	g_tmpl_apusha004		tmpl_header apusha004 (g_template_names 0045a378): returned by select_push_address_template
+00445f28	g_tmpl_apusha005		struct tmpl_header 'apusha005' (g_template_names): the template macro 0x1b00 uses when the node's value is in memory (desc flags3 0x20) instead of asking 0042f500 (00412390)
+00445f98	g_tmpl_apusha006		tmpl_header apusha006 (g_template_names 0045a378): returned by select_push_address_template
+00446008	g_tmpl_apusha007		tmpl_header apusha007 (g_template_names 0045a378): returned by select_push_address_template
+00446080	g_tmpl_apusha008		tmpl_header apusha008 (g_template_names 0045a378): returned by select_push_address_template
+004460f0	g_tmpl_amv003		tmpl_header amv003 (g_template_names 0045a378): returned by select_move_template
+00446190	g_tmpl_amv005		tmpl_header amv005 (g_template_names 0045a378): returned by select_move_template
+00446220	g_tmpl_amv006		tmpl_header amv006 (g_template_names 0045a378): returned by select_move_template
+004462b0	g_tmpl_amv007		tmpl_header amv007 (g_template_names 0045a378): returned by select_move_template
+00446338	g_tmpl_amv008		tmpl_header amv008 (named by g_template_names 0045a378); referenced by 00431a30
+004463c0	g_tmpl_amv012		tmpl_header amv012 (named by g_template_names 0045a378); referenced by 00431a30
+00446450	g_tmpl_amv014		tmpl_header amv014 (named by g_template_names 0045a378); referenced by 00431a30
+00446538	g_tmpl_amv016		tmpl_header amv016 (named by g_template_names 0045a378); referenced by 00431a30
+00446638	g_tmpl_amv018		tmpl_header amv018 (named by g_template_names 0045a378); referenced by 00431a30
+004466f0	g_tmpl_amv019		tmpl_header amv019 (named by g_template_names 0045a378); referenced by 00431a30
+004467d8	g_tmpl_amv021		tmpl_header amv021 (named by g_template_names 0045a378); referenced by 00431a30
+004468d8	g_tmpl_amv023		tmpl_header amv023 (named by g_template_names 0045a378); referenced by 00431a30
+00446948	g_tmpl_amv024		tmpl_header amv024 (named by g_template_names 0045a378); referenced by 00431a30
+004469b8	g_tmpl_amv025		tmpl_header amv025 (g_template_names 0045a378): returned by select_move_template
+00446a28	g_tmpl_amv026		tmpl_header amv026 (g_template_names 0045a378): returned by select_move_template
+00446a88	g_tmpl_apush001		tmpl_header apush001 (g_template_names 0045a378): returned by select_push_template
+00446af8	g_tmpl_apush002		tmpl_header apush002 (g_template_names 0045a378): returned by select_push_template
+00446b88	g_tmpl_apush003		tmpl_header apush003 (g_template_names 0045a378): returned by select_push_template
+00446c10	g_tmpl_apush004		tmpl_header apush004 (g_template_names 0045a378): returned by select_push_template
+00446c98	g_tmpl_apush005		tmpl_header apush005 (g_template_names 0045a378): returned by select_push_template
+00446d20	g_tmpl_apush006		tmpl_header apush006 (g_template_names 0045a378): returned by select_push_template
+00446da8	g_tmpl_apush007		tmpl_header apush007 (g_template_names 0045a378): returned by select_push_template
+00446e48	g_tmpl_apush008		tmpl_header apush008 (g_template_names 0045a378): returned by select_push_template
+00446ee8	g_tmpl_apush009		tmpl_header apush009 (g_template_names 0045a378): returned by select_push_template
+00446f90	g_tmpl_apush010		tmpl_header apush010 (g_template_names 0045a378): returned by select_push_template
+00447038	g_tmpl_apush011		tmpl_header apush011 (g_template_names 0045a378): returned by select_push_template
+004470d8	g_tmpl_apush012		tmpl_header apush012 (g_template_names 0045a378): returned by select_push_template
+00447380	g_tmpl_apush017		tmpl_header apush017 (g_template_names 0045a378): returned by select_push_template
+00447408	g_tmpl_apush018		tmpl_header apush018 (g_template_names 0045a378): returned by select_push_template
+00447490	g_tmpl_apush019		tmpl_header apush019 (g_template_names 0045a378): returned by select_push_template
+004474f0	g_tmpl_apush020		tmpl_header apush020 (g_template_names 0045a378): returned by select_push_template
+00447560	g_tmpl_apush021		tmpl_header apush021 (g_template_names 0045a378): returned by select_push_template
+004475d0	g_tmpl_apush022		tmpl_header apush022 (g_template_names 0045a378): returned by select_push_template
+00447640	g_tmpl_apush024		tmpl_header apush024 (g_template_names 0045a378): returned by select_push_template
+004476b8	g_tmpl_apush023		tmpl_header apush023 (g_template_names 0045a378): returned by select_push_template
+00447730	g_tmpl_apush025		tmpl_header apush025 (g_template_names 0045a378): returned by select_push_template
+00447e58	g_cast_select		s1: tmpl_select record for IL_CAST (prepare_cast_node passes it to 00422180 and 00423410) (also proposed: g_cast_double_select)
+00449500	g_compare_eq_select		tmpl_select record of IL_EQ / IL_NE (prepare_comparison_node via 00422180; choices acomp001.. follow it)
+00449588	g_compare_rel_select		tmpl_select record of IL_LT / IL_LE / IL_GT / IL_GE (prepare_comparison_node via 00422180)
+00449640	g_not_select		tmpl_select record of IL_NOT (prepare_logical_not_node via 00423410)
+00449738	g_assign_double_select		struct tmpl_select (targets 00449728): 004111e0 re-selects the template of a double IL_ASSIGN with it (kind 1) when request +0x2a is 0; also read by 0040d9e0
+004497d0	g_assign_double_select_alt		struct tmpl_select (targets 004497c0): the same when request +0x2a is set (004111e0, 0040d9e0)
+004497e0	g_ea_pop	ea	@R15+ (type 4 base 0x0f): where a pushed operand is read back (operand readers when desc flags2 0x08)
+004497f0	g_ea_push	ea	@-R15 (type 3 base 0x0f): 0040ceb0 / 00414400 push there
+004497fc	g_float_one_bits	int	0x3f800000 = 1.0f: 004278c0 compares an FPU immediate's disp with it (fldi1, no register needed); 0042ee70 too
+00449800	g_float_zero_bits	int	0x00000000 = 0.0f: 004278c0 (fldi0, no register needed); 0042ee70
+00449808	g_double_one_hi	int	0x3ff00000, high word of the double 1.0 (00412200 pushes it)
+0044980c	g_double_one_lo	int	0, low word of the double 1.0 (00412200)
+00449810	g_gbr_base_label_ref		struct label_ref constant {next 0, labno1 0, labno2 0x8000} (bytes 00000000 0000 0080); 0041c200 adds it to the label list of a GBR-relative symbol operand (sym_entry attr & 3, operand codes 0xaf/0xb0/0xb6/0xba) with 00419910(list, &it, 1). That 0x8000 stands for the GBR base is inferred from that use only
+00449818	g_late_handler_kind		array of 48 x 1 byte: enum late_handler_kind per late handler index (0040ceb0 dispatch)
+00449848	g_late_handler_table		array of 48 x 4 bytes: code address (kind 3) or tmpl_select (kinds 1, 2) or cpu-variant list (kind 4: 8-byte {u8 cpu_variant_cond bits, u8 kind, pad, ptr} entries, the first whose bits all hold wins, 004113d0) per late handler index
+004498e8	g_late_handler_index_by_op		array of 0x80 x 1 signed byte indexed by il_op (only 0x20..0x7f, i.e. 00449908.., are reached; -1 = no handler): map_code_node_opcode_to_late_handler_index 00431e40
+00449968	g_operand_desc_table	unsigned int[0x108]	array of 0x108 x 4 bytes (template operand codes 0..0x107; code 0xfa is 0 = no operand, the padding of every template entry; 0xfe..0x105 are CALL routine selectors 00412390 handles before the lookup): the operand descriptor word materialize_operand_record_from_descriptor 0041c200 decodes: bits 26..31 source (enum opnd_source), 20..25 which operand of it (enum opnd_select; the child number - 2 for OPSRC_CHILD_N, the extra slot for OPSRC_EXTRA), 14..19 register slot, 8..13 addressing mode (enum opnd_mode), 0..7 disp adjustment (enum opnd_adjust); for OPSRC_IMMEDIATE the low 14 bits pick the value (enum opnd_imm); for OPSRC_FIXED the low 26 bits index g_fixed_operands. 00412390 reads the low 16 bits as a runtime routine label for CALL entries; 00425f60 counts codes 0x5e..0x62 (the slot registers)
+00449e48	g_builtin_info		array of 0x32 x 8 bytes indexed by builtin id (enum builtin_fn): struct builtin_info {flags; pad[3]; tmpl_header **templates (00449e4c)} (types_proposal.h). flags 0x80 check an immediate argument (0040faa0) whose position is flags & 7 and range 0x20 byte / 0x10 word / else long; 0x40 reselect the template after the arguments (0040ff00 -> 00410890(0)); templates = 1..3 candidates of the ainlin* family read by 00410890
+00449fe0	g_add_fold_kind		array of 9 x 9 bytes: fold case of fold_address_add indexed [classify_address_operand(left) * 9 + classify_address_operand(right)] (1..10, 0xff = no fold, other = error 0x1221)
+0044a038	g_sub_fold_kind		array of 9 x 9 bytes: fold case of fold_address_sub, same indexing (1..5, 0xff no fold)
+0044a10c	g_routine_stack_adjust		array of 0xb7 x 4 bytes (int) indexed by runtime routine label: the stack pointer change of a call to it (-20 _addd/_subd/_muld/_divd, -16 the double compares, -12 _negd/_truncd, -8 _dtos/_dtoi/_dtou/_dtof, -4 _poad/_posd/_stod/_itod/_utod/_ftod, 0 elsewhere); emit_psd_instruction passes it to update_stack_travel (not on cpu 4)
+0044dc70	g_tmpl_amul005		struct tmpl_header (0x48 bytes) of template amul005 (its name from g_template_names 0045a378): result 3 (slot register), reg_spec[0] 0x180080; r0_result_left_to_chooser 00426c90 compares the node's template with its address
+0044dd60	g_tmpl_amul007		struct tmpl_header of template amul007 (g_template_names): result 3, reg_spec[0] 0x180040; compared by 00426c90
+0044dde8	g_tmpl_amul008		struct tmpl_header of template amul008 (g_template_names): result 10, three slots; compared by 00426c90
+004552f8	g_tmpl_aid001		tmpl_header aid001 (g_template_names): prepare_identifier_node loads a function address with it under request->pic
+00455358	g_tmpl_aqual001		tmpl_header aqual001: prepare_member_node when the base operand's register (+69) is r0 (the address register comes from slot +2c)
+004553b8	g_tmpl_aqual002		tmpl_header aqual002: prepare_member_node when the base register is not r0 (that register is kept)
+00455418	g_tmpl_aamper001		tmpl_header aamper001: prepare_address_of_node for register-based operands
+00455488	g_tmpl_aamper002		tmpl_header aamper002: prepare_address_of_node for EAABS operands of attr-bit-0 symbols
+004559a8	g_tmpl_abqual001		tmpl_header abqual001 (named by g_template_names 0045a378); referenced by 00430490
+00455a30	g_tmpl_abqual002		tmpl_header abqual002 (named by g_template_names 0045a378); referenced by 00430490
+00455ab8	g_tmpl_abqual003		tmpl_header abqual003 (named by g_template_names 0045a378); referenced by 00430490
+00455b58	g_tmpl_abqual004		tmpl_header abqual004 (named by g_template_names 0045a378); referenced by 00430490
+00455bd0	g_tmpl_abqual005		tmpl_header abqual005 (named by g_template_names 0045a378); referenced by 00430490
+00455c58	g_tmpl_abqual006		tmpl_header abqual006 (named by g_template_names 0045a378); referenced by 00430490
+00455ce0	g_tmpl_abqual007		tmpl_header abqual007 (named by g_template_names 0045a378); referenced by 00430490
+00455d70	g_tmpl_abqual008		tmpl_header abqual008 (named by g_template_names 0045a378); referenced by 00430490
+00456560	g_tmpl_aassgn016		tmpl_header aassgn016 (named by g_template_names 0045a378); referenced by 00430890
+00456608	g_tmpl_aassgn017		tmpl_header aassgn017 (named by g_template_names 0045a378); referenced by 00430890
+004566b0	g_tmpl_aassgn018		tmpl_header aassgn018 (named by g_template_names 0045a378); referenced by 00430890
+00456738	g_tmpl_aassgn019		tmpl_header aassgn019 (named by g_template_names 0045a378); referenced by 00430890
+004567b0	g_tmpl_aassgn023		tmpl_header aassgn023 (named by g_template_names 0045a378); referenced by 00430890
+00456828	g_tmpl_aassgn024		tmpl_header aassgn024 (named by g_template_names 0045a378); referenced by 00430890
+004568a0	g_tmpl_aassgn025		tmpl_header aassgn025 (named by g_template_names 0045a378); referenced by 00430890
+00456910	g_tmpl_aassgn026		tmpl_header aassgn026 (named by g_template_names 0045a378); referenced by 00430890
+00456980	g_tmpl_aassgn027		tmpl_header aassgn027 (named by g_template_names 0045a378); referenced by 00430890
+004569f0	g_tmpl_aassgn028		tmpl_header aassgn028 (named by g_template_names 0045a378); referenced by 00430890
+00456a78	g_tmpl_aassgn020		tmpl_header aassgn020 (named by g_template_names 0045a378); referenced by 00430ff0
+00456b00	g_tmpl_aassgn021		tmpl_header aassgn021 (named by g_template_names 0045a378); referenced by 00430ff0
+00456b90	g_tmpl_aassgn022		tmpl_header aassgn022 (named by g_template_names 0045a378); referenced by 00430ff0
+00456d78	g_tmpl_aassgn032		tmpl_header aassgn032 (named by g_template_names 0045a378); referenced by 00430ff0
+00456e30	g_tmpl_aassgn033		tmpl_header aassgn033 (named by g_template_names 0045a378); referenced by 00430ff0
+00457018	g_tmpl_aassgn037		tmpl_header aassgn037 (named by g_template_names 0045a378); referenced by 00430ff0
+00457088	g_tmpl_aassgn038		tmpl_header aassgn038 (named by g_template_names 0045a378); referenced by 00430ff0
+004570f8	g_tmpl_aassgn039		tmpl_header aassgn039 (named by g_template_names 0045a378); referenced by 00430890
+00457168	g_tmpl_aassgn040		tmpl_header aassgn040 (named by g_template_names 0045a378); referenced by 00430890
+004571e0	g_tmpl_aassgn041		tmpl_header aassgn041 (named by g_template_names 0045a378); referenced by 00430890
+00457268	g_tmpl_aassgn042		tmpl_header aassgn042 (named by g_template_names 0045a378); referenced by 00430890
+004572f0	g_tmpl_aassgn043		tmpl_header aassgn043 (named by g_template_names 0045a378); referenced by 00430890
+00457378	g_tmpl_aassgn044		tmpl_header aassgn044 (named by g_template_names 0045a378); referenced by 00430890
+004573f0	g_tmpl_aassgn045		tmpl_header aassgn045 (named by g_template_names 0045a378); referenced by 00430890
+00457468	g_tmpl_aassgn046		tmpl_header aassgn046 (named by g_template_names 0045a378); referenced by 00430890
+0045831c	g_open_mode_wb		s9: mode string of store_request_record_file's stock_fopen ("wb" per shcpep s_open_mode_wb 004261fc). (also proposed: s_open_mode_wb)
+00458320	g_builtin_names		array of 49 x 4 bytes (char *): built-in names after "__builtin_" (0041b070), parallel to g_builtin_ids
+004583e4	g_builtin_names_end		not a separate variable: one past g_builtin_names (00458320 + 49 * 4); the loop end of the __builtin_ name search in 0041b070
+004583e8	g_builtin_ids		array of 49 x 1 byte: enum builtin_fn per g_builtin_names entry (0041b070 stores it in desc +06); the strcmp entry holds 0
+00458428	g_fixed_operands		array of 0xc-byte struct ea constants indexed by the low 26 bits of an OPSRC_FIXED operand descriptor (0041c200 copies one with 0042b730)
+00458680	g_bitfield_extract_routines		array of 8 x 4 bytes, runtime routine label in the low half, indexed by (type & 0x1c) >> 2: _bfxbs _bfxbu _bfxws _bfxwu _bfxls _bfxlu _bfxls _bfxlu (select_bitfield_routine 0041d050, selector 0x102)
+004586a0	g_bitfield_store_routines		array of 8 x 4 bytes, same layout: _bfsbs _bfsbu _bfsws _bfswu _bfsls _bfslu _bfsls _bfslu (select_bitfield_routine, selector 0x101)
+004586c0	g_psd_op_template_info		array of 2-byte entries per psd op (00426dd0 tests byte 0 == 8)
+004588a8	g_psd_op_written_operand		array of 1 byte per psd op: which operand the instruction writes (1 first, 2 second); 00426dd0 invalidates that register's content
+004589a8	g_macro_written_operands		array of 0x3d x 1 byte per template macro op ((op >> 8) - 1): 0x80 / 0x40 / 0x20 = operand 1 / 2 / 3 is written (00426dd0)
+004589e8	g_routine_clobbers		array of 1 byte per runtime routine label: registers a CALL to it destroys (00426dd0 op 0x23)
+00458aa0	g_template_extra_operands		array of 7 x 4 bytes (ea *): the extra operands of a template (0041c200 OPSRC_EXTRA reads [0..6]; 00424c80 / 00425f60 put the caller's two ea in [0] [1] and register operands of the slot array in the rest)
+00458ac0	g_zero_constant		array of 8 zero bytes: the zero 00428910 compares a constant condition with (as int, float and double)
+00458ac8	g_op_reachability_class		= shcpep g_op_reachability_class: array of 256 x 1 byte indexed by psd_op (read from the binary: 1 directives 0x0c 0x10 0x11 0x14..0x17 0x1d..0x1f, 2 labels 0x18..0x1b, 3 transfers 0x21 0x22 0x24 0x8e 0x92 0x94 0x96 0x9a, 4 instructions, 0 invalid); delete_unreachable_record 0042a510
+00458bc8	g_in_unreachable_code	int	= shcpep g_in_unreachable_code: 1 after an unconditional transfer until the next label (0042a510); dword accesses
+0045a378	g_template_names		array of 597 {tmpl_header *, char *name} pairs ending with a null pointer; not referenced by the code (the names acast001 .. apush025)
+0045b620	g_pool_label_sptravel	short	sptravel for the label emit_psd_record 0042ab90 places after a literal pool (fill_label_record argument; set from g_sptravel after each non-pool record); word accesses
+0045be4c	g_runtime_routine_names		array of 0xb6 x 4 bytes (char *), 0045be4c..0045c120: the runtime routine names (_divbs, _divws, _divls ... _u2d, _d2u) = the first 0xb6 symbol numbers; 0042b950 compares a symbol's name with each
+0045c124	g_literal_label_serial	short	= shcpep g_literal_label_serial (decide_literal_pool_placement: negative labno2 of PIC literals, incremented); word accesses
+0045c128	g_pool_pending_literal_bytes	int	= shcpep g_pool_pending_literal_bytes (decide_literal_pool_placement 0042baa0)
+0045c12c	g_pool_code_bytes	int	= shcpep g_pool_code_bytes
+0045c130	g_pool_carried_literal_bytes	int	= shcpep g_pool_carried_literal_bytes
+0045c134	g_pool_carried_code_bytes	int	= shcpep g_pool_carried_code_bytes (0x400 after a CASEJMP / PROGRAM)
+0045c138	g_pool_carried_has_word	char	= shcpep g_pool_carried_has_word (selects the 0x1ce limit); byte accesses
+0045c13c	g_pool_segment_has_word	char	= shcpep g_pool_segment_has_word (set when a 2-byte literal is added); byte accesses
+0045c140	g_pool_after_enter	char	shcgen only: decide_literal_pool_placement sets it on ENTER (0x20, 8 literal bytes) and clears it on EXIT; while set EXIT / RETURN add no 4-byte literal; byte accesses
+0045c144	g_pool_after_exit	char	shcgen only: set by EXIT / RETURN, cleared by ENTER in decide_literal_pool_placement; tested with the tables' emptiness when deciding the pool; byte accesses
+0045c148	g_pool_flush_pending	int	= shcpep g_pool_flush_pending; dword accesses
+0045c150	g_push_long_copy_templates		array of 2 x 4 bytes (tmpl_header *): apush013, apush014; select_push_template 0042d6a0 indexes [far] for 4-byte-unit aggregates (far = not @Rn/@(disp,Rn), labelled, frame-based, or disp + size - 4 > 0x3c)
+0045c158	g_push_short_copy_templates		array of 2 x 4 bytes (tmpl_header *): apush015, apush016; select_push_template 0042d6a0 indexes [far] for 1- / 2-byte-unit aggregates of size <= 0x10 / 0x20 (displacement limits 0xf / 0x1e)
+0045c160	g_amv_block_templates		array of 4 x 4 bytes (tmpl_header *): amv015..amv018, indexed [src_far + dst_far * 2] by 0042ddd0 for word-aligned aggregates
+0045c170	g_amv_copy_templates		array of 8 x 4 bytes (tmpl_header *): amv020..amv023, aassgn029..aassgn032 (0042ddd0 reads the first 4 by [src + dst * 2])
+0045c180	g_long_copy_templates		array of 4 x 4 bytes (tmpl_header *): aassgn029..032, the unrolled 4-byte struct copy templates; select_aggregate_assign_template 00430ff0 indexes [src_far + dst_far * 2] (dst = the left operand, src = the right) (displacement + size - 4 > 0x3c, labelled, frame-based or not @Rn/@(disp,Rn))
+0045c190	g_short_copy_templates		array of 4 x 4 bytes (tmpl_header *): aassgn034..037, the unrolled 1- / 2-byte element struct copy templates (displacement limits 0xf / 0x1e); 00430ff0 indexes [src_far + dst_far * 2] like g_long_copy_templates
+0045c1a0	g_op_code_size_table		= shcpep g_op_code_size_table (00427c80): array of 256 x 2 bytes (short per psd_op), target code bytes of each op; compute_record_code_size 00432290 starts from it
+0045c3a0	g_sua_record_format_table		= shcpep g_sub_record_format_table (00427ec0): array of 0xf2 x 2 bytes; [0] the .sua body format write_sua_record 00432430 switches on (1 machine op, 2 casejmp, 3 ctbl, 4 cent, 5 label, 6 line, 7 none, 8 pseudo instruction, 9 OP_NON_10, 10 section), [1] the operand count write_sua_machine_op_record 004326c0 checks (error 0x1310)
+0045c588	g_sua_frame_disp_operand	ea	static ea (initial bytes 07 ff ff 00: EAIMM, base -1, disp 0, no labels) that write_sua_instruction_record 00432b90 fills with the frame-slot displacement (+4 = _DAT_0045c58c, from the @(disp,r108) side of an OP_MOV_LOC / OP_MOVA_LC) and writes with write_sua_operand(out, &it, 2)
+0045c598	g_il_op_arity		array of 0x80 x 1 signed byte indexed by il_op: operands an IL node takes before it is complete (ilb_node_operands_full 00434c70; -1 = any number (IL_FILE, IL_BLOCK, IL_ARG), -2 = not a tree operator (error 0x12d5)); e.g. IL_IF 3, IL_FOR 4, IL_CALL 2, IL_COND 3, binary ops 2, unary 1, IL_ID/IL_CONST 0
+0045c618	g_add_class_table		array of 4 x 4 shorts (= shcmdl g_add_class_table 00435e88): action by operand classes for add, indexed [class1][class2]; read by classify_add_operands
+0045c638	g_mul_class_table		array of 4 x 4 shorts (= shcmdl g_mul_class_table 00435ea8): action by operand classes for mul; read by classify_mul_operands
+0045c658	g_div_class_table		array of 4 x 4 shorts (= shcmdl g_div_class_table 00435ec8): action by operand classes for div; read by classify_div_operands
+0045c71c	g_empty_string		"" used by make_temp_file_name as the directory when g_tmp_env_name is unset (get_env_directory returned NULL with *ok = 1).
+0045c818	g_progress_banner_table		= shcpep g_progress_banner_table: array of char * indexed by stage ("Analyzing Source Program ..." entries), printed by emit_progress_banner. Length not measured.
+0045c8cc	g_temp_name_buffer	char *	= shcpep g_temp_name_buffer: stock_malloc'd result of make_temp_file_name (sprintf target, returned).
+0045c8d0	g_pid_digit_count	int	= shcpep g_pid_digit_count: decimal digits of g_process_id, counted once; sizes the temp name.
+0045c8d4	g_process_id	int	= shcpep g_process_id: abs(GetCurrentProcessId()), computed when 0.
+0045c8d8	g_temp_name_counter	int	= shcpep g_temp_name_counter: sequence number of the temp names "%s%d.%d" (INC dword ptr after each name).
+0045c8dc	g_open_mode_wb_plus		mode string of open_temp_file's stock_fopen ("wb+" per shcpep's open_temp_file note).
+0045c8e0	g_temp_file_suffix		".tmp" (strings dump), appended to the temp name by open_temp_file.
+0045c988	g_internal_file_error_texts		array of 4 x 4 bytes (char *): the "(F) Cannot open/close/input/output internal file" texts for msgno 0xce4..0xce7; report_message_file_error_and_exit indexes it as *(004595f8 + msgno*4) (Ghidra shows it as s_al008_004595f8 + param_1*4), = shcpep's table at 004283c8.
+0045c998	g_internal_error_text	char *	pointer to "Internal error", printed by report_message_file_error_and_exit for 4xxx message numbers (PTR_s_Internal_error_0045c998).
+0045c99c	g_open_mode_ab		mode string of report_message_by_code's stock_fopen of request message_path ("ab" per shcpep's report_message_by_code note).
+0045ca20	stock_errno		CRT errno (stock_dosmaperr stores the errtable value, 13, 8 or 0x16).
+0045ca24	stock_doserrno		CRT _doserrno (stock_dosmaperr stores oserr).
+0045ca48	stock_environ		CRT _environ (stock_getenv, stock_findenv, stock_crtsetenv).
+0045ca4c	stock_initenv		CRT __initenv: stock_crtsetenv copies the environment (stock_copy_environ) while stock_environ == it.
+0045ca50	stock_wenviron		CRT _wenviron (stock_getenv converts it when stock_environ is NULL; stock_wtomb_environ; stock_crtsetenv).
+0045ca70	stock_aexit_rtn		CRT _aexit_rtn (function pointer, Ghidra PTR___exit_0045ca70): stock_amsg_exit calls it with 255.
+0045ca74	stock_error_mode		CRT __error_mode (stock_amsg_exit != 2, stock_FF_MSGBANNER and stock_NMSG_WRITE == 1 / == 0).
+0045ca78	stock_app_type		CRT __app_type (stock_FF_MSGBANNER, stock_NMSG_WRITE: 1 = console app).
+0045cab0	stock_stdout		CRT _iob[1] (stdout FILE struct, not a pointer): report_message_file_error_and_exit's fputs target (= shcpep stock_stdout).
+0045cad0	stock_stderr		CRT _iob[2] (stderr FILE struct): emit_progress_banner (= shcpep stock_stderr).
+0045cd40	stock_newmode		CRT _newmode: call_new_handler argument of stock_malloc; stock_calloc / stock_realloc retry only while it is set (= shcpep stock_newmode).
+0045cdf0	stock_mbctype		CRT _mbctype: array of 257 bytes (read at +1+ch; lead-byte flag 4) in stock_mbschr.
+0045cef4	stock_mbcodepage		CRT __mbcodepage (stock_mbschr uses strchr when 0; code page argument of stock_mbsnbicoll).
+0045cef8	stock_mblcid		CRT __mblcid (locale argument of stock_mbsnbicoll's stock_crtCompareStringA call).
+0045d278	stock_rterrs		CRT crt0msg.c rterrs: array of 8-byte {rterrno, rterrtxt} entries to 0045d300 (stock_NMSG_WRITE).
+0045d300	stock_adbgmsg		CRT _adbgmsg hook (function pointer called between NMSG_WRITE(0xfc) and NMSG_WRITE(0xff) in stock_FF_MSGBANNER when set); also the end bound of stock_rterrs.
+0045d32c	stock_newline_pair_text		the text stock_NMSG_WRITE appends after the program name in the message box text ("\n\n" in VC6 crt0msg.c; not in the strings dump).
+0045d34c	stock_ellipsis_text		"..." copied with stock_strncpy(.., 3) by stock_NMSG_WRITE when the program name is shortened.
+0045d368	stock_errtable		CRT dosmap.c errtable: array of 8-byte {oscode, errnocode} entries to 0045d4d0 (stock_dosmaperr).
+0045d778	stock_lc_codepage		CRT __lc_codepage: default code page of stock_crtCompareStringA.
+0045d7f8	stock_f_use_CompareString		CRT a_cmp.c static f_use in stock_crtCompareStringA (1 = W API, 2 = A API).
+0045d80c	g_asa_defined_count	short	number of sclass-1 (defined, external linkage) symbols, counted by write_asa_global_records and written by write_asa_trailer_record (= shcpep g_asa_trailer_value1 on the reading side); word accesses
+0045d810	g_asa_external_count	short	number of sclass-2 (referenced external) symbols plus the runtime routines used (bits of g_used_routine_bits, added by write_asa_trailer_record); = shcpep g_asa_trailer_value2
+0045d818	g_sud_hold_buffer		array of 0xa8c bytes (0045d818..0045e2a4): the .sud side buffer append_sud_bytes fills for the side not in the main buffer; an open DC record is moved here on a flush
+0045e2a4	g_sud_dc_run_closed	char	set to 1 by write_sud_aggregate_initializer after a gap (0xe0) so the next element starts a new DC record; cleared when one starts
+0045e2a8	g_sud_dc_elem_type	unsigned short	element type of the open DC run (write_sud_aggregate_initializer extends the run only while the type repeats)
+0045e2b0	g_sud_string_buffer		array of string initialiser bytes read from the .int (write_sud_scalar_initializer case 0x98, length from a 2-byte count); 0x208 bytes up to g_sud_dc_header
+0045e4b8	g_sud_dc_header		array of 2 bytes: {8 (DC), size code} of the DC record being started (0045e4b9 = dc_size_code_of_type result); write_sud_variable_initializer / begin_sud_dc_record append it
+0045e4bc	g_sud_dc_unit	int	count units per element of the current DC run: 1, or 2 for doubles (size code 2 with type 0x30 / 0x38)
+0045e4c0	g_sud_const_section	short	section id of the last CONST (0x0d) switch record written to the .sud (write_sud_initialized_data; append_sud_bytes resets it to 0 on a flush)
+0045e4c4	g_sud_data_section	short	section id of the last DATA (0x0e) switch record (same handling)
+0045e4c8	g_sud_symx	short	symbol (index + 0xb6 into g_symbol_table) whose initialiser is being written: write_sud_initialized_data reads it from the .int, every .sud helper uses it
+0045e5e8	g_ofa_record_out	FILE *	= shcpep g_ofb_record_out: set by write_ofa_record from its first argument (0042ab90 passes g_ofa_file), the output every write_ofa_* writer uses
+0045e5f0	g_db2_lreg_record		array of 8 bytes: length byte, 2-byte lreg, kind (1 register / 6 frame), register or 4 frame bytes (0042d0e0)
+0045e600	g_db2_param_record		array of 12 bytes: length byte then a parameter location record built by 0042cb60 (kind byte at +04, register or 4 frame bytes, flags)
+0045e610	g_db2_local_record		array of 9 bytes: length byte, flag, 2-byte symbol number, kind (1 register / 6 frame), register or 4 frame bytes (0042cf00)
+0045e61c	g_sua_filno	short	= shcpep g_sub_filno: file number for .sua write errors; write_sua_record sets 1, the line / machine-op / op10 writers (00432670, 004326c0, 00433100) set it from rec->filno; passed to 00422100 by every .sua writer
+0045e620	g_sua_linno	unsigned short	= shcpep g_sub_linno: line for .sua write errors (write_sua_record sets 0; 00432670 / 004326c0 / 00433100 from rec->linno)
+0045e624	g_sua_report_extra_arg		= shcpep g_sub_report_extra_arg: zeroed by write_sua_record 00432430; meaning unknown
+0045e628	g_gen_node_free_tail	gen_node *	last node of the gen_node free list: 00433280 sets it to the last pooled node; free_gen_node 00433500 links the freed node after it (+0x14) and makes it the tail; 00433580 reports exhaustion when the head reaches it
+0045e62c	g_gen_node_free_head	gen_node *	next free gen_node: 00433280 sets it to the first pooled node; 00433580 takes it and advances through +0x14
+0045e634	g_gen_node_size	int	node size given to the pool constructor 00433280 (always 0x2c: 00415cd0 calls 00433280(0x2c, 0x800)); 00433500 clears g_gen_node_size - 0x28 bytes from +0x28
+0045e640	g_ilb_record_buffer		array of 0x20 bytes: raw bytes of one .ilb record (00433720 zeroes 8 dwords; the readers 00433b20..004346e0 fread into it and copy bytes into the node)
+0045e660	g_request_being_loaded	request *	= shcpep g_request_being_loaded: the request 00437b90 allocates and fills; copied to 0045ff84 when complete
+0045e66c	g_temp_file_count	int	= shcpep g_temp_file_count: entries used in g_temp_files (open_temp_file returns NULL when > 7; close_and_delete_temp_files resets it).
+0045e670	g_temp_files		= shcpep g_temp_files: array of 8 x 8 bytes {char *path; FILE *file} (0045e674 is element 0's file); filled by open_temp_file, closed, deleted and freed by close_and_delete_temp_files.
+0045e6c4	g_temp_path_in_progress	char *	= shcpep g_temp_path_in_progress: temp path open_temp_file builds (name + ".tmp") before moving it into g_temp_files.
+0045e6c8	g_message_number_text		= shcpep g_message_number_text: array of 8 bytes, sprintf("%d"-format, msgno) buffer in report_message_file_error_and_exit (g_env_directory follows at +8).
+0045e6d0	g_env_directory		= shcpep g_env_directory: array of 0x76 bytes, get_env_directory's static result (up to 0x74 chars + '\\' + NUL; 0045e6d1, 0045e743, 0045e744 are accesses into it).
+0045e750	stock_pnhHeap		CRT _pnhHeap: new handler called by stock_callnewh.
+0045e860	g_word_literal_table		= shcpep g_word_literal_table: struct literal_table (0x210 apart from the next); 2-byte literals
+0045ea70	g_long_literal_table		= shcpep g_long_literal_table: struct literal_table; 4-byte literals
+0045ec80	g_frame_offset_literal_table		= shcpep g_frame_offset_literal_table: struct literal_table; MOV_LOC / MOVA_LC literals in 0042baa0
+0045ee88	g_stage_request	request *	s4: result of 00437b90(2, path) in load_request_and_open_stage_files, copied to g_request (0045eea0) | s7: the request loaded by 0041a8e0 (00437b90(2, path)); g_request is its copy; 0042baa0 reads +0x1a (pic) / +0x13d / +0x14b through it (also proposed: g_current_request)
+0045ee8c	g_switch_max_case	int	largest case value (00420600; 00420220, 00420b40)
+0045ee90	g_switch_min_case	int	smallest case value (00420600; CASEJMP / CENT range in 00420b40; density test in 00420220)
+0045ee94	g_frame_end	int	lowest frame offset of the locals (starts -4, lowered by 00417000 via allocate_spill_stack_offset_for_node; 0041abe0 seeds desc frame_top with it; 00420140 measures temporaries from it)
+0045ee98	g_assigned_symbol_count		s4: number of parameters / locals given storage (assign_parameter_storage, assign_block_local_storage ++; assign_function_storage resets it); 0042cb60 writes it to the .db2 file (2 bytes) (also proposed: g_db2_param_count)
+0045ee9a	g_function_count	short	count of function symbols: read_symbol_table zeroes it, read_function_info gives each class 1/3 function sym_entry +1c = count and increments it (word INC 00401486); stored into request->aux_count at the end of read_symbol_table; 00415cd0 allocates g_aux_records with count * 0x44
+0045ee9c	g_break_label	short	label a BREAK jumps to (0042aab0 makes it on first use); generate_for_statement (and 00407640 / 00407860 / 00420220) save and clear it around the loop body and place it afterwards when set
+0045eea0	g_request	request *	the request 0041a8e0 keeps (copy of 0045ee88, the result of 00437b90(2, path)); +4 optimize flag, +0x18 cpu, +0x37 FPU mode, +0x2a bit-field order, +0x157 (SH-4 PR tracking off), +0xb0 symbol count
+0045eea4	g_deref_total	int	s5: indexed-address patterns counted in the statement (count_indexed_address_operands 0041c070 increments; reset_r0_variable_candidates 0041bf60 clears; generate_statement keeps g_r0_variable only while total - count < 2 * count - 1). Dword accesses (also proposed: g_indexed_access_count)
+0045eea8	g_current_function	short	symbol index of the function being compiled (index into g_symbol_table: 0042a5b0 +18, 0040d9e0 +05, 00416410 +0c)
+0045eeac	g_sud_hold_length	int	bytes used in g_sud_hold_buffer (Ghidra types it char * from the address arithmetic; dword accesses, used as a count)
+0045eeb0	g_sud_buffer		array of 0xa8c bytes: the main .sud buffer (00415460 sets g_sud_buffer_start and g_sud_buffer_cursor to it)
+0045f93c	g_last_chosen_reg	char	register the chooser returned last (0041fa30 / 0041fc40 / 0041fde0 store it; 0xff = none); 0041ffd0 ranks it one worse so consecutive choices differ
+0045f93e	g_avoid_reg_mask	short	r0..r3 the chooser ranks one worse (0041ffd0 bit test; 00424c80 fills it from the node's slot registers and value register, & 0xf; 0041fa30 sets 1 while g_r0_variable is set)
+0045f940	g_no_reg_ranges	char	nonzero: no register validity ranges (0041bae0 / 0041bc70 / 0041bda0 / 0041abe0 test it with request +4)
+0045f941	g_exit_record_dropped	unsigned char	s7: set to 1 by emit_psd_record 0042ab90 when delete_unreachable_record cleared an EXIT (0x21) record; byte access (also proposed: g_function_no_saves)
+0045f944	g_sptravel	int	s2: current stack pointer offset (pushes): stored in psd.sptravel by the LABEL / FLABEL fillers ((short) of it), MOV_LOC records (move_parameters_to_storage); frame_operand_sp_displacement adds it. Accessed as dword and word | s4: current stack push depth: 00420d10 adds the push size, 00420e10 stores it in every psd it builds (psd sptravel +04 via 0042af80), 0040ad10 passes it with the 0x18 record; assign_function_storage and generate_statement reset it | s5: stack pointer travel of the statement (bytes pushed so far): generate_statement 0041abe0 sets 0; update_stack_travel 00420d10 adds pushes / call adjustments and subtracts pops and ADD #imm,R15; emit_psd_instruction 00420e10 stores it in every psd record's sptravel (0042af80 param 10); LABEL records get (short) of it (00420220, 0042a790). Read both as a dword and as a word | s7: current stack pointer travel: the sptravel of every LABEL record (0042a790, 004297f0, 00420220 pass it to fill_label_record); word accesses (also proposed: g_cur_sptravel, g_sp_travel)
+0045f948	g_last_stmt_jumps	short	set by generate_statement after each statement: 1 after RETURN / BREAK / CONTINUE / GOTO, 0 after the others (word stores 00406ce2 ...; Ghidra warns of an overlapping 4-byte symbol); no reader in the export
+0045f94c	g_r0_index_loaded		set to 1 by move_r0_variable_operand_into_r0 when the r0 variable is placed in r0 for an address; fold_address_add_sub clears it first and then does not mark r0 busy for an @(R0,Rn) value
+0045f950	g_current_aux_record		s1: the current function's 0x44-byte aux record (00415cd0 allocates the g_aux_records array into it; 0040ad10 fills the used register masks, frame size, flags; emit_call_node tests byte +0x0b bit 0x40) | s4: the g_aux_records entry (0x44 bytes, shcpep aux_record) of the function being generated: generate_function sets it from sym func_index; 0040ad10 fills +00 frame size, +04 / +06 used masks, +08, +0c, +17; generate_ilb_stream first stores the allocation here too | s5: pointer to the current function's 0x44-byte aux record (shcpep struct aux_record, not in shcgen's types.h): emit_psd_instruction 00420e10 clears +0a bit 0x8000 (shcpep: PR not saved / leaf) on a CALL to a runtime routine and sets the routine's bit in the bit set at +2c (label - 1); also used by 004053a0 0040a3f0 0040ad10 0040b0d0 00415cd0 00415ec0 (also proposed: g_current_aux)
+0045f960	g_used_routine_bits		s2: array of 0x20 bytes: one bit per runtime routine label the module uses (end_function_code ORs each function's aux +0x2c..+0x42 into the first 0x17 bytes; load_request_and_open_stage_files zeroes 8 dwords); written by write_asa_trailer_record (= shcpep g_asa_trailer_bytes) (also proposed: g_file_aux_bitset)
+0045f980	g_ilb_file	FILE *	s1: the .ilb input: load_request_and_open_stage_files opens request->ilb_path; generate_statement / generate_if_statement / generate_for_statement read trees (00435480) and nodes (00433720) from it. (notes/shcgen.md calls it .reg: wrong) | s2: the .ilb input (request ilb_path, opened rb by load_request_and_open_stage_files); the statement generators read nodes with 00433720 / 00435480 from it. notes/shcgen.md called it the .reg stream (wrong, as the brief says) | s4: the .ilb input (request +0x68) opened rb by load_request_and_open_stage_files; read by 00433720 in generate_ilb_stream / generate_function (the notes' ".reg stream" guess was wrong) | s5: the .ilb input, the IL tree stream (0041a8e0 opens request->ilb_path; 00433720 / 00435480 take it as their FILE * argument; 00420220 reads the switch expression and body from it). notes/shcgen.md's ".reg" guess for it is wrong, as the brief says | s7: the .ilb input (0041a8e0 "rb" from request ilb_path; the notes' old ".reg" label is wrong); 0042a5b0 / 0042a790 read the next node from it (also proposed: g_ilb_input)
+0045f984	g_fpscr_pr_stack		list of 8-byte {next, char g_fpscr_pr} nodes: 004220a0 pushes the current g_fpscr_pr, 004220d0 / 004220e0 pop; assign_function_storage clears it
+0045f988	g_asa_file	FILE *	the .asa output (request asa_path, opened by load_request_and_open_stage_files): every write_asa_* writer (0042b6f0(bytes, n, g_asa_file))
+0045f98c	g_int_file	FILE *	the .int input (request int_path): the initialiser stream write_sud_initialized_data and its helpers read with 0042b680 / 0042b630
+0045f990	g_return_label_used	char	s2: nonzero: a return jumped to g_return_label (end_function_code places the LABEL) | s7: 0042a5b0: 0 when g_return_label is made, 1 after a RETURN record was actually emitted; byte accesses
+0045f991	g_case_restores_contents	unsigned char	1 after an IL_BREAK statement, cleared by any statement other than IL_BLOCK (generate_statement); read by 00420220 (switch) and 0042a790 (case labels) (also proposed: g_after_break, g_switch_contents_saved, g_switch_dispatch_pending)
+0045f994	g_sud_data_dc_count	int	element count of the open data-side DC record (write_sud_aggregate_initializer adds g_sud_dc_unit while it stays <= 0xff)
+0045f998	g_fpr_contents_stack		list of struct reg_contents_save for g_fpr_contents
+0045f99c	g_sym_file	FILE *	the .sym input: load_request_and_open_stage_files opens request->sym_path (0043a730) into it; every read of read_symbol_table and its helpers (0042b630 / 0042b680) uses it (= shcmdl g_sym_file)
+0045f9a0	g_chooser_extra_excluded	char	extra excluded register bit for 0041fa30 (read as a byte, sign-extended); 0040d9e0 sets 1 << the register of an operand's destination while generating it, then clears it
+0045f9a4	g_r0_used	int	set to 1 whenever r0 is handed out or fixed (0041fa30 result 0, 0041b070 r0 returns, 004289f0)
+0045f9a8	g_r0_variable		pointer to the 8-byte use-count record {short symx; short lreg; byte count} of the most dereferenced variable of the statement (0041c000 keeps the highest count; 0041abe0 drops it unless 0041ade0 accepts it); while set r0 is kept for it (0041fa30, 0042f830, 004300d0)
+0045f9ac	g_used_fpr_mask	unsigned short	floating registers used by the function (0041fc40 / 0041fde0 after choosing; 00424c80 template +42)
+0045f9b0	g_symbol_table	sym_entry *	array of ((request +0xb0) + 0xb7) x 0x30 bytes: struct sym_entry, index = symbol number + 0xb6 (00401000 allocates it and reads the .sym file)
+0045f9b4	g_stmt_pushed_operand	char	s5: 1 when an operand of the statement was pushed on the stack because no register was free (0041e740, 0041e9e0, 0041ec90, 0041eef0, 004214f0 set it; generate_statement clears it; 004053a0 / 00406340 test == 1). Byte accesses (also proposed: g_stmt_pushed_spill, g_stmt_value_pushed)
+0045f9b8	g_current_section	request_section *	section record of the symbol being placed (004201e0(request, sym_entry.short_06) finds it in request->sections; lower_current_code_node_with_reg_stream, write_sud_initialized_data, 00415460 switch it); its +0x0c / +0x10 / +0x14 are the const / data / bss location counters (types_proposal.h)
+0045f9bc	g_aux_records		array of 0x44-byte per-function records (the shcpep aux_record layout), indexed by sym_entry +1c (00408180 writes them out)
+0045f9c0	g_switch_default_label	short	default label of the switch being generated, 0 = none (read_switch_case_table 00420600 from the .swi record + symbol count + 0xb6; 00420220 falls back to g_break_label; 004208f0 / 00420b40 jump to it)
+0045f9c4	g_close_status	int	result of the last fclose in close_stage_files 0042b370 (-1 failure); report_codegen_message 0042b270 closes the files only while it is 0
+0045f9d0	g_psd_scratch		s2: struct psd (0x18 bytes): the record the psd fillers build (0042b0e0 label, 0042b0a0 line, 0042af80 instruction, 0042b150 section; 0042b250(rec, 6) clears 6 dwords) and 0042ab90 emits to the .sua; every generator in this slice passes &g_psd_scratch | s4: one struct psd instance (not a pointer): the psd record most emitters build (0042af80 / 0042b0a0 / 0042b110 / 0042b150) and hand to 0042ab90 (0x18 bytes; about 30 users) (also proposed: g_out_psd, g_psd_buffer, g_psd_record)
+0045f9e8	g_mac_regs_used	unsigned char	s4: bit 0 MACL, bit 1 MACH used by the function: 0042ab90 sets 1 for ops 0x70/0x71/0x6f and 3 for 0x72 (MAC) / 0x9b; 0040ad10 adjusts it (cleared when macsave == 0 and the function is not sym_flags 0x10) and stores it in the aux record +17; assign_function_storage resets it | s7: MACH / MACL use of the function: emit_psd_record 0042ab90 ORs 1 (MACL) for MUL / MULS / MULU (0x6f..0x71) and 3 for MAC / CLRMAC (0x72, 0x9b) and for CALL / JSR when request macsave is 0; byte accesses (also proposed: g_saved_mac_mask)
+0045f9ea	g_msg_line	unsigned short	line for messages (node +0a)
+0045f9ec	g_ofa_file	FILE *	the .ofa output (request +0x90, wb, only when request +4 == 0); 0042ab90 passes it to write_ofa_record; closed by 0042b370
+0045f9f0	g_sud_file	FILE *	the .sud output (request sud_path): append_sud_bytes and write_sud_initialized_data flush to it; 00415460 writes the BSS records to it directly
+0045f9f4	g_sud_buffer_cursor	char *	next free byte of the main .sud buffer (append_sud_bytes)
+0045f9f8	g_fpscr_pr	char	SH-4 FPSCR.PR state the generator tracks (0, 1, 2 = unknown): 00424c80 switches it when a template wants the other precision, 004289f0; 0040ceb0 copies it into desc +09
+0045f9fa	g_var_gpr_mask	unsigned short	general registers holding register variables (00407af0 adds the registers of class-6 symbols with an EAREGD storage; 0040d9e0 / 0040f320 / 0040ff00 change and restore it); seeds the root's busy_regs (0041abe0); the chooser 0041fa30 excludes (mask & 0xfff0)
+0045f9fc	g_message_severity		highest message class reported (0042b270: 1 for msg 1..999, 2 for 1000..1999, 3 for 2000..2999); shcgen_main clears it, run_stage_pipeline_and_exit exits with it * 2 + 1
+0045fa00	g_return_label	short	the function's return label (begin_function_code clears it; end_function_code places it when g_return_label_used); word accesses
+0045fa02	g_stmt_invalidate_mask	short	registers whose contents 0041abe0 invalidates at the end of the statement (0042fcb0(mask)); 00414400 adds the value register of flagged templates
+0045fa04	g_continue_label	short	label a CONTINUE jumps to (0042a930 makes it on first use); generate_for_statement (00407640 / 00407860) save, clear, place and restore it
+0045fa08	g_lit_file	FILE *	the .lit output (request +0xa4, wb, request +4 == 0); 0042ab90 / 0042baa0 write pool decisions; 0042cac0 writes the final flag in run_stage_pipeline_and_exit
+0045fa0c	g_sud_buffer_holds_data	char	1: the main .sud buffer holds the data (non-const) side and g_sud_hold_buffer the const side; 0: the reverse (append_sud_bytes picks the buffer by it, write_sud_initialized_data / append_sud_bytes switch it)
+0045fa10	g_lreg_table		array of 0x24-byte records (allocated as 0x48024 bytes): {short lreg; short register (<= 0 none); short type ...}, searched by |lreg| (0041b070, 0042f830); ends with lreg 0
+0045fa14	g_local_frame_size	int	size of the locals area, added to g_max_temp_frame for aux.frame_size (end_function_code) and in frame_operand_sp_displacement
+0045fa18	g_deref_count_cursor		next free 8-byte record of the variable use counts 0041c000 fills ({symx, lreg, count})
+0045fa1c	g_sud_data_dc_count_field	char *	where the count of the open data-side DC record is (append_sud_bytes mode 2 sets it to the record start + 2; write_sud_aggregate_initializer patches 4 bytes there; 0 = no open record)
+0045fa20	g_msg_listno	short	listing line for messages (node +26)
+0045fa24	g_db2_file	FILE *	the .db2 output (request +0x7c, wb when request +0x16 == 1); 0042cb60 / 0042cf00 / 0042d0e0 write debug records
+0045fa28	g_return_record_dropped	unsigned char	set by emit_psd_record 0042ab90 when a RETURN (0x22) was unreachable; gen_return_statement 0042a5b0 clears it before its RETURN and tests it after; byte accesses
+0045fa2c	g_reg_file	FILE *	the .reg input (request +0x80, rb, only when request +4 != 0): read_reg_file_lreg_table / read_reg_file_range_list
+0045fa30	g_sua_file	FILE *	the .sua output (request +0x84, wb); 0042ab90 writes every psd record to it (00432430)
+0045fa34	g_max_sptravel	unsigned int	s4: largest g_sptravel of the function (00420d10); 0040ad10 adds it to the frame size in the aux record (+0c); assign_function_storage resets it | s5: largest g_sptravel seen (00420d10 raises it; 00404dd0 / 0040ad10 / 004160f0 read it, dword accesses) (also proposed: g_max_push_depth, g_max_sp_travel)
+0045fa38	g_stack_param_offset		running stack offset of the parameters passed in memory in assign_parameter_storage (starts 0, or 4 for struct / non-SH-4 double return values; stored back at the end)
+0045fa3c	g_max_temp_frame	unsigned int	largest temporary area below g_frame_end (00420140)
+0045fa40	g_string_pool_block	char *	current 0x100-byte name pool block (read_symbol_name mallocs a new one when the name does not fit); = shcpep g_string_pool_block
+0045fa44	g_sud_const_dc_count	int	the same for the const side
+0045fa48	g_string_pool_cursor	char *	next free byte in g_string_pool_block (read_symbol_name); = shcpep g_string_pool_cursor
+0045fa4c	g_last_goto_label	short	label made by gen_label_statement 0042a790 for an IL_GLABEL with symx < 0; gen_goto_statement 0042a9d0 jumps to it for symx < 0 (message 0x120b when 0)
+0045fa4e	g_lreg_entry_count		s4: number of g_lreg_table entries read (read_reg_file_lreg_table ++; assign_function_storage resets it); 0042d0e0 writes it to the .db2 file (2 bytes) (also proposed: g_db2_lreg_count)
+0045fa50	g_deref_counts		array of 8-byte struct deref_count records (types_proposal.h) filled from here up to g_deref_count_cursor (0041bf60 resets the cursor to this address; find_deref_count 0041bfb0 searches it; count_deref_use 0041c000 appends); bound not established (no overflow check in the code)
+0045fb7c	g_fpr_contents_stamp_by_pair		not a separate variable: &g_fpr_contents[0].stamp - 0x20 * 0x18 (0045fe70 + 0xc - 0x300), so [reg * 0x18] is g_fpr_contents[reg - 0x20].stamp for the pair register numbers 0x20.. of choose_float_register_pair 0041fde0 (first register of the pair)
+0045fb94	g_fpr_contents_stamp_by_pair_hi		not a separate variable: 0045fb7c + 0x18, so [reg * 0x18] is g_fpr_contents[reg - 0x1f].stamp, the second register of the pair (0041fde0)
+0045fcf9	g_fpr_contents_flags_by_reg		not a separate variable: &g_fpr_contents[0].flags - 0x10 * 0x18 (0045fe70 + 9 - 0x180), so [reg * 0x18] is g_fpr_contents[reg - 0x10].flags for fr0..fr3 (regs 0x10..0x13) in prepare_identifier_node / prepare_constant_node; the decompiler should see the array access, not a name
+0045fcfc	g_fpr_contents_stamp_by_reg		not a separate variable: &g_fpr_contents[0].stamp - 0x10 * 0x18 (0045fe70 + 0xc - 0x180), so [reg * 0x18] is g_fpr_contents[reg - 0x10].stamp for fr0..fr3 (regs 0x10..0x13); choose_float_register 0041fc40 compares stamps of candidates through it (same convention as g_fpr_contents_flags_by_reg)
+0045fe50	g_last_case_label	short	s5: label of the last IL_CLABEL / IL_DLABEL placed (0042a790); 00420220 saves/clears it and, when the switch has a default, records it as the switch's exit label (.swi info +0c) (also proposed: g_switch_case_label)
+0045fe54	g_content_hit	int	set to 1 when a cached register content was reused (0042ff60, 004300d0); 0042f830 / 0042faf0 record nothing while it is set; 0041abe0 clears it per statement, 00422180 saves / restores it
+0045fe58	g_sud_const_dc_count_field	char *	the same for the const side
+0045fe5c	g_template_value_unused	int	s5: 1 while 00414400 emits a template flagged 0x01 whose result has no destination and no target register (it also adds the value register to g_stmt_invalidate_mask); emit_psd_instruction 00420e10 then ORs 0x20 into the record's misc. Dword accesses (also proposed: g_mark_template_records)
+0045fe60	g_saved_sys_mask	unsigned char	s2: system registers to save (aux +8 saved_sys bits 0/1): end_function_code stores it: 3 for attr 0x10, bits cleared for attr 0x0c, 0 when sym_flags 0x10 is clear or without an FPU (also proposed: g_aux_flags_08, g_fpu_sysregs_used)
+0045fe64	g_sud_buffer_start	char *	start of the main .sud buffer (= &g_sud_buffer)
+0045fe70	g_fpr_contents	reg_content[4]	array of 4 x 0x18 bytes: struct reg_content for fr0..fr3 (same functions with the floating bank; 0041fc40 / 0041fde0 index it as register - 0x10 / - 0x20, hence the 0045fcfc / 0045fb7c / 0045fb94 addresses in their code)
+0045fed0	g_stmt_temp_regs	short	OR of every statement root's temp_regs (0041abe0)
+0045fed4	g_int_nesting_depth	int	brace depth of the .int initialiser being read: 0xe8 bytes increase it (write_sud_initialized_data, write_sud_aggregate_initializer), 0xf0 decrease it (write_sud_aggregate_initializer, skip_int_close_marker)
+0045fed8	g_switch_case_count	short	number of cases of the switch being generated (00420600; 00420220 density test; 004208f0 / 00420b40 loops)
+0045fedc	g_stmt_serial	unsigned int	statement serial: 0041abe0 increments it per statement; register contents are stamped with it (reg_content +0c) and their validity ranges end at it (0041bae0 / 0041bc70)
+0045fee0	g_switch_cases		pointer to g_switch_case_count 8-byte struct switch_case records {int value; short label} (00420600 allocates count * 8 with 0043a550, 00420220 frees with 0043a610)
+0045fee4	g_var_fpr_mask	unsigned short	floating counterpart of g_var_gpr_mask (00407af0; 0041fc40 / 0041fde0 exclude mask & 0xfff0; seeds fbusy_regs)
+0045fee6	g_nested_operand_emit	char	s3: 1 while operands are emitted on behalf of a template or call (00412390 macros 0xa00 / 0xb00, 00414400 when tmpl +30 push_mode is set, 004053a0 around the call arguments; each saves and restores it); 004053a0 / 00406340 test == 1 (with 0045f9b4) (also proposed: g_pushing_operands)
+0045fee8	g_msg_filn	short	file number for messages: 0041abe0 copies the statement node +08; every internal error call passes it
+0045feec	g_swi_file	FILE *	the .swi input (request +0x70, rb); read by 00420600
+0045fef0	g_gpr_contents_stack		list of struct reg_contents_save (00430220 pushes a copy of g_gpr_contents, 00430320 restores)
+0045ff00	g_gpr_contents	reg_content[4]	array of 4 x 0x18 bytes: struct reg_content for r0..r3 (0042f830 / 0042faf0 record, 0042fcb0 / 0042fdb0 invalidate, 0041ffd0 ranks for the chooser 0041fa30, 0042ff60 / 004300d0 look up)
+0045ff60	g_used_gpr_mask	unsigned short	general registers used by the function (word ORs wherever a register is chosen: 0041fa30, 0040ceb0, 004289f0, 00424c80 template clobbers; 0041abe0 saves / restores around a statement and clears r0..r3)
+0045ff64	g_lib_env_name_14	char *	= shcpep g_lib_env_name_14 (same position: env name block base +0): "SHC_LIB" or "SHCPP_LIB" (select_env_variable_names). No reader in this slice.
+0045ff68	g_lib_env_name_18	char *	= shcpep g_lib_env_name_18 (base +4): "SHC_LIB" or "SHCPP_LIB".
+0045ff6c	g_tmp_env_name	char *	= shcpep g_tmp_env_name (base +8): "SHC_TMP" or "SHCPP_TMP"; make_temp_file_name passes it to get_env_directory.
+0045ff70	g_lib_env_name_20	char *	= shcpep g_lib_env_name_20 (base +0xc): "SHC_LIB" or "SHCPP_LIB".
+0045ff74	g_lib_env_name_24	char *	= shcpep g_lib_env_name_24 (base +0x10): "SHC_LIB" or "SHCPP_LIB".
+0045ff78	g_inc_env_name	char *	= shcpep g_inc_env_name (base +0x14): "SHC_INC" or "SHCPP_INC".
+0045ff7c	g_request_record_path	char *	= shcpep g_request_record_path (0042ae2c): load_request_record_file stock_malloc's a copy of the request file path into it; store_request_record_file frees it and clears it (dword accesses).
+0045ff80	g_request_trailer_file	FILE *	= shcpep g_request_trailer_file: temp file holding the bytes after the request record (save_request_trailer_to_temp sets it from open_temp_file or NULL); store_request_record_file tests it, copy_request_trailer_from_temp rewinds, copies and clears it.
+0045ff84	g_loaded_request	request *	= shcpep g_loaded_request: set by 00437b90 after loading, stage number stored at +0x118 (2 for shcgen); the .ilb readers test +0x118 == 1 / == 2
+0045ff88	g_request_version_mismatch	short	= shcpep g_request_version_mismatch: read_request_variable_part stores 0 / 1 (MOV word ptr [0x0045ff88],0x0 / 0x1) after comparing the request's compiler and copyright strings; load_request_record_file reports 0xceb when it is 1 (CMP word ptr).
+0045ff8a	g_request_cpp_block_size	short	= shcpep g_request_cpp_block_size: read_request_cpp_block stores the block's short size (MOV [0x0045ff8a],AX); write_request_cpp_block writes it (PUSH 0x45ff8a, 2 bytes) and tests it (CMP word ptr ...,0).
+0045ff8c	g_request_fixed_size	short	= shcpep g_request_fixed_size: the request file's first short (load_request_record_file MOV [0x0045ff8c],AX); allocation size of the request and byte count of read_/write_request_fixed_part (MOVSX word ptr); store_request_record_file writes it first (2 bytes).
+0045ff90	g_ilb_cursor	gen_node *	node the next .ilb record is attached to (004347a0 and the attach helpers 004349a0..004353c0 move it; 00433490 resets it when the root is freed)
+0045ff94	g_gen_node_exhausted_handler		function pointer called by 00433580 when the pool is empty; set by 00433680
+0045ff98	g_ilb_depth	int	depth of g_ilb_cursor (004347a0 recomputes it; 00434a20 pops levels)
+0045ff9c	g_unlink_parent	gen_node *	parent of the node being unlinked by 004333d0, compared with g_ilb_cursor
+0045ffa0	g_ilb_operand_counts		array of 0x800 x 4 bytes (00433280 allocates): operand count per open depth of the tree being read, capped at 0x7f (00434a20)
+0045ffb0	stock_pioinfo		CRT __pioinfo[0] (pointer to the first ioinfo block): stock_NMSG_WRITE takes stderr's OS handle from block +0x10 (fh 2's osfhnd).
+004600b0	stock_crtheap		CRT _crtheap HANDLE: HeapAlloc / HeapFree / HeapReAlloc in stock_heap_alloc, stock_free, stock_calloc, stock_realloc.

@@ -1,0 +1,12 @@
+# address	note
+00405310	entry 0x2c of the handler table at 004415a0 (word 00441650) points here: the only data pointer into .text that is not a function entry, CRT SEH tables aside; FUN_00404ed0 ends here, FUN_004053a0 starts 0x90 bytes on
+0041a8c0	the gen_node pool-exhausted handler shcgen_main passes to set_gen_node_exhausted_handler (00433680) as a number (PUSH 0x41a8c0); 22 bytes between shcgen_main and load_request_and_open_stage_files
+00401c90	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+004031a0	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+004034e0	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+004042e0	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+00404d90	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+00404ed0	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+0040ec70	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+0040efd0	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)
+0040f320	code the default analysis leaves without a function (reached through a handler table or an unfollowed call)

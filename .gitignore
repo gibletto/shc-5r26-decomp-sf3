@@ -1,0 +1,14 @@
+# Release 26, unpacked by tools/setup.py
+/extracted/
+# made from it
+rebuild/*/src/_stockdata.c
+# regeneration
+rebuild/*/src/_crt_excluded/
+/ghidra/reports/
+# build.py
+/build/
+__pycache__/
+# the archive, if downloaded here
+/shc-v5.0r26.tar.gz
+# Ghidra project made by tools/regen-all.sh
+/ghidra/project/

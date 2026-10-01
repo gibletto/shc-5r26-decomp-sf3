@@ -1,0 +1,548 @@
+# address	name	type (C; empty = Ghidra's)	note
+0043b000	stock_mainCRTStartup_scopetable		[crt] SEH scope table of entry (mainCRTStartup's __try around main; handler _except_handler3 at 004382cc). Data, size not measured.
+0043b010	stock_lookuptable		[crt] output.c __lookuptable: char class read at 0x43aff0+ch for ' '..'x' (i.e. from 0043b010), next state at 0043b010 + class*8 + state (>> 4). Used by __output. Array, size not measured. = shcpep 00424010.
+0043c000	stock_xc_a		[crt] C++ initializer table start (stock_cinit: _initterm(__xc_a, __xc_z)).
+0043c004	stock_xc_z		[crt] C++ initializer table end.
+0043c008	stock_xi_a		[crt] C initializer table start (stock_cinit: _initterm(__xi_a, __xi_z), called first).
+0043c010	stock_xi_z		[crt] C initializer table end.
+0043c014	stock_xp_a		[crt] pre-terminator table start (stock_doexit, when !quick).
+0043c020	stock_xp_z		[crt] pre-terminator table end.
+0043c024	stock_xt_a		[crt] terminator table start (stock_doexit, always).
+0043c028	stock_xt_z		[crt] terminator table end.
+0043c048	g_backend_op_payload_format		array of 0x100 x 2 bytes: payload format (1..0xc) per psd_op, the switch of read_backend_record_payload
+0043c508	s_eq_at_lp_0043c508		"=@(" (a string too short for Ghidra to label)
+0043c50c	s_rp_colon_0043c50c		"):" (a string too short for Ghidra to label)
+0043c510	s_eq_0043c510		"=" (a string too short for Ghidra to label)
+0043c514	s_plus_8_0043c514		"+8" (a string too short for Ghidra to label)
+0043c518	s_eq_at_lp_0043c518		"=@(" (a string too short for Ghidra to label)
+0043c51c	s_rp_0043c51c		")" (a string too short for Ghidra to label)
+0043c528	s_rp_0043c528		")" (a string too short for Ghidra to label)
+0043c52c	s_eq_0043c52c		"=" (a string too short for Ghidra to label)
+0043c538	s_rp_eq_0043c538		")=" (a string too short for Ghidra to label)
+0043c53c	s_at_lp_0043c53c		"@(" (a string too short for Ghidra to label)
+0043c540	s_rp_eq_0043c540		")=" (a string too short for Ghidra to label)
+0043c54c	s_rp_eq_0043c54c		")=" (a string too short for Ghidra to label)
+0043c550	s_eq_0043c550		"=" (a string too short for Ghidra to label)
+0043c554	s_eq_IMM_0043c554		"=IMM" (a string too short for Ghidra to label)
+0043c55c	s_eq_0043c55c		"=" (a string too short for Ghidra to label)
+0043c560	s_eq_at_lp_0043c560		"=@(" (a string too short for Ghidra to label)
+0043c564	s_rp_colon_0043c564		"):" (a string too short for Ghidra to label)
+0043c568	s_eq_4_plus_0043c568		"=4+" (a string too short for Ghidra to label)
+0043c56c	s_eq_2_plus_0043c56c		"=2+" (a string too short for Ghidra to label)
+0043c570	s_eq_1_plus_0043c570		"=1+" (a string too short for Ghidra to label)
+0043c574	s_colon_0043c574		":" (a string too short for Ghidra to label)
+0043c578	s_eq_at_lp_0043c578		"=@(" (a string too short for Ghidra to label)
+0043c57c	s_rp_0043c57c		")" (a string too short for Ghidra to label)
+0043c588	s_rp_0043c588		")" (a string too short for Ghidra to label)
+0043c5a8	s_rp_0043c5a8		")" (a string too short for Ghidra to label)
+0043c5b8	s_eq_0043c5b8		"=" (a string too short for Ghidra to label)
+0043c5d4	s_rp_eq_0043c5d4		")=" (a string too short for Ghidra to label)
+0043c5d8	s_at_lp_0043c5d8		"@(" (a string too short for Ghidra to label)
+0043c5dc	s_rp_eq_0043c5dc		")=" (a string too short for Ghidra to label)
+0043c5e8	s_rp_eq_0043c5e8		")=" (a string too short for Ghidra to label)
+0043c604	s_rp_eq_R0_0043c604		")=R0" (a string too short for Ghidra to label)
+0043c60c	s_eq_0043c60c		"=" (a string too short for Ghidra to label)
+0043c610	s_plus_0043c610		"+" (a string too short for Ghidra to label)
+0043c614	s_eq_0043c614		"=" (a string too short for Ghidra to label)
+0043c618	s_plus_0043c618		"+" (a string too short for Ghidra to label)
+0043c624	s_eq_0043c624		"=" (a string too short for Ghidra to label)
+0043c628	s_plus_0043c628		"+" (a string too short for Ghidra to label)
+0043c62c	s_eq_0043c62c		"=" (a string too short for Ghidra to label)
+0043c630	s_minus_0043c630		"-" (a string too short for Ghidra to label)
+0043c634	s_eq_0043c634		"=" (a string too short for Ghidra to label)
+0043c638	s_minus_0043c638		"-" (a string too short for Ghidra to label)
+0043c63c	s_eq_0043c63c		"=" (a string too short for Ghidra to label)
+0043c640	s_minus_0043c640		"-" (a string too short for Ghidra to label)
+0043c654	s_dot_dot_0043c654		".." (a string too short for Ghidra to label)
+0043c658	s_lt_pct_s_gt_0043c658		"<%s>" (a string too short for Ghidra to label)
+0043c660	s_sp_0043c660		" " (a string too short for Ghidra to label)
+0043c664	s_dot_dot_0043c664		".." (a string too short for Ghidra to label)
+0043c668	s_pct_d_colon_0043c668		"%d:" (a string too short for Ghidra to label)
+0043c66c	s_sp_0043c66c		" " (a string too short for Ghidra to label)
+0043c670	s_dot_dot_0043c670		".." (a string too short for Ghidra to label)
+0043c674	s_pct_d_colon_0043c674		"%d:" (a string too short for Ghidra to label)
+0043c678	s_sp_0043c678		" " (a string too short for Ghidra to label)
+0043c67c	s_dot_dot_0043c67c		".." (a string too short for Ghidra to label)
+0043c680	s_pct_d_colon_0043c680		"%d:" (a string too short for Ghidra to label)
+0043c684	s_sp_0043c684		" " (a string too short for Ghidra to label)
+0043c690	s_sp_0043c690		" " (a string too short for Ghidra to label)
+0043c694	s_pct_2d_nl_0043c694		"%2d\n" (a string too short for Ghidra to label)
+0043c69c	s_sp_0043c69c		" " (a string too short for Ghidra to label)
+0043c6a0	s_dot_dot_0043c6a0		".." (a string too short for Ghidra to label)
+0043c6a4	s_lt_pct_s_gt_0043c6a4		"<%s>" (a string too short for Ghidra to label)
+0043c6ac	s_sp_0043c6ac		" " (a string too short for Ghidra to label)
+0043c6b0	s_dot_dot_0043c6b0		".." (a string too short for Ghidra to label)
+0043c6b4	s_pct_d_colon_0043c6b4		"%d:" (a string too short for Ghidra to label)
+0043c6b8	s_sp_0043c6b8		" " (a string too short for Ghidra to label)
+0043c6bc	s_dot_dot_0043c6bc		".." (a string too short for Ghidra to label)
+0043c6c0	s_pct_d_colon_0043c6c0		"%d:" (a string too short for Ghidra to label)
+0043c6c4	s_sp_0043c6c4		" " (a string too short for Ghidra to label)
+0043c6c8	s_dot_dot_0043c6c8		".." (a string too short for Ghidra to label)
+0043c6cc	s_pct_d_colon_0043c6cc		"%d:" (a string too short for Ghidra to label)
+0043c6d0	s_sp_0043c6d0		" " (a string too short for Ghidra to label)
+0043c6d4	s_pct_4d_nl_0043c6d4		"%4d\n" (a string too short for Ghidra to label)
+0043c6dc	s_nl_nl_0043c6dc		"\n\n" (a string too short for Ghidra to label)
+0043c6f8	s_sp_0043c6f8		" " (a string too short for Ghidra to label)
+0043c6fc	s_pct_s_nl_0043c6fc		"%s\n" (a string too short for Ghidra to label)
+0043c700	s_pct_s_0043c700		"%s" (a string too short for Ghidra to label)
+0043c704	s_at_pct_s_0043c704		"@%s" (a string too short for Ghidra to label)
+0043c708	s_at_minus_pct_s_0043c708		"@-%s" (a string too short for Ghidra to label)
+0043c710	s_at_pct_s_plus_0043c710		"@%s+" (a string too short for Ghidra to label)
+0043c748	s_IMM_0043c748		"IMM" (a string too short for Ghidra to label)
+0043c74c	s_pct_s_0043c74c		"%s" (a string too short for Ghidra to label)
+0043c750	s_comma_pct_s_0043c750		",%s" (a string too short for Ghidra to label)
+0043c754	s_comma_at_pct_s_0043c754		",@%s" (a string too short for Ghidra to label)
+0043c7a4	s_comma_pct_s_0043c7a4		",%s" (a string too short for Ghidra to label)
+0043c7a8	s_sp_0043c7a8		" " (a string too short for Ghidra to label)
+0043c7ac	g_pool_size_classes	alloc_class_table *	pointer to the first pool_size_class block (0x108 bytes, types_proposal.h); created by the first pool_alloc; pool_alloc / pool_try_alloc / pool_free walk the chain at +4
+0043c7b8	s_semi_sp_0043c7b8		"; " (a string too short for Ghidra to label)
+0043c7bc	s_H_apos_0043c7bc		"H'" (a string too short for Ghidra to label)
+0043c7c0	s_H_apos_0043c7c0		"H'" (a string too short for Ghidra to label)
+0043c7c4	s_at_minus_0043c7c4		"@-" (a string too short for Ghidra to label)
+0043c7c8	s_request_compiler_version		"SH SERIES C Compiler Ver. 5.0(Re..." compared with request+0x11c (read_request_variable_part).
+0043c7f8	s_request_copyright		"Copyright (c) 1992,1996 Hitachi,..." compared with request+0x120.
+0043c844	g_runtime_routine_stack_adjust		array of 0xb7 x 4 bytes (ints): stack adjustment of each runtime routine symbol id 0..0xb6 (stock values 0, -4, -8, -0xc, -0x10, -0x14); expand_call records a nonzero entry in g_stack_adjust_list
+0043cb20	g_runtime_routine_names		array of 0xb7 x 4 bytes (char *): runtime routine names ("_divbs", "_divws", ... index 1..0xb6, [0] NULL); index = routine number = its symbol id (emit_import_symbol, emit_runtime_routine_imports, count_import_and_export_symbols)
+0043ce00	g_register_bit_masks	unsigned int [32]	array of 32 x 4 bytes: 0x80000000 >> n, the setreg/refreg bit of register n (word 0 for registers 0..0x1f); also indexed as 0x0043ccfc + reg*4 for word 1, which only fits the pre-SH-4 numbering (reg 0x41 -> bit 31)
+0043ce80	g_output_channels	output_channel [4]	Array of 4 x 0x1c bytes (output_channel in types_proposal.h): {char *buffer; char *end; char *cursor; short +0xc (set 1); short +0xe; short size +0x10; FILE *file +0x14; char *mode +0x18}. Static modes/sizes: [0] "wb+" 0x1000, [1] "wb" 0xff, [2] "w" 0x100 (the .src text), [3] "a" (the listing; size = line width + 2 at open). 004131a0 opens a channel (malloc size, fopen mode). Indexed [channel*7] by put_text_at_column. The interior addresses 0043ceb8/bc/c0/cc (channel 2 buffer/end/cursor/file), 0043ced4/d8/dc/e4/e8 (channel 3) are fields of this array; give them no names of their own if the array is typed.
+0043cef8	g_section_location_counters		array of 4 pointers to the per-section-kind location counters (int), advanced by emit_dc_record / emit_dz_record
+0043d290	g_opcode_format_index	opcode_format [256]	per psd_op: the g_instruction_format_table row (0xff none) and a list of alternative rows (assemble_instruction)
+0043da90	g_instruction_format_table	instruction_format [182]	array of 182 x 0x14 bytes (instruction_format in types_proposal.h): base opcode word, operand encoders, field shifts, mnemonic; e.g. [0] e000 MOV #imm,Rn; [97] a000 BRA; [132] c300 TRAPA. 0043da94/98/9c..9f and 0043daa0 are fields of entry 0
+0043e8c8	g_pipeline_op_written_operand		array of 256 x 1 byte by psd_op: 1 = ea1 is written, 2 = ea2 is written, 0 none (compute_pipeline_opcode_masks_and_flags); e.g. MOV 0x40 -> 2, DT 0x8a -> 1
+0043e9c8	g_pipeline_op_read_operands		array of 256 x 1 byte by psd_op: 1 = ea1 is read, 2 = ea2 and ea1 are read (compute_pipeline_operand_masks); e.g. CMP/EQ 0x50 -> 2, MOV 0x40 -> 1, ADD 0x60 -> 1 (the destination register of two-operand ALU ops is not added to refreg; it only appears in setreg)
+0043eac8	g_pipeline_op_t_bit_use		array of 256 x 1 byte by psd_op: bit 0 the op sets T, bit 1 it reads T (CMP/xx 0x50.. -> 1, MOVT 0x42 -> 2, ADDC/SUBC/ROTCL -> 3); compute_pipeline_opcode_masks_and_flags maps T to word-1 bit 31
+0043ebc8	g_pipeline_op_fpu_flags		array of 256 x 1 byte by psd_op: bit 0 adds word-1 bit 6 (0x0043ce18) to setreg; set for FADD FSUB FMUL FDIV FCMP FTST FMAC FNEG FABS FSQRT FLOAT FTRC (0xb8..0xdd): an FPU status register in the pre-SH-4 numbering (0x47); which one is not certain
+0043ecc8	g_register_names		array of 0x75 x 4 bytes (char *) indexed by reg: "R0".."R15", FR, DR, XF, XD, "XMTRX" (0x60), "SR" (0x61) .. "TRA" (0x73), "DUMMY" (0x74)
+0043ee98	g_op_names		array of 256 x 4 bytes (char *): the stage's opcode name per psd_op ("DUMMY  " for unused values, "MOV    " at 0x40, ...; the source of enums.tsv psd_op); the opcode column of dump_superscalar_window
+0043f298	g_issue_group_names		array of 22 x 4 bytes (char *): "----","EX","FE","MT","CO","CB","BR","LS","LS1","LS2","LS4","LS8","LSl".."LSl8","LSs".."LSs8", indexed by sched_entry.issue_group
+0043f2f0	g_stage_pattern_names		array of 22 x 4 bytes (char *): "EAS","E=S","EAFS","E-AF-S","E-A","EA","E","E----",...,"F-----------------------S"
+0043f348	g_window_entry_bit_masks		array of 32 x 4 bytes: 0x80000000 >> i, the bit of window entry i in the dependency masks
+0043fd70	g_internal_file_error_text		Array of char * indexed directly by msgno (only 3xxx used): 0xce4..0xce7 -> "(F) Cannot open/close/input/output internal file\n" (entries at 00443100..0044310c). Virtual base below the real entries; report_message_file_error_and_exit.
+00440cc4	g_debug_word_1001	short	constant 0x1001 (data), written big-endian (10 01) by FUN_0042efb0 into the tag-0x40 header (emit_object_header_and_tables), block scope begins and symbol records (emit_block_scope_records, translate_scope_record) and the end of the tag-0x38 records (emit_spooled_tag38_records)
+00440cc8	g_suppress_debug_record	int	1: the translate_* functions do not write their output record. Set by translate_debug_symbol_record when a referenced asm symbol is missing; cleared on its entry when g_debug_group_depth is 0, and by a tag-0x36 end that brings g_debug_group_depth to 0
+00440ccc	g_drop_function_debug	int	1: the next function scope (kind 3) is skipped by translate_scope_record. Set by translate_debug_symbol_record when a referenced symbol is missing; cleared by a kind-3 symbol record with location 2 or 4
+00440cd0	g_debug_group_depth	int	nesting of tag-0x36 begin/end records (translate_short_tagged_record)
+00440cd4	g_object_header_word	short	0 (data), the word after 'H' in the first tag-0x30 record (emit_object_header_and_tables)
+00440cd8	s_rb_00440cd8		"rb" (a string too short for Ghidra to label)
+00440cdc	s_rb_00440cdc		"rb" (a string too short for Ghidra to label)
+00440ce0	s_pct_d_00440ce0		"%d" (a string too short for Ghidra to label)
+00440ce4	s_pct_d_00440ce4		"%d" (a string too short for Ghidra to label)
+00440ce8	s_pct_d_00440ce8		"%d" (a string too short for Ghidra to label)
+00440cec	s_pct_d_00440cec		"%d" (a string too short for Ghidra to label)
+00440cf0	s_pct_d_00440cf0		"%d" (a string too short for Ghidra to label)
+00440cf4	s_pct_d_00440cf4		"%d" (a string too short for Ghidra to label)
+00440cf8	s_pct_d_00440cf8		"%d" (a string too short for Ghidra to label)
+00440cfc	s_pct_d_00440cfc		"%d" (a string too short for Ghidra to label)
+00440d00	g_record_kind_table_debug		array of 0x20 x 1 bytes (00440d00..00440d1f; the 0x1e-byte tag-0 table written by emit_object_record_kind_table when request+0x16; 00440d20 is the variant without debug kinds, also 0x1e bytes used)
+00440d40	s_rb_00440d40		"rb" (a string too short for Ghidra to label)
+00440d44	s_rb_00440d44		"rb" (a string too short for Ghidra to label)
+00440d48	s_rb_00440d48		"rb" (a string too short for Ghidra to label)
+00440d4c	s_rb_00440d4c		"rb" (a string too short for Ghidra to label)
+00440d50	s_dot_END_00440d50		".END" (a string too short for Ghidra to label)
+00440d58	s_rb_00440d58		"rb" (a string too short for Ghidra to label)
+00440d60	g_pipeline_window_ended_at_c_jmp	int	1: load_pipeline_window put a C_JMP (switch) record last in the window; pipeline() reads and clears it (also keeps g_pipeline_input_exhausted unset)
+00440d64	g_pipeline_lookahead_valid	int	1: g_pipeline_lookahead_record holds the next record (load_pipeline_window)
+00440d68	s_pipetbl_dump_after_pipeline		
+00440d88	g_pipeline_opcode_name_table		
+00441940	s_NON_00441940		"NON" (a string too short for Ghidra to label)
+00441944	s_pct_2d_00441944		"%2d" (a string too short for Ghidra to label)
+00441950	s_nl_00441950		"\n" (a string too short for Ghidra to label)
+00441954	g_created_symbol_chunks		first 0x588-byte chunk of symbol entries made by create_symbol_entry (header: +0 short entries in chunk, +2 short total in the first chunk, +4 next chunk; entries from +8)
+00441960	s_dot_RES_00441960		".RES" (a string too short for Ghidra to label)
+0044196c	g_debug_prev_op	unsigned char	op of the previous record seen by update_debug_info_for_record (BT/S, BF/S stored as 0x91)
+00441970	g_line_directive_prev_op	unsigned char	op of the previous record seen by emit_line_directive_for_record (BT/S, BF/S stored as 0x91)
+00441974	s_rb_00441974		"rb" (a string too short for Ghidra to label)
+004419c8	s_dollar_G0_004419c8		"$G0" (a string too short for Ghidra to label)
+004419cc	s_rp_004419cc		")" (a string too short for Ghidra to label)
+00441db0	s_colon_8_00441db0		":8" (a string too short for Ghidra to label)
+00441db4	s_colon_16_00441db4		":16" (a string too short for Ghidra to label)
+00441db8	s_colon_32_00441db8		":32" (a string too short for Ghidra to label)
+00441dbc	s_colon_4_00441dbc		":4" (a string too short for Ghidra to label)
+00441dd0	g_expanded_record_read_index	int	index of the next g_expanded_records entry read_next_backend_record hands out (reset with the count once all are out)
+00441dd4	g_pipeline_active	int	1 while read_next_backend_record takes records from the scheduler (pipeline / the superscalar reader); a section directive met then is held in g_held_section_record
+00441dd8	g_last_was_delayed_branch	int	1 when the record read_next_backend_record returned last was a delayed branch (RTE BRA BT/S BF/S BSRF BRAF BSR JMP JSR RTS); a second one in a row gets a NOP for its delay slot
+00441dec	s_dot_RES_00441dec		".RES" (a string too short for Ghidra to label)
+00441e58	g_listing_last_source_file	short	file of the source line copied last (copy_source_lines_to_listing skips a repeat)
+00441e5c	g_listing_last_source_line	unsigned short	line of the source line copied last
+00441e60	s_dot_END_00441e60		".END" (a string too short for Ghidra to label)
+00441e68	s_rb_00441e68		"rb" (a string too short for Ghidra to label)
+00441e6c	s_comma_0_00441e6c		",0" (a string too short for Ghidra to label)
+00441e70	s_H_apos_00441e70		"H'" (a string too short for Ghidra to label)
+00441e74	s_H_apos_00441e74		"H'" (a string too short for Ghidra to label)
+00441e78	s_H_apos_00441e78		"H'" (a string too short for Ghidra to label)
+00441e7c	s_H_apos_00441e7c		"H'" (a string too short for Ghidra to label)
+00441e80	s_H_apos_00441e80		"H'" (a string too short for Ghidra to label)
+00441e84	s_H_apos_00441e84		"H'" (a string too short for Ghidra to label)
+00441e88	s_H_apos_00441e88		"H'" (a string too short for Ghidra to label)
+00441e8c	s_H_apos_00441e8c		"H'" (a string too short for Ghidra to label)
+00441e90	s_H_apos_00441e90		"H'" (a string too short for Ghidra to label)
+00441e94	s_H_apos_00441e94		"H'" (a string too short for Ghidra to label)
+00441ea0	s_H_apos_00441ea0		"H'" (a string too short for Ghidra to label)
+00441eac	s_H_apos_00441eac		"H'" (a string too short for Ghidra to label)
+00441f78	s_sp_us_00441f78		" _" (a string too short for Ghidra to label)
+00442064	s_comma_sp_00442064		", " (a string too short for Ghidra to label)
+00442078	s_PCDB_00442078		"PCDB" (a string too short for Ghidra to label)
+00442080	s_dollar_G0_00442080		"$G0" (a string too short for Ghidra to label)
+00442084	s_dollar_G1_00442084		"$G1" (a string too short for Ghidra to label)
+00442088	s_sp_00442088		" " (a string too short for Ghidra to label)
+0044208c	s_dot_RES_0044208c		".RES" (a string too short for Ghidra to label)
+0044209c	s_H_apos_0044209c		"H'" (a string too short for Ghidra to label)
+004420a0	s_H_apos_004420a0		"H'" (a string too short for Ghidra to label)
+004420ac	s_H_apos_004420ac		"H'" (a string too short for Ghidra to label)
+004420b0	s_H_apos_004420b0		"H'" (a string too short for Ghidra to label)
+004420b4	s_rb_004420b4		"rb" (a string too short for Ghidra to label)
+004420b8	s_rb_004420b8		"rb" (a string too short for Ghidra to label)
+004420d8	s_object_listing_banner		
+00442128	s_object_listing_header		
+00442170	s_object_program_empty		
+0044218c	g_literal_label_serial	short	As shcpep g_literal_label_serial: with request +0x1a set, each CALL/JUMP/JUMPT/JUMPF/MVA_FC/RETURN target literal gets labno2 = -serial, then serial++ (FUN_004218bd, FUN_00421d5b, FUN_00422b68, decide_literal_pool_placement).
+00442190	g_pool_pending_literal_bytes	int	As shcpep: literal bytes collected since the last branch decision. Only decide_literal_pool_placement (dead) uses it.
+00442194	g_pool_code_bytes	int	As shcpep: code bytes since the last branch decision. Only decide_literal_pool_placement (dead).
+00442198	g_pool_carried_literal_bytes	int	As shcpep: literal bytes still pending from earlier segments. Only decide_literal_pool_placement (dead).
+0044219c	g_pool_carried_code_bytes	int	As shcpep: code bytes since the last pool across kept branches (0x400 forces a decision). Only decide_literal_pool_placement (dead).
+004421a0	g_pool_carried_has_word	unsigned char	As shcpep: 1 when the carried window holds word literals (limit 0x1fe instead of 0x3fc). Only decide_literal_pool_placement (dead).
+004421a4	g_pool_segment_has_word	unsigned char	As shcpep: 1 when the current segment added a word literal. Only decide_literal_pool_placement (dead).
+004421a8	g_pool_flush_pending	int	As shcpep: 1 = a flush was decided with an empty pool; the next branch flushes. Only decide_literal_pool_placement (dead).
+004421b0	g_op_code_size_table	short [256]	Array of 256 x 2 bytes (short per psd_op): target code bytes per op, read by compute_record_code_size. 004421f8 (DAT_004421f8) is its OP_JUMP element, read for RETURN with >= 2 saved registers; give it no separate name if the array is typed.
+004423b0	g_mv_loc_size_table		Array of 8 x 8 bytes (char): MV_LOC code size by [displacement class 0..7][access kind 0..7] (compute_record_code_size, addressed as 0x4423b0 + kind + class*8; not a DAT_ symbol in the export).
+0044241c	g_temp_name_buffer	char *	malloc'd result of make_temp_file_name.
+00442420	g_pid_digit_count	int	Decimal digits of the process id (sizes the temp name).
+00442424	g_process_id	int	abs(GetCurrentProcessId()), computed once by make_temp_file_name.
+00442428	g_temp_name_counter	int	Sequence number in temp names "%s%d.%d".
+0044242c	s_wb_plus		The string "wb+" (open_temp_file's fopen mode).
+00442430	s_tmp_suffix		The string ".tmp" (appended by open_temp_file).
+00442440	s_empty_string		"" (make_temp_file_name's directory when the variable is unset).
+004428c0	g_mangle_code_classes		array of 0x21 x 8 bytes {char *code; short class; pad} (classify_mangle_code): code letter -> class 1..0xb.
+004429c8	g_mangle_qualifier_names		array of 4 x 8 bytes {char *code; char *name}: U unsigned, C const, V volatile, S signed (find_type_qualifier_code; names read at 004429cc).
+004429e8	g_mangle_basic_type_names		array of 10 x 8 bytes {char *code; char *name}: v void .. m enum (find_basic_type_code; names read at 004429ec).
+00442a38	g_mangle_declarator_names		array of 4 x 8 bytes {char *code; char *text}: P "*", R "&", F ")(", M "::*" (find_declarator_code; texts read at 00442a3c).
+00442a58	g_mangle_operator_names		array of 0x2a x 8 bytes {char *code; char *name}: "__cl" "operator()" .. "__rm" "operator->*" (find_operator_name_code; names read at 00442a5c).
+00442ba8	g_mangle_ctor_dtor_names		array of 2 x 8 bytes {char *code; char *prefix}: "__ct" "", "__dt" "~" (find_ctor_dtor_name_code; prefixes read at 00442bac).
+00442bb8	s_operator_prefix		"operator " (demangle_cpp_symbol_name, conversion operators).
+00442bc4	s_open_paren		"(" before an argument list / around an array's element type.
+00442bc8	s_close_paren		")".
+00442bcc	s_scope_separator		"::" (format_class_scope_prefix, format_qualified_name).
+00442bd0	s_member_pointer_suffix		"::*" (format_member_pointer_class).
+00442bd4	s_argument_separator		"," between formatted types (format_mangled_type_list).
+00442bd8	s_const_suffix		"const" appended to g_demangle_cv_suffix for a 'C' code.
+00442be0	s_volatile_suffix		"volatile" appended for a 'V' code.
+00442bec	s_space		" " (cv suffix, qualifier separation, compose_type_pieces).
+00442bf0	s_enum_prefix		"enum " before an enum's name ('m' codes).
+00442bf8	s_placeholder_name_format		"$$%03d": sprintf format of the placeholder tokens demangle_argument_list makes for nested function types.
+00442c5c	s_rb_00442c5c		"rb" (a string too short for Ghidra to label)
+00442c60	s_banner_analyzing_source_prep		
+00442cb0	s_banner_analyzing_source_p		
+00442d78	s_banner_analyzing_source_f		
+00442dd0	g_progress_banner_table		
+00442e24	s_wb_00442e24		"wb" (a string too short for Ghidra to label)
+00442ed8	s_src_suffix		
+00443030	g_object_language_tag_c		
+00443060	g_object_language_tag_cpp		
+00443068	s_internal_error		
+00443110	g_internal_error_text	char *	Points to "Internal error\n" (00443068); printed for 4xxx messages.
+00443114	s_ab_00443114		"ab" (a string too short for Ghidra to label)
+00443118	s_sp_00443118		" " (a string too short for Ghidra to label)
+00443124	s_nl_sp_sp_00443124		"\n  " (a string too short for Ghidra to label)
+00443128	s_pct_d_00443128		"%d" (a string too short for Ghidra to label)
+00443130	g_page_label_text		Writable array of 8 bytes initialised "PAGE " (Ghidra s_PAGE_00443130): format_listing_page_header appends padding spaces to it in place and cuts it back with [5] = 0.
+0044313c	s_nl_0044313c		"\n" (a string too short for Ghidra to label)
+00443140	s_sp_sp_00443140		"  " (a string too short for Ghidra to label)
+004431b0	stock_errno		[crt] errno (9 EBADF, 0xc ENOMEM, 0xd EACCES, 0x16 EINVAL, 0x22 ERANGE; errtable value in stock_dosmaperr). = shcpep 00428460.
+004431b4	stock_doserrno		[crt] _doserrno (OS error saved by stock_dosmaperr, _read, _write, _commit, _signal ...).
+004431b8	stock_umaskval		[crt] _umaskval (stock_sopen).
+004431bc	stock_osver		[crt] _osver = GetVersion() >> 16 (entry).
+004431c0	stock_winver		[crt] _winver = _winmajor*256 + _winminor (entry).
+004431c4	stock_winmajor		[crt] _winmajor = GetVersion() & 0xff (entry).
+004431c8	stock_winminor		[crt] _winminor = (GetVersion() >> 8) & 0xff (entry).
+004431cc	stock_argc		[crt] __argc (__setargv; entry passes it to shcasm_main).
+004431d0	stock_argv		[crt] __argv (__setargv; entry passes it to shcasm_main).
+004431d8	stock_environ		[crt] _environ (built by stock_setenvp; getenv, findenv, stock_crtsetenv).
+004431dc	stock_initenv		[crt] __initenv (entry copies _environ into it before main; stock_crtsetenv calls copy_environ while equal).
+004431e0	stock_wenviron		[crt] _wenviron (getenv, ___wtomb_environ, stock_crtsetenv).
+004431e8	stock_pgmptr		[crt] _pgmptr = _pgmname (__setargv).
+004431f0	stock_exitflag		[crt] _exitflag (byte; stock_doexit stores (char)retcaller).
+004431f4	stock_C_Exit_Done		[crt] _C_Exit_Done (stock_doexit sets 1).
+004431f8	stock_aenvptr		[crt] _aenvptr (entry: stock_crtGetEnvironmentStringsA result; stock_setenvp frees it).
+00443200	stock_aexit_rtn		[crt] _aexit_rtn (function pointer initialised to __exit 00435300; __amsg_exit calls it with 255).
+00443204	stock_error_mode		[crt] __error_mode (__amsg_exit, __FF_MSGBANNER, stock_NMSG_WRITE: 1 = _OUT_TO_STDERR, 0 = default, 2 = _OUT_TO_MSGBOX).
+00443208	stock_app_type		[crt] __app_type (stock_NMSG_WRITE, __FF_MSGBANNER, __set_osfhnd, stock_free_osfhnd: 1 = _CONSOLE_APP).
+00443210	stock_namebuf0		[crt] tmpnam.c static name buffer for tmpnam (_tmpnam, init_namebuf(0)); 16 bytes before namebuf1.
+00443220	stock_namebuf1		[crt] tmpnam.c second static name buffer (tmpfile; init_namebuf(1)).
+00443238	stock_ctrlc_action		[crt] signal.c static ctrlc_action (_signal SIGINT 2).
+0044323c	stock_ctrlbreak_action		[crt] signal.c static ctrlbreak_action (_signal SIGBREAK 0x15).
+00443240	stock_abort_action		[crt] signal.c static abort_action (_signal SIGABRT 0x16).
+00443244	stock_term_action		[crt] signal.c static term_action (_signal SIGTERM 0xf).
+00443248	stock_ConsoleCtrlHandler_Installed		[crt] signal.c static flag tested by _signal before SetConsoleCtrlHandler (handler ctrlevent_capture at 00435e30, not a function in the export).
+00443250	stock_iob		[crt] _iob: array of 20 x 0x20-byte FILE (00443250..004434d0, where _cflush follows). 00443270 = _iob[1] (stdout), 00443290 = _iob[2] (stderr) as _crt_shim.c and __stbuf/__flsbuf show. = shcpep 004284d0.
+00443270	stock_stdout		CRT _iob[1] (stdout FILE struct, 0x20 before stderr): report_message_file_error_and_exit fputs.
+00443290	stock_stderr		CRT _iob[2] (stderr FILE struct): emit_progress_banner fputs/fputc/fflush. A struct, not a pointer: leave untyped.
+004434d0	stock_cflush		[crt] _cflush (incremented by __stbuf, __openfile, __getbuf).
+004434d8	stock_mbctype		[crt] _mbctype: array of 257 bytes (indexed c+1; _M1 lead 4, _M2 trail 8), filled by stock_setmbcp/setSBCS, read by stock_mbsrchr, __mbschr, parse_cmdline.
+004435dc	stock_mbcodepage		[crt] __mbcodepage (0 = SBCS; stock_setmbcp, setSBCS, __mbsnbicoll, __mbschr, stock_mbsrchr).
+004435e0	stock_mblcid		[crt] __mblcid (stock_setmbcp: _CPtoLCID(codepage); __mbsnbicoll).
+004435e8	stock_mbulinfo		[crt] __mbulinfo: array of 3 x 4 bytes (004435e8/ec/f0) set by stock_setmbcp/setSBCS.
+004435f4	stock_fSystemSet		[crt] mbctype.c static fSystemSet (getSystemCP sets it; stock_setmbcp).
+004435f8	stock_rgctypeflag		[crt] mbctype.c __rgctypeflag: array of 4 bytes ORed into _mbctype per range set.
+00443600	stock_rgcode_page_info		[crt] mbctype.c __rgcode_page_info: array of 0x30-byte {code_page, mbulinfo[3], rgrange[4][8]} entries up to 004436f0 (stock_setmbcp reads 00443604/08/0c/10 inside it).
+004436f0	stock_newmode		[crt] _newmode: call_new_handler argument of stock_malloc; stock_calloc/stock_realloc retry through stock_callnewh only when set.
+004436f8	stock_stdbuf		[crt] _sftbuf.c static void *_stdbuf[2] (temporary stdout/stderr buffers, __stbuf). Array of 2 x 4 bytes.
+00443718	stock_nullstring		[crt] output.c pointer to "(null)" (00443710; %s/%Z with NULL).
+0044371c	stock_wnullstring		[crt] output.c pointer to L"(null)" (00443700; %S with NULL).
+00443720	stock_NLG_Destination		[crt] exsup _NLG_Destination {dwSig, uoffDestination +4, dwCode +8, uoffFramePointer +0xc}; stock_NLG_Notify writes 00443724/28/2c. Array of 4 x 4 bytes; base derived as in shcpep (004287b0).
+00443730	stock_XcptActTab		[crt] _XcptActTab (winxfltr.c): 12-byte {XcptNum, SigNum, XcptAction} entries searched by siglookup; _signal stores XcptAction (+8).
+004437b0	stock_XcptActTabCount		[crt] _XcptActTabCount (siglookup's bound).
+004437c0	stock_f_use_GetEnvironmentStrings		[crt] aw_env.c static f_use (1 = W API, 2 = A API) in stock_crtGetEnvironmentStringsA.
+004437c8	stock_badioinfo		[crt] __badioinfo (ioinfo used for fh == -1 in _osfile_safe: _rewind, __flsbuf, __filbuf).
+00443a38	stock_rterrs		[crt] crt0msg.c rterrs: array of 8-byte {rterrno, rterrtxt} entries to 00443ac0 (stock_NMSG_WRITE).
+00443ac0	stock_adbgmsg		[crt] crt0msg.c _adbgmsg (function pointer; __FF_MSGBANNER calls it between _NMSG_WRITE(0xfc) and (0xff) when set). Directly after rterrs.
+00443b28	stock_errtable		[crt] dosmap.c errtable: array of 8-byte {oscode, errnocode} entries to 00443c90 (stock_dosmaperr).
+00443c90	stock_commode		[crt] _commode (__openfile ORs it into the stream flags; directly after errtable).
+00443ca0	stock_pctype		[crt] _pctype (pointer to the unsigned short ctype table; __output, stock_strtoxl, __isctype, toupper).
+00443eac	stock_mb_cur_max		[crt] __mb_cur_max (stock_strtoxl and toupper use __isctype when > 1; _wctomb).
+00443eb8	stock_lc_handle		[crt] __lc_handle: array of 6 x 4-byte LCIDs; 00443ec0 = __lc_handle[LC_CTYPE] (read by _wctomb, toupper, ___crtGetStringTypeA). Base derived from LC_CTYPE == 2 and __lc_codepage at +0x18, as shcpep (004291b0).
+00443ed0	stock_lc_codepage		[crt] __lc_codepage (getSystemCP, _wctomb, ___crtGetStringTypeA, stock_crtCompareStringA, ___crtLCMapStringA default code page).
+00443f10	stock_cfltcvt_tab		[crt] _cfltcvt_tab: array of 6 function pointers (_cfltcvt +0, _cropzeros +4, _fassign +8, _forcdecpt +0xc, _positive +0x10, _cldcvt +0x14) that __output calls for %e/%f/%g; all hold stock_fptrap (0043a6a0). Ends at 00443f28.
+00443f28	stock_pfnMessageBoxA		[crt] crtmbox.c static MessageBoxA pointer (___crtMessageBoxA).
+00443f2c	stock_pfnGetActiveWindow		[crt] crtmbox.c static GetActiveWindow pointer.
+00443f30	stock_pfnGetLastActivePopup		[crt] crtmbox.c static GetLastActivePopup pointer.
+00443f70	stock_fmode		[crt] _fmode (stock_sopen: == _O_BINARY 0x8000 picks the default mode).
+00443f78	stock_f_use_GetStringType		[crt] a_str.c static f_use in ___crtGetStringTypeA.
+00443f88	stock_f_use_CompareString		[crt] a_cmp.c static f_use in stock_crtCompareStringA (1 = W, 2 = A).
+00443f90	stock_f_use_LCMapString		[crt] a_map.c static f_use in ___crtLCMapStringA.
+00443f98	g_backend_stream	FILE *	the backend record stream being read (set by read_backend_record_payload, read by read_backend_stream_bytes)
+00443fa0	g_operand2_register_class	unsigned char	the same for the second operand
+00443fa4	g_superscalar_lookahead_valid	char	1: g_sh4_lookahead_record holds the next record
+00443fa8	g_superscalar_lookahead_record	psd	a backend record read past the end of the SH-4 window (a block boundary), kept for the next call (read_next_pipeline_buffered_backend_record compares its op byte 00443fa8, flg 00443fa9, ea2 00443fbc); the shcpep-style counterpart of g_pipeline_lookahead_record
+00443fc0	g_operand1_register_class	unsigned char	group base of the first operand's register set by record_sched_entry_operands(rec, 1): 0x10 FR, 0x20 DR, 0x30 FV, 0x40 XF, 0x50 XD, 0 other; byte stores
+00443fc8	g_superscalar_dump_line		array of 0x200 bytes: sprintf buffer of dump_sched_window / print_sched_entry_operands (scanned up to 0x200 for its length)
+004441c8	g_module_header_record	unsigned char [0x1c]	array of 0x1c x 1 bytes (tag-4 record built by emit_object_module_header_record; 004441c9..004441d4 = the 12 date bytes YYMMDDhhmmss that emit_object_unit_record copies; ends at 004441e3, next 004441e8)
+004441e8	g_section_record	unsigned char [0x10]	array of 0x10 x 1 bytes (tag-8 section definition built by emit_section_definition_record: 0x40, u32 0 at +1, u32 size at +5, u32 alignment at +9, attribute +0xd, word 0xffc0 +0xe)
+004441f8	g_unit_record	unsigned char [7]	array of 7 x 1 bytes (tag-6 record built by emit_object_unit_record: 0x40 and three big-endian words)
+00444200	g_symbol_ordinal	int	running count of loaded symbols/sections, stored in each entry's +0x1c
+00444208	g_intermediate_record_header	unsigned char [8]	array of 8 bytes: the 1-byte record header, then overwritten by the 8-byte symbol body (id, aux word, position) in load_intermediate_record_stream
+00444308	g_intermediate_file	FILE *	the .asb/.asa stream load_intermediate_record_stream opens and closes; read by read_intermediate_bytes
+0044430c	g_name_chunk_cursor	char *	next free byte of the current 0x100-byte name chunk (read_intermediate_string); cleared by load_intermediate_record_stream
+00444310	g_name_chunk_end	char *	end of the current 0x100-byte name chunk (read_intermediate_string)
+00444314	g_string_pool_chunk	char *	the current 0x100-byte name chunk (0: none yet)
+00444318	g_new_register_variable_map	register_variable *	list of 8-byte register_variable nodes: the map of the range just closed (update_register_variable_map)
+0044431c	g_register_variable_map	register_variable *	list of 8-byte register_variable nodes: the current map (written out by update_register_variable_map / flush_register_variable_map)
+00444320	g_scope_saved_sibling	debug_scope *	debug_range *: previous sibling of the node opened last (0 if it was a first child); close_debug_scope_range merges back into it
+00444328	g_label_name_buffer		char buffer: an external symbol's name (+ ':') assembled by write_label_name
+00444428	g_last_movi_immediate	int	the immediate of the last MOVI read (with request->debug): a following ADD/SUB Rm,R15 records it as a stack adjustment
+00444430	g_held_section_record	psd	a section directive (PRGRAM CONST DATA BSS) read while g_pipeline_active, handed out when the scheduler has drained
+00444448	g_line_filno	short	file number of the last LINE record; an FLABEL record takes it
+0044444c	g_line_linno	unsigned short	line number of the last LINE record; an FLABEL record takes it
+00444450	g_listing_blank_line		Array of 0x100 bytes: the empty line pad_listing_page writes (write_listing_line stores "\n\0" at its start).
+00444550	g_listing_header_buffer		Array of 0x104 bytes (up to g_temp_file_count at 00444654): line buffer emit_listing_page_header builds each header line in.
+00444654	g_temp_file_count	int	Entries used in g_temp_files (max 8).
+00444658	g_temp_files	temp_file [8]	Array of 8 x 8 bytes {char *path; FILE *file}; 0044465c is element 0's file. open_temp_file / close_and_delete_temp_files.
+004446ac	g_temp_path_in_progress	char *	Temp path being built by open_temp_file (moved into g_temp_files).
+004446b0	g_demangle_name_scratch		char scratch: one parsed name in format_class_scope_prefix. Array of 0x200 bytes (to 004448b0).
+004448b0	g_demangle_array_type_text		char scratch for "(" + composed type + ")" before an array declarator (format_mangled_type_list class 6). Array of 0x800 bytes (to 004450b0).
+004450b0	g_demangle_type_text		char text of one composed type (compose_type_pieces output) before it is appended to the work buffer; also an enum/class name scratch. Array of 0x400 bytes (to 004454b0).
+004454b0	g_demangle_cv_suffix		char text built by demangle_cpp_symbol_name for cv member functions (" const", " volatile"), appended after ")". Array of 0x400 bytes (to 004458b0).
+004458b0	g_demangle_qualified_component		char scratch: one component in format_qualified_name. Array of 0x200 bytes (to 00445ab0).
+00445ab0	g_demangle_type_piece	char [0x400]	char text of the type piece being built (qualifiers + base type, declarator ...) in format_mangled_type_list. Array of 0x400 bytes (to 00445eb0).
+00445eb0	g_demangle_class_scope		char text "A::B::" from format_class_scope_prefix, printed before the member name. Array of 0x400 bytes (to 004462b0).
+004462b0	g_demangle_joined_tokens		char text: demangle_argument_list's tokens joined again (and the token runs it formats for nested function types). Array of 0x800 bytes (to 00446ab0).
+00446ab0	g_demangle_member_class_text		char scratch: class name of a member pointer (format_member_pointer_class). Array of 0x200 bytes (to 00446cb0).
+00446cb0	g_demangle_token_text		char scratch: the token demangle_argument_list is building. Array of 0x800 bytes (to 004474b0).
+004474b0	g_request_being_loaded	request *	The request load_request_record_file mallocs and fills (read_request_fixed_part/variable_part), copied to g_loaded_request when complete. Would be request * (s12 proposal). shcpep 00429368.
+004474b8	g_message_number_text		Array of 8 bytes (up to 004474c0): sprintf "%d" buffer for the message number in report_message_file_error_and_exit.
+004474c0	g_decimal_text_length	short	Running length of g_decimal_text in format_decimal (2-byte accesses).
+004474c8	g_decimal_text		Array of at least 0x14 bytes: format_decimal's digit buffer, strcat'd into the page header.
+004474e0	g_env_directory	char [0x76]	Array of 0x76 bytes: get_env_directory's static result (up to 0x74 chars + '\' + NUL). 00447553 / 00447554 (Ghidra DAT_) are its elements [0x73] / [0x74], not separate globals.
+00447560	stock_pnhHeap		[crt] _pnhHeap (new handler called by stock_callnewh).
+00447568	stock_pgmname		[crt] setargv.c static char _pgmname[MAX_PATH] (GetModuleFileNameA target in __setargv). Array of 0x104 bytes.
+00447670	g_word_literal_table	literal_table	literal_table (types_proposal.h), 0x210 bytes apart from the next table: pending word literals (find_pool_literal / add_pool_literal / clear_pool_literal_table).
+00447880	g_long_literal_table	literal_table	literal_table: pending long literals.
+00447a90	g_frame_offset_literal_table	literal_table	literal_table: out-of-range stack displacements of MV_LOC/MVA_LC; only decide_literal_pool_placement (dead) uses it.
+00447c98	g_listing_location_field	char *	listing line field at +4 of the stream-3 line (open_output_stream); FUN_00423268 writes a 4-byte value there as hex (FUN_00423796)
+00447c9c	g_layout_section_pass0	request_section *	the current section of layout pass 0 (find_section_by_id); its layout record +0x28 keeps the pass-0 shrink across section changes
+00447ca0	g_superscalar_drain_index	int	next window entry handed out by drain_next_sh4_scheduled_record
+00447ca4	g_layout_section_pass1	request_section *	the current section of layout pass 1; its layout record +0x2c keeps the pass-1 shrink
+00447ca8	g_layout_pending_records	layout_record *	FIFO of layout records (op 0x10) read before the first label (begin_layout_passes); resolve_next_pending_layout_record resolves its head first; run_layout_passes loops until it is empty
+00447cac	g_layout_symbol_pass1	symbol *	the symbol record layout pass 1 is at (resolve_next_pending_layout_record steps it over the 0x2c-byte symbols); begin_layout_passes sets it to the first label
+00447cb0	g_superscalar_draining	int	1 while drain_next_sh4_scheduled_record is handing out the scheduled window (read_next_backend_record tests it)
+00447cb4	g_function_debug_loaded	int	1 once FUN_00401000 has loaded the current function's debug symbol/location tables (translate_scope_record, translate_debug_symbol_record); cleared at the function scope end
+00447cc0	g_last_label_number	short	highest label number in use (read from the .asb end record); new labels take +1 (emit_inline_asm_block, add_literal_to_pool_table; error 0xbc8 at 0x7fff)
+00447cc8	g_ofb_at_end	int	1 when g_ofb_input reached EOF (layout_next_ofb_record, begin_layout_passes); ends pass 1
+00447cd0	g_next_delay_slot_record	psd	a second delay-slot candidate (psd flg 0x40) held while g_delay_slot_record is taken; a NOP (op 0x88) when two delayed branches follow each other; emit_final_asm_record_stream moves it to g_delay_slot_record
+00447ce8	g_object_need_section_select	short	1 after flush_reloc_records: the next data record (0x1c/0x9c) is preceded by a section select record (append_object_record_bytes clears it)
+00447cec	g_next_export_index	int	run_assembler_passes clears it; FUN_00401b2a stores it in symbol+0x28 and increments it for exported symbols (kinds 7/8/9/0xc with flag 0x80)
+00447cf0	g_location_counter	int	address of the next instruction in the current section (the pc of the debug-info builders)
+00447cf4	g_source_listing_file	unsigned short	file number of the next source line header (2 bytes read by copy_source_lines_to_listing)
+00447cf8	g_layout_symbol_pass0	symbol *	the symbol record layout pass 0 is at (run_layout_passes steps it by 0x2c over the symbols, taking g_layout_shrink_pass0 off each label position); read_ofb_layout_record hangs the records it reads on its +0x24 list
+00447cfc	g_layout_symbol_labno_pass1	short	number (+6) of the symbol at g_layout_symbol_pass1 (read by compute_enter_expansion_size in pass 1)
+00447d00	g_debug_symbol_hash	debug_symbol *[0x7f]	array of 0x7f x 4 bytes (debug_symbol * buckets, key id % 0x7f; filled by translate_debug_symbol_record and FUN_00401000, freed by FUN_0040156c)
+00447efc	g_stack_offset_temp	FILE *	temp file of 8-byte big-endian (pc, stack offset) records (update_debug_info_for_record, track_stack_pointer_offset); read back by FUN_0040f97b, FUN_004106f1
+00447f00	g_superscalar_drain_count	int	entries to hand out (window size; 0x20 when a single record is passed through)
+00447f04	g_program_size	int	Sum of the section sizes (FUN_00429605 adds them), then reduced to 0/1 (!= 0); 0 -> "Object program is empty." (emit_listing_page_header, emit_object_header_and_tables, run_assembler_passes).
+00447f08	g_loaded_aux_count	int	aux (function) records loaded so far: load_intermediate_record_stream stores it in the function symbol's +0x10 (its aux index) and increments it; reset to 0 after loading
+00447f0c	g_current_request	request *	the request record of this compile (load_request_record_file), read everywhere
+00447f10	g_column_starts	char *[4]	Array of 4 x 4 bytes (char *): the line-buffer positions of the 4 output columns of the channel being written (004131a0: .src buffer +0/+10/+0x16/+0x21, listing buffer +0x1a/+0x24/+0x30/+0x3b). put_text_at_column moves the cursor to g_column_starts[column]; [0] and [3] (00447f1c) are also read alone.
+00447f20	g_debug_record_input		request->db1_path (.db1) opened "rb" by emit_debug_information: the debug records it translates (tags 0x32..0x50)
+00447f24	g_debug_symbol_input		request->db2_path (.db2) opened "rb" by emit_debug_information (the name g_object_output was wrong: it is an input): load_debug_symbol_tables reads the function's debug symbol and location tables from it
+00447f28	g_stack_adjust_list	stack_adjust_node *	head of a list of 8-byte nodes {next, amount} (stack_adjust_node in types_proposal.h): stack pointer changes not visible as immediates (large frame allocate/free, add Rn,r15 after a MOVI, runtime routine adjustments), appended at the tail only when request+0x16 is set; would be stack_adjust_node *
+00447f2c	g_current_section_kind	short	section kind 0..3 of the current output (indexes g_section_location_counter, PTR_DAT_0043cef8, picks DAT_0044e028/2a/2c/2e in build_section_select_record)
+00447f30	g_debug_location_hash	debug_location *[0x7f]	array of 0x7f x 4 bytes (debug_location * buckets, key id % 0x7f; FUN_00401000 fills, FUN_00401655 frees, emit_block_scope_records looks up)
+0044812c	g_ofb_input	FILE *	the .ofb layout stream (request+0x90, or +0x94 when request+4 != 0), opened by begin_layout_passes, read by layout_next_ofb_record / read_ofb_layout_record, closed by finish_layout_passes
+00448130	g_object_record_buffer	unsigned char [0x100]	the object record being built (translate_* / emit_object_header_and_tables) before append_object_record_bytes; 0x100 bytes up to g_listing_code_row_next
+00448230	g_listing_code_row_next	short	Next row of g_listing_code_rows that flush_listing_line prints; 0 after flush_listing_entry.
+00448240	g_listing_code_rows		array of N x 10 bytes: the rows of the listing's object-code column (append_listing_object_code); flushed by FUN_0042b69d
+00448c40	g_runtime_routine_imported		array of 0x20 x 1 byte: bitmap of runtime routines already imported by name (emit_import_symbol sets, run_assembler_passes clears)
+00448c60	g_ofb_current_label	short	the label number of the last label record read from .ofb; run_layout_passes reads records when the symbol walk reaches it
+00448c70	g_delay_slot_record	psd	psd (0x18 bytes): the record held for a branch's delay slot; emit_final_asm_record_stream prints it after each branch (an OP_NOP placeholder gets the branch's expno/filno/linno) and then clears it from g_zero_psd
+00448c90	g_pipeline_window	pipeline_entry [32]	[pipetbl] the list scheduler's window: load_pipeline_window fills entries 0..g_pipeline_window_last_index (at most 32) with backend records; dump_pipeline_table prints it
+00449290	g_runtime_routines_used		array of 0x20 x 1 byte: bitmap (MSB first, bit n = routine n+1) of runtime routines the code uses, read from the .asb trailer record 0xe (load_intermediate_record_stream)
+004492b0	g_expanded_records	psd [48]	array of 48 x 0x18 bytes (psd [48]; next global 00449730): records queued by the per-op expanders (set_psd_record at +n*0x18; ea1 at 004492c0, ea2 at 004492c4, flg at 004492b1 are the same array); read_next_backend_record returns them in order (read index 00441dd0) and clears each with g_zero_psd
+00449730	g_source_listing_at_end	unsigned char	1 once g_source_listing_input hit EOF (copy_source_lines_to_listing; emit_final_asm_record_stream stops calling it)
+00449734	g_pipeline_last_scheduled	int	window index of the entry scheduled last (commit_scheduled_pipeline_entry links the next one after it), -1 none
+00449738	g_pipeline_load_result_regs	unsigned int [2]	array of 2 x 4 bytes (00449738 word 0, 0044973c word 1): setreg of the last committed record when it accessed memory through ea1 (a load) or is an FPU op, else 0; can_schedule_pipeline_entry_now refuses an entry using any of these registers (load-use interlock). Ghidra shows 00449738 as _DAT_ (overlapping symbol)
+00449740	g_function_label	short	label of the function being emitted: read_next_backend_record stores the label of an OP_FLABEL record; the expanders find the function's aux record through it
+00449742	g_debug_scope_depth	short	scope nesting of the debug records: emit_final_object_file sets -1, translate_scope_record ++ on begin / -- on end; translate_debug_symbol_record stores it in debug_symbol+0xc and writes it into each record
+00449744	g_source_listing_input	FILE *	request+0x15c: {file (2), line (4)} headers and source text lines that copy_source_lines_to_listing interleaves into the listing
+00449748	g_max_error_severity		
+00449750	g_pipeline_edges	pipeline_edge [0x3e0]	the window's dependency edges, allocated in order (g_pipeline_edge_count, add_pipeline_dependency_edge stops at 0x3e0); 0x3e0 * 4 bytes ends at 0044a6d0 where the next global starts
+0044a6d0	g_inline_asm_needs_label	int	set after an inline asm block; label and section records clear it; when set, the next block first gets a fresh label
+0044a6d4	g_backend_record_input	FILE *	the backend record stream (.sua/.sub, request+0x84/+0x88) opened by run_assembler_passes; read by read_label_ref_list, emit_reserve_record, emit_string_data_record, print_label_sum_from_backend_stream; closed by emit_final_asm_record_stream
+0044a6d8	g_next_import_index	int	run_assembler_passes clears it; FUN_004017a0 stores it per imported symbol (symbol+0x28, g_runtime_routine_import_index) and increments it
+0044a6dc	g_new_symbol_count	short	run_assembler_passes clears it; the label-name writers (FUN_004232ef / FUN_00426e2d) count each label definition; store_request_record_updates writes it to request->label_count (s04, s08)
+0044a6e0	g_word_literal_table_pass1	literal_table	literal_table of the word literals of layout pass 1 (add_literal_to_pool_table pass 1)
+0044a8e8	g_superscalar_current_entry	char	window index of the entry being described: FUN_00404f53 loops it 0..g_pipeline_window_last_index around describe_superscalar_window_entry; FUN_0040ad6c/0040b055/0040b33e index the window with it (byte accesses)
+0044a8ea	g_export_symbol_count	short	exports: read from the .asb trailer (load_intermediate_record_stream), decremented by count_import_and_export_symbols for exports that are not emitted; object header (FUN_00412b7c) and request +0xe8
+0044a8ec	g_current_aux_index		Aux record index of the current function (symbol +0x10). Read as short everywhere; FUN_0042926d writes it as a 4-byte int, so the type is left empty (2 or 4 bytes: lead decide).
+0044a8f0	g_inline_asm_input	FILE *	request+0xa0, opened by run_assembler_passes when request+0x12 == 2 (source output); emit_inline_asm_block seeks to a block's offset and copies its text
+0044a8f4	g_symbol_table	symbol *	the symbol entries loaded from the stream: FUN_00435550(request +0xac, 0x2c), array of N x 0x2c bytes (symbol_entry)
+0044a8f8	g_register_candidates	register_candidate *	list of 0x10-byte register_candidate nodes, built and freed inside update_register_variable_map
+0044a900	g_long_literal_table_pass1	literal_table	literal_table of the long literals of layout pass 1
+0044ab08	g_backend_continuation_opened	int	cleared by run_assembler_passes; read_next_backend_record sets 1 when g_backend_input hits end of file and it reopens g_backend_input on request+0x8c (the .sud continuation per notes), so that happens once
+0044ab0c	g_pipeline_hold	int	tested by run_pipeline_until_stable (refill only while 0) and cleared by reset_pipeline_state; no write of a nonzero value anywhere in the binary (always 0)
+0044ab10	g_pipeline_input_exhausted	int	1: the input ended (load_pipeline_window returned 0, or no lookahead record and no C_JMP); run_pipeline_until_stable then sets g_pipeline_end_of_stream instead of loading again. Written in pipeline, cleared in reset_pipeline_state
+0044ab14	g_pipeline_mac_busy	char	cycles the multiplier stays busy: commit_scheduled_pipeline_entry sets 2 after MUL/MULS/MULU/MAC, 0 after LDS/STS MACH/MACL or a label, else counts down; while nonzero can_schedule_pipeline_entry_now refuses MUL..MAC and LDS/STS MACH/MACL
+0044ab15	g_extra_section_needed	char	1 when some symbol (not flag 0x40, attr & 3) exists and the second section group's size[2] (+0x10) is 0: that group then gets a section number for kind 2 and its own header entry and section definition (run_assembler_passes, emit_object_header_and_tables, emit_final_asm_record_stream)
+0044ab18	g_string_pool_end	char *	end of the current string pool block (block + 0x104)
+0044ab1c	g_last_attributed_symbol	symbol *	the last loaded symbol that has attribute bytes (kind > 6) or a section record; at end of stream, if still the first entry, set to the last loaded entry
+0044ab20	g_stack_pointer_offset	int	offset of R15 within the current function (<= 0 when logged), recomputed at labels, tracked per instruction
+0044ab30	g_symbol_hash	symbol *[0x3fd]	array of 0x3fd x 4 bytes: symbol_entry * bucket heads, bucket = id % 0x3fd, chained through +0x14 (load_intermediate_record_stream clears and fills, find_symbol_entry_by_id, create_symbol_entry)
+0044bb24	g_pipeline_drained_count	int	records drained from the window (read_next_scheduled_pipeline_record increments, reset_pipeline_state clears); never read. The 0x3fd-word g_symbol_hash ends exactly here
+0044bb28	g_listing_code_column_pos	short	Character position (0..10) within the current code row; 10 = row full (flush_listing_entry resets to 10).
+0044bb2c	g_current_section	request_section *	the section switch_section made current (find_section_by_id). asm_section *
+0044bb30	g_scope_stack	debug_scope *[71]	array of debug_range * (types_proposal.h) indexed by g_scope_depth; roots allocated by init_debug_info_state; at most 0x11c bytes before 0044bc4c (0044bb34 is element [1]; 0044bb2c is a separate global that Ghidra also uses as element [-1])
+0044bc4c	g_pipeline_first_scheduled	int	window index of the first scheduled entry (commit_scheduled_pipeline_entry sets it when the list is empty; read_next_scheduled_pipeline_record drains from it, following pipeline_entry.next), -1 none
+0044bc50	g_scope_top	int	index of the current scope in g_scope_stack (FUN_0041e360 sets 1; ++ on a scope begin, -- on an end)
+0044bc54	g_listing_code_row_last	short	Last filled row of g_listing_code_rows; 0xffff (-1) = none (flush_listing_entry, 004131a0).
+0044bc58	g_object_data_cursor	char *	write cursor of g_object_data_buffer (FUN_00402a55 appends, FUN_00402ab2 resets to the base after flushing it as a tag-0x20 record)
+0044bc5c	g_import_symbol_count	short	imports counted by count_import_and_export_symbols; written to the object header (FUN_00412b7c) and request +0xe4
+0044bc60	g_object_data_end	char *	end of g_object_data_buffer (open_output_stream)
+0044bc64	g_source_line_list	source_line_range *	list head of 0x18-byte source_line_range nodes (types_proposal.h): record_source_line_range / flush_source_line_ranges, and the .LINE dedup list of emit_line_directive_if_new / free_line_directive_list
+0044bc6c	g_pipeline_window_ends_block	int	1: the window ends a basic block (last entry a branch/RTS/RTE/TRAPA, ended with C_JMP, or the lookahead is a label); the next window is then loaded lazily (g_pipeline_reload_pending). Set in pipeline, cleared in reset_pipeline_state
+0044bc70	g_symbol_table_next	symbol *	next free symbol_entry slot while loading (advances 0x2c after every record with a kind)
+0044bc74	g_aux_record_table	aux_record *	Array of request +0x110 x 0x44-byte per-function aux records (calloc in load_intermediate_record_stream); shcpep's struct aux_record (types_proposal.h). Type aux_record * once the struct is adopted.
+0044bc78	g_superscalar_records_read	int	records read into SH-4 windows since emit_final_asm_record_stream cleared it (0 = reset the window state)
+0044bc7c	g_object_data_buffer	char *	allocated by open_output_stream(1) (stream size - 3 bytes); FUN_00402ab2 writes its contents as a tag-0x20 record; freed by close_output_stream(1)
+0044bc80	g_expno_use_list	expno_use *	list of 0xc-byte expno_use nodes (next, expno, short count), descending expno; built per range by update_debug_info_for_record, consumed by update_register_variable_map
+0044bc84	g_lit_input	FILE *	shcpep's .lit stream (opened from request+0xa4 in run_assembler_passes): one byte per branch/return; 1 = the literal pool goes after it, applied as flg 0x10 on the expanded branch
+0044bc90	g_pipeline_lookahead_record	psd	a backend record read past the end of the window, kept for the next load_pipeline_window (valid when g_pipeline_lookahead_valid)
+0044bca8	g_object_expr_cursor	char *	write cursor of g_object_expr_buffer (append_reloc_expression_bytes appends, message 0x1360 when full; called with 0 it moves the contents to g_object_data_buffer; emit_relocation_expression keeps a record's length byte position and patches it)
+0044bcb0	g_superscalar_window	superscalar_entry [32]	array of 32 x 0xe0 bytes (struct sched_entry, types_proposal.h); ends at 0044d8b0 where the next global starts. read_next_pipeline_buffered_backend_record copies each backend record (0x18 bytes) into entry g_pipeline_window_last_index and FUN_0040b3e0 fills +0x1a..+0x1d. The DAT_0044bcb1..DAT_0044bd8c labels in s02's functions are its fields (base+0x01..base+0xdc). Used when request +0x18 == 4 (read_next_backend_record), the SH-4 path by the opcodes/registers it models.
+0044d8b0	g_object_expr_end	int	end of the relocation expression buffer (compared as an int with pos; error 0x1360)
+0044d8b4	g_pipeline_end_of_stream	int	1: the scheduler has no more records: read_next_scheduled_pipeline_record returns 0 and read_next_backend_record ends its loop. Set when the window is empty (last index -1) or by run_pipeline_until_stable once g_pipeline_input_exhausted; cleared by reset_pipeline_state, emit_final_asm_record_stream, read_next_backend_record
+0044d8b8	g_source_listing_line	int	line number of the next source line header (4 bytes read; compared with an unsigned short line)
+0044d8bc	g_line_range_temp	FILE *	temp file (FUN_0042f040) of source line records (flush_source_line_ranges); read back by FUN_00411d44
+0044d8c0	g_register_variable_input	FILE *	request->reg_path (.reg, written by shcgen) opened "rb" by init_debug_info_state when request->optimize; read by load_function_register_variable_map; closed in emit_debug_information
+0044d8c4	g_pipeline_edge_count	int	edges of g_pipeline_edges used (reset_pipeline_state clears it; add_pipeline_dependency_edge increments it, at most 0x3e0)
+0044d8c8	g_pipeline_reload_pending	int	1: load the next window (pipeline()) at the next read_next_scheduled_pipeline_record instead of right away; set by run_pipeline_until_stable when the drained window ended a block (g_pipeline_window_ends_block). read_next_pipeline_buffered_backend_record (the other reader) uses it as "the buffered window is full, flush it"
+0044d8cc	g_object_expr_buffer	char *	start of the relocation expression buffer
+0044d8d0	g_layout_shrink_pass0	int	bytes layout pass 0 has removed so far in the current section (shcpep's size estimates minus the real sizes): subtracted from every label position and record location; saved in / reloaded from the section layout record +0x28 on a section change. The SHC_ALIGN_FILE knob takes its pad off this value
+0044d8d4	g_layout_shrink_pass1	int	the same for layout pass 1 (section layout record +0x2c)
+0044d8d8	g_listing_page_line_count	short	lines on the current listing page; a new page (FUN_0042b864, which resets it to 1) past request+0xc - 4
+0044d8dc	g_string_pool_blocks		head of the 0x104-byte string pool blocks (+0 next) (store_string_in_pool, free_debug_symbol_table)
+0044d8e0	g_listing_continuation_mark	char *	Position in the listing line (buffer +0x18, 004131a0) where put_text_at_column stores '+' on a continuation line.
+0044d8e4	g_line_range_count	short	source line records written to g_line_range_temp (fatal 0xc82 when it would pass 0xffff)
+0044d8f0	g_superscalar_entry_stage_pattern		array of 32 x 4 bytes (int per window entry): written by set_sched_entry_timing, printed by dump_sched_window as g_stage_pattern_names[(char)value]
+0044d970	g_pipeline_fsqrt_busy	char	set to 4 after FSQRT; otherwise as g_pipeline_fdiv_busy
+0044d971	g_pipeline_fdiv_busy	char	set to 4 after FDIV, counted down by non-FPU ops, cleared by other FPU ops and labels; while it or g_pipeline_fsqrt_busy is nonzero FPU ops (0xb0..0xdf) are refused
+0044d974	g_line_wrap_disabled	int	1 while FUN_00426e2d writes a long line to channel 2: put_text_at_column then neither moves to the column start nor breaks at ',', it just writes the full buffer out; 0 otherwise.
+0044d978	g_literal_pool_label	short	label number of the current literal pool: read (2 bytes, byte-swapped by FUN_0042efb0) from the branch-form stream when both literal tables are empty; @(disp,PC) operands refer to it, disp computed from its symbol (+0x24 minus +0x08) and the literal index
+0044d97c	g_object_record_break	int	1 forces FUN_00402374 to start a new object data record (set by emit_reserve_record / emit_literal_pool when a location counter jumps)
+0044d980	g_listing_page_number	short	Listing page number (emit_listing_page_header increments; 004131a0 clears).
+0044d984	g_pipeline_window_last_index		
+0044d988	g_section_count	short	next section number; run_assembler_passes assigns numbers to the used (group, kind) pairs; written into the 0x30 and tag-6 records
+0044d98c	g_superscalar_dump_file	FILE *	stream of the dump_sched_window / print_sched_entry_operands debug output (only fputs uses; never assigned in the export)
+0044d990	g_section_object_offsets		array of 4 x 4 bytes (per kind), advanced with the location counter in object mode (emit_reserve_record, emit_literal_pool) and saved/restored with the section (switch_section); written into object data records by FUN_00402374
+0044d9a0	g_function_label_pass0	short	label (symbol number) of the function layout pass 0 is in: the last FLABEL read from .ofb (layout_next_ofb_record, begin_layout_passes); relax_exit_record / relax_return_record find the function's aux record through it
+0044d9a4	g_expanded_record_count	int	records queued in g_expanded_records; every expander increments it; read_next_backend_record resets it with the read index once all are returned
+0044d9a8	g_request_copy	request *	The request pointer (shcasm_main stores g_current_request here); read at +0x1a (pic), +0x13d, +0x14b by decide_literal_pool_placement and compute_record_code_size. Same type as g_current_request.
+0044d9b0	g_runtime_routine_import_index		array of 0x100 x 4 bytes: import number given to each runtime routine imported by name (emit_import_symbol; emit_runtime_routine_imports copies it to the symbol +0x28)
+0044ddb0	g_zero_psd	psd	an all-zero backend record copied over a record buffer to clear it (load_pipeline_window, read_next_backend_record)
+0044dff0	g_backend_first_record		buffer handed to FUN_00402b00 / FUN_00425fbc by run_assembler_passes, whose first byte is the first byte of g_backend_input; size not established from this slice
+0044e008	g_expno_register_variables	register_variable **	array of (count+1) x 4 bytes (calloc via FUN_00435550): per expression number a list of 8-byte register_variable nodes (load_function_register_variable_map; freed by free_expno_register_variable_table)
+0044e00c	g_section_data_bytes	short	bytes of data records since the last section select (build_section_select_record clears, finish_object_record adds)
+0044e010	g_object_record_tag	int	tag of the object record FUN_00402374 is filling (a different tag flushes the current one via FUN_0040266b); run_assembler_passes sets 0
+0044e014	g_function_label_pass1	short	label of the function layout pass 1 is in (the last kind-1 symbol the pass-1 walk passed; resolve_next_pending_layout_record)
+0044e018	g_layout_symbol_pending_records	layout_record *	pass 2's next layout_record of the current symbol (FUN_0042ac37; begin_layout_passes clears it)
+0044e01c	g_pipeline_code_offset	char	low byte of the instruction offset while scheduling: seeded from the low byte of a label symbol's position (+8) when a label is committed, +2 per instruction, +4 per branch with delay slot, B_ASM pads to 0 mod 4; can_schedule_pipeline_entry_now tests it mod 4 against pipeline_entry_uses_memory_stage. Byte global (used signed: (int)char)
+0044e020	g_register_map_temp	FILE *	temp file of register/variable maps (4-byte entries, 0xffff terminated) from update_register_variable_map / flush_register_variable_map; read back by FUN_0041013c
+0044e024	g_superscalar_stream_ended	int	1: end of stream reached with records left in the window (read_next_pipeline_buffered_backend_record; read_next_backend_record stops calling it)
+0044e028	g_section_numbers	short [4]	array of 4 x 2 bytes, per-kind shorts saved to / loaded from section_layout +0 by switch_section and emit_final_asm_record_stream
+0044e030	g_debug_record_cursor		read cursor in the .db1 record body (emit_debug_information sets it to g_debug_record_body for each record; the translate_* functions advance it)
+0044e040	g_debug_record_tag	unsigned char	tag byte of the .db1 record emit_debug_information read from g_debug_record_input (0x32, 0x34, 0x36, 0x44, 0x48, 0x4a, 0x4c, 0x4e, 0x50; bit 0x80 also passed to append_object_record_bytes); 0044e041 is the record length, 0044e042 the body
+0044e041	g_temp_record_length	unsigned char	length byte of that record (header included: body = length - 2)
+0044e042	g_debug_record_body	unsigned char [0xfd]	body of the .db1 record emit_debug_information read (record length - 2 bytes, at most 0xfd); g_debug_record_cursor walks it
+0044e140	g_listing_section_field	char *	listing line +0 (open_output_stream); FUN_00423287 copies up to 3 characters of a section name (FUN_00427d94) there
+0044e144	g_string_pool_pos	char *	next free byte of the current string pool block
+0044e148	g_debug_function_label	short	label of the function whose debug records are being written/translated (update_debug_info_for_record at FLABEL; translate_debug_symbol_record for a kind-3 symbol record)
+0044e14c	g_symbol_base	symbol *	the symbol record array again (load_intermediate_record_stream stores the same allocation as g_symbol_table): run_assembler_passes indexes it, begin_layout_passes walks from it
+0044e150	g_listing_code_field	char *	listing line +0xd (open_output_stream): 10 characters of object code; FUN_0042b69d copies overflow rows from 00448240 into it
+0044e154	g_object_record_cursor	unsigned char *	write cursor in g_object_record_buffer (set to its start per record; record length = cursor - buffer)
+0044e158	g_layout_record_tail	layout_record *	last layout_record appended for the current symbol (read_ofb_layout_record; run_layout_passes clears it per label). layout_record *
+0044e160	g_superscalar_order	superscalar_order_slot [32]	array of 32 x 0xc bytes (struct sched_order_slot, types_proposal.h): filled and sorted by path length in schedule_superscalar_window; .cycle (0044e168) is also written per entry by compute_original_order_issue_cycles
+0044e2e0	g_register_sort_buffer		array of 0x18 x 1 byte: scratch copy of an entry's register list sorted by build_sh4_dependency_graph
+0044e300	g_lib_env_name_00	char *	"SHC_LIB" / "SHCPP_LIB" (select_env_variable_names).
+0044e304	g_lib_env_name_04	char *	"SHC_LIB" / "SHCPP_LIB".
+0044e308	g_tmp_env_name	char *	"SHC_TMP" or "SHCPP_TMP" (FUN_00434d30): the environment variable naming the temp directory (make_temp_file_name).
+0044e30c	g_lib_env_name_0c	char *	"SHC_LIB" / "SHCPP_LIB".
+0044e310	g_lib_env_name_10	char *	"SHC_LIB" / "SHCPP_LIB".
+0044e314	g_inc_env_name	char *	"SHC_INC" / "SHCPP_INC".
+0044e318	g_request_record_path		
+0044e31c	g_request_trailer_file	FILE *	Temp file with the bytes after the request (save_request_trailer_to_temp), NULL if none. Same name as s12.
+0044e320	g_loaded_request	request *	
+0044e324	g_request_version_mismatch	short	1 when a C request's +0x11c/+0x120 strings differ from this binary's (read_request_variable_part); load_request_record_file then fails with 0xceb. shcpep 0042ae38.
+0044e326	g_request_cpp_block_size	short	Byte size of the C++ block at request+0x144 (read_request_cpp_block). Same name as s12.
+0044e328	g_request_record_size		
+0044e330	g_demangle_token_pool		char pool of token texts (intern_token_text). Array of 0x400 bytes (to 0044e730).
+0044e730	g_demangle_tokens	demangle_entry [256]	array of 256 x 8 bytes {short kind; char *text} (demangle_argument_list: kind 1 'F', 2 '_' return separator, 3 complete type, 0 consumed). Ends at 0044ef30.
+0044ef30	g_demangle_placeholder_types	demangle_entry [256]	array of 256 x 8 bytes {short used; char *text}: the function-type text each "$$nnn" stands for (demangle_argument_list writes, format_placeholder_type reads). Ends at 0044f730.
+0044f730	g_demangle_piece_chunk_first		First 0x808-byte chunk {next, used, data[0x800]} of the type-piece string chain (allocate_/free_demangle_string_chunks). Would be demangle_string_chunk * (types_proposal.h).
+0044f734	g_demangle_piece_chunk_current		Chunk alloc_type_piece_string copies into.
+0044f738	g_demangle_backref_chunk_first		First chunk of the back-reference string chain.
+0044f73c	g_demangle_backref_chunk_current		Chunk alloc_back_reference_string copies into.
+0044f740	g_demangle_placeholder_name_pool_used	int	Bytes used in g_demangle_placeholder_name_pool. NOTE: compose_type_pieces' Ghidra C indexes "&DAT_0044f740 + n*2" as an int array, that is g_demangle_type_pieces[n-2].kind, not this variable.
+0044f750	g_demangle_type_pieces	demangle_entry [256]	array of 256 x 8 bytes {short kind; char *text} (push_type_piece, compose_type_pieces; kind 2 type/name, 7 member pointer). Ends at 0044ff50. 0044f748/0044f74c/0044f754 in the C are fields of its entries.
+0044ff50	g_demangle_back_reference_count	int	Entries of g_demangle_back_references used (remember_argument_type); format_mangled_type_list resets it.
+0044ff54	g_demangle_token_pool_used	int	Bytes used in g_demangle_token_pool; demangle_argument_list resets it.
+0044ff60	g_demangle_placeholder_chunk_first		First 0x804-byte chunk {next, data[0x800]} of the placeholder text chain (demangle_argument_list allocates it and frees the chain at the end).
+0044ff64	g_demangle_placeholder_chunk_current		Chunk alloc_placeholder_type_string copies into.
+0044ff68	g_demangle_placeholder_chunk_used	int	Bytes used in g_demangle_placeholder_chunk_current.
+0044ff70	g_work_buffer_a		
+0044ff74	g_work_buffer_a_capacity	int	Allocated size of g_work_buffer_a (initialize_work_buffers 0x400; append_to_work_buffer doubles it). Work buffer 1 = the demangled name.
+0044ff78	g_work_buffer_a_length	int	strlen of g_work_buffer_a's text (append_to_work_buffer adds, reset/clear_work_buffer zero it).
+0044ff80	g_work_buffer_b		
+0044ff84	g_work_buffer_b_capacity	int	As g_work_buffer_a_capacity for buffer 2 (argument list / conversion type text).
+0044ff88	g_work_buffer_b_length	int	As g_work_buffer_a_length for buffer 2.
+0044ff90	g_work_buffer_c		
+0044ff94	g_work_buffer_c_capacity	int	As g_work_buffer_a_capacity for buffer 3 (nested function type arguments in demangle_argument_list).
+0044ff98	g_work_buffer_c_length	int	As g_work_buffer_a_length for buffer 3; demangle_argument_list fails when it passes 0x400.
+0044ffa0	g_demangle_placeholder_name_pool		char pool of the "$$nnn" names (intern_placeholder_name). Array of 0x400 bytes (to 004503a0).
+004503a0	g_demangle_back_references	demangle_entry [256]	array of 256 x 8 bytes {short used; char *text}: formatted argument types for "T<n>" (remember_argument_type, format_type_back_reference reads entry n-1 via 00450398/0045039c). Ends at 00450ba0.
+00450ba0	g_demangle_placeholder_count	int	Next "$$nnn" number (demangle_argument_list).
+00450ba4	stock_nhandle		[crt] _nhandle (number of ioinfo entries; +32 per block: stock_ioinit, stock_alloc_osfhnd).
+00450bb0	stock_pioinfo		[crt] __pioinfo: array of 64 x 4-byte pointers to 32-entry blocks of 8-byte ioinfo {osfhnd, osfile, pipech}, up to 00450cb0 (stock_alloc_osfhnd's bound). stock_ioinit writes 00450bb4.. for the second block on.
+00450cb0	stock_crtheap		[crt] _crtheap HANDLE (HeapCreate in stock_heap_init; HeapAlloc/HeapFree/HeapReAlloc).
+00450cb4	stock_nstream		[crt] _nstream (stream table size; __getstream, stock_rmtmp, stock_fcloseall).
+00450cb8	stock_piob		[crt] __piob (pointer to the FILE * table; stock_flsall walks 512 entries).
+00451cc0	stock_acmdln		[crt] _acmdln = GetCommandLineA() (entry; __setargv).
+00451cc4	stock_onexitend		[crt] __onexitend (stock_doexit walks back from it).
+00451cc8	stock_fpinit		[crt] _FPinit function pointer (stock_cinit calls it when set).
+00451ccc	stock_onexitbegin		[crt] __onexitbegin (stock_doexit).

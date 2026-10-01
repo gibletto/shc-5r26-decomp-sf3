@@ -1,0 +1,20 @@
+# name, source in tests/cases, options. The first ten use the Street Fighter III build's options. A name
+# starting with ! is compared with Release 26 only: its output holds the source's full path.
+switch          switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+returns         returns.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+r0const         r0const.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+slots           slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+tested          tested.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+multiply        multiply.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+macl            macl.c       -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+argconst        argconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+threads         threads.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+slots_noinline  slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed -noinline
+switch_opt0     switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
+multiply_opt0   multiply.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
+returns_size    returns.c    -cpu=sh2 -optimize=1 -size
+!threads_debug  threads.c    -cpu=sh2 -optimize=1 -speed -debug
+multiply_sh4    multiply.c   -cpu=sh4 -optimize=1 -speed
+switch_sh1      switch.c     -cpu=sh1 -optimize=1 -speed
+slots_pic       slots.c      -cpu=sh2 -pic=1 -optimize=1 -speed
+tested_little   tested.c     -cpu=sh2 -endian=little -optimize=1 -speed
