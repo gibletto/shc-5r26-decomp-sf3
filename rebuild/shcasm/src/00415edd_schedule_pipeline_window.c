@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "mulrules.h"
 
 // entry: 00415edd
 // name : schedule_pipeline_window
@@ -34,6 +35,9 @@ int __cdecl schedule_pipeline_window(void)
         }
       }
     }
+  }
+  if (g_pipeline_last_scheduled == -1 && MUL_FORCE_PICK(last_index)) {
+    return;
   }
   if (g_pipeline_last_scheduled == -1) {
     for (i = 0; i <= last_index; i = i + 1) {

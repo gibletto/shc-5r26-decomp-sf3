@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "mulrules.h"
 
 // entry: 00416754
 // name : commit_scheduled_pipeline_entry
@@ -55,7 +56,7 @@ int __cdecl commit_scheduled_pipeline_entry(int index)
   }
   if ((((op_code == OP_MUL) || (op_code == OP_MULS)) || (op_code == OP_MULU)) || (op_code == OP_MAC)
      ) {
-    g_pipeline_mac_busy = '\x02';
+    g_pipeline_mac_busy = (char)MUL_BUSY_COUNT;
   }
   else if ((op_code == OP_LDS) &&
           (((g_pipeline_window[index].rec.ea2)->base == REG_MACH ||

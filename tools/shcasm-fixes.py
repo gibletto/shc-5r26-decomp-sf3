@@ -122,4 +122,15 @@ fix("00429060", [('#include "imports.h"\n', '#include "imports.h"\n' + ALIGN_HEA
                   "        g_layout_shrink_pass0 = g_layout_shrink_pass0 - ALIGN_PAD(g_layout_symbol_pass0);\n"
                   "        g_layout_symbol_pass0->value = g_layout_symbol_pass0->value - g_layout_shrink_pass0;\n")])
 
+# --- ASM_MULWAIT (src/_mulrules.c, include/mulrules.h; only with SHC_REBUILD_UPDATED=1): how long the multiplier
+# holds back STS/LDS MACH/MACL, and which entry the scheduler issues when every ready one is held back
+fix("00416754", [('#include "imports.h"\n', '#include "imports.h"\n#include "mulrules.h"\n'),
+                 ("    g_pipeline_mac_busy = '\\x02';\n", "    g_pipeline_mac_busy = (char)MUL_BUSY_COUNT;\n")])
+fix("00415edd", [('#include "imports.h"\n', '#include "imports.h"\n#include "mulrules.h"\n'),
+                 ("  if (g_pipeline_last_scheduled == -1) {\n",
+                  "  if (g_pipeline_last_scheduled == -1 && MUL_FORCE_PICK(last_index)) {\n"
+                  "    return;\n"
+                  "  }\n"
+                  "  if (g_pipeline_last_scheduled == -1) {\n")])
+
 print(f"shcasm-fixes: {n} replacements")

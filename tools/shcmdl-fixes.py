@@ -100,4 +100,16 @@ fix("0041a2a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                  ("argument_register_index(arg)", "argument_register_index(arg_node)"),
                  ("          arg = arg->next;\n", "          arg = arg_node->next;\n")])
 
+# --- MDL_GCSE (src/_gcserules.c, include/gcserules.h; only with SHC_REBUILD_UPDATED=1): where global common-expression
+# elimination may put a class's temporary (cse_eliminate_node), and what becomes of a class whose first member
+# cse_find_common_block drops (Release 26 reinserts the rest as a new class)
+fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"'),
+                 ("blk = cse_find_common_block(node,memory_kind), blk != (bblock *)0x0)",
+                  "blk = cse_find_common_block(node,memory_kind), blk != (bblock *)0x0) && GCSE_BLOCK_OK(node,blk)")])
+fix("0041dcc0", [(r"(blk = cse_find_common_block\(node,\(uint\)\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\))",
+                  r"\1 && GCSE_BLOCK_OK(node,blk)")], regex=True)
+fix("0041de40", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"')])
+fix("0041de40", [(r"(= cse_drop_class_head\(node\);\s*)cse_reinsert_class\((\w+)\);", r"\1GCSE_REINSERT(\2);")],
+    regex=True)
+
 print(n, "fixes")
