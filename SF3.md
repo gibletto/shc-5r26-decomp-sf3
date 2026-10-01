@@ -70,6 +70,8 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=3` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w` | keeps `mul.l` |
 | `MDL_ARG_CONST=b` | shcmdl | doesn't count constants passed to calls when choosing register variables | counts them, so a constant used by several calls is kept in a register |
+| `MDL_CAST_CSE=7` | shcmdl | takes an integer cast of an array or function name, `(u32)table`, as widening, so computes it once and keeps it across calls | loads it at each use, as Release 26 already does for `(u32)&x`; pointer casts are unaffected |
+| `MDL_ARG_CAST=6` | shcmdl | keeps a variable in its argument register across a call only when the call is passed the variable itself | also when it is passed `&p->m` with m at offset 0, so `f(&p->first)` no longer moves p to a callee-saved register |
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 
 0 gives Release 26 for each; the value shown is the default. `ASM_SPECREG` fixes a fault in Release 26 itself:
@@ -77,11 +79,11 @@ since SH-4 support moved the special registers' numbers, its scheduler sees no d
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
 Of the game's 9,940 C routines (sfIII3-cps3-decomp as published), 3,188 compile to the arcade's instructions with
-Release 26 and 7,412 with the rules; byte for byte, literal pools included, 1,297 and 6,570.
+Release 26 and 7,422 with the rules; byte for byte, literal pools included, 1,297 and 6,582.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`,
-`rebuild/shcmdl/src/_argconst.c` and `tools/shcasm-fixes.py`; `tools/<stage>-fixes.py` puts the calls into the
-generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
+`rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c` and `tools/shcasm-fixes.py`;
+`tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
 
 ## Diagnostics
 

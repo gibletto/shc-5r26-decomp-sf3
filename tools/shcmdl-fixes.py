@@ -82,4 +82,22 @@ argconst("0041b9b0", 2)          # materialize_constant_lreg
 argconst("0041c190", 2)          # write_lreg_numbers
 argconst("00407720", 4, False)   # collect_register_candidate
 
+# --- MDL_CAST_CSE and MDL_ARG_CAST (src/_castrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1)
+# MDL_CAST_CSE: the rank of a cast's operand in the two common-expression rewriters, and no register-variable
+# candidate for an array name under an integer cast
+for a in ("00404010", "00423090"):           # cse_replace_with_temporary, common_expression_to_temp
+    fix(a, [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+            ("child_rank = node_type_rank(node->child);", "child_rank = CAST_OPERAND_RANK(node->child);")])
+fix("00407d70", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),     # hash_common_expression_candidate
+                 ("\n  if (((node->op & IL_NON_F0) == IL_A_ADD) ||",
+                  "\n  if (CAST_ADDRESS_LEAF(node)) {\n    return;\n  }\n  if (((node->op & IL_NON_F0) == IL_A_ADD) ||")])
+# MDL_ARG_CAST: lreg_conflicts_with_call takes the variable an argument passes (ARG_AS_VARIABLE) and the argument
+# register of the argument node itself
+fix("0041a2a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("\n  il_node *arg;\n", "\n  il_node *arg;\n  il_node *arg_node;\n"),
+                 ("        while (op != IL_E_ARG) {\n",
+                  "        while (op != IL_E_ARG) {\n          arg_node = arg;\n          arg = ARG_AS_VARIABLE(arg);\n"),
+                 ("argument_register_index(arg)", "argument_register_index(arg_node)"),
+                 ("          arg = arg->next;\n", "          arg = arg_node->next;\n")])
+
 print(n, "fixes")

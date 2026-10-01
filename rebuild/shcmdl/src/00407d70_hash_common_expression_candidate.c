@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_const_data_list
 #define g_const_data_list (*(const_data * *)(g_sd + 0x16498))
@@ -29,6 +30,9 @@ int __cdecl hash_common_expression_candidate(bblock *block,il_node *node)
   il_node *operand;
   const_data *prev_item;
   
+  if (CAST_ADDRESS_LEAF(node)) {
+    return;
+  }
   if (((node->op & IL_NON_F0) == IL_A_ADD) || (operand = node, (node->op & IL_NON_F8) == IL_PRI)) {
     operand = node->child;
   }

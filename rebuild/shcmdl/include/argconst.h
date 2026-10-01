@@ -8,4 +8,18 @@ extern int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int va
 #else
 #define ARGCONST_FIT(group, parent, pos, value, occ) is_immediate_operand(parent, pos, value)
 #endif
+
+/* MDL_CAST_CSE and MDL_ARG_CAST (src/_castrules.c), with SHC_REBUILD_UPDATED=1 */
+#if SHC_REBUILD_UPDATED
+extern int mdl_cast_operand_rank(il_node *operand);
+extern int mdl_cast_address_leaf(il_node *node);
+extern il_node *mdl_arg_as_variable(il_node *arg);
+#define CAST_OPERAND_RANK(n) mdl_cast_operand_rank(n)
+#define CAST_ADDRESS_LEAF(n) mdl_cast_address_leaf(n)
+#define ARG_AS_VARIABLE(a) mdl_arg_as_variable(a)
+#else
+#define CAST_OPERAND_RANK(n) node_type_rank(n)
+#define CAST_ADDRESS_LEAF(n) 0
+#define ARG_AS_VARIABLE(a) (a)
+#endif
 #endif

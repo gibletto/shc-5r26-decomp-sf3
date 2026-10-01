@@ -1,4 +1,4 @@
-# name, source in tests/cases, options. The first ten use the Street Fighter III build's options. A name
+# name, source in tests/cases, options. The first eleven use the Street Fighter III build's options. A name
 # starting with ! is compared with Release 26 only: its output holds the source's full path.
 switch          switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 returns         returns.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
@@ -6,6 +6,7 @@ r0const         r0const.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 slots           slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 tested          tested.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 multiply        multiply.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+casts           casts.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 macl            macl.c       -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 argconst        argconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 threads         threads.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed

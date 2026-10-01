@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["shcmdl", "shcgen", "shcpep", "shcasm"]
 RULES = ["SWITCH_ARCADE_BRANCH", "SWITCH_ARCADE_JUMP", "XJUMP_OFF", "PEP_R0_FORGET", "SLOT_NO_STACK",
-         "PEP_NO_THREAD", "GEN_TST_R0", "GEN_MUL_L", "MDL_ARG_CONST", "ASM_SPECREG"]
+         "PEP_NO_THREAD", "GEN_TST_R0", "GEN_MUL_L", "MDL_ARG_CONST", "MDL_CAST_CSE", "MDL_ARG_CAST", "ASM_SPECREG"]
 
 
 def normalize(obj):

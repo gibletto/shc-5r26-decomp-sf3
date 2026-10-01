@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 
 // entry: 00404010
 // name : cse_replace_with_temporary
@@ -26,7 +27,7 @@ il_node * __cdecl cse_replace_with_temporary(il_node *node,node_list *stmt,bbloc
   
   if (node->op == IL_CAST) {
     iVar2 = node_type_rank(node);
-    child_rank = node_type_rank(node->child);
+    child_rank = CAST_OPERAND_RANK(node->child);
     if ((iVar2 <= child_rank) && (child_rank != 4)) {
       bVar1 = false;
       goto LAB_00404046;

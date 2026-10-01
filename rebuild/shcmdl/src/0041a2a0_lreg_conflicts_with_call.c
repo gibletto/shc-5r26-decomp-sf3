@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_call_list
 #define g_call_list (*(node_cell * *)(g_sd + 0x164b0))
@@ -33,6 +34,7 @@ int __cdecl lreg_conflicts_with_call(lreg *lr)
   bool bVar2;
   uint first_regno;
   il_node *arg;
+  il_node *arg_node;
   bool arg_in_reg;
   lreg *arg_lr;
   node_cell *call;
@@ -80,6 +82,8 @@ int __cdecl lreg_conflicts_with_call(lreg *lr)
         arg = call->node->child->next->child;
         op = arg->op;
         while (op != IL_E_ARG) {
+          arg_node = arg;
+          arg = ARG_AS_VARIABLE(arg);
           if ((((arg->op == IL_ID) && (arg->cmnexp != (il_node *)0x0)) &&
               (web = arg->cmnexp->duptr, web != (dutbl *)0x0)) && (arg_lr = web->lreg, arg_lr == lr)
              ) {
@@ -87,17 +91,17 @@ int __cdecl lreg_conflicts_with_call(lreg *lr)
             if ((arg->symx < 1) ||
                ((g_symtab[arg->symx].sclass != '\a' && (g_symtab[arg->symx].sclass != '\b')))) {
               if (seen_call) {
-                arg_regno = argument_register_index(arg);
+                arg_regno = argument_register_index(arg_node);
                 if (arg_regno != first_regno) {
                   conflict = true;
                 }
               }
               else {
-                first_regno = argument_register_index(arg);
+                first_regno = argument_register_index(arg_node);
               }
             }
             else {
-              arg_regno = argument_register_index(arg);
+              arg_regno = argument_register_index(arg_node);
               param_regno = parameter_register_index(arg);
               if (param_regno != arg_regno) {
                 if (g_options->cpu == 4) {
@@ -199,7 +203,7 @@ LAB_0041a4c4:
               }
             }
           }
-          arg = arg->next;
+          arg = arg_node->next;
           op = arg->op;
         }
         if ((conflict) || (!bVar2)) {

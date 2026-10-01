@@ -1,5 +1,6 @@
 # tests/cases outputs with the default rules (tests/parity.py)
 argconst	obj:0:eb362823120f996b src:0:3452e2d3f3e42645
+casts	obj:0:4c380e76dabf1659 src:0:1d69da113bee9e78
 macl	obj:0:5794f782e4d5ba52 src:0:025df92de1cadf80
 multiply	obj:0:7b95c784c449f92e src:0:2b2c95144e58ed0d
 multiply_opt0	obj:0:0f7a11195bf8c397 src:0:b1873554b9ab182c

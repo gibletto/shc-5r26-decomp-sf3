@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 
 // entry: 00423090
 // name : common_expression_to_temp
@@ -31,7 +32,7 @@ il_node * __cdecl common_expression_to_temp(il_node *node,node_list *stmt,bblock
   switch(node->op) {
   case IL_CAST:
     iVar1 = node_type_rank(node);
-    child_rank = node_type_rank(node->child);
+    child_rank = CAST_OPERAND_RANK(node->child);
     if ((((iVar1 <= child_rank) && (child_rank != 4)) && (child_rank != 5)) && (child_rank != 6))
     goto switchD_004230b4_caseD_21;
   case IL_PLUS:
