@@ -26,7 +26,7 @@ the archive decomp.me hosts.
 `build.py` writes `build/msvc/<stage>/<stage>.exe`; `--toolchain vc6` uses Visual C++ 6 (`VC6_DIR` = the folder
 holding `VC98`). `parity.py` compiles `tests/cases` with Release 26 and with the rebuilt stages: with the rules at
 0 every output must be identical, with the rules on it must match `tests/expected.tsv`. `--sf3 <checkout of
-sfIII3-cps3-decomp>` does the same for the game's 824 C modules.
+sfIII3-cps3-decomp>` does the same for the game's C modules.
 
 To use the stages, copy them over the ones in a copy of `extracted/bin` and point `SHC_LIB` at it. SHC rejects
 an option value containing `-`, such as `-object=C:\my-dir\x.obj`.

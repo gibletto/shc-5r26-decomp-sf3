@@ -59,6 +59,9 @@ int __cdecl optimize_current_node_list(void)
     }
   } while (g_section_end == 0);
   if ((g_stage_flags & 0x800) == 0) {
+#if SHC_REBUILD_UPDATED
+    pep_dump("load", g_current_node_list);
+#endif
     PEPPOST(0, rewrite_branch_targets_for_node_list());
     PEPPOST(1, clean_records_and_merge_common_code());
     PEPPOST(2, expand_tail_calls_into_epilogue_jumps());
@@ -71,7 +74,13 @@ int __cdecl optimize_current_node_list(void)
   if ((g_stage_flags & 0x400) == 0) {
     PEPPOST(5, optimize_flow_graph());
   }
+#if SHC_REBUILD_UPDATED
+  pep_dump("flow", g_current_node_list);
+#endif
   fill_branch_delay_slots(g_current_node_list);
+#if SHC_REBUILD_UPDATED
+  pep_dump("slots", g_current_node_list);
+#endif
   emit_backend_record_streams();
   return;
 }

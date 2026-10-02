@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_aux_record_table
 #define g_aux_record_table (*(aux_record * *)(g_sd + 0x6d50))
@@ -80,6 +81,9 @@ int __cdecl expand_tail_calls_into_epilogue_jumps(void)
               rec = find_next_psd_record(node,rec);
             } while (rec != (psd *)0x0);
           }
+#if SHC_REBUILD_UPDATED
+          pep_log_tail(rec ? rec->op : 0);
+#endif
           if (((rec != (psd *)0x0) && (op = rec->op, op != OP_LABEL)) &&
              ((op == OP_RETURN || ((op == OP_EXIT || (op == OP_JUMP)))))) {
             if (jumps_to_label == '\0') {

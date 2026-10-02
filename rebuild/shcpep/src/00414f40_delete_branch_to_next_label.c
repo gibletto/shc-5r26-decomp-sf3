@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_stage_flags
 #define g_stage_flags (*(unsigned char *)(g_sd + 0x6d64))
@@ -81,6 +82,9 @@ int __cdecl delete_branch_to_next_label(psd *label_rec)
             }
           }
         }
+#if SHC_REBUILD_UPDATED
+        pep_log_xj_next((int *)prev_block, rec->op);
+#endif
         release_label_refs_of_record(rec,release_mode);
         delete_psd_record(rec);
         prev_block->target_labno = 0;

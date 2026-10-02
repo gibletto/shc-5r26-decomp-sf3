@@ -201,4 +201,17 @@ hooks("00417080", [(r"(\n        (\w+) = compute_record_register_masks\((\w+)\);
                     r"          (\w+) = delay_slot_masks_disjoint\(\);\n        \}\n)",
                     r"\1#if SHC_REBUILD_UPDATED\n        if (slot_no_stack() != 0 && slot_record_is_frame_access((unsigned char *)\3)) {\n"
                     r"          \4 = 0;\n        }\n#endif\n")])
+# --- diagnostics (src/_pep_dump.c): XJUMP_LOG TAIL lines (the record after an expanded tail call) and NEXT lines
+# (a jump of a block cross-jumping made, deleted as a jump to the next label)
+hooks("0040a860", [(r"(\n(\s+)if \(\(\(rec != \(psd \*\)0x0\) && \(op = rec->op, op != OP_LABEL\)\) &&)",
+                    r"\n#if SHC_REBUILD_UPDATED\n\2pep_log_tail(rec ? rec->op : 0);\n#endif\1")])
+hooks("00414f40", [(r"(\n(\s+)release_label_refs_of_record\(rec,release_mode\);\n)",
+                    r"\n#if SHC_REBUILD_UPDATED\n\2pep_log_xj_next((int *)prev_block, rec->op);\n#endif\1")])
+# --- PEP_DUMP: the records after loading, after each pass of optimize_current_node_list (PEPPOST) and after the
+# flow-graph and delay-slot passes (src/_pep_dump.c)
+hooks("0040b860", [(r"(\n  if \(\(g_stage_flags & 0x800\) == 0\) \{\n)(    PEPPOST\(0,)",
+                    r'\1#if SHC_REBUILD_UPDATED\n    pep_dump("load", g_current_node_list);\n#endif\n\2'),
+                   (r"(\n  fill_branch_delay_slots\(g_current_node_list\);\n)",
+                    r'\n#if SHC_REBUILD_UPDATED\n  pep_dump("flow", g_current_node_list);\n#endif\1'
+                    r'#if SHC_REBUILD_UPDATED\n  pep_dump("slots", g_current_node_list);\n#endif\n')])
 print(n, "fixes")

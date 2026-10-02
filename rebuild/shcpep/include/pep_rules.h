@@ -8,7 +8,7 @@
 int pep_skip(int k);
 int pep_post_skip(int k);
 #define PEPPASS(k, call) do { if (!pep_skip(k)) call; } while (0)
-#define PEPPOST(k, call) do { if (!pep_post_skip(k)) call; } while (0)
+#define PEPPOST(k, call) do { if (!pep_post_skip(k)) call; pep_dump(#call, g_current_node_list); } while (0)
 
 /* SWITCH_ARCADE_BRANCH / SWITCH_ARCADE_JUMP */
 int keep_branch_over_jump(int *block);
@@ -32,6 +32,13 @@ int xjump_reject(char kind, int mode, int count);
 #define XJUMP_FILTER(mode, kind)   ((mode) != 0 && xjump_reject((char)(kind), (mode), g_common_tail_count) ? ((mode) = 0) : 0)
 void xjump_tail_add(unsigned char *rec);
 #define XJ_TAIL(rec) xjump_tail_add(rec)
+
+/* diagnostics (src/_pep_dump.c): PEP_DUMP, the function name and the TAIL/NEXT lines of XJUMP_LOG */
+void pep_dump(const char *tag, void *list);
+const char *pep_current_function(void);
+int pep_xj_label_was_made(short l);
+void pep_log_tail(int op);
+void pep_log_xj_next(int *blk, int op);
 
 /* SLOT_NO_STACK */
 int slot_no_stack(void);

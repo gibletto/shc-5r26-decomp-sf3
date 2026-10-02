@@ -81,8 +81,8 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 9,947 C routines (sfIII3-cps3-decomp as published), 3,420 compile to the arcade's instructions with
-Release 26 and 8,072 with the rules; byte for byte, literal pools included, 1,435 and 7,180.
+Of the game's 10,030 C routines (sfIII3-cps3-decomp as published), 3,558 compile to the arcade's instructions with
+Release 26 and 8,326 with the rules; byte for byte, literal pools included, 1,552 and 7,488.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
@@ -96,7 +96,8 @@ Off unless set.
 | Setting | Stage | |
 |---|---|---|
 | `PEP_SKIP`, `PEP_POST_SKIP=<mask>` | shcpep | leave out optimization passes |
-| `PEP_LOG=<file>`, `XJUMP_LOG=<file>` | shcpep | log literal-pool and tail-merging decisions |
+| `PEP_LOG=<file>`, `XJUMP_LOG=<file>` | shcpep | log literal-pool and tail-merging decisions (a line per decision, with the function) |
+| `PEP_DUMP=<file>` | shcpep | write each function's blocks and records after loading and after each pass |
 | `SHCGEN_REGTRACE=<file>` | shcgen | log every register choice |
 | `GEN_REMAP_LOG=<file>` | shcgen | log what the end-of-function move of register variables to r0-r3 sees |
 | `MDL_REGVAR_LOG=<file>` | shcmdl | log the register variables chosen and why |

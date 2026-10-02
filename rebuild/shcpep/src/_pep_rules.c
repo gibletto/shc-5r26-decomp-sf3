@@ -75,6 +75,7 @@ static unsigned char xj_labels[8192];      /* the labels make_common_code_block 
 void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); }
 void pep_xj_label_mark(short l) { unsigned short u = (unsigned short)l; xj_labels[u >> 3] |= (unsigned char)(1 << (u & 7)); }
 static int pep_xj_label_made(short l) { unsigned short u = (unsigned short)l; return l != 0 && (xj_labels[u >> 3] >> (u & 7)) & 1; }
+int pep_xj_label_was_made(short l) { return pep_xj_label_made(l); }
 
 /* blk: the jump-only block, dest: the block it jumps to (their code's labno is at code + 4) */
 int pep_no_thread_here(int *blk, int *dest)
@@ -92,7 +93,7 @@ int pep_no_thread_here(int *blk, int *dest)
    shared. The arcade merges JUMP and LABEL tails but not RETURN tails: XJUMP_OFF=2 (unset).
    A value rejects a match: 1 on its own = every match; otherwise bits 1-3 pick the kind (2 RETURN, 4 JUMP,
    8 LABEL; none = all) and bits 4-5 the mode (16 mode 1, 32 mode 2; none = both); 64 leaves tails with a call
-   merged. XJUMP_MIN=n: tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (kind, mode,
+   merged. XJUMP_MIN=n: tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (the function, kind, mode,
    count, verdict, the tail's opcodes last first). */
 char xjump_tail[256];
 
@@ -120,7 +121,7 @@ int xjump_reject(char kind, int mode, int count)
   if (r && (v & 0x40) && strstr(xjump_tail, "23.")) r = 0;
   if (lg) {
     FILE *f = fopen(lg, "a");
-    if (f) { fprintf(f, "%s %d %d %s %s\n", kind == '"' ? "RET" : kind == '$' ? "JMP" : "LBL", mode, count, r ? "keep" : "merge",
+    if (f) { fprintf(f, "%s %s %d %d %s %s\n", pep_current_function(), kind == '"' ? "RET" : kind == '$' ? "JMP" : "LBL", mode, count, r ? "keep" : "merge",
                       xjump_tail); fclose(f); }
   }
   return r;
