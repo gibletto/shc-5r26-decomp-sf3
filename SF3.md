@@ -69,6 +69,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `PEP_NO_THREAD=28` | shcpep | threads jumps through labels made by merging identical code | doesn't |
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=3` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w` | keeps `mul.l` |
+| `GEN_CHAIN_JUMP=1` | shcgen | counts r1 as used by a switch's compare chain (the register a far jump would need), so a value live from the switch head into its cases cannot move from r13/r14 to r1 at the end of the function | leaves r1 free there: the value moves to r1 and r13/r14 is not saved |
 | `MDL_ARG_CONST=b` | shcmdl | doesn't count constants passed to calls when choosing register variables | counts them, so a constant used by several calls is kept in a register |
 | `MDL_CAST_CSE=7` | shcmdl | takes an integer cast of an array or function name, `(u32)table`, as widening, so computes it once and keeps it across calls | loads it at each use, as Release 26 already does for `(u32)&x`; pointer casts are unaffected |
 | `MDL_ARG_CAST=6` | shcmdl | keeps a variable in its argument register across a call only when the call is passed the variable itself | also when it is passed `&p->m` with m at offset 0, so `f(&p->first)` no longer moves p to a callee-saved register |
@@ -80,10 +81,10 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 9,947 C routines (sfIII3-cps3-decomp as published), 3,419 compile to the arcade's instructions with
-Release 26 and 8,065 with the rules; byte for byte, literal pools included, 1,434 and 7,172.
+Of the game's 9,947 C routines (sfIII3-cps3-decomp as published), 3,420 compile to the arcade's instructions with
+Release 26 and 8,072 with the rules; byte for byte, literal pools included, 1,435 and 7,180.
 
-The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`,
+The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
 `rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
 `tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
@@ -97,4 +98,7 @@ Off unless set.
 | `PEP_SKIP`, `PEP_POST_SKIP=<mask>` | shcpep | leave out optimization passes |
 | `PEP_LOG=<file>`, `XJUMP_LOG=<file>` | shcpep | log literal-pool and tail-merging decisions |
 | `SHCGEN_REGTRACE=<file>` | shcgen | log every register choice |
+| `GEN_REMAP_LOG=<file>` | shcgen | log what the end-of-function move of register variables to r0-r3 sees |
+| `MDL_REGVAR_LOG=<file>` | shcmdl | log the register variables chosen and why |
+| `ASM_NOSCHED=1` | shcasm | issue each scheduling window in input order |
 | `SHC_ALIGN_FILE=<file>` | shcasm | move named functions as if earlier code were longer |

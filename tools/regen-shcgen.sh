@@ -1,8 +1,8 @@
 #!/bin/sh
 # Regenerate rebuild/shcgen/src from the Ghidra export tools/export-stage-now.sh shcgen makes (ghidra/reports/
 # shcgen-now and shcgen-ret4, with the tables of ghidra/names/shcgen applied). Hand-written sources are kept:
-# src/_regknobs.c (the rules and the register-choice trace), src/_crt_shim.c (the stock CRT stdio, replaced by the
-# host CRT).
+# src/_regknobs.c (the rules and the register-choice trace), src/_remaprules.c (GEN_CHAIN_JUMP and its log),
+# src/_crt_shim.c (the stock CRT stdio, replaced by the host CRT).
 set -e
 cd "$(dirname "$0")/.."
 EXP=shcgen-now

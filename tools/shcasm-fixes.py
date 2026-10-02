@@ -133,4 +133,10 @@ fix("00415edd", [('#include "imports.h"\n', '#include "imports.h"\n#include "mul
                   "  }\n"
                   "  if (g_pipeline_last_scheduled == -1) {\n")])
 
+# --- ASM_NOSCHED (src/_nosched.c, include/nosched.h; only with SHC_REBUILD_UPDATED=1): the issue test the scheduler's
+# passes use
+fix("00415edd", [('#include "mulrules.h"\n', '#include "mulrules.h"\n#include "nosched.h"\n'),
+                 ("        can_issue = can_schedule_pipeline_entry_now(i);\n",
+                  "        can_issue = SCHED_CAN_ISSUE(i);\n")])
+
 print(f"shcasm-fixes: {n} replacements")

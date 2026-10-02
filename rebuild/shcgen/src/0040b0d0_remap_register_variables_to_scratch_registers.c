@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_lreg_table
 #define g_lreg_table (*(short * *)(g_sd + 0x1fa10))
@@ -49,6 +50,7 @@ int __cdecl remap_register_variables_to_scratch_registers(void)
     }
     scratch = scratch + 1;
   } while (scratch < 4);
+  REMAP_LOG();
   sVar1 = *lreg;
   do {
     if (sVar1 == 0) {

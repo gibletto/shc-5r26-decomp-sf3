@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "regvarlog.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_func_node
 #define g_func_node (*(il_node * *)(g_sd + 0x1e738))
@@ -192,6 +193,7 @@ LAB_0041b388:
   if (((g_options->cpu == 2) && (g_options->fpu_mode == '\x03')) || (g_options->cpu == 4)) {
     iVar1 = assign_float_registers(iVar1,func_attr_08,func_attr_1c);
   }
+  REGVAR_LOG();
   add_memory_lregs((short)iVar1);
   write_lreg_numbers();
   return;

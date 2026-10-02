@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_switch_cases
 #define g_switch_cases (*(int * *)(g_sd + 0x1fee0))
@@ -56,7 +57,7 @@ ushort __cdecl emit_switch_compare_chain(uint serial,short filno,ushort linno)
                         '\0');
         emit_psd_record((psd *)&g_psd_scratch,0);
       }
-      used_regs = used_regs | 2;
+      used_regs = used_regs | CHAIN_JUMP_REGS(2);
       cVar3 = '\x01';
       iVar2 = 0;
       peVar1 = (ea *)0x0;
@@ -74,7 +75,7 @@ ushort __cdecl emit_switch_compare_chain(uint serial,short filno,ushort linno)
     ea1 = make_label_operand(g_switch_default_label);
     fill_psd_record((psd *)&g_psd_scratch,OP_JUMP,'\x02','\0',serial,filno,linno,ea1,peVar1,iVar2,
                     cVar3);
-    used_regs = used_regs | 2;
+    used_regs = used_regs | CHAIN_JUMP_REGS(2);
     emit_psd_record((psd *)&g_psd_scratch,0);
   }
   return used_regs;

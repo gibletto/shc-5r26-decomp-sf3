@@ -91,14 +91,17 @@ static FILE *regtrace_file(void)
 }
 
 /* the function about to be compiled: its .reg record (the stage's function table entry name) */
+char *gen_function_name;   /* the function being generated (GEN_REMAP_LOG) */
+
 void regtrace_function(char *rec)
 {
   FILE *f = regtrace_file();
   int ix = (int)*(short *)(rec + 2) + 0xb6;
   char *name;
-  if (!f) return;
   if (ix < 0) ix = -ix;
   name = *(char **)(*(char **)SD(0x0045f9b0) + ix * 0x30 + 8);
+  gen_function_name = name;
+  if (!f) return;
   fprintf(f, "FN %s\n", name ? name : "?");
   fflush(f);
 }

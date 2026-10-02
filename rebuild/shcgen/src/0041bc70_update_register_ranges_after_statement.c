@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -19,6 +20,9 @@ int __cdecl update_register_ranges_after_statement(ushort used_mask,reg_content 
   ushort bit;
   short reg;
   
+  if (contents == g_gpr_contents) {
+    REMAP_MARK("st",used_mask,g_stmt_serial);
+  }
   if ((*(short *)g_request->unknown_004 != 0) && (g_no_reg_ranges == '\0')) {
     bit = 1;
     reg = 0;

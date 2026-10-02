@@ -107,4 +107,17 @@ fix("0041fa30", [(r"(\n\{\n(?:[^\n]*\n)*?)(  \n)",
 fix("00415cd0", [(r"\n([ \t]*)(" + N("00415ec0") + r"\((\w+)\);)",
                   r"\n\1regtrace_function((char *)\3);\n\1\2")], regex=True, once=True)
 
+# --- GEN_CHAIN_JUMP and GEN_REMAP_LOG (src/_remaprules.c, include/remaprules.h; only with SHC_REBUILD_UPDATED=1): the
+# scratch register a switch's compare chain counts as used for its jumps, and the log of what
+# remap_register_variables_to_scratch_registers sees
+REMAP_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "remaprules.h"\n')
+RANGES_ON = "  if ((*(short *)g_request->unknown_004 != 0) && (g_no_reg_ranges == '\\0')) {\n"
+fix("004208f0", [REMAP_INC, ("used_regs = used_regs | 2;", "used_regs = used_regs | CHAIN_JUMP_REGS(2);")])
+fix("0040b0d0", [REMAP_INC, ("  } while (scratch < 4);\n  sVar1 = *lreg;\n",
+                             "  } while (scratch < 4);\n  REMAP_LOG();\n  sVar1 = *lreg;\n")])
+fix("0041bc70", [REMAP_INC, (RANGES_ON, "  if (contents == g_gpr_contents) {\n"
+                                        "    REMAP_MARK(\"st\",used_mask,g_stmt_serial);\n"
+                                        "  }\n" + RANGES_ON)])
+fix("0041bae0", [REMAP_INC, (RANGES_ON, "  REMAP_MARK(\"rm\",mask,serial);\n" + RANGES_ON)])
+
 print(f"shcgen-fixes: {n} replacements")

@@ -112,4 +112,9 @@ fix("0041de40", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"')])
 fix("0041de40", [(r"(= cse_drop_class_head\(node\);\s*)cse_reinsert_class\((\w+)\);", r"\1GCSE_REINSERT(\2);")],
     regex=True)
 
+# --- MDL_REGVAR_LOG (src/_regvarlog.c, include/regvarlog.h; only with SHC_REBUILD_UPDATED=1): the register variables
+# assign_physical_registers chose
+fix("0041af70", [(INCLUDES, INCLUDES + '\n#include "regvarlog.h"'),
+                 ("  add_memory_lregs((short)iVar1);", "  REGVAR_LOG();\n  add_memory_lregs((short)iVar1);")])
+
 print(n, "fixes")

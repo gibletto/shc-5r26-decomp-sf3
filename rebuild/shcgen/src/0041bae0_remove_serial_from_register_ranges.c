@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -22,6 +23,7 @@ int __cdecl remove_serial_from_register_ranges(ushort mask,uint serial)
   reg_range *next_range;
   reg_range *prev;
   
+  REMAP_MARK("rm",mask,serial);
   if ((*(short *)g_request->unknown_004 != 0) && (g_no_reg_ranges == '\0')) {
     bit = 1;
     reg_no = 0;
