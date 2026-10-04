@@ -1,4 +1,4 @@
-# a48ac0df52465b154c1ed59bc25cb15c6a6c2e3c
+# 10034f65c337326e34f8ac2cfa0b9a7dc00769c7
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSBALL	obj:0:72affb741754a585
@@ -50,7 +50,7 @@ EFF18	obj:0:535e9b4d71ec0bcb
 EFF18_tbl	obj:0:c481317702860798
 EFF19	obj:0:6d1a46eb2aed4ed9
 EFF19_tbl	obj:0:b5f8894325b0ebdd
-EFF21	obj:0:7e9f6b6a43af97e3
+EFF21	obj:0:a164764629ca49c7
 EFF21_tbl	obj:0:0f74cdc7d340f666
 EFF22	obj:0:6cb19c181337b1a4
 EFF22_tbl	obj:0:32d6d34d02d766a6
@@ -147,11 +147,11 @@ EFFB4_tbl	obj:0:859604bc13915f6f
 EFFB5	obj:0:bf125a64a21c7d39
 EFFB6	obj:0:91ee1c3c019be577
 EFFB6_tbl	obj:0:7e02ba8a8f6606ff
-EFFB8	obj:0:fe638ffd1f948570
+EFFB8	obj:0:7aac8c5cfb3df3db
 EFFC0	obj:0:394dfa2c351888d0
 EFFC0_tbl	obj:0:6835e4d9b4c15a01
 EFFC1	obj:0:6ae8f1393a66609c
-EFFC2	obj:0:50719aa4bf7f1c01
+EFFC2	obj:0:220b642611f1fff6
 EFFC2_tbl	obj:0:a9a423807fe327d8
 EFFC3	obj:0:591d8a5921fc4b59
 EFFC3_tbl	obj:0:48fa237af1da7bf2
@@ -161,7 +161,7 @@ EFFC5	obj:0:85c8f14a1ae2478e
 EFFC6	obj:0:5ec0830b3858d363
 EFFC7	obj:0:cb7bd5cdbae52db3
 EFFC7_tbl	obj:0:5d730e1e579d6953
-EFFC8	obj:0:f996c4ded6b58d62
+EFFC8	obj:0:4836dc1a2e60c9a5
 EFFC8_tbl	obj:0:d3ef29413b12ab08
 EFFC9	obj:0:99e12b0bfc9cfd06
 EFFC9_tbl	obj:0:95d5c42c70f7f2a6
@@ -242,7 +242,7 @@ EFFK3	obj:0:a28322dfe043c9df
 EFFK3_tbl	obj:0:06176ffb27aea877
 EFFK4	obj:0:20eb10470f61a797
 EFFK4_tbl	obj:0:4c26367660f98ff0
-EFFK5	obj:0:82212fc8c7e514e1
+EFFK5	obj:0:0944999457cfc5d3
 EFFK5_tbl	obj:0:63f662366a3efbd5
 EFFK7	obj:0:7bdb9fddb60af378
 EFFK7_tbl	obj:0:02a26c1d6df7e589
@@ -288,7 +288,7 @@ EffK6	obj:0:c2717c56e141bbb6
 EffK6_tbl	obj:0:463a92c6b3d6cfe5
 EffM3	obj:0:306b6d98d48e905e
 EffM3_tbl	obj:0:8c2f39c49165f393
-Entry	obj:0:1fbba4872340562d
+Entry	obj:0:5dfc3f2898611526
 Entry_tbl	obj:0:e4e693d6031d8e7d
 FOLLOW01	obj:0:83305f23b59d97fa
 FOLLOW02	obj:0:76cf03f9863df842
@@ -429,7 +429,7 @@ VITAL_tbl	obj:0:02c7e38171fcb20b
 Win	obj:0:82d85d496dd2ee87
 Win_tbl	obj:0:20451dfe08db7671
 Win_tbl2	obj:0:26c5ae4369f975a5
-aboutspr	obj:0:79028b3b00fd8f54
+aboutspr	obj:0:87a0025d33ed6596
 aboutspr_tbl	obj:0:c55766541efe24b5
 active01	obj:0:3bb6625c196e2fef
 active01_tbl	obj:0:b6577762adc754a5
@@ -473,7 +473,7 @@ alex_yuca	obj:0:bdb8eb7a3167486e
 appear	obj:0:cdb8ba46627dc7ee
 appear_tbl	obj:0:780612c7a7207db4
 asstbl	obj:0:99d3f2c221991200
-bg000	obj:0:b77f6e38f792b3e5
+bg000	obj:0:b9d2deec7fc47653
 bg0001	obj:0:d455003763dc466d
 bg0001_tbl	obj:0:015f13441a9c904d
 bg000_tbl	obj:0:c2243eb90dc5fbf1
@@ -551,7 +551,7 @@ eff08	obj:0:4e5b3fee54716700
 eff08_tbl	obj:0:0bac3f6ec2957369
 eff12	obj:0:7ebc6f26da073e0d
 eff12_tbl	obj:0:ef7bdfc50c23017d
-eff14	obj:0:c51cc77ef363c8de
+eff14	obj:0:6b4d3d89c8765bee
 eff14_tbl	obj:0:330505ca43ec1c5a
 eff20	obj:0:11c1d4c1cefc4054
 eff28	obj:0:bdbd10d7b3d2d958
@@ -690,7 +690,7 @@ entry_2	obj:0:5f3c3679fba026ab
 etc	obj:0:438edaae5196b312
 exchange	obj:0:03d00c89bc4f9f13
 family	obj:0:35f20a0b1f03f0ae
-fifo	obj:0:7330d6bc5594a9a1
+fifo	obj:0:124425e9ed93c085
 game_config_main	obj:0:6971b121c383e963
 gauge	obj:0:b83ae1fed946a37e
 gill_attbox	obj:0:32cc9431efbb7c7c
@@ -827,16 +827,16 @@ sc_data2	obj:0:5d4b020c09da91b2
 sc_data3	obj:0:610c7d173cdfb3e4
 sc_face	obj:0:dcdcd9e82ed1c5ad
 sc_logo	obj:0:c6c628db623e56d4
-sc_sub	obj:0:0567511ff49686d3
+sc_sub	obj:0:81ba8e5545ae50af
 sc_sub_2	obj:0:dbd5d0b7e442961c
-sc_trans	obj:0:bd0f50ab84759825
+sc_trans	obj:0:d304c5edb4091d0e
 sc_trans_tbl	obj:0:daff2abbe04de3a4
 sc_trans_tbl2	obj:0:270164ff31e405ef
 scene_char	obj:0:52de1c25c4fb7304
 scrn_ctrl	obj:0:756a4c354910dd51
 scrn_data	obj:0:7fd2d8223090915d
 se_2	obj:0:1c5ad2d3de0f4368
-se_3	obj:0:83e1e01b3ca0a83c
+se_3	obj:0:a4fa60661aaa72c6
 sean_attbox	obj:0:e8820271f507814c
 sean_attr	obj:0:ed276929d52d1049
 sean_char	obj:0:4998c50c773d4038

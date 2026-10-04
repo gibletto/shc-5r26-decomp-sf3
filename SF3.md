@@ -67,6 +67,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `PEP_R0_FORGET=3` | shcpep | keeps a constant in r0 across a conditional branch | loads it again in both successors |
 | `SLOT_NO_STACK=1` | shcpep | may fill a delay slot with a stack load or store | never does (pushes and pops still can) |
 | `PEP_NO_THREAD=28` | shcpep | threads jumps through labels made by merging identical code | doesn't |
+| `PEP_AUTOINC=1` | shcpep | folds a load through a pointer and a later `add` to the pointer into a post-increment load (`mov.l @r5+,r6`) | leaves them apart; post-increments come only from `*p++` in the source |
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=3` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w` | keeps `mul.l` |
 | `GEN_CHAIN_JUMP=1` | shcgen | counts r1 as used by a switch's compare chain (the register a far jump would need), so a value live from the switch head into its cases cannot move from r13/r14 to r1 at the end of the function | leaves r1 free there: the value moves to r1 and r13/r14 is not saved |
@@ -82,7 +83,7 @@ since SH-4 support moved the special registers' numbers, its scheduler sees no d
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
 Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,669 compile to the arcade's instructions with
-Release 26 and 8,587 with the rules; byte for byte, literal pools included, 1,739 and 7,918.
+Release 26 and 8,589 with the rules; byte for byte, literal pools included, 1,739 and 7,927.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,

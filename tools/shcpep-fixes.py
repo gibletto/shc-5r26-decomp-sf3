@@ -193,6 +193,12 @@ hooks("004131d0", [(r"((\w+) = find_block_with_common_tail\([^()]*\),)", r"\1 XJ
 hooks("00413850", [(r"(\n  \w+ = 0;\n)(  local_8 = )", r"\1#if SHC_REBUILD_UPDATED\n  xjump_tail[0] = 0;\n#endif\n\2"),
                    (r"(LAB_00413ae9:\n(\s+)\w+ = \w+ \+ 1;\n)(\s+local_c = \w+;\n\s+local_8 = (\w+);)",
                     r"\1\2XJ_TAIL((unsigned char *)\4);\n\3")])
+# PEP_AUTOINC: no @rN+ load from "mov.x @rN,rM ... add #n,rN" (bit 1), no @-rN store from "add #-n,rN ... mov.x rM,@rN"
+# (bit 2)
+hooks("004120d0", [(r"(if \(\(\(\(load_rec != \(psd \*\)0x0\) && \(rec->op == OP_ADD\)\) &&)",
+                    r"if ((((load_rec != (psd *)0x0) && !(pep_autoinc() & 1) && (rec->op == OP_ADD)) &&"),
+                   (r"(\n(\s+)rec->ea2->type = rec->ea2->type & 0xf0;\n)",
+                    r"\n\2if (pep_autoinc() & 2) goto LAB_004123f5;\1")])
 # SLOT_NO_STACK
 hooks("004162f0", [(r"(\n    (\w+) = delay_slot_masks_disjoint\(\);\n)",
                     r"\1#if SHC_REBUILD_UPDATED\n    if (\2 == 1 && slot_no_stack() != 0 && slot_record_is_frame_access((unsigned char *)cand)) {\n"

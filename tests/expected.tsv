@@ -1,12 +1,13 @@
 # tests/cases outputs with the default rules (tests/parity.py)
 argconst	obj:0:eb362823120f996b src:0:3452e2d3f3e42645
+autoinc	obj:0:c675ffec03834995 src:0:e68a84e1cedba2bf
 casts	obj:0:4c380e76dabf1659 src:0:1d69da113bee9e78
 chainjump	obj:0:bff139cff1e74c64 src:0:3c8a38f51cf8752c
 gcse	obj:0:316cfe1fd33811b7 src:0:cb8fec8e41ec2f1d
 macl	obj:0:ea63b8f8925c8c40 src:0:e81de2f0b154a545
-multiply	obj:0:03922b349d6c8e9a src:0:258fa36ab16d70a6
+multiply	obj:0:1cc2332125168c4f src:0:6429f1bd53704e91
 multiply_opt0	obj:0:0f7a11195bf8c397 src:0:b1873554b9ab182c
-multiply_sh4	obj:0:f88f45ba70eafe16 src:0:b4503c800477da4f
+multiply_sh4	obj:0:46549dac23243b66 src:0:aa3889c06a563e86
 mulwait	obj:0:064ad1b94aedd27b src:0:9039b570dc75857b
 r0const	obj:0:649c68b5cb0accf9 src:0:e970d4ec9a56e1f8
 returns	obj:0:8cfe2e57273dd401 src:0:1d0122abb43f9635

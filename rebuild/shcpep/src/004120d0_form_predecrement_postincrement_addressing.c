@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_current_node_list
 #define g_current_node_list (*(code_node * *)(g_sd + 0x6d70))
@@ -77,7 +78,7 @@ int __cdecl form_predecrement_postincrement_addressing(code_node *node)
                    ((int)(char)(&g_access_size_bytes)[(byte)rec->flg & 3] + add_rec->ea1->disp != 0)
                    ) || ((rec->ea1->type & 0x1f) != 1))))) {
 LAB_00412241:
-            if ((((load_rec != (psd *)0x0) && (rec->op == OP_ADD)) &&
+            if ((((load_rec != (psd *)0x0) && !(pep_autoinc() & 1) && (rec->op == OP_ADD)) &&
                 (opnd = rec->ea1, (opnd->type & 0x1f) == 7)) &&
                ((((int)(char)(&g_access_size_bytes)[(byte)load_rec->flg & 3] == opnd->disp &&
                  (rec->ea2->base == reg)) &&
@@ -130,6 +131,7 @@ LAB_00412241:
              ((reg != opnd->base ||
               ((rec->ea1->base == opnd->base || (uVar2 = is_record_volatile(rec), uVar2 != 0))))))
           goto LAB_00412241;
+          if (pep_autoinc() & 2) goto LAB_004123f5;
           rec->ea2->type = rec->ea2->type & 0xf0;
           rec->ea2->type = rec->ea2->type | 3;
 LAB_004123ed:

@@ -40,6 +40,9 @@ int pep_xj_label_was_made(short l);
 void pep_log_tail(int op);
 void pep_log_xj_next(int *blk, int op);
 
+/* PEP_AUTOINC */
+int pep_autoinc(void);
+
 /* SLOT_NO_STACK */
 int slot_no_stack(void);
 int slot_record_is_frame_access(unsigned char *rec);
@@ -54,6 +57,7 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_no_thread_here(blk, dest) 0
 #define XJ_TAIL(rec) ((void)0)
 #define XJUMP_FILTER(mode, kind) 0
+#define pep_autoinc() 0
 #endif
 
 #endif

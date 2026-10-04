@@ -147,4 +147,14 @@ int slot_record_is_frame_access(unsigned char *rec)
   return rec[0] == 0x27 || slot_operand_is_frame(*(unsigned char **)(rec + 0x10)) ||
          slot_operand_is_frame(*(unsigned char **)(rec + 0x14));
 }
+
+/* PEP_AUTOINC: form_predecrement_postincrement_addressing turns "mov.x @rN,rM ... add #n,rN" into a post-increment load
+   and "add #-n,rN ... mov.x rM,@rN" into a pre-decrement store, across any records that leave rN alone. The arcade's
+   loads take @rN+ only where shcgen already made it (*p++ in the source): a separate p++ after *p stays an add
+   (fifo_get's dat = *rd; q->rd = ++rd, effect_21_init, sound_system_init, effect_14_move, dbg_disasm_rows).
+   Bits (unset: 1; 0: Release 26): 1 no post-increment loads; 2 no pre-decrement stores, measured right
+   (comm_gets, the second *--dst = *--src of set_char_move_init2) but off: set_char_move_init2 is then 2 bytes
+   longer than the arcade's (it keeps a dead copy of dst in a stack slot), which moves the CHARMOVE routines after
+   it off the arcade's alignment */
+int pep_autoinc(void) { return env_int("PEP_AUTOINC", 1); }
 #endif
