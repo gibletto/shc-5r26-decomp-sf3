@@ -81,8 +81,8 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,032 C routines (sfIII3-cps3-decomp as published), 3,585 compile to the arcade's instructions with
-Release 26 and 8,392 with the rules; byte for byte, literal pools included, 1,606 and 7,570.
+Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,669 compile to the arcade's instructions with
+Release 26 and 8,587 with the rules; byte for byte, literal pools included, 1,739 and 7,918.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
