@@ -1,4 +1,4 @@
-# 10034f65c337326e34f8ac2cfa0b9a7dc00769c7
+# 0d1713acc28e88e2296bf91c0158d4f7045a91d1
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSBALL	obj:0:72affb741754a585
@@ -297,7 +297,7 @@ Game	obj:0:ca67b6f6b9b1edeb
 Game_Main	obj:0:812126bc077de59f
 Game_Main_tbl	obj:0:900f5b3907b18c62
 Getup	obj:0:a5ea3a90cecf0882
-Grade	obj:0:85c144417293f607
+Grade	obj:0:7ecced844031d99e
 Grade_tbl	obj:0:94cd4cd6abe58d6a
 HITCHECK	obj:0:eb1b60c6976f6aea
 HITCHECK_tbl	obj:0:8f1577d85efb7ce1
@@ -739,7 +739,7 @@ makoto_char	obj:0:23ba15dc2c891716
 makoto_hitbox	obj:0:adb06fa7bdd96071
 makoto_move	obj:0:99171abbf298e278
 makoto_yuca	obj:0:2317ad76c15c95f7
-manage_2	obj:0:320f43066b63fe36
+manage_2	obj:0:0f117cf4cd29544d
 meta_col	obj:0:92c48c9d3f0c5d42
 meta_col_tbl	obj:0:4e9da8c417af44ec
 mode_init	obj:0:bd320ee0ef779970
@@ -829,14 +829,14 @@ sc_face	obj:0:dcdcd9e82ed1c5ad
 sc_logo	obj:0:c6c628db623e56d4
 sc_sub	obj:0:81ba8e5545ae50af
 sc_sub_2	obj:0:dbd5d0b7e442961c
-sc_trans	obj:0:d304c5edb4091d0e
+sc_trans	obj:0:7e72ad1ed257d267
 sc_trans_tbl	obj:0:daff2abbe04de3a4
 sc_trans_tbl2	obj:0:270164ff31e405ef
 scene_char	obj:0:52de1c25c4fb7304
 scrn_ctrl	obj:0:756a4c354910dd51
 scrn_data	obj:0:7fd2d8223090915d
 se_2	obj:0:1c5ad2d3de0f4368
-se_3	obj:0:a4fa60661aaa72c6
+se_3	obj:0:3403a49d184bb6a7
 sean_attbox	obj:0:e8820271f507814c
 sean_attr	obj:0:ed276929d52d1049
 sean_char	obj:0:4998c50c773d4038
