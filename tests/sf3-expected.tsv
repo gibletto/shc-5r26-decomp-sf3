@@ -1,4 +1,4 @@
-# 0d1713acc28e88e2296bf91c0158d4f7045a91d1
+# eed4c9a985c6c7d33bc176387776eb10d01507dd
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSBALL	obj:0:72affb741754a585
@@ -13,7 +13,7 @@ CHARID	obj:0:8e3688dd73ecc306
 CHARID_tbl	obj:0:04ef5d5a551420e6
 CHARMOVE	obj:0:bfbd55241ff88e63
 CHARSET_tbl	obj:0:dcc67949f5968519
-CMD_MAIN	obj:0:1aa4633af1db57c9
+CMD_MAIN	obj:0:784a203485bbdc9c
 CMD_MAIN_tbl	obj:0:39caa537835593a6
 Ck_Pass_tbl	obj:0:83821928e904bfe5
 Com_Data	obj:0:845b3c8a3ebcaff7
@@ -145,7 +145,7 @@ EFFB1_tbl	obj:0:3623fa554dfffcd7
 EFFB4	obj:0:1116a59e0d34597b
 EFFB4_tbl	obj:0:859604bc13915f6f
 EFFB5	obj:0:bf125a64a21c7d39
-EFFB6	obj:0:91ee1c3c019be577
+EFFB6	obj:0:4c79e46962982b77
 EFFB6_tbl	obj:0:7e02ba8a8f6606ff
 EFFB8	obj:0:7aac8c5cfb3df3db
 EFFC0	obj:0:394dfa2c351888d0
@@ -526,7 +526,7 @@ coin_sw	obj:0:38ca0cae8f8d26c4
 coin_sw	obj:0:38ca0cae8f8d26c4
 color3rd	obj:0:2801c07ec25cec22
 continue	obj:0:596f1d511ebe71fb
-count	obj:0:82be93bac5038482
+count	obj:0:a86dc9c646abd40d
 cram_bank	obj:0:f4c1b4f88be61739
 demo00	obj:0:7ad46e019bd11e56
 demo01	obj:0:6d896acf024aa719
@@ -619,8 +619,8 @@ efff7	obj:0:e3ee0f89f7ae9d0d
 efff8_code	obj:0:1db647da9d0a8312
 effg8	obj:0:9b9b6cefcec70c99
 effg8_tbl	obj:0:d9d0dff992613be7
-effh4	obj:0:6ffe932c96c22898
-effh5	obj:0:b5162ad59a176783
+effh4	obj:0:9302eccff8bac437
+effh5	obj:0:3199b7f3f8df44e4
 effh6_code	obj:0:3575ca237d7aef76
 effi6	obj:0:66b51755d191697b
 effj1	obj:0:98451e3f97b64259
@@ -674,7 +674,7 @@ end_8	obj:0:cf42d4ef6e8d56e4
 end_8_tbl	obj:0:121cff91e4b96c2e
 end_9	obj:0:e645b80aac2898d2
 end_9_tbl	obj:0:efa50c16100389f4
-end_main	obj:0:7e28bb8b527b2810
+end_main	obj:0:56fe668bff2a9288
 end_main_tbl	obj:0:9d5337b23cecb206
 end_main_tbl2	obj:0:1b8b0ab6cd3cd2f6
 end_sub	obj:0:21d69cc591dadaa6
@@ -731,7 +731,6 @@ ken_hitbox	obj:0:5bd491e41d6a480c
 ken_move	obj:0:2dfd22c075e30df8
 ken_yuca	obj:0:a3964dcd3e100a1d
 lose_pl	obj:0:df27e35494572358
-lose_pl_2	obj:0:6a48e1e8e148cf41
 lose_pl_tbl	obj:0:6a4a92dfa7d4db62
 makoto_attbox	obj:0:faa3dff8eb13292d
 makoto_attr	obj:0:8819afed217b873c
@@ -884,7 +883,7 @@ urien_move	obj:0:ee62e5523b8c01f0
 urien_yuca	obj:0:f76ecca3bbe88f2a
 vbl_hook	obj:0:263a80c31871af8b
 vectors	obj:0:0db17cc2c9c90189
-vital_2	obj:0:7cbbea8145c20560
+vital_2	obj:0:c84b806f89307679
 vs_shell	obj:0:3b924d7f1a6db021
 win_2	obj:0:1af2ff0afbe55467
 win_pl	obj:0:9cf16cde03fef79e

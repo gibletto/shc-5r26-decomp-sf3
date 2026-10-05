@@ -100,6 +100,13 @@ fix("0041a2a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                  ("argument_register_index(arg)", "argument_register_index(arg_node)"),
                  ("          arg = arg->next;\n", "          arg = arg_node->next;\n")])
 
+# --- MDL_IV (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): scan_derived_induction_expr keeps the
+# induction variable's number across a narrowing cast
+fix("00417b60", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("    if (child_rank != rank) {\nLAB_00417c21:",
+                  "    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {\n"
+                  "      node->ivno = node->child->ivno;\n      return;\n    }\n    if (child_rank != rank) {\nLAB_00417c21:")])
+
 # --- MDL_GCSE (src/_gcserules.c, include/gcserules.h; only with SHC_REBUILD_UPDATED=1): where global common-expression
 # elimination may put a class's temporary (cse_eliminate_node), and what becomes of a class whose first member
 # cse_find_common_block drops (Release 26 reinserts the rest as a new class)

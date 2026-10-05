@@ -75,6 +75,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `MDL_CAST_CSE=7` | shcmdl | takes an integer cast of an array or function name, `(u32)table`, as widening, so computes it once and keeps it across calls | loads it at each use, as Release 26 already does for `(u32)&x`; pointer casts are unaffected |
 | `MDL_ARG_CAST=6` | shcmdl | keeps a variable in its argument register across a call only when the call is passed the variable itself | also when it is passed `&p->m` with m at offset 0, so `f(&p->first)` no longer moves p to a callee-saved register |
 | `MDL_GCSE=1` | shcmdl | lets later uses of a global variable read a copy that an earlier use in a dominating block kept in a register or on the stack | loads the global again at each use |
+| `MDL_IV=3` | shcmdl | forgets that a cast to `char` of an induction variable's multiple, `(char)(i * 6)`, is derived from the variable, so multiplies afresh on each pass | keeps the derivation, so the value steps by 6 like `i * 6` (a cast to `short` is still forgotten: the arcade does not reduce those) |
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=3` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier |
 
@@ -82,8 +83,8 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,669 compile to the arcade's instructions with
-Release 26 and 8,589 with the rules; byte for byte, literal pools included, 1,739 and 7,927.
+Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,672 compile to the arcade's instructions with
+Release 26 and 8,596 with the rules; byte for byte, literal pools included, 1,741 and 7,935.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,

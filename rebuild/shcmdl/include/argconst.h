@@ -22,4 +22,12 @@ extern il_node *mdl_arg_as_variable(il_node *arg);
 #define CAST_ADDRESS_LEAF(n) 0
 #define ARG_AS_VARIABLE(a) (a)
 #endif
+
+/* MDL_IV (src/_ivrules.c), with SHC_REBUILD_UPDATED=1 */
+#if SHC_REBUILD_UPDATED
+extern int mdl_iv_rules(void);
+#define IV_RULES() mdl_iv_rules()
+#else
+#define IV_RULES() 0
+#endif
 #endif

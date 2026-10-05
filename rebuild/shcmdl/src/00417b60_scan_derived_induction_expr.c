@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef _g_iv_negated_count
 #define _g_iv_negated_count (*(short *)(g_sd + 0xdf70))
@@ -53,6 +54,10 @@ int __cdecl scan_derived_induction_expr(il_node *node,il_node *copy)
       return;
     }
     if ((rank == '\x03') || (child_rank < rank)) {
+      node->ivno = node->child->ivno;
+      return;
+    }
+    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {
       node->ivno = node->child->ivno;
       return;
     }
