@@ -71,6 +71,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=3` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w` | keeps `mul.l` |
 | `GEN_CHAIN_JUMP=1` | shcgen | counts r1 as used by a switch's compare chain (the register a far jump would need), so a value live from the switch head into its cases cannot move from r13/r14 to r1 at the end of the function | leaves r1 free there: the value moves to r1 and r13/r14 is not saved |
+| `GEN_POOL_MOVLOC=4` | shcgen | without optimization, counts a load or store of a local as 6 bytes when deciding where a literal pool goes | counts it as 4, so the pools of unoptimized files come later |
 | `MDL_ARG_CONST=b` | shcmdl | doesn't count constants passed to calls when choosing register variables | counts them, so a constant used by several calls is kept in a register |
 | `MDL_CAST_CSE=7` | shcmdl | takes an integer cast of an array or function name, `(u32)table`, as widening, so computes it once and keeps it across calls | loads it at each use, as Release 26 already does for `(u32)&x`; pointer casts are unaffected |
 | `MDL_ARG_CAST=6` | shcmdl | keeps a variable in its argument register across a call only when the call is passed the variable itself | also when it is passed `&p->m` with m at offset 0, so `f(&p->first)` no longer moves p to a callee-saved register |
@@ -79,16 +80,17 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=3` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier |
 
-The seventeen settings implement sixteen rules: the switch rule has two (`SWITCH_ARCADE_BRANCH` and `SWITCH_ARCADE_JUMP`).
+The eighteen settings implement seventeen rules: the switch rule has two (`SWITCH_ARCADE_BRANCH` and `SWITCH_ARCADE_JUMP`).
 
 0 gives Release 26 for each; the value shown is the default. `ASM_SPECREG` fixes a fault in Release 26 itself:
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,684 compile to the arcade's instructions with
-Release 26 and 8,623 with the rules; byte for byte, literal pools included, 1,745 and 7,958.
+Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,709 compile to the arcade's instructions with
+Release 26 and 8,684 with the rules; byte for byte, literal pools included, 1,780 and 8,082.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
+`rebuild/shcgen/src/_poolrules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
 `rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
 `tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.

@@ -17,6 +17,7 @@ autoinc         autoinc.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 iv              iv.c         -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 slots_noinline  slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed -noinline
 switch_opt0     switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
+poolwin         poolwin.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
 multiply_opt0   multiply.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
 returns_size    returns.c    -cpu=sh2 -optimize=1 -size
 !threads_debug  threads.c    -cpu=sh2 -optimize=1 -speed -debug

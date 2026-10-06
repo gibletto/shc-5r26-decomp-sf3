@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "poolrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_stage_request
 #define g_stage_request (*(request * *)(g_sd + 0x1ee88))
@@ -102,7 +103,7 @@ LAB_0042c5de:
     }
     goto LAB_0042c5de;
   }
-  iVar2 = compute_record_code_size(rec);
+  iVar2 = POOL_RECORD_SIZE(rec,compute_record_code_size(rec));
   code_bytes = (uint)(short)iVar2;
   switch(rec->op) {
   case OP_ENTER:

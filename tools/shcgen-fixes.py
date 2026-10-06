@@ -120,4 +120,10 @@ fix("0041bc70", [REMAP_INC, (RANGES_ON, "  if (contents == g_gpr_contents) {\n"
                                         "  }\n" + RANGES_ON)])
 fix("0041bae0", [REMAP_INC, (RANGES_ON, "  REMAP_MARK(\"rm\",mask,serial);\n" + RANGES_ON)])
 
+# --- GEN_POOL_MOVLOC (src/_poolrules.c, include/poolrules.h): the bytes a frame-slot load or store adds to the
+# literal pool window of an unoptimized unit
+fix("0042baa0", [('#include "imports.h"\n', '#include "imports.h"\n#include "poolrules.h"\n'),
+                 ("  iVar2 = compute_record_code_size(rec);\n  code_bytes =",
+                  "  iVar2 = POOL_RECORD_SIZE(rec,compute_record_code_size(rec));\n  code_bytes =")], once=True)
+
 print(f"shcgen-fixes: {n} replacements")

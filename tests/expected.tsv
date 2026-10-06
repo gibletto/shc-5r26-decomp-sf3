@@ -7,9 +7,10 @@ gcse	obj:0:316cfe1fd33811b7 src:0:cb8fec8e41ec2f1d
 iv	obj:0:283c953a531ba354 src:0:dae4e3003c5b8b82
 macl	obj:0:ea63b8f8925c8c40 src:0:e81de2f0b154a545
 multiply	obj:0:1cc2332125168c4f src:0:6429f1bd53704e91
-multiply_opt0	obj:0:0f7a11195bf8c397 src:0:b1873554b9ab182c
+multiply_opt0	obj:0:0eb0be46f65868f5 src:0:e9cf61dec86c85f9
 multiply_sh4	obj:0:46549dac23243b66 src:0:aa3889c06a563e86
 mulwait	obj:0:064ad1b94aedd27b src:0:9039b570dc75857b
+poolwin	obj:0:39aa1e59a953a0c4 src:0:ba47593d109604fe
 r0const	obj:0:649c68b5cb0accf9 src:0:e970d4ec9a56e1f8
 returns	obj:0:8cfe2e57273dd401 src:0:1d0122abb43f9635
 returns_size	obj:0:993cdd5394ef0547 src:0:75494ec991ac9a20
