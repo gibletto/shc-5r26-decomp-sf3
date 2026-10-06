@@ -79,12 +79,14 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=3` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier |
 
+The seventeen settings implement sixteen rules: the switch rule has two (`SWITCH_ARCADE_BRANCH` and `SWITCH_ARCADE_JUMP`).
+
 0 gives Release 26 for each; the value shown is the default. `ASM_SPECREG` fixes a fault in Release 26 itself:
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,672 compile to the arcade's instructions with
-Release 26 and 8,596 with the rules; byte for byte, literal pools included, 1,741 and 7,935.
+Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,684 compile to the arcade's instructions with
+Release 26 and 8,623 with the rules; byte for byte, literal pools included, 1,745 and 7,958.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
