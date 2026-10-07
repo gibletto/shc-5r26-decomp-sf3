@@ -5,6 +5,7 @@ casts	obj:0:4c380e76dabf1659 src:0:1d69da113bee9e78
 chainjump	obj:0:bff139cff1e74c64 src:0:3c8a38f51cf8752c
 gcse	obj:0:316cfe1fd33811b7 src:0:cb8fec8e41ec2f1d
 iv	obj:0:283c953a531ba354 src:0:dae4e3003c5b8b82
+loopinv	obj:0:17aca954239bbb4b src:0:9ecf907ec84a91d3
 macl	obj:0:ea63b8f8925c8c40 src:0:e81de2f0b154a545
 multiply	obj:0:1cc2332125168c4f src:0:6429f1bd53704e91
 multiply_opt0	obj:0:0eb0be46f65868f5 src:0:e9cf61dec86c85f9

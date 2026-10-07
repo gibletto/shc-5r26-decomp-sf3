@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_options
 #define g_options (*(option_record * *)(g_sd + 0x1e714))
@@ -24,8 +25,9 @@ int __cdecl select_loops_to_invert(loop *lp)
     if (lp->next != (loop *)0x0) {
       select_loops_to_invert(lp->next);
     }
+    LOOP_LOG(lp);
     if (((lp->child == (loop *)0x0) ||
-        (select_loops_to_invert(lp->child), g_options->unknown_20 != 0)) &&
+        (select_loops_to_invert(lp->child), LOOP_SPEED(1))) &&
        (((lp->repet == 0 && ((lp->flag & 0x8000) == 0)) || ((lp->flag & 0x1000) != 0)))) {
       expr = lp->node;
       op = expr->op;
@@ -37,8 +39,8 @@ int __cdecl select_loops_to_invert(loop *lp)
           expr = expr->child->next;
         }
         if (((char)expr->op < '`') || ('g' < (char)expr->op)) {
-          if (g_options->unknown_20 != 0) {
-            invert_loop_to_guarded_do(lp);
+          if (LOOP_SPEED(2)) {
+            LOOP_INVERT(lp);
           }
         }
         else {
@@ -52,8 +54,8 @@ int __cdecl select_loops_to_invert(loop *lp)
             expr = expr->child;
           }
           if (((lhs->type & 0xf8) == 0x30) || ((expr->type & 0xf8) == 0x30)) {
-            if (g_options->unknown_20 != 0) {
-              invert_loop_to_guarded_do(lp);
+            if (LOOP_SPEED(4)) {
+              LOOP_INVERT(lp);
               return;
             }
           }
@@ -67,16 +69,16 @@ int __cdecl select_loops_to_invert(loop *lp)
                   ((g_symtab[expr->symx].sclass < '\t' &&
                    ((g_leaf_table[expr->nleaf].flag & 0xe) == 0)))) || (expr->symx < 0)))) ||
                (expr->op == IL_CONST)) {
-              invert_loop_to_guarded_do(lp);
+              LOOP_INVERT(lp);
               return;
             }
-            if (g_options->unknown_20 != 0) {
-              invert_loop_to_guarded_do(lp);
+            if (LOOP_SPEED(8)) {
+              LOOP_INVERT(lp);
               return;
             }
           }
-          else if (g_options->unknown_20 != 0) {
-            invert_loop_to_guarded_do(lp);
+          else if (LOOP_SPEED(16)) {
+            LOOP_INVERT(lp);
             return;
           }
         }

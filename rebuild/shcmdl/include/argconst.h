@@ -30,4 +30,19 @@ extern int mdl_iv_rules(void);
 #else
 #define IV_RULES() 0
 #endif
+
+/* MDL_LOOP_INV and MDL_LOOP_LOG (src/_looprules.c), with SHC_REBUILD_UPDATED=1: does this place of
+   select_loops_to_invert see -speed */
+#if SHC_REBUILD_UPDATED
+extern void mdl_loop_log(loop *lp);
+extern int mdl_loop_speed(loop *lp, int speed, int bit);
+extern void mdl_loop_inverted(loop *lp);
+#define LOOP_LOG(lp) mdl_loop_log(lp)
+#define LOOP_SPEED(bit) mdl_loop_speed(lp, g_options->unknown_20 != 0, bit)
+#define LOOP_INVERT(lp) (mdl_loop_inverted(lp), invert_loop_to_guarded_do(lp))
+#else
+#define LOOP_LOG(lp)
+#define LOOP_SPEED(bit) (g_options->unknown_20 != 0)
+#define LOOP_INVERT(lp) invert_loop_to_guarded_do(lp)
+#endif
 #endif

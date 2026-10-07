@@ -77,21 +77,23 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `MDL_ARG_CAST=6` | shcmdl | keeps a variable in its argument register across a call only when the call is passed the variable itself | also when it is passed `&p->m` with m at offset 0, so `f(&p->first)` no longer moves p to a callee-saved register |
 | `MDL_GCSE=1` | shcmdl | lets later uses of a global variable read a copy that an earlier use in a dominating block kept in a register or on the stack | loads the global again at each use |
 | `MDL_IV=3` | shcmdl | forgets that a cast to `char` of an induction variable's multiple, `(char)(i * 6)`, is derived from the variable, so multiplies afresh on each pass | keeps the derivation, so the value steps by 6 like `i * 6` (a cast to `short` is still forgotten: the arcade does not reduce those) |
+| `MDL_LOOP_INV=31` | shcmdl | with `-speed`, copies the test of every loop whose trip count it does not know in front of the loop (`for`/`while` become `if (c) do ... while (c)`) | does so only where it would without `-speed`: when the test compares two local variables or constants and the loop holds no other loop; every other loop keeps one test, at the bottom, entered by a jump |
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=3` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier |
 
-The eighteen settings implement seventeen rules: the switch rule has two (`SWITCH_ARCADE_BRANCH` and `SWITCH_ARCADE_JUMP`).
+The nineteen settings implement eighteen rules: the switch rule has two (`SWITCH_ARCADE_BRANCH` and `SWITCH_ARCADE_JUMP`).
 
 0 gives Release 26 for each; the value shown is the default. `ASM_SPECREG` fixes a fault in Release 26 itself:
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,709 compile to the arcade's instructions with
-Release 26 and 8,684 with the rules; byte for byte, literal pools included, 1,780 and 8,082.
+Of the game's 10,048 C routines (sfIII3-cps3-decomp as published), 3,760 compile to the arcade's instructions with
+Release 26 and 8,930 with the rules; byte for byte, literal pools included, 1,803 and 8,355.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcgen/src/_poolrules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
+`rebuild/shcmdl/src/_ivrules.c`, `rebuild/shcmdl/src/_looprules.c`,
 `rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
 `tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
 
@@ -107,5 +109,6 @@ Off unless set.
 | `SHCGEN_REGTRACE=<file>` | shcgen | log every register choice |
 | `GEN_REMAP_LOG=<file>` | shcgen | log what the end-of-function move of register variables to r0-r3 sees |
 | `MDL_REGVAR_LOG=<file>` | shcmdl | log the register variables chosen and why |
+| `MDL_LOOP_LOG=<file>` | shcmdl | log each loop the inversion pass looks at, what it asked and whether it inverted the loop |
 | `ASM_NOSCHED=1` | shcasm | issue each scheduling window in input order |
 | `SHC_ALIGN_FILE=<file>` | shcasm | move named functions as if earlier code were longer |

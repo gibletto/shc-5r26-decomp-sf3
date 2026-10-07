@@ -107,6 +107,22 @@ fix("00417b60", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                   "    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {\n"
                   "      node->ivno = node->child->ivno;\n      return;\n    }\n    if (child_rank != rank) {\nLAB_00417c21:")])
 
+# --- MDL_LOOP_INV (src/_looprules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the five places where
+# select_loops_to_invert asks for -speed before it makes a loop a guarded do-loop
+fix("0040b5a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("(select_loops_to_invert(lp->child), g_options->unknown_20 != 0)) &&",
+                  "(select_loops_to_invert(lp->child), LOOP_SPEED(1))) &&"),
+                 ("          if (g_options->unknown_20 != 0) {\n            invert_loop_to_guarded_do(lp);\n          }\n",
+                  "          if (LOOP_SPEED(2)) {\n            invert_loop_to_guarded_do(lp);\n          }\n"),
+                 ("((expr->type & 0xf8) == 0x30)) {\n            if (g_options->unknown_20 != 0) {",
+                  "((expr->type & 0xf8) == 0x30)) {\n            if (LOOP_SPEED(4)) {"),
+                 ("              return;\n            }\n            if (g_options->unknown_20 != 0) {",
+                  "              return;\n            }\n            if (LOOP_SPEED(8)) {"),
+                 ("          else if (g_options->unknown_20 != 0) {", "          else if (LOOP_SPEED(16)) {"),
+                 # MDL_LOOP_LOG: the loop, and whether it was inverted
+                 ("      select_loops_to_invert(lp->next);\n    }\n", "      select_loops_to_invert(lp->next);\n    }\n    LOOP_LOG(lp);\n"),
+                 ("invert_loop_to_guarded_do(lp);", "LOOP_INVERT(lp);")])
+
 # --- MDL_GCSE (src/_gcserules.c, include/gcserules.h; only with SHC_REBUILD_UPDATED=1): where global common-expression
 # elimination may put a class's temporary (cse_eliminate_node), and what becomes of a class whose first member
 # cse_find_common_block drops (Release 26 reinserts the rest as a new class)
