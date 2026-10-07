@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "castmul.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cse_variables
 #define g_cse_variables (*(node_list * *)(g_sd + 0x267a4))
@@ -32,6 +33,7 @@ int __cdecl count_global_expressions(void)
       g_leaf_table[item->node->nleaf].lastnd = (il_node *)0x0;
     }
   }
+  CASTMUL_BEGIN();
   for (blk = g_f_chain->f_next; blk != (bblock *)0x0; blk = blk->f_next) {
     cse_global_block(blk);
   }

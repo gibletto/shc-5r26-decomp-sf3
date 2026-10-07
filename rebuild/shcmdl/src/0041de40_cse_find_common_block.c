@@ -60,7 +60,7 @@ bblock * __cdecl cse_find_common_block(il_node *node,int memory_kind)
       if ((item != (node_list *)0x0) &&
          (killed = stmts_modify_expr(item,node,memory_kind,2), killed != 0)) {
         piVar2 = cse_drop_class_head(node);
-        GCSE_REINSERT(piVar2);
+        GCSE_REINSERT(piVar2,node);
         goto LAB_0041dfcb;
       }
     }
@@ -93,7 +93,7 @@ LAB_0041df7e:
     if ((CONCAT31(extraout_var,not_cond) == 0) &&
        (killed = stmts_modify_expr(item,node,memory_kind,2), killed != 0)) {
       piVar2 = cse_drop_class_head(node);
-      GCSE_REINSERT(piVar2);
+      GCSE_REINSERT(piVar2,node);
       goto LAB_0041dfcb;
     }
   }
@@ -105,7 +105,7 @@ LAB_0041df7e:
     goto LAB_0041df7e;
   }
   piVar2 = cse_drop_class_head(node);
-  GCSE_REINSERT(piVar2);
+  GCSE_REINSERT(piVar2,node);
 LAB_0041dfcb:
   dom = (bblock *)0x0;
 LAB_0041dfcd:

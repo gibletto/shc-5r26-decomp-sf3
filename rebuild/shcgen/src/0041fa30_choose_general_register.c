@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "r0varrules.h"
 int shcgen_knob_tst_r0(void);
 int shcgen_knob_mul_l(void);
 void regtrace_site(int site, char *node);
@@ -39,7 +40,7 @@ short __cdecl choose_general_register(ushort excluded,ushort preferred,char asce
     reg = reg + 1;
     local_e[slot + 1] = -1;
   } while (reg < 6);
-  if (g_r0_variable != 0) {
+  if (R0VAR_AVOIDS(g_r0_variable)) {
     g_last_chosen_reg = '\0';
     g_avoid_reg_mask = 1;
   }
@@ -47,7 +48,7 @@ short __cdecl choose_general_register(ushort excluded,ushort preferred,char asce
   do {
     if (local_e[0] != -1) goto LAB_0041fbe3;
     if (pass == 1) {
-      if (g_r0_variable == 0) {
+      if (!R0VAR_HELD(g_r0_variable)) {
         if (ascending == '\x01') {
           reg = 0;
           scan_last = 3;
@@ -61,7 +62,7 @@ short __cdecl choose_general_register(ushort excluded,ushort preferred,char asce
         reg = 3;
         scan_last = 0;
         scan_step = -1;
-        if ((preferred & 1) != 0) {
+        if ((preferred & 1) != 0 && R0VAR_AVOIDS(g_r0_variable)) {
           preferred = preferred & 0xfffe;
         }
       }

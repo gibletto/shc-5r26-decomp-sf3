@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["shcmdl", "shcgen", "shcpep", "shcasm"]
 RULES = ["SWITCH_ARCADE_BRANCH", "SWITCH_ARCADE_JUMP", "XJUMP_OFF", "PEP_R0_FORGET", "SLOT_NO_STACK",
          "PEP_NO_THREAD", "GEN_TST_R0", "GEN_MUL_L", "MDL_ARG_CONST", "MDL_CAST_CSE", "MDL_ARG_CAST", "MDL_GCSE", "GEN_CHAIN_JUMP", "ASM_SPECREG", "ASM_MULWAIT",
-         "PEP_AUTOINC", "MDL_IV", "GEN_POOL_MOVLOC", "MDL_LOOP_INV"]
+         "PEP_AUTOINC", "MDL_IV", "GEN_POOL_MOVLOC", "MDL_LOOP_INV", "GEN_RELOAD", "GEN_EVICT_ORDER", "MDL_CAST_MUL", "MDL_MUL_CONST"]
 
 
 def normalize(obj):

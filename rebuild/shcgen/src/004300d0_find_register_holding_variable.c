@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "reloadrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_r0_variable
 #define g_r0_variable (*(short * *)(g_sd + 0x1f9a8))
@@ -43,6 +44,9 @@ short __cdecl find_register_holding_variable(gen_node *node)
   contents = g_gpr_contents;
 LAB_00430135:
   lreg = node->lreg;
+  if (RELOAD_LAST_USE(node)) {
+    return -1;
+  }
   lreg_no = (lreg ^ (short)lreg >> 0xf) - ((short)lreg >> 0xf);
   if (lreg == 0) {
     reg = 0;

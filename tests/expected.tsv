@@ -1,18 +1,23 @@
 # tests/cases outputs with the default rules (tests/parity.py)
 argconst	obj:0:eb362823120f996b src:0:3452e2d3f3e42645
 autoinc	obj:0:c675ffec03834995 src:0:e68a84e1cedba2bf
+castmul	obj:0:47281ff2ac0cfb9a src:0:b6542b25440fba88
 casts	obj:0:4c380e76dabf1659 src:0:1d69da113bee9e78
 chainjump	obj:0:bff139cff1e74c64 src:0:3c8a38f51cf8752c
-gcse	obj:0:316cfe1fd33811b7 src:0:cb8fec8e41ec2f1d
+evict	obj:0:00c7f1d1ff62322b src:0:b05aa4c24616744c
+gcse	obj:0:5a8e12b1c9cb9bd6 src:0:aaf7329a06a91dfc
 iv	obj:0:283c953a531ba354 src:0:dae4e3003c5b8b82
 loopinv	obj:0:17aca954239bbb4b src:0:9ecf907ec84a91d3
 macl	obj:0:ea63b8f8925c8c40 src:0:e81de2f0b154a545
+mulconst	obj:0:30dace8fb9dd251f src:0:0e61316853fc0938
 multiply	obj:0:1cc2332125168c4f src:0:6429f1bd53704e91
 multiply_opt0	obj:0:0eb0be46f65868f5 src:0:e9cf61dec86c85f9
 multiply_sh4	obj:0:46549dac23243b66 src:0:aa3889c06a563e86
 mulwait	obj:0:064ad1b94aedd27b src:0:9039b570dc75857b
 poolwin	obj:0:39aa1e59a953a0c4 src:0:ba47593d109604fe
+predec	obj:0:0b902f5ffb1bac31 src:0:8370bc02c913774b
 r0const	obj:0:649c68b5cb0accf9 src:0:e970d4ec9a56e1f8
+reload	obj:0:6d58cf245b938bf4 src:0:0a52bdf81621b8c6
 returns	obj:0:8cfe2e57273dd401 src:0:1d0122abb43f9635
 returns_size	obj:0:993cdd5394ef0547 src:0:75494ec991ac9a20
 slots	obj:0:6f886f419f0efbfc src:0:ca2b94669fc90061

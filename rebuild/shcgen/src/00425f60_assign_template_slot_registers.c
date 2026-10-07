@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "r0varrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_template_extra_operands
 #define g_template_extra_operands (*(ea * *)(g_sd + 0x18aa0))
@@ -406,6 +407,7 @@ LAB_0042696b:
         if (spec_kind != 0x180000) {
           uVar5 = uVar5 | 1;
         }
+        uVar5 = R0VAR_SLOT_PREF(node, uVar5);
         if ((*(char *)((int)&local_24 + iVar7) == '\x02') && (target_reg != -1)) {
           local_2c = (uint)tmpl->fclobbers;
           local_28 = (uint)tmpl->clobbers;

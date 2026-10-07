@@ -120,10 +120,40 @@ fix("0041bc70", [REMAP_INC, (RANGES_ON, "  if (contents == g_gpr_contents) {\n"
                                         "  }\n" + RANGES_ON)])
 fix("0041bae0", [REMAP_INC, (RANGES_ON, "  REMAP_MARK(\"rm\",mask,serial);\n" + RANGES_ON)])
 
+# --- GEN_R0VAR (src/_r0varrules.c, include/r0varrules.h): the statement's r0 variable
+R0VAR_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "r0varrules.h"\n')
+fix("0041c000", [R0VAR_INC, ("(g_r0_variable->count < entry->count)", "R0VAR_REPLACES(g_r0_variable->count, entry->count)")])
+fix("0041abe0", [R0VAR_INC, ("  initialize_node_descriptor_and_operand_slots(stmt);\n",
+                             "  initialize_node_descriptor_and_operand_slots(stmt);\n  if (R0VAR_DROP(g_r0_variable != 0 ? *(byte *)(g_r0_variable + 4) : -1, g_r0_variable != 0 ? *(short *)g_r0_variable : 0)) {\n    g_r0_variable = 0;\n  }\n")])
+fix("0041fa30", [R0VAR_INC, ("  if (g_r0_variable != 0) {\n    g_last_chosen_reg", "  if (R0VAR_AVOIDS(g_r0_variable)) {\n    g_last_chosen_reg"),
+                 ("      if (g_r0_variable == 0) {\n", "      if (!R0VAR_HELD(g_r0_variable)) {\n"),
+                 ("        if ((preferred & 1) != 0) {\n", "        if ((preferred & 1) != 0 && R0VAR_AVOIDS(g_r0_variable)) {\n")])
+fix("00425f60", [R0VAR_INC, ("        if (spec_kind != 0x180000) {\n          uVar5 = uVar5 | 1;\n        }\n",
+                              "        if (spec_kind != 0x180000) {\n          uVar5 = uVar5 | 1;\n        }\n        uVar5 = R0VAR_SLOT_PREF(node, uVar5);\n")])
+
 # --- GEN_POOL_MOVLOC (src/_poolrules.c, include/poolrules.h): the bytes a frame-slot load or store adds to the
 # literal pool window of an unoptimized unit
 fix("0042baa0", [('#include "imports.h"\n', '#include "imports.h"\n#include "poolrules.h"\n'),
                  ("  iVar2 = compute_record_code_size(rec);\n  code_bytes =",
                   "  iVar2 = POOL_RECORD_SIZE(rec,compute_record_code_size(rec));\n  code_bytes =")], once=True)
+
+# --- GEN_RELOAD (src/_reloadrules.c, include/reloadrules.h): the reference that ends a logical register's life (its
+# lreg number is written negated) finds no register copy of the variable
+fix("004300d0", [('#include "imports.h"\n', '#include "imports.h"\n#include "reloadrules.h"\n'),
+                 ("  lreg = node->lreg;\n", "  lreg = node->lreg;\n  if (RELOAD_LAST_USE(node)) {\n    return -1;\n  }\n")],
+    once=True)
+
+# --- GEN_EVICT_ORDER (src/_evictrules.c, include/evictrules.h): whether the oldest other register content is evicted
+# before or after the register's own old content is dropped (bit 1 a variable record, bit 2 a constant record), and
+# GEN_EVICT_LOG
+EVICT_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "evictrules.h"\n')
+for a, b, ind in (("0042f830", 1, "    "), ("0042faf0", 2, "  ")):
+    fix(a, [EVICT_INC,
+            (f"{ind}invalidate_register_contents(1 << (bit & 0x1f));\n{ind}evict_oldest_register_content(contents);\n",
+             f"{ind}EVICT_LOG({b},contents,reg);\n"
+             f"{ind}if (EVICT_BEFORE_INVALIDATE({b})) {{\n{ind}  evict_oldest_register_content(contents);\n{ind}}}\n"
+             f"{ind}invalidate_register_contents(1 << (bit & 0x1f));\n"
+             f"{ind}if (!EVICT_BEFORE_INVALIDATE({b})) {{\n{ind}  evict_oldest_register_content(contents);\n{ind}}}\n")],
+        once=True)
 
 print(f"shcgen-fixes: {n} replacements")

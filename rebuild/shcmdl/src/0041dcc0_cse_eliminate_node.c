@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "castmul.h"
 #include "gcserules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cse_variables
@@ -32,6 +33,7 @@ il_node * __cdecl cse_eliminate_node(il_node *node)
   il_op op;
   node_list **prev_link;
   
+  CASTMUL_VISIT(node);
   op = node->op;
   if (((((op == IL_ID) && (0 < node->symx)) && (sym = g_symtab + node->symx, (sym->attr & 3) == 0))
       && (((sym->unknown_38 == -1 && ('\0' < sym->sclass)) && (sym->sclass < '\x05')))) ||
@@ -70,7 +72,7 @@ il_node * __cdecl cse_eliminate_node(il_node *node)
     do {
       for (pnVar2 = *ppnVar3; pnVar2 != (node_list *)0x0; pnVar2 = pnVar2->next) {
         if (((pnVar2->node == node) && (node->cse_next != (il_node *)0x0)) &&
-           (blk = cse_find_common_block(node,(uint)((node->flag2 & 8) != 0)), blk != (bblock *)0x0) && GCSE_BLOCK_OK(node,blk))
+           (blk = cse_find_common_block(node,(uint)((node->flag2 & 8) != 0)), blk != (bblock *)0x0) && GCSE_BLOCK_OK(node,blk) && CASTMUL_OK(node,blk))
         {
           stmt = cse_find_using_stmt(blk,node);
           stmt = cse_replace_with_temp(stmt,node,blk);

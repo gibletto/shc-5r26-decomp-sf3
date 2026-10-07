@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "r0varrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -31,6 +32,9 @@ int __cdecl generate_statement_expression(gen_node *stmt,short true_label,short 
   g_used_fpr_mask = g_used_fpr_mask & 0xfff0;
   reset_r0_variable_candidates();
   initialize_node_descriptor_and_operand_slots(stmt);
+  if (R0VAR_DROP(g_r0_variable != 0 ? *(byte *)(g_r0_variable + 4) : -1, g_r0_variable != 0 ? *(short *)g_r0_variable : 0)) {
+    g_r0_variable = 0;
+  }
   if (g_r0_variable != 0) {
     if ((int)(g_deref_total - (uint)*(byte *)(g_r0_variable + 4)) <
         (int)((uint)*(byte *)(g_r0_variable + 4) * 2 + -1)) {

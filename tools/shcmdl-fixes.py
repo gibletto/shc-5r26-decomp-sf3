@@ -77,6 +77,8 @@ def argconst(addr, group, with_occ=True):
         regex=True)
 
 
+# MDL_MUL_CONST (the same file and the same four hooks): mdl_argconst_fit answers for a multiply's constant itself,
+# so the rule needs no hook of its own
 argconst("00407b30", 1)          # weigh_common_expression_candidates
 argconst("0041b9b0", 2)          # materialize_constant_lreg
 argconst("0041c190", 2)          # write_lreg_numbers
@@ -132,8 +134,20 @@ fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"'),
 fix("0041dcc0", [(r"(blk = cse_find_common_block\(node,\(uint\)\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\))",
                   r"\1 && GCSE_BLOCK_OK(node,blk)")], regex=True)
 fix("0041de40", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"')])
-fix("0041de40", [(r"(= cse_drop_class_head\(node\);\s*)cse_reinsert_class\((\w+)\);", r"\1GCSE_REINSERT(\2);")],
+fix("0041de40", [(r"(= cse_drop_class_head\(node\);\s*)cse_reinsert_class\((\w+)\);", r"\1GCSE_REINSERT(\2,node);")],
     regex=True)
+
+# --- MDL_CAST_MUL (src/_castmulrules.c, include/castmul.h; only with SHC_REBUILD_UPDATED=1): global
+# common-expression elimination notes the heads of the classes of (long)short_variable as it walks the blocks
+# (count_global_expressions, cse_eliminate_node), and asks before a class of arithmetic expressions takes a temporary
+fix("0041d060", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
+                 ("  for (blk = g_f_chain->f_next; blk != (bblock *)0x0; blk = blk->f_next) {\n    cse_global_block(blk);",
+                  "  CASTMUL_BEGIN();\n  for (blk = g_f_chain->f_next; blk != (bblock *)0x0; blk = blk->f_next) {\n"
+                  "    cse_global_block(blk);")])
+fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
+                 ("\n  op = node->op;\n", "\n  CASTMUL_VISIT(node);\n  op = node->op;\n")])
+fix("0041dcc0", [(r"(\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\) && GCSE_BLOCK_OK\(node,blk\))",
+                  r"\1 && CASTMUL_OK(node,blk)")], regex=True)
 
 # --- MDL_REGVAR_LOG (src/_regvarlog.c, include/regvarlog.h; only with SHC_REBUILD_UPDATED=1): the register variables
 # assign_physical_registers chose

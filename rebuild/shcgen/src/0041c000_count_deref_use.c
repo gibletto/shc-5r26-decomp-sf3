@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "r0varrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_deref_count_cursor
 #define g_deref_count_cursor (*(deref_count * *)(g_sd + 0x1fa18))
@@ -33,7 +34,7 @@ int __cdecl count_deref_use(gen_node *id)
     found->count = found->count + '\x01';
     entry = found;
   }
-  if ((g_r0_variable == (deref_count *)0x0) || (g_r0_variable->count < entry->count)) {
+  if ((g_r0_variable == (deref_count *)0x0) || R0VAR_REPLACES(g_r0_variable->count, entry->count)) {
     g_r0_variable = entry;
   }
   return;

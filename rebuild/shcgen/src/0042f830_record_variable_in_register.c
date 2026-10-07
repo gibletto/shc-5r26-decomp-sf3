@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "evictrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_lreg_table
 #define g_lreg_table (*(short * *)(g_sd + 0x1fa10))
@@ -93,8 +94,14 @@ LAB_0042f967:
     if (is_fpr) {
       bit = bVar1 + 0x10;
     }
+    EVICT_LOG(1,contents,reg);
+    if (EVICT_BEFORE_INVALIDATE(1)) {
+      evict_oldest_register_content(contents);
+    }
     invalidate_register_contents(1 << (bit & 0x1f));
-    evict_oldest_register_content(contents);
+    if (!EVICT_BEFORE_INVALIDATE(1)) {
+      evict_oldest_register_content(contents);
+    }
     slot = contents + reg;
     slot->value = (int)node->symx;
     (slot->u).lreg = lreg_no;

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "evictrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -76,8 +77,14 @@ LAB_0042fbe8:
   if (is_fpr) {
     bit = bVar1 + 0x10;
   }
+  EVICT_LOG(2,contents,reg);
+  if (EVICT_BEFORE_INVALIDATE(2)) {
+    evict_oldest_register_content(contents);
+  }
   invalidate_register_contents(1 << (bit & 0x1f));
-  evict_oldest_register_content(contents);
+  if (!EVICT_BEFORE_INVALIDATE(2)) {
+    evict_oldest_register_content(contents);
+  }
   slot->value = value->disp;
   sVar2 = 0;
   labels = value->labels;

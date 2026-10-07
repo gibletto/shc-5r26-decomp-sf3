@@ -4,11 +4,11 @@
 #define GCSERULES_H
 #if SHC_REBUILD_UPDATED
 extern int mdl_gcse_block_ok(il_node *node, bblock *block);
-extern void mdl_gcse_reinsert(il_node *rest);
+extern void mdl_gcse_reinsert(il_node *rest, il_node *head);
 #define GCSE_BLOCK_OK(node, block) mdl_gcse_block_ok(node, block)
-#define GCSE_REINSERT(rest) mdl_gcse_reinsert(rest)
+#define GCSE_REINSERT(rest, head) mdl_gcse_reinsert(rest, head)
 #else
 #define GCSE_BLOCK_OK(node, block) 1
-#define GCSE_REINSERT(rest) cse_reinsert_class(rest)
+#define GCSE_REINSERT(rest, head) cse_reinsert_class(rest)
 #endif
 #endif
