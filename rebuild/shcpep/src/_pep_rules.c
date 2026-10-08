@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "decls.h"
+#include "imports.h"
 #include "pep_rules.h"
 
 static int env_int(const char *name, int dflt)
@@ -72,7 +74,8 @@ int pep_keep_target_head(int pred, unsigned char *head)
 int pep_no_thread(void) { return env_int("PEP_NO_THREAD", 28); }
 
 static unsigned char xj_labels[8192];      /* the labels make_common_code_block made in this function, a bit each */
-void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); }
+static int pep_ret_merged;
+void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); pep_ret_merged = 0; }
 void pep_xj_label_mark(short l) { unsigned short u = (unsigned short)l; xj_labels[u >> 3] |= (unsigned char)(1 << (u & 7)); }
 static int pep_xj_label_made(short l) { unsigned short u = (unsigned short)l; return l != 0 && (xj_labels[u >> 3] >> (u & 7)) & 1; }
 int pep_xj_label_was_made(short l) { return pep_xj_label_made(l); }
@@ -87,30 +90,133 @@ int pep_no_thread_here(int *blk, int *dest)
   return 0;
 }
 
+/* PEP_RET_R0: returns that end in the same instructions. Bits (unset: 7; 0: Release 26):
+   1  the jump temporary of a RETURN record (the register a far jump to the function's exit may use) is r0.
+      shcgen writes none for a RETURN; shcpep gives the record one when it loads it (read_sua_pseudo_instruction):
+      r1 in Release 26. The temporary is what the later passes ask about:
+      - cross-jumping stops a common tail at the first record, counted back from the jump, that uses the temporary
+        of the earlier block's final record (count_common_tail_records). With r0 two returns share a tail only as
+        far back as it leaves r0 alone: "return 0;" and "return x;" tails (mov #K,r0) are never shared, a store or
+        a call with its arguments in front of "return;" is (effect_59_move, comm_sajp, effect_A9_move). Two
+        RETURNs are held to r0 whatever temporary the earlier one carries: a JUMP that the load-time chain rewrite
+        turned into a RETURN (rewrite_branch_target_chains) keeps Release 26's r1 for a JUMP that meets it
+        (sa_gauge_color_set shares mov.w r0,@(12,r5) with such a block), but two of them do not share mov #2,r0
+        (defense_ground);
+      - a record that uses the temporary cannot fill the delay slot of that jump, so a jump made from a RETURN
+        keeps a nop behind an r0 record (mov.w r3,@(r0,r14) / bra / nop in effect_59_move,
+        get_damage_reaction_data, Setup_Win_Mark) where the jump of a "break" takes it (effect_L2_move).
+   2  inside a switch a RETURN's tail is not shared when it is the whole of the later block and that block
+      starts at a label: seven such blocks stay apart in the arcade (effect_D0_move three times, effH5_0004,
+      Win_07000, effect_I2_move, effect_G6_move) and none is shared; outside a switch they are shared
+      (get_damage_reaction_data). An observed class: the stage's reason for it is not known.
+   4  when two RETURN tails were shared in a function its exit block stays although no branch reaches it any
+      more: every path now ends in a tail call, and the arcade still has the unreached epilogue and rts behind
+      the last jump (comm_rljmp, comm_ifcom, comm_ifrlf, comm_ayjmp, comm_rngc, comm_pjmp). Release 26's flow
+      pass (simplify_flow_block) drops a block that follows an unconditional transfer and has no predecessor;
+      a tail shared with the fall-through into the exit label (mode 1) leaves none behind (sa_gauge_trans). */
+int pep_ret_r0(void) { return env_int("PEP_RET_R0", 7); }
+
+/* the exit block (PEP_RET_R0 bit 4), from simplify_flow_block: 1 = keep a block no branch reaches. pep_ret_merged
+   is set when two RETURN tails are shared (mode 2) and cleared at the start of a function. */
+int pep_exit_kept(void *fb)
+{
+  flow_block *b = (flow_block *)fb;
+  code_node *node = b->code;
+  symbol *sym;
+  short labno;
+  if ((pep_ret_r0() & 4) == 0 || !pep_ret_merged || (b->flags & 2) == 0 || node == 0 || (labno = node->labno) < 0xb7)
+    return 0;
+  for (sym = g_symbol_hash[labno % 0x3fd]; sym && sym->number != labno; sym = sym->hash_next) ;
+  return sym != 0 && sym->ref_count > 0;
+}
+
 /* XJUMP_OFF: cross-jumping (merge_common_block_tails, the stage's "comcd"). When a block ends in a JUMP or RETURN
    ('$' / '"') or a LABEL arrives (0x18), find_block_with_common_tail looks for an earlier block with the same tail
    going to the same place (mode 2: both end in it; mode 1: one falls through into it) and the matching tail is
-   shared. The arcade merges JUMP and LABEL tails but not RETURN tails: XJUMP_OFF=2 (unset).
-   A value rejects a match: 1 on its own = every match; otherwise bits 1-3 pick the kind (2 RETURN, 4 JUMP,
+   shared. A value rejects a match: 1 on its own = every match; otherwise bits 1-3 pick the kind (2 RETURN, 4 JUMP,
    8 LABEL; none = all) and bits 4-5 the mode (16 mode 1, 32 mode 2; none = both); 64 leaves tails with a call
-   merged. XJUMP_MIN=n: tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (the function, kind, mode,
-   count, verdict, the tail's opcodes last first). */
-char xjump_tail[256];
+   merged. Unset: 0 with PEP_RET_R0 (the tails the arcade does not merge fall out of the return's temporary), 2
+   without it (no RETURN tail merges, the rule PEP_RET_R0 replaces).
+   XJUMP_MIN=n: tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (the function, kind,
+   mode, count, verdict, the tail's records last first as op:source>destination, jt= the jump temporaries of the
+   two final records, pv= the record in front of the tail in each block (0: the tail is the whole block), sw= the
+   switches open, # the match's number in the function). XJUMP_FLIP=<function>:<n>[,...] turns the verdict of that
+   match round. */
+char xjump_tail[1024];
+int xjump_jt_a, xjump_jt_b;
+
+static void xj_ea(char *d, unsigned char *o)
+{
+  if (!o) { strcpy(d, "-"); return; }
+  if ((o[0] & 0x1f) == 7) sprintf(d, "#%d", *(int *)(o + 4));
+  else if ((o[0] & 0x1f) == 9) sprintf(d, "%x.%d.%d", o[0] & 0x1f, (signed char)o[1], (signed char)o[2]);
+  else sprintf(d, "%x.%d", o[0] & 0x1f, (signed char)o[1]);
+}
 
 void xjump_tail_add(unsigned char *rec)
 {
   size_t n = strlen(xjump_tail);
-  unsigned char *o = *(unsigned char **)(rec + 0x10);
-  if (n < sizeof xjump_tail - 24) {
-    if (*rec == 0x2a && o) sprintf(xjump_tail + n, "%02x#%d.", *rec, *(int *)(o + 4));
-    else sprintf(xjump_tail + n, "%02x.", *rec);
+  char a[32], b[32];
+  if (n < sizeof xjump_tail - 80) {
+    if (*rec >= 0x20) {
+      xj_ea(a, *(unsigned char **)(rec + 0x10)); xj_ea(b, *(unsigned char **)(rec + 0x14));
+      sprintf(xjump_tail + n, "%02x:%s>%s;", *rec, a, b);
+    }
+    else sprintf(xjump_tail + n, "%02x;", *rec);
   }
+}
+
+/* the record in front of the common tail in each block (0: the tail is the whole block) */
+int xjump_prev_a, xjump_prev_b;
+void xjump_prev(void *ba, void *ta, void *bb, void *tb)
+{
+  unsigned char *p;
+  xjump_prev_a = xjump_prev_b = -1;
+  if (ta) { p = (unsigned char *)find_previous_psd_record(ba, ta); xjump_prev_a = p ? *p : 0; }
+  if (tb) { p = (unsigned char *)find_previous_psd_record(bb, tb); xjump_prev_b = p ? *p : 0; }
+}
+
+/* diagnostics for the log: switches open at this point of the function being loaded, and whether the current
+   block starts at a case or default label */
+static int xj_switch_depth(void)
+{
+  code_node *b, *n; int i, d = 0;
+  for (b = g_current_node_list; b; b = b->next_block)
+    for (n = b; n; n = n->next)
+      for (i = 0; i < 15; i++) {
+        if (n->psd[i].op == OP_SWBGN) d++;
+        else if (n->psd[i].op == OP_SWEND) d--;
+      }
+  for (n = g_current_block; n; n = n->next)
+    for (i = 0; i < 15; i++) {
+      if (n->psd[i].op == OP_SWBGN) d++;
+      else if (n->psd[i].op == OP_SWEND) d--;
+    }
+  return d;
+}
+
+/* XJUMP_FLIP=<function>:<n>[,...] (diagnostic): the verdict of the function's n-th match (from 0) is turned round */
+static int xjump_flip(const char *fn, int n)
+{
+  char *v = getenv("XJUMP_FLIP"), key[160];
+  size_t k;
+  if (!v) return 0;
+  sprintf(key, "%.140s:%d", fn, n);
+  k = strlen(key);
+  for (; v && *v; v = strchr(v, ','), v = v ? v + 1 : v)
+    if (strncmp(v, key, k) == 0 && (v[k] == ',' || v[k] == 0)) return 1;
+  return 0;
 }
 
 int xjump_reject(char kind, int mode, int count)
 {
-  int v = env_int("XJUMP_OFF", 2), kinds, modes, r = 0;
+  static char last_fn[160];
+  static int seq;
+  int v = env_int("XJUMP_OFF", (pep_ret_r0() & 1) ? 0 : 2), kinds, modes, r = 0;
   char *lg = getenv("XJUMP_LOG");
+  const char *fn = pep_current_function();
+  if (strncmp(last_fn, fn, sizeof last_fn - 1) != 0) { strncpy(last_fn, fn, sizeof last_fn - 1); seq = 0; }
+  else seq++;
   if (v != 0) {
     kinds = v & 0xe; modes = v & 0x30;
     r = (v == 1) || ((kinds == 0 || (kind == '"' && (kinds & 2)) || (kind == '$' && (kinds & 4)) ||
@@ -118,11 +224,15 @@ int xjump_reject(char kind, int mode, int count)
                      (modes == 0 || (mode == 1 && (modes & 16)) || (mode == 2 && (modes & 32))));
   }
   if (r && env_int("XJUMP_MIN", 0) > 0 && count >= env_int("XJUMP_MIN", 0)) r = 0;
-  if (r && (v & 0x40) && strstr(xjump_tail, "23.")) r = 0;
+  if (r && (v & 0x40) && strstr(xjump_tail, "23:")) r = 0;
+  if (!r && kind == '"' && mode == 2 && (pep_ret_r0() & 2) && xjump_prev_a >= 0x18 && xjump_prev_a <= 0x1a &&
+      xj_switch_depth() > 0) r = 1;
+  if (xjump_flip(fn, seq)) r = !r;
+  if (!r && kind == '"' && mode == 2) pep_ret_merged = 1;
   if (lg) {
     FILE *f = fopen(lg, "a");
-    if (f) { fprintf(f, "%s %s %d %d %s %s\n", pep_current_function(), kind == '"' ? "RET" : kind == '$' ? "JMP" : "LBL", mode, count, r ? "keep" : "merge",
-                      xjump_tail); fclose(f); }
+    if (f) { fprintf(f, "%s %s %d %d %s %s jt=%d,%d pv=%x,%x sw=%d #%d\n", fn, kind == '"' ? "RET" : kind == '$' ? "JMP" : "LBL", mode, count,
+                     r ? "keep" : "merge", xjump_tail[0] ? xjump_tail : "-", xjump_jt_a, xjump_jt_b, xjump_prev_a, xjump_prev_b, xj_switch_depth(), seq); fclose(f); }
   }
   return r;
 }

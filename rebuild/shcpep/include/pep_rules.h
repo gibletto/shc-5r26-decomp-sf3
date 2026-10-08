@@ -32,6 +32,22 @@ int xjump_reject(char kind, int mode, int count);
 #define XJUMP_FILTER(mode, kind)   ((mode) != 0 && xjump_reject((char)(kind), (mode), g_common_tail_count) ? ((mode) = 0) : 0)
 void xjump_tail_add(unsigned char *rec);
 #define XJ_TAIL(rec) xjump_tail_add(rec)
+/* the XJUMP_LOG fields jt= (the jump temporaries of the two blocks' final records) and pv= (the record in front
+   of the tail in each block) */
+extern int xjump_jt_a, xjump_jt_b;
+#define XJ_JT(a, b) (xjump_jt_a = (a), xjump_jt_b = (b))
+void xjump_prev(void *ba, void *ta, void *bb, void *tb);
+#define XJ_PREV(ba, ta, bb, tb) xjump_prev(ba, ta, bb, tb)
+
+/* PEP_RET_R0 */
+int pep_ret_r0(void);
+#define PEP_RET_TMP(t) ((char)((pep_ret_r0() & 1) ? 0 : (t)))
+/* two RETURNs: the shared tail leaves r0 alone whatever temporary the earlier one carries */
+#define PEP_RET_PAIR(a, b, t) (((pep_ret_r0() & 1) && (a)->op == OP_RETURN && (b)->op == OP_RETURN) ? ((t) = 0) : 0)
+
+/* the exit block after merged returns (bit 4) */
+int pep_exit_kept(void *flow_block);
+#define PEP_EXIT_KEPT(b) pep_exit_kept(b)
 
 /* diagnostics (src/_pep_dump.c): PEP_DUMP, the function name and the TAIL/NEXT lines of XJUMP_LOG */
 void pep_dump(const char *tag, void *list);
@@ -56,6 +72,11 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_no_thread() 0
 #define pep_no_thread_here(blk, dest) 0
 #define XJ_TAIL(rec) ((void)0)
+#define XJ_JT(a, b) ((void)0)
+#define XJ_PREV(ba, ta, bb, tb) ((void)0)
+#define PEP_RET_TMP(t) (t)
+#define PEP_RET_PAIR(a, b, t) 0
+#define PEP_EXIT_KEPT(b) 0
 #define XJUMP_FILTER(mode, kind) 0
 #define pep_autoinc() 0
 #endif

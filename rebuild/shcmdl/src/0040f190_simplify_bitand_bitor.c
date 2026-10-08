@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "maskrules.h"
 
 // entry: 0040f190
 // name : simplify_bitand_bitor
@@ -81,6 +82,9 @@ il_node * __cdecl simplify_bitand_bitor(il_node *node)
       }
       uVar5 = is_const_value(piVar4,0xffff,node->type);
       if ((uVar5 == 0) && (uVar6 = is_const_value(piVar4,0xff,node->type), uVar6 == 0)) {
+        return node;
+      }
+      if (MASK_TO_CAST(node,piVar4,1) == 0) {
         return node;
       }
       piVar4 = copy_tree(0,node->child);

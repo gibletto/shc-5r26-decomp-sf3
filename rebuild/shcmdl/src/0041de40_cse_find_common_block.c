@@ -110,7 +110,7 @@ LAB_0041dfcb:
   dom = (bblock *)0x0;
 LAB_0041dfcd:
   if (g_cse_split_head != (il_node *)0x0) {
-    cse_reinsert_class(g_cse_split_head);
+    GCSE_SPLIT(g_cse_split_head);
   }
   return dom;
 }

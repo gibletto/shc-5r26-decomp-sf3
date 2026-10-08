@@ -38,3 +38,18 @@ void bg_blink(void)
         bgw_ptr->deff = 0;
     on(2);
 }
+
+/* a row's address shared by a test and an argument, then used again after each call */
+extern char rank_in[2][4];
+extern void name_in(int, int);
+
+void name_in_all(id)
+short id;
+{
+    if (rank_in[id][0] >= 0)
+        name_in(id, rank_in[id][0]);
+    if (rank_in[id][1] >= 0)
+        name_in(id, rank_in[id][1] + 5);
+    if (rank_in[id][2] >= 0)
+        name_in(id, rank_in[id][2] + 10);
+}

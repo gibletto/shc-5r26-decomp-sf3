@@ -5,7 +5,7 @@
    temporary, assigned in the common dominator of its members that cse_find_common_block returns, so a value used in
    several blocks is computed once.
 
-   MDL_GCSE=<bits> (unset: 3; 0: Release 26)
+   MDL_GCSE=<bits> (unset: 11; 0: Release 26)
      1  no temporary for a global variable in a dominator that is none of the members' blocks when that block uses
         the variable itself: Release 26 appends tmp = variable at the end of such a block and the later uses read
         tmp; the arcade loads the variable again at each use (end_C00_anim, bg_fam0C00).
@@ -18,19 +18,39 @@
         reinserts the remaining members as a new class and tries again, which moves a load that two switch cases
         make (before any call) up into the switch head (op_bg0_0016's bgw_ptr) and copies a global's address that
         is already in a register (settle_type_00000's pcon_rno). Evidence over the Street Fighter III build
-        (10,048 C routines): the rule changes the code of 152 routines, none of them among the routines that
-        matched the arcade without it; 126 come closer to the arcade and 34 match it outright (plcnt_move,
-        move_player_work, settle_type_10000, check_16, check_22, check_24, check_25, bg_fam0900, jijii_jump).
-        Taking the rule back at one dropped head at a time in those routines makes 117 heads worse and 25 better,
-        the 25 all in routines that match under neither setting; where one of those was followed up the
-        reinsertion was standing in for a source spelling (effect_F1_move, check_5).
+        (10,053 C routines, with rule 8 on): the rule changes the code of 117 routines, none of them among the
+        routines that match the arcade without it; 99 come closer to the arcade and 27 match it outright. Taking
+        the rule back at one dropped head at a time in those routines makes 90 heads worse and 19 better, the 19
+        all in routines that match under neither setting; where one of those was followed up the reinsertion was
+        standing in for a source spelling (effect_F1_move, check_5). (When the rule went in, on 10,048 routines
+        and sources written against Release 26's behaviour, the same counts were 152 routines, 126 closer, 34
+        matching, 117 heads worse and 25 better.)
+     8  the other new class Release 26 makes: as cse_find_common_block walks a class's members it takes out each
+        one whose value a path from the common dominator changes (a call or a store on the way, for a memory
+        reference or a global), keeps the class of those it could reach, and when it has taken out two or more
+        it reinserts them as a class of their own, which is tried in turn. The arcade gives them up: only the
+        members reached from the first one share a temporary, and every later one computes the expression itself
+        (Name_In_Sub: &Rank_In[PL_id] is shared by the test and the argument before the first call and computed
+        again at each of the six uses after it, where Release 26 shares it pair by pair; debug_lever_repeat's
+        &Debug_Rep_Timer[ix]; sound_driver_tick loads snd_fade_speed in both arms of an if). Rules 2 and 8
+        together say that a class is tried once: the arcade never makes a second class out of the members
+        the first try left behind. Evidence over the same build: Release 26 makes 579 such classes in 324
+        routines; giving them up changes the code of 52 routines, none of them among the 9,092 that match the
+        arcade without the rule; 41 come closer by score (44 by the instructions they hold, order aside) and 7
+        match outright (Setup_Lever_LR, grade_check_tairyokusa, debug_draw_position_delta, chase_start_check,
+        EFF42_SLIDE_IN, init_app_10000, pli_3000). Keeping Release 26's class at one place at a time in those
+        routines makes 62 places worse and 9 better, the 9 all in routines that match under neither setting; of
+        those read against the listing, three have the arcade's instructions with the rule and lose score to
+        instruction order or to a register assignment that moves as a whole (Name_In_Sub, sound_driver_tick,
+        effect_F0_move), the others are in routines below 86% (debug_pattern_entry_copy_dual, stngauge_control,
+        EFF69_SLIDE_IN, Setup_Command_Name, combo_window_trans, Auto_Repeat_Sub_Wife) and decide nothing.
    MDL_GCSE_LOG=<file> (a diagnostic, off unless set) lists each temporary rules 1 and 4 refuse. */
 #include "decls.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define GCSE_DEFAULT 3
+#define GCSE_DEFAULT 11
 
 static int gcse_bits(void)
 {
@@ -163,6 +183,74 @@ void mdl_gcse_reinsert(il_node *rest, il_node *head)
         return;
     }
     for (member = rest; member != 0; member = next) {
+        next = member->cse_next;
+        member->cse_next = 0;
+        member->cse_head = 0;
+        member->refcnt = 0;
+    }
+}
+
+/* diagnostics for rule 8, as for rule 2: MDL_GCSE8_LOG=<file> lists each set of members taken out of a class
+   (function, event number in the function, whether Release 26's new class was kept, operator, type, symbol, the
+   members); MDL_GCSE8_EXC=<file> holds "function event" lines at which Release 26's new class is kept. */
+static int gcse8_event(il_node *head)
+{
+    static FILE *log = (FILE *)1;
+    static char *exc = (char *)1;
+    static il_node *func;
+    static int count;
+    const char *name = g_symtab[g_func_node->symx].name;
+    il_node *member;
+    int keep = 0;
+    if (func != g_func_node) {
+        func = g_func_node;
+        count = 0;
+    }
+    count++;
+    if (exc == (char *)1) {
+        const char *p = getenv("MDL_GCSE8_EXC");
+        FILE *f = (p && *p) ? fopen(p, "r") : 0;
+        exc = 0;
+        if (f) {
+            long n;
+            exc = malloc(1 << 20);
+            n = (long)fread(exc + 1, 1, (1 << 20) - 3, f);
+            exc[0] = '\n';
+            exc[n + 1] = '\n';
+            exc[n + 2] = 0;
+            fclose(f);
+        }
+    }
+    if (exc) {
+        char key[300];
+        sprintf(key, "\n%.200s %d\n", name, count);
+        keep = strstr(exc, key) != 0;
+    }
+    if (log == (FILE *)1) {
+        const char *p = getenv("MDL_GCSE8_LOG");
+        log = (p && *p) ? fopen(p, "a") : 0;
+    }
+    if (log) {
+        fprintf(log, "%s\t%d\t%d\t%d\t0x%x\t%s\t%d\t", name, count, keep, (int)head->op, (unsigned)head->type,
+                head->op == IL_ID && head->symx > 0 ? g_symtab[head->symx].name : "-", head->refcnt);
+        for (member = head; member != 0; member = member->cse_next)
+            fprintf(log, "B%d/L%d ", member->cse_block ? member->cse_block->number : -1, member->line);
+        fputc('\n', log);
+        fflush(log);
+    }
+    return keep;
+}
+
+/* the members cse_find_common_block took out of a class because a path from the dominator changes their value (two
+   or more of them, chained from head) */
+void mdl_gcse_split(il_node *head)
+{
+    il_node *member, *next;
+    if (!(gcse_bits() & 8) || gcse8_event(head)) {
+        cse_reinsert_class(head);
+        return;
+    }
+    for (member = head; member != 0; member = next) {
         next = member->cse_next;
         member->cse_next = 0;
         member->cse_head = 0;

@@ -156,4 +156,12 @@ for a, b, ind in (("0042f830", 1, "    "), ("0042faf0", 2, "  ")):
              f"{ind}if (!EVICT_BEFORE_INVALIDATE({b})) {{\n{ind}  evict_oldest_register_content(contents);\n{ind}}}\n")],
         once=True)
 
+# --- GEN_MEM_INDEX (src/_memindexrules.c, include/memindexrules.h): fold_address_add's cases 8 and 9, a memory operand
+# beside a register other than r0, are left to the add template instead of loading the memory operand into r0
+R0_INDEX = "    if ({side}_class == 7) {{\n      g_r0_used = 1;\n      reg = 0;\n    }}\n"
+fix("004187b0", [('#include "imports.h"\n', '#include "imports.h"\n#include "memindexrules.h"\n')]
+    + [(R0_INDEX.format(side=side),
+        f"    if ({side}_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {{\n      return 0;\n    }}\n"
+        + R0_INDEX.format(side=side)) for side in ("left", "right")], once=True)
+
 print(f"shcgen-fixes: {n} replacements")

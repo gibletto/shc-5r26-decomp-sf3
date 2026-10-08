@@ -77,6 +77,9 @@ char __cdecl simplify_flow_block(flow_block *block)
   }
   edge = block->preds;
   if (edge == (flow_edge *)0x0) {
+    if (PEP_EXIT_KEPT(block)) {
+      return 0;
+    }
     if ((block->prev->flags & 1) != 0) {
       result = unlink_unreferenced_flow_block(block);
       return result;

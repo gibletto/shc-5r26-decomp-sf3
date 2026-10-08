@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 
 // entry: 00406760
 // name : read_sua_pseudo_instruction
@@ -45,7 +46,7 @@ uint __cdecl read_sua_pseudo_instruction(psd *rec)
     result = read_sua_label_operand(rec);
     if (result != 0xffffffff) {
       rec->flg = '\0';
-      rec->tmp = '\x01';
+      rec->tmp = PEP_RET_TMP('\x01');
       return result;
     }
     break;

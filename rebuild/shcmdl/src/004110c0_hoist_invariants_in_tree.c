@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cur_loop
 #define g_cur_loop (*(loop * *)(g_sd + 0x26ac8))
@@ -46,7 +47,7 @@ int __cdecl hoist_invariants_in_tree(il_node *node)
     goto switchD_004110f2_caseD_21;
   case IL_ASTER:
     ty = node->type & 0xf0;
-    if (((ty != 0x80) && (ty != 0x90)) && ((g_licm_pass != 0 || ((ty != 0x60 && (ty != 0x70)))))) {
+    if (((ty != 0x80) && (ty != 0x90)) && ((IV_LICM_PASS(2) != 0 || ((ty != 0x60 && (ty != 0x70)))))) {
       op = node->parent->op;
       if (((('/' < (char)op) && ((char)op < '>')) || (('O' < (char)op && ((char)op < '`')))) &&
          ((node->type & 0xf8) == 0x40)) {
@@ -61,7 +62,7 @@ int __cdecl hoist_invariants_in_tree(il_node *node)
     goto switchD_004110f2_caseD_21;
   case IL_QUALIFY:
   case IL_B_QUALIFY:
-    if ((g_licm_pass != 0) ||
+    if ((IV_LICM_PASS(1) != 0) ||
        ((((node->type & 0xf8) != 0x40 && (ty = node->type & 0xf0, ty != 0x80)) && (ty != 0x90)))) {
       node->invno = '\0';
       goto LAB_00411315;

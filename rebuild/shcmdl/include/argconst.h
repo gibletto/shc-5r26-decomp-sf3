@@ -23,12 +23,21 @@ extern il_node *mdl_arg_as_variable(il_node *arg);
 #define ARG_AS_VARIABLE(a) (a)
 #endif
 
-/* MDL_IV (src/_ivrules.c), with SHC_REBUILD_UPDATED=1 */
+/* MDL_IV, MDL_IV_BASE and MDL_IV_TEMP (src/_ivrules.c), with SHC_REBUILD_UPDATED=1 */
 #if SHC_REBUILD_UPDATED
 extern int mdl_iv_rules(void);
+extern int mdl_iv_licm_pass(int pass, int bit);
 #define IV_RULES() mdl_iv_rules()
+#define IV_LICM_PASS(bit) mdl_iv_licm_pass(g_licm_pass, bit)
+extern int mdl_iv_reuse_temp(il_node *assign);
+#define IV_REUSE_TEMP(a) mdl_iv_reuse_temp(a)
+extern int mdl_iv_skip_use(il_node *expr);
+#define IV_SKIP_USE(e) mdl_iv_skip_use(e)
 #else
 #define IV_RULES() 0
+#define IV_LICM_PASS(bit) g_licm_pass
+#define IV_REUSE_TEMP(a) 1
+#define IV_SKIP_USE(e) 0
 #endif
 
 /* MDL_LOOP_INV and MDL_LOOP_LOG (src/_looprules.c), with SHC_REBUILD_UPDATED=1: does this place of

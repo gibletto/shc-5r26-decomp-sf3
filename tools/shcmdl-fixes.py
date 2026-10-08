@@ -78,7 +78,8 @@ def argconst(addr, group, with_occ=True):
 
 
 # MDL_MUL_CONST (the same file and the same four hooks): mdl_argconst_fit answers for a multiply's constant itself,
-# so the rule needs no hook of its own
+# so the rule needs no hook of its own; MDL_IMM_REG likewise for a zero that is added or subtracted
+# and for the constant of a bit-and
 argconst("00407b30", 1)          # weigh_common_expression_candidates
 argconst("0041b9b0", 2)          # materialize_constant_lreg
 argconst("0041c190", 2)          # write_lreg_numbers
@@ -109,6 +110,24 @@ fix("00417b60", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                   "    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {\n"
                   "      node->ivno = node->child->ivno;\n      return;\n    }\n    if (child_rank != rank) {\nLAB_00417c21:")])
 
+# --- MDL_IV_BASE (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the two places where
+# hoist_invariants_in_tree asks which run it is in before it calls a member reached through a pointer invariant
+fix("004110c0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("((g_licm_pass != 0 || ((ty != 0x60 && (ty != 0x70))))))",
+                  "((IV_LICM_PASS(2) != 0 || ((ty != 0x60 && (ty != 0x70))))))"),
+                 ("    if ((g_licm_pass != 0) ||\n", "    if ((IV_LICM_PASS(1) != 0) ||\n")])
+
+# --- MDL_IV_TEMP (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): where
+# reduce_induction_variable takes the next expression to reduce, and where it finds the expression already assigned
+# to a temporary and steps that temporary
+fix("00418040", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("    node = use->expr;\n",
+                  "    node = use->expr;\n    if (IV_SKIP_USE(node)) {\n      use = use->next;\n      continue;\n    }\n"),
+                 ("    if ((((*parent_link)->op == IL_ASSIGN) && (piVar3 = (*parent_link)->child, piVar3->op == IL_ID))\n"
+                  "       && (piVar3->symx < 0)) {",
+                  "    if (((((*parent_link)->op == IL_ASSIGN) && (piVar3 = (*parent_link)->child, piVar3->op == IL_ID))\n"
+                  "       && (piVar3->symx < 0)) && IV_REUSE_TEMP(*parent_link)) {")])
+
 # --- MDL_LOOP_INV (src/_looprules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the five places where
 # select_loops_to_invert asks for -speed before it makes a loop a guarded do-loop
 fix("0040b5a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
@@ -136,6 +155,9 @@ fix("0041dcc0", [(r"(blk = cse_find_common_block\(node,\(uint\)\(\(node->flag2 &
 fix("0041de40", [(INCLUDES, INCLUDES + '\n#include "gcserules.h"')])
 fix("0041de40", [(r"(= cse_drop_class_head\(node\);\s*)cse_reinsert_class\((\w+)\);", r"\1GCSE_REINSERT(\2,node);")],
     regex=True)
+# ... and of the members it takes out of a class because a path from the dominator changes their value (Release 26
+# makes a new class of them as well)
+fix("0041de40", [("    cse_reinsert_class(g_cse_split_head);", "    GCSE_SPLIT(g_cse_split_head);")])
 
 # --- MDL_CAST_MUL (src/_castmulrules.c, include/castmul.h; only with SHC_REBUILD_UPDATED=1): global
 # common-expression elimination notes the heads of the classes of (long)short_variable as it walks the blocks
@@ -148,6 +170,15 @@ fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
                  ("\n  op = node->op;\n", "\n  CASTMUL_VISIT(node);\n  op = node->op;\n")])
 fix("0041dcc0", [(r"(\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\) && GCSE_BLOCK_OK\(node,blk\))",
                   r"\1 && CASTMUL_OK(node,blk)")], regex=True)
+
+# --- MDL_MASK_AND (src/_maskrules.c, include/maskrules.h; only with SHC_REBUILD_UPDATED=1): the simplifier asks before
+# it turns a mask by 0xff into casts, for `x & 0xff` (simplify_bitand_bitor) and `v &= 0xff` (simplify_and_or_assign)
+fix("0040f190", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
+                 (r"(uVar6 = is_const_value\((\w+),0xff,node->type\), uVar6 == 0\)\) \{\s*return node;\s*\}\n)",
+                  r"\1      if (MASK_TO_CAST(node,\2,1) == 0) {\n        return node;\n      }\n")], regex=True)
+fix("0040e780", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
+                 (r"if \(\(node->child->flag & 2\) == 0\) \{(\s*\w+ = is_const_value\((\w+),0xffff,node->type\);)",
+                  r"if (((node->child->flag & 2) == 0) && (MASK_TO_CAST(node,\2,2) != 0)) {\1")], regex=True)
 
 # --- MDL_REGVAR_LOG (src/_regvarlog.c, include/regvarlog.h; only with SHC_REBUILD_UPDATED=1): the register variables
 # assign_physical_registers chose

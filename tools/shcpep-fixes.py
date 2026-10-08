@@ -193,6 +193,17 @@ hooks("004131d0", [(r"((\w+) = find_block_with_common_tail\([^()]*\),)", r"\1 XJ
 hooks("00413850", [(r"(\n  \w+ = 0;\n)(  local_8 = )", r"\1#if SHC_REBUILD_UPDATED\n  xjump_tail[0] = 0;\n#endif\n\2"),
                    (r"(LAB_00413ae9:\n(\s+)\w+ = \w+ \+ 1;\n)(\s+local_c = \w+;\n\s+local_8 = (\w+);)",
                     r"\1\2XJ_TAIL((unsigned char *)\4);\n\3")])
+# XJUMP_LOG: jt= (the jump temporaries of the two final records) and pv= (the record in front of the tail)
+hooks("00413850", [(r"(\n    jump_tmp_reg = rec->tmp;\n)", r"\1    XJ_JT(rec->tmp, -1);\n"),
+                   (r"(\n    jump_tmp_reg = rec_b->tmp;\n)", r"\1    XJ_JT(rec->tmp, rec_b->tmp);\n"),
+                   (r"(\n)(  \*tail_a = local_c;\n)", r"\1  XJ_PREV(block_a, local_c, block_b, local_8);\n\2")])
+# PEP_RET_R0: the jump temporary a RETURN record is given when it is loaded
+hooks("00406760", [(r"(\n      rec->flg = '\\0';\n      rec->tmp = )('\\x01');", r"\1PEP_RET_TMP(\2);")])
+# PEP_RET_R0: two RETURNs share a tail only as far back as it leaves r0 alone
+hooks("00413850", [(r"(\n    jump_tmp_reg = rec_b->tmp;\n    XJ_JT\(rec->tmp, rec_b->tmp\);\n)", r"\1    PEP_RET_PAIR(rec, rec_b, jump_tmp_reg);\n")])
+# PEP_RET_R0 bit 4: the exit block of a function whose return tails were shared is not dropped as unreachable
+hooks("00401a10", [(r"(\n  if \(edge == \(flow_edge \*\)0x0\) \{\n)(    if \(\(block->prev->flags & 1\) != 0\) \{\n)",
+                    r"\1    if (PEP_EXIT_KEPT(block)) {\n      return 0;\n    }\n\2")])
 # PEP_AUTOINC: no @rN+ load from "mov.x @rN,rM ... add #n,rN" (bit 1), no @-rN store from "add #-n,rN ... mov.x rM,@rN"
 # (bit 2)
 hooks("004120d0", [(r"(if \(\(\(\(load_rec != \(psd \*\)0x0\) && \(rec->op == OP_ADD\)\) &&)",

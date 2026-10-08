@@ -162,12 +162,72 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
     return r;
 }
 
+/* The arcade's rule for a zero that is added or subtracted and for the constant of a bit-and, MDL_IMM_REG.
+
+   A constant is kept in a register by its class (the constants of one value and size in a block). A class is a
+   candidate when its first member is not an immediate of its operator (collect_register_candidate); the weight
+   counter then counts the members that are not immediates, and the rewriters make those read the register.
+   Release 26 asks is_immediate_operand at all three places. For an add or subtract any imm8 is an immediate, zero
+   included, and for a bit-and of a char or short an 8-bit constant is. The zero of `a[0]` is such an operand:
+   the index is scaled and added in the tree, and shcmdl never folds `a + 0`.
+
+   The arcade's compiler collects the classes as Release 26 does, but counts and rewrites
+     - a zero that is added or subtracted: with zero in a register for its other uses, `a[0] = x` is an indexed
+       store through that register (mov.w r14,@(r0,r14) in Game2_4, mov.b r2,@(r0,r14) in Game2_5) and the start
+       value `x + 0` of a strength-reduced `x + col` is add r14,r12 (scfont_sqput);
+     - the constant of a bit-and: `v & 3` reads the 3 kept in a register (game_config_init), and the uses count
+       toward keeping it there.
+   A class whose first member is such a zero is still no candidate (Game01_Sub stores win_mark_rno[0] plainly with
+   zero in r14: there the first long zero of the block is the index of an array).
+
+   MDL_IMM_REG=<bits> (unset: 3; 0: Release 26), for the weight counter and the rewriters only
+     1  a zero operand of an add or a subtract is not an immediate
+     2  the constant of a bit-and is not an immediate
+   The evidence over the Street Fighter III build is in tools/public/SF3.md and notes/shcmdl.md.
+   What the arcade's compiler asks instead is not known; the bits are the operators its code decides.
+   MDL_IMM_LOG=<file> (a diagnostic, off unless set) lists each answer the rule changes: function, asker (g1
+   weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
+#define IMM_REG_DEFAULT 3
+
+static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
+{
+    static FILE *log = (FILE *)1;
+    static int bits = -1;
+    int r = is_immediate_operand(parent, pos, value);
+    if (r == 0 || (group != 1 && group != 2))
+        return r;
+    if (bits < 0) {
+        const char *v = getenv("MDL_IMM_REG");
+        bits = (v && *v) ? atoi(v) : IMM_REG_DEFAULT;
+    }
+    if (parent->op == IL_B_AND ? !(bits & 2) : !((bits & 1) && value == 0))
+        return r;
+    if (log == (FILE *)1) {
+        const char *p = getenv("MDL_IMM_LOG");
+        char name[600];
+        log = 0;
+        if (p && *p && strlen(p) < 500) {
+            sprintf(name, "%s.%d", p, (int)_getpid());
+            log = fopen(name, "a");
+        }
+    }
+    if (log) {
+        fprintf(log, "%s\tg%d\t%s\tty=%02x\tv=%d\tline=%d\n", g_symtab[g_func_node->symx].name, group,
+                parent->op == IL_ADD ? "ADD" : parent->op == IL_SUB ? "SUB" : "B_AND", parent->type, (int)value,
+                (int)parent->line);
+        fflush(log);
+    }
+    return 0;
+}
+
 /* occ: the occurrence record ({next, block, node}) of the node being weighed or rewritten, 0 for group 4 */
 int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, const_use *occ)
 {
     int bits = knob("MDL_ARG_CONST", ARG_CONST_DEFAULT);
     if (parent->op == IL_MUL || parent->op == IL_A_MUL)
         return mul_fit(group, parent, pos, value);
+    if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND)
+        return immreg_fit(group, parent, pos, value);
     if (!(bits & group) || parent->op != IL_ARG)
         return is_immediate_operand(parent, pos, value);
     if ((bits & 8) && occ && occ->block->lptbl != 0)

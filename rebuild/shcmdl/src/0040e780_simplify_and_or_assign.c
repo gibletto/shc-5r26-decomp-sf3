@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "maskrules.h"
 
 // entry: 0040e780
 // name : simplify_and_or_assign
@@ -42,7 +43,7 @@ il_node * __cdecl simplify_and_or_assign(il_node *node)
     if (piVar1->op == IL_CAST) {
       piVar1 = piVar1->child;
     }
-    if ((node->child->flag & 2) == 0) {
+    if (((node->child->flag & 2) == 0) && (MASK_TO_CAST(node,piVar1,2) != 0)) {
       uVar2 = is_const_value(piVar1,0xffff,node->type);
       if ((uVar2 == 0) && (is_const = is_const_value(piVar1,0xff,node->type), is_const == 0)) {
         return node;

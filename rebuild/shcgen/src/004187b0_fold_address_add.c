@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "memindexrules.h"
 
 // entry: 004187b0
 // name : fold_address_add
@@ -302,6 +303,9 @@ joined_r0x00418d24:
     if ((node->desc->flags2 & 0x80) != 0) {
       return 0;
     }
+    if (left_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {
+      return 0;
+    }
     if (left_class == 7) {
       g_r0_used = 1;
       reg = 0;
@@ -358,6 +362,9 @@ joined_r0x00418d24:
       return 0;
     }
     if ((node->desc->flags2 & 0x80) != 0) {
+      return 0;
+    }
+    if (right_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {
       return 0;
     }
     if (right_class == 7) {

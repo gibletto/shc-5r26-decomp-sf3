@@ -6,16 +6,23 @@
    indexed addresses all use it there (mov r14,r0 ... @(r0,r9) ... @(r0,r12)). The arcade's compiler does not: it
    puts the other operand, the array's address, in r0 for each access and keeps the index where it is
    (Flash_Please, clear_bs2_floor's two arrays in one loop, Ck_Win_Record's
-   Stock_Win_Record[Winner_id] = Win_Record[Winner_id]).
+   Stock_Win_Record[Winner_id] = Win_Record[Winner_id]; Com_Random_Select's xx[zz], paring_check).
 
-   GEN_R0VAR=<n> (unset: 0 = Release 26)
-     2  no r0 variable: measured right in the code (alone +29 -12 routines at 100%, aligned +17 -1, weighted match
-        +0.41, ~20 routines R0 -> EQUIV in diff_exec) but off: it moves 34 of 89 replays (identical lag 81 -> 54).
-        Where the arcade keeps an index in a register and puts each array's address in r0, this stage still copies
-        the index into a callee-saved home first (wipe_pattern_restore_cols: mov r7,r14; mov r5,r0; @(r0,r14);
-        mov r9,r0; @(r0,r14), against the arcade's mov r7,r0; @(r0,r5); mov r11,r0; @(r0,r5)), so the inner loop
-        costs 49,234 cycles a call against the arcade's 45,518 and Release 26's 45,520 (replay 5281.7, the frame
-        before its first lag difference)
+   Measured on the game (Street Fighter III 3rd Strike, every C routine), counting the mechanism's signature, a
+   register copied into r0 and then used as the index of accesses with two or more different bases: the arcade has
+   1 such place in its whole code (plcnt_b_die), Release 26 on our source 70, and with no r0 variable 1, the
+   arcade's. The
+   instructions of 115 routines change; counted as instructions the arcade has and ours has not, 98 come closer to
+   the arcade, 7 stay level and 10 move away, all 10 routines that already differ elsewhere (Additinal_Score_DM,
+   Sel_PL_Sub_CU, Update_BI_Term, debug_held_pad_repeat, debug_parts_copy_overlap, effect_work_init,
+   setup_bonus_car_parts, win_mark_write, wipe_mask_set_cols, wipe_pattern_restore_cols); in none of them does the
+   arcade share r0 between two bases. Where the arcade keeps an index in a register and puts each array's address
+   in r0, this stage still copies the index into a callee-saved home first (wipe_pattern_restore_cols: mov r7,r14;
+   mov r5,r0; @(r0,r14); mov r9,r0; @(r0,r14), against the arcade's mov r7,r0; @(r0,r5); mov r11,r0; @(r0,r5)):
+   that is a different decision, taken before this one, and is not changed here.
+
+   GEN_R0VAR=<n> (unset: 2, the arcade rule; 0: Release 26)
+     2  no r0 variable
      1  measured, worse: on a tie the operand counted later becomes the r0 variable (Release 26 keeps the first)
      3, 4, ...  measured, worse: an r0 variable only when it is used in at least 2, 3, ... indexed addresses of the
         statement (3 gives back OBJ_Control, Com_Before_Follow and the wipe_* routines, and loses Ck_Win_Record,
@@ -28,9 +35,10 @@
         address under a dereference: without -extra=m=8 this gives wipe_pattern_restore_cols's inner loop exactly
         (exts.w r4,r0; mov.b @(r0,r14),r5; ... mov r5,r3; shll r3; add r6,r3; mov r7,r0; @(r0,r5) ...). With the
         tree's -extra=m=8 (shcmdl g_debug_flags 8: simplify_mul keeps x*1) the byte-array index (u32)t*1 is a second
-        common-expression temporary with a callee-saved home (one mov more than the arcade). 100% 8,452 (mode 2:
-        8,455), but replays: 29 of 89 and 44 of 167 moved (identical lag 81 -> 58, 153 -> 120), so off.
-     8, 9  drop only a source variable / only a temporary: 8 is Release 26 for the cases above, 9 is mode 2 */
+        common-expression temporary with a callee-saved home (one mov more than the arcade). 6 and 7 leave eight
+        routines short of the arcade's instructions that 2 gives (Command_Type_00, Check_Limited_Attack,
+        Check_After_Attack, Game_Manage_1st, Check_Break_Into_CPU, Check_EM_Speech, effect_work_kill, work_init_zero)
+     8, 9  drop only a source variable / only a temporary: 8 is Release 26 and 9 is 2 on every routine of the game */
 #if SHC_REBUILD_UPDATED
 #include <stdlib.h>
 #include "decls.h"
@@ -42,7 +50,7 @@ int gen_r0var(void)
   static int v = -1;
   if (v < 0) {
     const char *p = getenv("GEN_R0VAR");
-    v = (p && *p) ? atoi(p) : 0;
+    v = (p && *p) ? atoi(p) : 2;
   }
   return v;
 }

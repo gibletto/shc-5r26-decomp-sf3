@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cur_loop
 #define g_cur_loop (*(loop * *)(g_sd + 0x26ac8))
@@ -73,6 +74,10 @@ int __cdecl reduce_induction_variable(iv_entry *entry)
       return;
     }
     node = use->expr;
+    if (IV_SKIP_USE(node)) {
+      use = use->next;
+      continue;
+    }
     ty = node->type;
     if (((ty & 0xe0) == 0x80) || ((ty & 0xf8) == 0x40)) {
       use_size = 8;
@@ -83,8 +88,8 @@ int __cdecl reduce_induction_variable(iv_entry *entry)
     }
     parent_link = &node->parent;
     penalty = '\0';
-    if ((((*parent_link)->op == IL_ASSIGN) && (piVar3 = (*parent_link)->child, piVar3->op == IL_ID))
-       && (piVar3->symx < 0)) {
+    if (((((*parent_link)->op == IL_ASSIGN) && (piVar3 = (*parent_link)->child, piVar3->op == IL_ID))
+       && (piVar3->symx < 0)) && IV_REUSE_TEMP(*parent_link)) {
       temp = copy_tree(1,piVar3);
       iVar1 = induction_step(g_iv_update_stmt);
       if (iVar1 != -1) {

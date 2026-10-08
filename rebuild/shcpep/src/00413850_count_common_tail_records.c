@@ -49,6 +49,7 @@ count_common_tail_records
       return 0;
     }
     jump_tmp_reg = rec->tmp;
+    XJ_JT(rec->tmp, -1);
   }
   else {
     if (mode != 2) {
@@ -59,6 +60,8 @@ count_common_tail_records
       return 0;
     }
     jump_tmp_reg = rec_b->tmp;
+    XJ_JT(rec->tmp, rec_b->tmp);
+    PEP_RET_PAIR(rec, rec_b, jump_tmp_reg);
     rec_b = find_previous_psd_record(block_b,rec_b);
   }
   while ((((((new_count = count, rec_b != (psd *)0x0 && (rec_a != (psd *)0x0)) &&
@@ -118,6 +121,7 @@ LAB_00413ae9:
     rec_b = find_previous_psd_record(block_b,rec_b);
     count = new_count;
   }
+  XJ_PREV(block_a, local_c, block_b, local_8);
   *tail_a = local_c;
   *tail_b = local_8;
   if (((byte)g_stage_flags & 0x10) != 0) {
