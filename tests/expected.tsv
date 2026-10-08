@@ -21,6 +21,7 @@ memindex	obj:0:2ef00bf0e8cf9d09 src:0:db37eea1a7c05738
 memlabel	obj:0:91a1f8ae7ff797a6 src:0:535a0b292e41270a
 mulcast	obj:0:d150ed1a5acfac88 src:0:40761c03adf276e3
 mulconst	obj:0:30dace8fb9dd251f src:0:0e61316853fc0938
+mulone	obj:0:caa948bee570a896 src:0:6f5c6cdb982fffd2
 multiply	obj:0:53bedc3dab5b046a src:0:89e77cb5b74f54c2
 multiply_opt0	obj:0:f4206f80e7da81f6 src:0:015a39234a00657d
 multiply_sh4	obj:0:6e9538347455c8f4 src:0:8d237dba4bdab8aa

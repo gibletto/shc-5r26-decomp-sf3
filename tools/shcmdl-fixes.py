@@ -180,8 +180,8 @@ fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
 fix("0041dcc0", [(r"(\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\) && GCSE_BLOCK_OK\(node,blk\))",
                   r"\1 && CASTMUL_OK(node,blk)")], regex=True)
 
-# --- MDL_MUL_ONE (src/_castmulrules.c, include/castmul.h): a measured lead, off by default: with simplify_mul
-# switched off by -extra=m=8, the product by 1 can be folded all the same
+# --- MDL_MUL_ONE (src/_castmulrules.c, include/castmul.h; only with SHC_REBUILD_UPDATED=1): with simplify_mul
+# switched off by -extra=m=8, the product by 1 of a converted memory value is folded all the same
 fix("0040eb60", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
                  ("  if (((byte)g_debug_flags & 8) != 0) {\n    return node;\n  }\n",
                   "  if (((byte)g_debug_flags & 8) != 0) {\n    return MUL_ONE_FOLD(node);\n  }\n")])
