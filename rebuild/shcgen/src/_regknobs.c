@@ -61,11 +61,18 @@ int shcgen_knob_call_asc(int ix)
 
 /* GEN_MUL_L=<bits>: mul_fits_16bit_multiply turns an int multiply of a narrow value by a 16-bit constant (not
    2^n, 2^n +- 1 or two set bits: is_16bit_multiplier_constant) into MULS.W/MULU.W; a set bit answers "no" for that
-   operand's test (1 the first, 2 the second), so the multiply stays MUL.L. Unset = 3 */
+   operand's test (1 the first, 2 the second), so the multiply stays MUL.L. prepare_cast_node asks the same question
+   of the narrow operand's cast, (int)s in s * 21, and when the answer is yes drops the cast, because MULS.W
+   extends its operands itself; bit 4 answers "no" there too, so the operand of the MUL.L is extended (EXTS.W R4,R1,
+   MOV #21,R3, MUL.L R3,R1; with 3 the MUL.L reads the short as it is, MUL.L R1,R4, which is wrong when the upper
+   half of the register is not the sign: a parameter). On the game seven routines change their own instructions and
+   the arcade has the extension at the multiply in each: meri_case_switch, Bonus_Cut_Sub and set_second_hop become
+   the arcade's code, add_super_arts_gauge comes nearer, Pool_Score stays level, and grade_scale_to_percent and
+   add_sp_arts_gauge_hit_dm have it in another register than the arcade's. Unset = 7 */
 int shcgen_knob_mul_l(void)
 {
   static int v = -1;
-  return regknob_get_d("GEN_MUL_L", &v, 3);
+  return regknob_get_d("GEN_MUL_L", &v, 7);
 }
 
 /* SHCGEN_REGTRACE=<file>: a line per choose_general_register call (call number, return address, the node where

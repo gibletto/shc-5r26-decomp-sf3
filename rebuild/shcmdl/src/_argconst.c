@@ -162,7 +162,7 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
     return r;
 }
 
-/* The arcade's rule for a zero that is added or subtracted and for the constant of a bit-and, MDL_IMM_REG.
+/* The arcade's rule for a constant that is added or subtracted and for the constant of a bit-and, MDL_IMM_REG.
 
    A constant is kept in a register by its class (the constants of one value and size in a block). A class is a
    candidate when its first member is not an immediate of its operator (collect_register_candidate); the weight
@@ -177,17 +177,28 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
        value `x + 0` of a strength-reduced `x + col` is add r14,r12 (scfont_sqput);
      - the constant of a bit-and: `v & 3` reads the 3 kept in a register (game_config_init), and the uses count
        toward keeping it there.
+     - a constant other than zero that is added to or subtracted from a local variable (a parameter, a local or a
+       compiler temporary, also under a cast): `(ix + 1) & 1` with 1 in r12 is add r12,r2 and and r12,r2
+       (set_base_data), and the step of a counter that runs down, `t + -1`, is add r4,r6 (effect_work_init). An
+       add to a value that is first loaded from memory keeps its immediate: `np->code[n] + 1` passed to a call is
+       mov.w, add #1,r7 with 1 in r10 (effect_B5_move, effect_79_move, effect_51_move), and
+       `dbg_save_mode = dbg_save_mode + 1` on a global is add #1,r3 (debug_playback_mode_cycle);
+     - the constant of an add- or subtract-assignment: `Rank_Pos_Y -= 1` and `Rank_Pos_Y += 1` read the 1 kept
+       in r8 (sub r8,r1, add r8,r3 in Ranking_01_2nd) and count toward keeping it there, which there takes the
+       register Release 26 gives to 180.
    A class whose first member is such a zero is still no candidate (Game01_Sub stores win_mark_rno[0] plainly with
    zero in r14: there the first long zero of the block is the index of an array).
 
-   MDL_IMM_REG=<bits> (unset: 3; 0: Release 26), for the weight counter and the rewriters only
+   MDL_IMM_REG=<bits> (unset: 15; 0: Release 26), for the weight counter and the rewriters only
      1  a zero operand of an add or a subtract is not an immediate
      2  the constant of a bit-and is not an immediate
+     4  a nonzero constant added to or subtracted from a local variable is not an immediate
+     8  the constant of an add- or subtract-assignment is not an immediate
    The evidence over the Street Fighter III build is in tools/public/SF3.md and notes/shcmdl.md.
    What the arcade's compiler asks instead is not known; the bits are the operators its code decides.
    MDL_IMM_LOG=<file> (a diagnostic, off unless set) lists each answer the rule changes: function, asker (g1
    weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
-#define IMM_REG_DEFAULT 3
+#define IMM_REG_DEFAULT 15
 
 static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
 {
@@ -200,8 +211,27 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
         const char *v = getenv("MDL_IMM_REG");
         bits = (v && *v) ? atoi(v) : IMM_REG_DEFAULT;
     }
-    if (parent->op == IL_B_AND ? !(bits & 2) : !((bits & 1) && value == 0))
-        return r;
+    if (parent->op == IL_A_ADD || parent->op == IL_A_SUB) {
+        if (!(bits & 8))
+            return r;
+    } else if (parent->op == IL_B_AND) {
+        if (!(bits & 2))
+            return r;
+    } else if (value == 0) {
+        if (!(bits & 1))
+            return r;
+    } else {
+        /* the other operand, through its casts: a variable that is not static or external */
+        il_node *v = pos == 1 ? parent->child->next : parent->child;
+        if (!(bits & 4))
+            return r;
+        while (v && v->op == IL_CAST)
+            v = v->child;
+        if (!v || v->op != IL_ID)
+            return r;
+        if (v->symx > 0 && g_symtab[v->symx].sclass >= 1 && g_symtab[v->symx].sclass <= 4)
+            return r;
+    }
     if (log == (FILE *)1) {
         const char *p = getenv("MDL_IMM_LOG");
         char name[600];
@@ -213,7 +243,8 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
     }
     if (log) {
         fprintf(log, "%s\tg%d\t%s\tty=%02x\tv=%d\tline=%d\n", g_symtab[g_func_node->symx].name, group,
-                parent->op == IL_ADD ? "ADD" : parent->op == IL_SUB ? "SUB" : "B_AND", parent->type, (int)value,
+                parent->op == IL_ADD ? "ADD" : parent->op == IL_SUB ? "SUB" : parent->op == IL_A_ADD ? "A_ADD" :
+                parent->op == IL_A_SUB ? "A_SUB" : "B_AND", parent->type, (int)value,
                 (int)parent->line);
         fflush(log);
     }
@@ -226,7 +257,8 @@ int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, co
     int bits = knob("MDL_ARG_CONST", ARG_CONST_DEFAULT);
     if (parent->op == IL_MUL || parent->op == IL_A_MUL)
         return mul_fit(group, parent, pos, value);
-    if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND)
+    if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND || parent->op == IL_A_ADD
+        || parent->op == IL_A_SUB)
         return immreg_fit(group, parent, pos, value);
     if (!(bits & group) || parent->op != IL_ARG)
         return is_immediate_operand(parent, pos, value);

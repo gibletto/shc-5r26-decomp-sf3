@@ -141,3 +141,55 @@ int mdl_castmul_ok(il_node *node, bblock *block)
     castmul_log(node, block, bit);
     return !(castmul_bits() & bit);
 }
+
+/* MDL_MUL_ONE (only with SHC_REBUILD_UPDATED=1; unset: 0, off): a lead that was measured and is not a rule.
+
+   The game's option -extra=m=8 switches simplify_mul off, so x * 1 stays in the tree. In two loops the arcade's
+   code has no copy where Release 26 gives the product by 1 a temporary of its own: dst[src[x]] = mask[src[x]] &
+   map[src[x]] (wipe_mask_set_cols, wipe_pattern_restore_cols) keeps (long)src[x] in one scratch register and uses
+   it as it is for the two byte arrays, where ours copies it into a second, callee-saved register (t2 = t1 * 1).
+   Folding the product at simplify_mul, by the kind of the operand:
+     1  x is the cast of a value read from memory ((long)src[x], (long)p->m): on the game 14 routines change;
+        counted as instructions the arcade has and ours has not, 9 come nearer (Com_Free, Guard_or_Jump_VS_Shell,
+        eag_union and effect_I2_move become the arcade's code; wipe_mask_set_cols 63 -> 50), 3 stay level and 2
+        move away by 1 and 3 (Com_Guard, where the arcade has neither form, and VS_ELENA_AS, a call that comes
+        into bsr range). At 100% it is +3 -15: the fifteen are in Com_Sub.c behind routines whose size changes.
+     2  x is the cast of a variable: MDL_CAST_MUL's subject; not measured alone.
+     16 x is the cast of anything else ((long)(n * 32)): the arcade keeps this product's temporary
+        (debug_set_body_box and its five siblings leave the arcade's code with it).
+     4  x is anything else that is not a variable, 8 x is a variable: with 1 | 2 | 4 | 8 | 16 it is +3 -24.
+   Left off: the Com_Sub.c routines are not recovered, and what the arcade's compiler asks is not known. */
+il_node *mdl_mul_one_fold(il_node *node)
+{
+    static int k = -1;
+    il_node *x, *result;
+    il_op parent_op;
+    int bit;
+    if (k < 0) {
+        const char *v = getenv("MDL_MUL_ONE");
+        k = (v && *v) ? atoi(v) : 0;
+    }
+    if (k == 0 || node->op != IL_MUL || node->parent == 0)
+        return node;
+    parent_op = node->parent->op;
+    if (parent_op == IL_MUL || (parent_op == IL_SL && node->parent->child->next->op == IL_CONST))
+        return node;
+    x = node->child;
+    if (x == 0 || !const_one(x->next))
+        return node;
+    if (x->op == IL_ID)
+        bit = 8;
+    else if (x->op == IL_CAST && x->child != 0 && x->child->op == IL_ID)
+        bit = 2;
+    else if (x->op == IL_CAST && x->child != 0 && (x->child->op == IL_ASTER || x->child->op == IL_QUALIFY))
+        bit = 1;
+    else if (x->op == IL_CAST)
+        bit = 16;
+    else
+        bit = 4;
+    if (!(k & bit))
+        return node;
+    result = copy_tree(0, x);
+    replace_and_free_node(node, result);
+    return result;
+}

@@ -9,9 +9,12 @@ extern int mdl_castmul_ok(il_node *node, bblock *block);
 #define CASTMUL_BEGIN() mdl_castmul_begin()
 #define CASTMUL_VISIT(node) mdl_castmul_visit(node)
 #define CASTMUL_OK(node, block) mdl_castmul_ok(node, block)
+extern il_node *mdl_mul_one_fold(il_node *node);
+#define MUL_ONE_FOLD(node) mdl_mul_one_fold(node)
 #else
 #define CASTMUL_BEGIN() ((void)0)
 #define CASTMUL_VISIT(node) ((void)0)
 #define CASTMUL_OK(node, block) 1
+#define MUL_ONE_FOLD(node) (node)
 #endif
 #endif

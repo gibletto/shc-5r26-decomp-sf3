@@ -204,6 +204,9 @@ hooks("00413850", [(r"(\n    jump_tmp_reg = rec_b->tmp;\n    XJ_JT\(rec->tmp, re
 # PEP_RET_R0 bit 4: the exit block of a function whose return tails were shared is not dropped as unreachable
 hooks("00401a10", [(r"(\n  if \(edge == \(flow_edge \*\)0x0\) \{\n)(    if \(\(block->prev->flags & 1\) != 0\) \{\n)",
                     r"\1    if (PEP_EXIT_KEPT(block)) {\n      return 0;\n    }\n\2")])
+# PEP_RET_R0 bit 8: an unreachable block deleted behind a jump keeps its reference to the label it jumped to
+hooks("00401190", [(r"(\n        if \(next_code->target_labno != 0)(\) \{\n          decrement_label_ref_count\(next_code->target_labno\);\n)",
+                    r"\1 && !PEP_DEAD_REF_KEPT(next_code->target_labno)\2")])
 # PEP_AUTOINC: no @rN+ load from "mov.x @rN,rM ... add #n,rN" (bit 1), no @-rN store from "add #-n,rN ... mov.x rM,@rN"
 # (bit 2)
 hooks("004120d0", [(r"(if \(\(\(\(load_rec != \(psd \*\)0x0\) && \(rec->op == OP_ADD\)\) &&)",

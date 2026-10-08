@@ -60,7 +60,7 @@ void pep_dump(const char *tag, void *list)
           if (r->ea2) fprintf(f, " d(%x,%d,%d)", r->ea2->type & 0x1f, r->ea2->base, r->ea2->disp);
         }
         if (r->misc) fprintf(f, " misc=%x", (unsigned char)r->misc);
-        if (r->flg || r->tmp) fprintf(f, " flg=%x tmp=%x", (unsigned char)r->flg, (unsigned char)r->tmp);
+        if (r->flg || r->tmp || r->op == OP_JUMP || r->op == OP_RETURN) fprintf(f, " flg=%x tmp=%x", (unsigned char)r->flg, (unsigned char)r->tmp);
         fprintf(f, "\n");
       }
     }

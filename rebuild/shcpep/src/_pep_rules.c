@@ -74,8 +74,9 @@ int pep_keep_target_head(int pred, unsigned char *head)
 int pep_no_thread(void) { return env_int("PEP_NO_THREAD", 28); }
 
 static unsigned char xj_labels[8192];      /* the labels make_common_code_block made in this function, a bit each */
+static unsigned char dead_ref_labels[8192]; /* the labels unreachable code still refers to (PEP_RET_R0 bit 8) */
 static int pep_ret_merged;
-void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); pep_ret_merged = 0; }
+void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); memset(dead_ref_labels, 0, sizeof dead_ref_labels); pep_ret_merged = 0; }
 void pep_xj_label_mark(short l) { unsigned short u = (unsigned short)l; xj_labels[u >> 3] |= (unsigned char)(1 << (u & 7)); }
 static int pep_xj_label_made(short l) { unsigned short u = (unsigned short)l; return l != 0 && (xj_labels[u >> 3] >> (u & 7)) & 1; }
 int pep_xj_label_was_made(short l) { return pep_xj_label_made(l); }
@@ -90,7 +91,7 @@ int pep_no_thread_here(int *blk, int *dest)
   return 0;
 }
 
-/* PEP_RET_R0: returns that end in the same instructions. Bits (unset: 7; 0: Release 26):
+/* PEP_RET_R0: returns that end in the same instructions. Bits (unset: 15; 0: Release 26):
    1  the jump temporary of a RETURN record (the register a far jump to the function's exit may use) is r0.
       shcgen writes none for a RETURN; shcpep gives the record one when it loads it (read_sua_pseudo_instruction):
       r1 in Release 26. The temporary is what the later passes ask about:
@@ -113,10 +114,37 @@ int pep_no_thread_here(int *blk, int *dest)
       more: every path now ends in a tail call, and the arcade still has the unreached epilogue and rts behind
       the last jump (comm_rljmp, comm_ifcom, comm_ifrlf, comm_ayjmp, comm_rngc, comm_pjmp). Release 26's flow
       pass (simplify_flow_block) drops a block that follows an unconditional transfer and has no predecessor;
-      a tail shared with the fall-through into the exit label (mode 1) leaves none behind (sa_gauge_trans). */
-int pep_ret_r0(void) { return env_int("PEP_RET_R0", 7); }
+      a tail shared with the fall-through into the exit label (mode 1) leaves none behind (sa_gauge_trans).
+   8  code that cannot be reached keeps the reference of its jump. build_flow_blocks deletes the unlabelled blocks
+      behind an unconditional jump, and Release 26 then takes the block's jump off the count of its target label
+      (decrement_label_ref_count), so a label only such code referred to dies with it. The arcade's compiler leaves
+      the count: when the target is the function's exit label the exit block stays, as it does after shared
+      returns (bit 4), although nothing reaches it. The case in the arcade program is the "break" behind an
+      if/else whose arms both end in a tail call ("if (c) f(); else g(); break;" at the end of a function).
+      expand_tail_calls_into_epilogue_jumps deletes the record behind a tail call only when it is a RETURN, EXIT
+      or JUMP; behind the else arm's call it is the label that ends the if, so the break's jump to the exit
+      label stays. That label then loses its references (the first arm's jump over the else went with its own
+      tail call, or to the arms' shared tail), is deleted, and the jump is unreachable code behind a tail call.
+      Six routines of the arcade program have the epilogue there (Win_06000, Win_15000, op_101_move,
+      op_102_move, effect_21_move, effect_24_move); a switch whose arms each end in one call has none
+      (effect_46_move), with either setting. With the rule four of the six match as their source stood and the
+      other two as an if/else; no other routine of the game changes.
+      Left open: hit_combo_check keeps its exit behind a tail merged with the fall-through (mode 1) and one
+      "f(); return;". Not releasing the RETURN a tail call's expansion deletes gives it (and comm_if_l's) but
+      costs five matched routines (Small_Jump_Measure, player_face_char_set, player_grade_char_set,
+      effect_D3_move, effect_D8_move), so that is not the reason. */
+int pep_ret_r0(void) { return env_int("PEP_RET_R0", 15); }
 
-/* the exit block (PEP_RET_R0 bit 4), from simplify_flow_block: 1 = keep a block no branch reaches. pep_ret_merged
+/* bit 8, from build_flow_blocks: 1 = the deleted block's reference to labno is left counted */
+int pep_dead_ref_kept(short labno)
+{
+  unsigned short u = (unsigned short)labno;
+  if ((pep_ret_r0() & 8) == 0) return 0;
+  dead_ref_labels[u >> 3] |= (unsigned char)(1 << (u & 7));
+  return 1;
+}
+
+/* the exit block (PEP_RET_R0 bits 4 and 8), from simplify_flow_block: 1 = keep a block no branch reaches. pep_ret_merged
    is set when two RETURN tails are shared (mode 2) and cleared at the start of a function. */
 int pep_exit_kept(void *fb)
 {
@@ -124,7 +152,10 @@ int pep_exit_kept(void *fb)
   code_node *node = b->code;
   symbol *sym;
   short labno;
-  if ((pep_ret_r0() & 4) == 0 || !pep_ret_merged || (b->flags & 2) == 0 || node == 0 || (labno = node->labno) < 0xb7)
+  if ((b->flags & 2) == 0 || node == 0 || (labno = node->labno) < 0xb7)
+    return 0;
+  if (!((pep_ret_r0() & 4) && pep_ret_merged) &&
+      !((pep_ret_r0() & 8) && ((dead_ref_labels[(unsigned short)labno >> 3] >> (labno & 7)) & 1)))
     return 0;
   for (sym = g_symbol_hash[labno % 0x3fd]; sym && sym->number != labno; sym = sym->hash_next) ;
   return sym != 0 && sym->ref_count > 0;

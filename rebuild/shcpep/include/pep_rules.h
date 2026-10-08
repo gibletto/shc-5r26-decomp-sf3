@@ -48,6 +48,9 @@ int pep_ret_r0(void);
 /* the exit block after merged returns (bit 4) */
 int pep_exit_kept(void *flow_block);
 #define PEP_EXIT_KEPT(b) pep_exit_kept(b)
+/* the reference of a deleted unreachable block (bit 8) */
+int pep_dead_ref_kept(short labno);
+#define PEP_DEAD_REF_KEPT(l) pep_dead_ref_kept(l)
 
 /* diagnostics (src/_pep_dump.c): PEP_DUMP, the function name and the TAIL/NEXT lines of XJUMP_LOG */
 void pep_dump(const char *tag, void *list);
@@ -77,6 +80,7 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define PEP_RET_TMP(t) (t)
 #define PEP_RET_PAIR(a, b, t) 0
 #define PEP_EXIT_KEPT(b) 0
+#define PEP_DEAD_REF_KEPT(l) 0
 #define XJUMP_FILTER(mode, kind) 0
 #define pep_autoinc() 0
 #endif

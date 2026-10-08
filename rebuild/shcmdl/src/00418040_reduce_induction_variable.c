@@ -208,7 +208,7 @@ LAB_004183c8:
       dump_tree(temp_assign,0,s_loop_ind_3_asndp_00435b08);
     }
     if (((&g_iv_test_type_table)[test_size + use_size * 0xb] != '\0') &&
-       ((use->expr->flag2 & 4) == 0)) {
+       ((use->expr->flag2 & 4) == 0) && IV_TEST_USE(use_size, test_size)) {
       test_use = use;
       test_assign = temp_assign;
     }

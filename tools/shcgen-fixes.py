@@ -120,6 +120,22 @@ fix("0041bc70", [REMAP_INC, (RANGES_ON, "  if (contents == g_gpr_contents) {\n"
                                         "  }\n" + RANGES_ON)])
 fix("0041bae0", [REMAP_INC, (RANGES_ON, "  REMAP_MARK(\"rm\",mask,serial);\n" + RANGES_ON)])
 
+# --- GEN_JUMP_TEMP (src/_remaprules.c, include/remaprules.h; only with SHC_REBUILD_UPDATED=1): the scratch register
+# each jumping statement takes out of the free ranges for its jump (continue, break, goto, the two jumps of a for
+# loop, the jump over an else, a while loop's jump to its test)
+JUMP_TEMP = r"remove_serial_from_register_ranges\((1 << \((?:\(byte\))?\w+ & 0x1f\)),g_stmt_serial\);"
+for addr, bits in (("0042a930", (1,)), ("0042aab0", (2,)), ("0042a9d0", (4,)), ("004071c0", (8, 16)), ("00406ed0", (32,)),
+                   ("00407860", (64,))):
+    f = next(S.glob(f"{addr}_*.c"))
+    s = f.read_text(encoding="latin-1")
+    it = iter(bits)
+    s2, k = re.subn(JUMP_TEMP, lambda m: f"remove_serial_from_register_ranges(JUMP_TEMP_REGS({next(it)},{m.group(1)}),g_stmt_serial);", s)
+    if k != len(bits):
+        sys.exit(f"shcgen-fixes: {f.name}: {k} jump registers (want {len(bits)})")
+    f.write_text(s2, encoding="latin-1")
+    n += k
+    fix(addr, [REMAP_INC])
+
 # --- GEN_R0VAR (src/_r0varrules.c, include/r0varrules.h): the statement's r0 variable
 R0VAR_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "r0varrules.h"\n')
 fix("0041c000", [R0VAR_INC, ("(g_r0_variable->count < entry->count)", "R0VAR_REPLACES(g_r0_variable->count, entry->count)")])
@@ -156,12 +172,22 @@ for a, b, ind in (("0042f830", 1, "    "), ("0042faf0", 2, "  ")):
              f"{ind}if (!EVICT_BEFORE_INVALIDATE({b})) {{\n{ind}  evict_oldest_register_content(contents);\n{ind}}}\n")],
         once=True)
 
-# --- GEN_MEM_INDEX (src/_memindexrules.c, include/memindexrules.h): fold_address_add's cases 8 and 9, a memory operand
-# beside a register other than r0, are left to the add template instead of loading the memory operand into r0
+# --- GEN_MEM_INDEX (src/_memindexrules.c, include/memindexrules.h): fold_address_add's cases 8, 9 and 10, a memory
+# operand beside a register, an address constant or another memory operand, are left to the add template instead of
+# loading an operand to make the access indexed; the rule is asked with the class of the other operand
 R0_INDEX = "    if ({side}_class == 7) {{\n      g_r0_used = 1;\n      reg = 0;\n    }}\n"
+BOTH_MEM = ("    uVar4 = ea_register_mask(peVar7);\n    uVar5 = result_reg_exclusion_mask(node);\n"
+            "    reg = choose_general_register((ushort)uVar4 | (ushort)uVar5 | 1,uVar3,cVar8);\n")
 fix("004187b0", [('#include "imports.h"\n', '#include "imports.h"\n#include "memindexrules.h"\n')]
     + [(R0_INDEX.format(side=side),
-        f"    if ({side}_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {{\n      return 0;\n    }}\n"
-        + R0_INDEX.format(side=side)) for side in ("left", "right")], once=True)
+        f"    if (MEM_INDEX_PLAIN(node,left,right,{side}_class)) {{\n      return 0;\n    }}\n"
+        + R0_INDEX.format(side=side)) for side in ("left", "right")]
+    + [(BOTH_MEM, "    if (MEM_INDEX_PLAIN(node,left,right,8)) {\n      return 0;\n    }\n" + BOTH_MEM)], once=True)
+
+# --- GEN_MUL_L bit 4: prepare_cast_node asks the 16-bit-multiplier question of the narrow operand's cast as well
+fix("004037e0", [('#include "imports.h"\n', '#include "imports.h"\nint shcgen_knob_mul_l(void);\n'),
+                 ("        iVar4 = is_16bit_multiplier_constant(other_operand,iVar4);\n",
+                  "        iVar4 = (shcgen_knob_mul_l() & 4) ? 0 : is_16bit_multiplier_constant(other_operand,iVar4);\n")],
+    once=True)
 
 print(f"shcgen-fixes: {n} replacements")

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 
 // entry: 0042aab0
 // name : gen_break_statement
@@ -21,7 +22,7 @@ int __cdecl gen_break_statement(void)
   }
   reg = choose_general_register(0,0,'\0');
   tmp = (byte)reg;
-  remove_serial_from_register_ranges(1 << (tmp & 0x1f),g_stmt_serial);
+  remove_serial_from_register_ranges(JUMP_TEMP_REGS(2,1 << (tmp & 0x1f)),g_stmt_serial);
   sptravel = 0;
   ea2 = (ea *)0x0;
   ea1 = make_label_operand(g_break_label);

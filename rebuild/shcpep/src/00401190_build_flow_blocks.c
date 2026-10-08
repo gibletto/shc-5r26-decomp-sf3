@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_current_node_list
 #define g_current_node_list (*(code_node * *)(g_sd + 0x6d70))
@@ -58,7 +59,7 @@ char __cdecl build_flow_blocks(void)
           if (i < 0xf) break;
         }
         if (node != (code_node *)0x0) break;
-        if (next_code->target_labno != 0) {
+        if (next_code->target_labno != 0 && !PEP_DEAD_REF_KEPT(next_code->target_labno)) {
           decrement_label_ref_count(next_code->target_labno);
         }
         node = next_code->next_block;

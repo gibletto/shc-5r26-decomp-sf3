@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "castmul.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_debug_flags
 #define g_debug_flags (*(unsigned char *)(g_sd + 0x267c0))
@@ -25,7 +26,7 @@ il_node * __cdecl simplify_mul(il_node *node)
   line = node->line;
   listno = node->listno;
   if (((byte)g_debug_flags & 8) != 0) {
-    return node;
+    return MUL_ONE_FOLD(node);
   }
   parent_op = node->parent->op;
   if ((parent_op != IL_MUL) && ((parent_op != IL_SL || (node->parent->child->next->op != IL_CONST)))

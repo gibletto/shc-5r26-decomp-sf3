@@ -78,8 +78,8 @@ def argconst(addr, group, with_occ=True):
 
 
 # MDL_MUL_CONST (the same file and the same four hooks): mdl_argconst_fit answers for a multiply's constant itself,
-# so the rule needs no hook of its own; MDL_IMM_REG likewise for a zero that is added or subtracted
-# and for the constant of a bit-and
+# so the rule needs no hook of its own; MDL_IMM_REG likewise for a constant that is added or subtracted
+# (an add- or subtract-assignment included) and for the constant of a bit-and
 argconst("00407b30", 1)          # weigh_common_expression_candidates
 argconst("0041b9b0", 2)          # materialize_constant_lreg
 argconst("0041c190", 2)          # write_lreg_numbers
@@ -128,6 +128,15 @@ fix("00418040", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                   "    if (((((*parent_link)->op == IL_ASSIGN) && (piVar3 = (*parent_link)->child, piVar3->op == IL_ID))\n"
                   "       && (piVar3->symx < 0)) && IV_REUSE_TEMP(*parent_link)) {")])
 
+# --- MDL_TEST_REPLACE (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): where
+# strength_reduce_induction_vars raises the flag that lets the loop's test be rewritten, and where
+# reduce_induction_variable picks the stepped temporary that takes the test over
+fix("00417fb0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
+                 ("    if ((g_options->option_bits & 1) != 0) {\n",
+                  "    if ((g_options->option_bits & 1) != 0 || IV_TEST_REPLACE()) {\n")])
+fix("00418040", [("       ((use->expr->flag2 & 4) == 0)) {\n      test_use = use;",
+                  "       ((use->expr->flag2 & 4) == 0) && IV_TEST_USE(use_size, test_size)) {\n      test_use = use;")])
+
 # --- MDL_LOOP_INV (src/_looprules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the five places where
 # select_loops_to_invert asks for -speed before it makes a loop a guarded do-loop
 fix("0040b5a0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
@@ -170,6 +179,12 @@ fix("0041dcc0", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
                  ("\n  op = node->op;\n", "\n  CASTMUL_VISIT(node);\n  op = node->op;\n")])
 fix("0041dcc0", [(r"(\(\(node->flag2 & 8\) != 0\)\), blk != \(bblock \*\)0x0\) && GCSE_BLOCK_OK\(node,blk\))",
                   r"\1 && CASTMUL_OK(node,blk)")], regex=True)
+
+# --- MDL_MUL_ONE (src/_castmulrules.c, include/castmul.h): a measured lead, off by default: with simplify_mul
+# switched off by -extra=m=8, the product by 1 can be folded all the same
+fix("0040eb60", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
+                 ("  if (((byte)g_debug_flags & 8) != 0) {\n    return node;\n  }\n",
+                  "  if (((byte)g_debug_flags & 8) != 0) {\n    return MUL_ONE_FOLD(node);\n  }\n")])
 
 # --- MDL_MASK_AND (src/_maskrules.c, include/maskrules.h; only with SHC_REBUILD_UPDATED=1): the simplifier asks before
 # it turns a mask by 0xff into casts, for `x & 0xff` (simplify_bitand_bitor) and `v &= 0xff` (simplify_and_or_assign)

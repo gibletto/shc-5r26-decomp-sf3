@@ -23,7 +23,7 @@ extern il_node *mdl_arg_as_variable(il_node *arg);
 #define ARG_AS_VARIABLE(a) (a)
 #endif
 
-/* MDL_IV, MDL_IV_BASE and MDL_IV_TEMP (src/_ivrules.c), with SHC_REBUILD_UPDATED=1 */
+/* MDL_IV, MDL_IV_BASE, MDL_IV_TEMP and MDL_TEST_REPLACE (src/_ivrules.c), with SHC_REBUILD_UPDATED=1 */
 #if SHC_REBUILD_UPDATED
 extern int mdl_iv_rules(void);
 extern int mdl_iv_licm_pass(int pass, int bit);
@@ -33,11 +33,17 @@ extern int mdl_iv_reuse_temp(il_node *assign);
 #define IV_REUSE_TEMP(a) mdl_iv_reuse_temp(a)
 extern int mdl_iv_skip_use(il_node *expr);
 #define IV_SKIP_USE(e) mdl_iv_skip_use(e)
+extern int mdl_iv_test_replace(void);
+#define IV_TEST_REPLACE() mdl_iv_test_replace()
+extern int mdl_iv_test_use(unsigned int use_size, int test_size);
+#define IV_TEST_USE(n, t) mdl_iv_test_use(n, t)
 #else
 #define IV_RULES() 0
 #define IV_LICM_PASS(bit) g_licm_pass
 #define IV_REUSE_TEMP(a) 1
 #define IV_SKIP_USE(e) 0
+#define IV_TEST_REPLACE() 0
+#define IV_TEST_USE(n, t) 1
 #endif
 
 /* MDL_LOOP_INV and MDL_LOOP_LOG (src/_looprules.c), with SHC_REBUILD_UPDATED=1: does this place of

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+int shcgen_knob_mul_l(void);
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -78,7 +79,7 @@ LAB_00403953:
            (iVar4 = 0, bVar5 == 0x40)) {
           iVar4 = 1;
         }
-        iVar4 = is_16bit_multiplier_constant(other_operand,iVar4);
+        iVar4 = (shcgen_knob_mul_l() & 4) ? 0 : is_16bit_multiplier_constant(other_operand,iVar4);
         if (iVar4 == 0) goto LAB_0040398d;
       }
       bVar1 = true;

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 
 // entry: 0042a9d0
 // name : gen_goto_statement
@@ -26,7 +27,7 @@ int __cdecl gen_goto_statement(gen_node *node)
   label_ea = make_label_operand(sVar1);
 LAB_0042aa2e:
   sVar1 = choose_general_register(0,0,'\0');
-  remove_serial_from_register_ranges(1 << ((byte)sVar1 & 0x1f),g_stmt_serial);
+  remove_serial_from_register_ranges(JUMP_TEMP_REGS(4,1 << ((byte)sVar1 & 0x1f)),g_stmt_serial);
   fill_psd_record((psd *)&g_psd_scratch,OP_JUMP,'\x02','\0',g_stmt_serial,g_msg_filn,g_msg_line,
                   label_ea,(ea *)0x0,0,(byte)sVar1);
   emit_psd_record((psd *)&g_psd_scratch,0);

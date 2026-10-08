@@ -1,4 +1,4 @@
-# name, source in tests/cases, options. The first twenty-eight use the Street Fighter III build's options (castmul with its -extra=m=8,a=8 as well: without it Release 26 makes no temporary there). A name
+# name, source in tests/cases, options. The first thirty use the Street Fighter III build's options (castmul with its -extra=m=8,a=8 as well: without it Release 26 makes no temporary there). A name
 # starting with ! is compared with Release 26 only: its output holds the source's full path.
 switch          switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 returns         returns.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
@@ -13,10 +13,13 @@ threads         threads.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 gcse            gcse.c       -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 mulwait         mulwait.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 chainjump       chainjump.c  -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+jumptemp        jumptemp.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 autoinc         autoinc.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 iv              iv.c         -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 ivbase          ivbase.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 ivtemp          ivtemp.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+ivstmt          ivstmt.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+testrepl        testrepl.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 loopinv         loopinv.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 reload          reload.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 evict           evict.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
@@ -27,7 +30,11 @@ memindex        memindex.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 r0var           r0var.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 rettail         rettail.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 immreg          immreg.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+immadd          immadd.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 maskand         maskand.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+exitkept        exitkept.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+memlabel        memlabel.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+mulcast         mulcast.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 slots_noinline  slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed -noinline
 switch_opt0     switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
 poolwin         poolwin.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed

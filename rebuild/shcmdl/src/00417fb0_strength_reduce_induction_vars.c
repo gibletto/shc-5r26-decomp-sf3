@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_options
 #define g_options (*(option_record * *)(g_sd + 0x1e714))
@@ -19,7 +20,7 @@ int __cdecl strength_reduce_induction_vars(void)
   
   entry = g_iv_table + 1;
   do {
-    if ((g_options->option_bits & 1) != 0) {
+    if ((g_options->option_bits & 1) != 0 || IV_TEST_REPLACE()) {
       g_test_replace_ok = 1;
     }
     ok = check_induction_entry(entry);

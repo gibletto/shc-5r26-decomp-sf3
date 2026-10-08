@@ -303,7 +303,7 @@ joined_r0x00418d24:
     if ((node->desc->flags2 & 0x80) != 0) {
       return 0;
     }
-    if (left_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {
+    if (MEM_INDEX_PLAIN(node,left,right,left_class)) {
       return 0;
     }
     if (left_class == 7) {
@@ -364,7 +364,7 @@ joined_r0x00418d24:
     if ((node->desc->flags2 & 0x80) != 0) {
       return 0;
     }
-    if (right_class == 7 && MEM_INDEX_PLAIN(node,left,right)) {
+    if (MEM_INDEX_PLAIN(node,left,right,right_class)) {
       return 0;
     }
     if (right_class == 7) {
@@ -443,6 +443,9 @@ joined_r0x00418d24:
     }
     cVar8 = '\0';
     uVar3 = 0;
+    if (MEM_INDEX_PLAIN(node,left,right,8)) {
+      return 0;
+    }
     uVar4 = ea_register_mask(peVar7);
     uVar5 = result_reg_exclusion_mask(node);
     reg = choose_general_register((ushort)uVar4 | (ushort)uVar5 | 1,uVar3,cVar8);

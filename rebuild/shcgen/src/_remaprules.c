@@ -1,5 +1,5 @@
-/* The arcade's rule for the scratch registers of a switch's compare chain, GEN_CHAIN_JUMP, and the GEN_REMAP_LOG
-   diagnostic (only with SHC_REBUILD_UPDATED=1).
+/* The arcade's rules for the scratch registers of a switch's compare chain, GEN_CHAIN_JUMP, and of a break or a
+   continue, GEN_JUMP_TEMP, and the GEN_REMAP_LOG diagnostic (only with SHC_REBUILD_UPDATED=1).
 
    At the end of a function, remap_register_variables_to_scratch_registers moves a register variable from a
    callee-saved register to the first of r0-r3 whose free ranges (the statements in which code generation left the
@@ -82,4 +82,28 @@ unsigned int gen_chain_jump_regs(unsigned int mask)
         k = (v && *v) ? atoi(v) : 1;
     }
     return k ? 0 : mask;
+}
+
+/* GEN_JUMP_TEMP=<bits> (unset: 3, the arcade rule; 0: Release 26). Every statement that jumps picks a free scratch
+   register for the jump (a far jump would be mov.l #label,rN and jmp @rN; the peephole stage makes nearly all of
+   them a bra) and takes it out of that register's free ranges at the current statement serial, so
+   remap_register_variables_to_scratch_registers cannot move a register variable that is live there to it. A
+   break or a continue has no serial of its own: Release 26 charges its register to the statement in front of
+   it, which the jump has nothing to do with, and a value that lives through that statement (the copy of a
+   stepped pointer in a loop that ends in continue, a counter tested before a break) stays in r8-r14 and is saved.
+   The arcade's compiler does not charge it.
+     1  continue
+     2  break
+     4  goto (off: no site in the game decides)
+     8  a for loop's jump to its test, 16 a for loop without a test, 64 a while loop's jump to its test (off: these
+        are charged to the loop statement itself; no site decides)
+    32  the jump over an else (off: charged to the if statement itself; the arcade charges it too) */
+unsigned int gen_jump_temp_regs(int bit, unsigned int mask)
+{
+    static int k = -1;
+    if (k < 0) {
+        const char *v = getenv("GEN_JUMP_TEMP");
+        k = (v && *v) ? atoi(v) : 3;
+    }
+    return (k & bit) ? 0 : mask;
 }

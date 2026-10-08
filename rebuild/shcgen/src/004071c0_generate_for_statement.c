@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_ilb_file
 #define g_ilb_file (*(FILE * *)(g_sd + 0x1f980))
@@ -50,7 +51,7 @@ int __cdecl generate_for_statement(gen_node *stmt)
   sVar1 = make_new_label_number();
   sVar2 = choose_general_register(0,0,'\0');
   tmp = (byte)sVar2;
-  remove_serial_from_register_ranges(1 << (tmp & 0x1f),g_stmt_serial);
+  remove_serial_from_register_ranges(JUMP_TEMP_REGS(8,1 << (tmp & 0x1f)),g_stmt_serial);
   iVar5 = 0;
   peVar4 = (ea *)0x0;
   target = make_label_operand(sVar1);
@@ -120,7 +121,7 @@ int __cdecl generate_for_statement(gen_node *stmt)
   if (pgVar3->op == IL_NULL) {
     sVar1 = choose_general_register(0,0,'\0');
     jump_reg = (byte)sVar1;
-    remove_serial_from_register_ranges(1 << (jump_reg & 0x1f),g_stmt_serial);
+    remove_serial_from_register_ranges(JUMP_TEMP_REGS(16,1 << (jump_reg & 0x1f)),g_stmt_serial);
     iVar5 = 0;
     peVar4 = (ea *)0x0;
     target = make_label_operand(labno);
