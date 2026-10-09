@@ -1,4 +1,4 @@
-# d969def6343924919012ed69d95ce09babfd4a76
+# 537cee59618a37b3b5dbaef68433ef3f2d1c7323
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:bbf464fbb2a2b4e9
@@ -12,7 +12,7 @@ CHARID	obj:0:bacbac6213667378
 CHARID_tbl	obj:0:04ef5d5a551420e6
 CHARMOVE	obj:0:d353f71f5c8a6103
 CHARSET_tbl	obj:0:dcc67949f5968519
-CMD_MAIN	obj:0:b8350f6acb9465ef
+CMD_MAIN	obj:0:4cf9289dea0d390f
 CMD_MAIN_tbl	obj:0:66e09e27b9ec60ef
 Ck_Pass	obj:0:7410995f9eb18fac
 Ck_Pass_tbl	obj:0:83821928e904bfe5
@@ -532,7 +532,7 @@ chun_yuca	obj:0:09baa6d8de0531ec
 cmb_cont	obj:0:95a306d9911daa58
 cmb_win_tbl	obj:0:0516e6fff348738e
 cmd_data	obj:0:1d4b610f03a4f800
-cmd_main_2	obj:0:778dae0ec0f56cdb
+cmd_main_2	obj:0:de0fd81c0c6be6e4
 coin_cont	obj:0:f7b52344141f4852
 coin_sw	obj:0:d414e8b426997b32
 color3rd	obj:0:dc3e1907147cddda
