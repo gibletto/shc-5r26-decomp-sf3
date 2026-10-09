@@ -1,4 +1,4 @@
-# 84f9431386fa2c2ed36ac2725cec25969f82dae7
+# 949a4385f7385ced68712ec1326dc0445a3db1c5
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:bbf464fbb2a2b4e9
@@ -10,7 +10,7 @@ CALDIR	obj:0:3de166158bdb9ba1
 CALDIR_tbl	obj:0:254b770adbc67bdd
 CHARID	obj:0:bacbac6213667378
 CHARID_tbl	obj:0:04ef5d5a551420e6
-CHARMOVE	obj:0:861f85ab73c5cafc
+CHARMOVE	obj:0:187a90b273706863
 CHARSET_tbl	obj:0:dcc67949f5968519
 CMD_MAIN	obj:0:4497180fbb72944b
 CMD_MAIN_tbl	obj:0:66e09e27b9ec60ef
@@ -23,7 +23,7 @@ Com_Sub	obj:0:035864e17c61458f
 Com_Sub_tbl	obj:0:ea1aa01ff6960efa
 DEMO02	obj:0:943e3a41a4746176
 DEMO_tbl	obj:0:00e7feba529f4517
-EFF00	obj:0:e439f6e30560f46e
+EFF00	obj:0:658cf5d84311f9c6
 EFF00_tbl	obj:0:a687b63c6285ea16
 EFF01	obj:0:568c118398af2946
 EFF01_code	obj:0:13a7431f8b99ebd8
@@ -54,7 +54,7 @@ EFF21	obj:0:25dd91988a4c4b32
 EFF21_tbl	obj:0:0f74cdc7d340f666
 EFF22	obj:0:6cb19c181337b1a4
 EFF22_tbl	obj:0:32d6d34d02d766a6
-EFF23	obj:0:282ab54b799fe6fd
+EFF23	obj:0:768aaa1e55ba7ee7
 EFF23_tbl	obj:0:7b155bea3464150f
 EFF24	obj:0:dd5adc7436174fda
 EFF24_tbl	obj:0:9b414b58495e218f
@@ -76,13 +76,13 @@ EFF37_tbl	obj:0:56521852859142b8
 EFF38	obj:0:e065150d6635505d
 EFF38_tbl	obj:0:5f8223d47e5fab37
 EFF40	obj:0:f48ff0377a7bb6e1
-EFF41	obj:0:d9365ee6a6913198
+EFF41	obj:0:62fa716e6dcb28be
 EFF41_tbl	obj:0:9c646cb179abbecd
 EFF42	obj:0:42248be40f6746cb
 EFF42_tbl	obj:0:71fa529db59743d8
 EFF44	obj:0:bddb6ad011bb56a9
 EFF44_tbl	obj:0:f8921738871feb22
-EFF45	obj:0:70952f9c016baf53
+EFF45	obj:0:19ad65a05a596a02
 EFF45_tbl	obj:0:c11f3917685ddfbe
 EFF46	obj:0:6d62bae261f550e2
 EFF47	obj:0:046617195b1073ad
@@ -97,7 +97,7 @@ EFF54_tbl	obj:0:e52147dde6152c7a
 EFF58	obj:0:62ba8e7bc2c9e2c0
 EFF58_tbl	obj:0:f6fcd7141eea412f
 EFF61_tbl	obj:0:ddf78262f19a56a3
-EFF62	obj:0:9cf7c3e47c804315
+EFF62	obj:0:a2d4e7be6b4e57c4
 EFF62_tbl	obj:0:bf456732657302f5
 EFF63	obj:0:097861f080797cde
 EFF63_tbl	obj:0:540571bb2f22aea9
@@ -116,7 +116,7 @@ EFF75_ORDER	obj:0:83031ae18c13fc2a
 EFF75_tbl	obj:0:268674c8bfd4bc99
 EFF77	obj:0:c654278944d150a7
 EFF77_tbl	obj:0:d859b343165a8996
-EFF78	obj:0:4649a6d1d7a7d069
+EFF78	obj:0:b1cd5bd3f07e5c67
 EFF78_tbl	obj:0:629bce9c4769cfa6
 EFF82	obj:0:6acd953aa9d64f0d
 EFF83	obj:0:b41d8eab84c9766e
@@ -148,9 +148,9 @@ EFFB4	obj:0:1116a59e0d34597b
 EFFB4_tbl	obj:0:859604bc13915f6f
 EFFB5	obj:0:cb45f82c866b106a
 EFFB5_INIT	obj:0:d0ff58af4b4dee32
-EFFB6	obj:0:249593924a44d698
+EFFB6	obj:0:706925ee9c01e36f
 EFFB6_tbl	obj:0:7e02ba8a8f6606ff
-EFFB7	obj:0:264283303e9f8266
+EFFB7	obj:0:0ef4ac2f2d67ed8b
 EFFB8	obj:0:522e6838ce77072b
 EFFC0	obj:0:394dfa2c351888d0
 EFFC0_tbl	obj:0:6835e4d9b4c15a01
@@ -167,7 +167,7 @@ EFFC7	obj:0:cb7bd5cdbae52db3
 EFFC7_tbl	obj:0:5d730e1e579d6953
 EFFC8	obj:0:ba56fa0192c0c794
 EFFC8_tbl	obj:0:d3ef29413b12ab08
-EFFC9	obj:0:11fa3c2d1bbe68ec
+EFFC9	obj:0:0cafe887b2a1de70
 EFFC9_tbl	obj:0:95d5c42c70f7f2a6
 EFFD0	obj:0:bcc8230ad40be5e0
 EFFD0_tbl	obj:0:c9acf34f8fdaf1b6
@@ -177,7 +177,7 @@ EFFD4_tbl	obj:0:82972a01c41c9c69
 EFFD5	obj:0:ff8c2865e485d4c8
 EFFD5_tbl	obj:0:0b7ca3c4cdf9a539
 EFFD6	obj:0:9addd13bbd713ec3
-EFFD7	obj:0:4064b4ed7c9540ce
+EFFD7	obj:0:5e344a6ee0817244
 EFFD7_tbl	obj:0:9d73417a43e9ed61
 EFFD9	obj:0:68266ad8013a4547
 EFFD9_tbl	obj:0:ac486b6af67a5416
@@ -203,7 +203,7 @@ EFFF9_tbl2	obj:0:b5f08393a3d4cf08
 EFFG3	obj:0:51522a04e1c9aa5d
 EFFG4	obj:0:30b80521577c78e0
 EFFG4_tbl	obj:0:293daa3092eb7cdb
-EFFG5	obj:0:70981ee01b6cce6e
+EFFG5	obj:0:d8501715f4befee3
 EFFG5_tbl	obj:0:5f30b513a1908e5c
 EFFG6	obj:0:071c4fc0711884d3
 EFFG6_tbl	obj:0:78d3f65cb9dad025
@@ -230,7 +230,7 @@ EFFI5	obj:0:afdf1a1fd4178cf9
 EFFI5_tbl	obj:0:5fa3164ab4e84ed4
 EFFI7	obj:0:d51eb870fcde188c
 EFFI7_tbl	obj:0:333ec8b5c5730cfe
-EFFI8	obj:0:3a863de788adf999
+EFFI8	obj:0:2dd4825a4bd2279c
 EFFI8_tbl	obj:0:b2e348516a60e100
 EFFI9	obj:0:6799b1d1889b477f
 EFFJ0	obj:0:f4bd78f764eb9d1f
@@ -247,7 +247,7 @@ EFFK3	obj:0:e78e1c3f57c00c5d
 EFFK3_tbl	obj:0:06176ffb27aea877
 EFFK4	obj:0:20eb10470f61a797
 EFFK4_tbl	obj:0:4c26367660f98ff0
-EFFK5	obj:0:27168120cae98f44
+EFFK5	obj:0:15b483c9ce6890fa
 EFFK5_tbl	obj:0:63f662366a3efbd5
 EFFK7	obj:0:cba0d0d837f2e7fd
 EFFK7_tbl	obj:0:02a26c1d6df7e589
@@ -286,13 +286,13 @@ Eff95_tbl	obj:0:aa2ab190171e462d
 EffD8	obj:0:e8e5e215689a9a55
 EffD8_tbl	obj:0:84d59016a99954a0
 EffE0	obj:0:cd6bd8bb06002027
-EffG0	obj:0:b54c81092731f423
+EffG0	obj:0:22f19b7f5ff189bb
 EffG0_tbl	obj:0:db1c75e466cbc781
 EffK6	obj:0:85c3d176a9b84f40
 EffK6_tbl	obj:0:463a92c6b3d6cfe5
 EffM3	obj:0:d9d2a6e9dc9fbbfd
 EffM3_tbl	obj:0:8c2f39c49165f393
-Entry	obj:0:acf1835c423567ba
+Entry	obj:0:7372db715b53e17b
 Entry_tbl	obj:0:e4e693d6031d8e7d
 FOLLOW01	obj:0:83305f23b59d97fa
 FOLLOW02	obj:0:76cf03f9863df842
@@ -304,7 +304,7 @@ Game_Main_tbl	obj:0:6027e4bc68c65fff
 Getup	obj:0:a5ea3a90cecf0882
 Grade	obj:0:112dad02b6851608
 Grade_tbl	obj:0:94cd4cd6abe58d6a
-HITCHECK	obj:0:f0e844e3b9afb836
+HITCHECK	obj:0:91be44c0bd464139
 HITCHECK_tbl	obj:0:8f1577d85efb7ce1
 HITEFEF	obj:0:cb7d11e2d3ba32f8
 HITEFPL	obj:0:381f24e9857519ac
@@ -429,12 +429,12 @@ SYS_sub2	obj:0:743c8cef7624fccf
 SYS_sub_tbl	obj:0:3f07df48e923cbb9
 Se_Data	obj:0:f8a8c4d09f96f771
 Sel_Data	obj:0:466143026e323fdd
-VITAL	obj:0:8601305906a842b8
+VITAL	obj:0:839ee41b8878bf87
 VITAL_tbl	obj:0:02c7e38171fcb20b
 Win	obj:0:82d85d496dd2ee87
 Win_tbl	obj:0:20451dfe08db7671
 Win_tbl2	obj:0:26c5ae4369f975a5
-aboutspr	obj:0:3af39c7e2cec9455
+aboutspr	obj:0:224eef4c84d9c2a7
 aboutspr_tbl	obj:0:c55766541efe24b5
 active01	obj:0:3bb6625c196e2fef
 active01_tbl	obj:0:b6577762adc754a5
@@ -522,7 +522,6 @@ cg_C000	obj:0:cf152837aa256d56
 cg_D000	obj:0:1f82718454d96291
 cg_E000	obj:0:0adef4b5d48f3833
 cg_F000	obj:0:dd03874cc869fc28
-charmove_2	obj:0:01af918b14222c51
 chr_data	obj:0:63831ba2351e1c75
 chun_attbox	obj:0:501a81c29cdc802d
 chun_attr	obj:0:100645ecdb43ccf8
@@ -559,7 +558,7 @@ eff05	obj:0:a33974c1301fc92d
 eff05_tbl	obj:0:850793c5a84ac923
 eff06	obj:0:f4ae821fd905e072
 eff06_tbl	obj:0:ea93398583c4640d
-eff08	obj:0:bc8607191f1f6c70
+eff08	obj:0:0a17ee1d18437507
 eff08_tbl	obj:0:0bac3f6ec2957369
 eff12	obj:0:7ebc6f26da073e0d
 eff12_tbl	obj:0:ef7bdfc50c23017d
@@ -595,12 +594,12 @@ effL3	obj:0:88f9d650ec5ebb2b
 effL3_tbl	obj:0:376456bb62b06db9
 effL7	obj:0:ab3507f3a350cdf8
 effL7_tbl	obj:0:6130e125ced049e7
-effM0	obj:0:21661ec1d4754dea
+effM0	obj:0:2cbe1ae16f977c3c
 effM0_tbl	obj:0:9fd00f238a073af0
 effM5	obj:0:1af0391d4d5d56ce
 effM6	obj:0:ed7508072356437e
 effM8	obj:0:574969f2134c1660
-effa0	obj:0:7fe78b3645771c74
+effa0	obj:0:fb2db850bacbe74c
 effa5	obj:0:55098e26b33a02a7
 effa5_input	obj:0:3837cbee712d6db6
 effa8	obj:0:44d9be69b2606594
@@ -621,7 +620,7 @@ effe9	obj:0:6e4cc57a5366e55b
 effe9_tbl	obj:0:8ab10ae621850b4b
 effect_L9_move	obj:0:1c9bed6d51b2e957
 effect_char	obj:0:45676599e31f67ad
-efff0	obj:0:d54b2cda4f37a4be
+efff0	obj:0:4e253755ef9a2d1c
 efff5	obj:0:d6d30c2997ffa248
 efff5_tbl	obj:0:5a8cc6d10b982abc
 efff6	obj:0:b5bf33584beec58d
@@ -823,7 +822,7 @@ plpat19_tbl	obj:0:278659bd6bbbcbdd
 plpat20	obj:0:1d6b664c0181088d
 plpat20_tbl	obj:0:3f9dc0ce94e3f6f1
 poly_que	obj:0:79ebd7f19f5d8ef5
-pow_pow	obj:0:bcec9d2f0d195f57
+pow_pow	obj:0:325859c9d230ba1a
 q_attbox	obj:0:fd854ceccdee0b10
 q_attr	obj:0:4ec002b9c816e16d
 q_char	obj:0:ee0d81de00bc2c68
@@ -845,7 +844,7 @@ ryu_yuca	obj:0:51891fc9462ab20a
 sc_data	obj:0:6e605b1e6ca22fac
 sc_data2	obj:0:5d4b020c09da91b2
 sc_data3	obj:0:610c7d173cdfb3e4
-sc_sub	obj:0:e367c550e2b68bbe
+sc_sub	obj:0:6adc3d611a762600
 sc_sub_2	obj:0:e8ce00926211fc15
 sc_trans	obj:0:24e7e5ab329ca764
 sc_trans_tbl	obj:0:daff2abbe04de3a4
@@ -895,7 +894,7 @@ ta_sub_tbl	obj:0:aec9aa675c36bd0b
 tasksw_tbl	obj:0:750eaf717404b1f5
 tate00	obj:0:f795ce4add0f46b1
 test_mode	obj:0:7ad8966f47bf48dc
-textsound	obj:0:a137d23408e15e16
+textsound	obj:0:930a3982e0bd38c2
 textsound_2	obj:0:d4826b42d2f3fa77
 textsound_3	obj:0:f7c75340e242cd64
 textsound_tbl	obj:0:68b721907d245480
