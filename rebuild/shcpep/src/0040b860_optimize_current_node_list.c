@@ -60,6 +60,7 @@ int __cdecl optimize_current_node_list(void)
   } while (g_section_end == 0);
   if ((g_stage_flags & 0x800) == 0) {
 #if SHC_REBUILD_UPDATED
+    pep_load_scan(g_current_node_list);
     pep_dump("load", g_current_node_list);
 #endif
     PEPPOST(0, rewrite_branch_targets_for_node_list());

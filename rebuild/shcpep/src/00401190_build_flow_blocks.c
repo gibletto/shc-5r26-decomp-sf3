@@ -47,6 +47,7 @@ char __cdecl build_flow_blocks(void)
     }
     if ((block->code->target_labno != 0) && ((block->flags & 1) != 0)) {
       while ((next_code != (code_node *)0x0 && (node = next_code, next_code->labno == 0))) {
+        PEP_GAP_NOTE(block->code->target_labno, next_code);
         for (; node != (code_node *)0x0; node = node->next) {
           i = 0;
           rec = node->psd;

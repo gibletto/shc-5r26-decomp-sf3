@@ -36,6 +36,8 @@ maskand         maskand.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 exitkept        exitkept.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 memlabel        memlabel.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 mulcast         mulcast.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+jumpnext        jumpnext.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+tempexpr        tempexpr.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 slots_noinline  slots.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed -noinline
 switch_opt0     switch.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed
 poolwin         poolwin.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=0 -nospeed

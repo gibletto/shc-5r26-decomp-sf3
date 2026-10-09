@@ -234,4 +234,10 @@ hooks("0040b860", [(r"(\n  if \(\(g_stage_flags & 0x800\) == 0\) \{\n)(    PEPPO
                    (r"(\n  fill_branch_delay_slots\(g_current_node_list\);\n)",
                     r'\n#if SHC_REBUILD_UPDATED\n  pep_dump("flow", g_current_node_list);\n#endif\1'
                     r'#if SHC_REBUILD_UPDATED\n  pep_dump("slots", g_current_node_list);\n#endif\n')])
+# SWITCH_ARCADE_JUMP 3: the blocks that are a dead label and a jump once the function is loaded, and each
+# unreachable block the flow pass deletes behind a jump
+hooks("00401190", [(r"(\n(\s+)while \(\(next_code != \(code_node \*\)0x0 && \(node = next_code, next_code->labno == 0\)\)\) \{\n)",
+                    r"\1\2  PEP_GAP_NOTE(block->code->target_labno, next_code);\n")])
+hooks("0040b860", [(r'(\n(\s+)pep_dump\("load", g_current_node_list\);\n)',
+                    r"\n\2pep_load_scan(g_current_node_list);\1")])
 print(n, "fixes")

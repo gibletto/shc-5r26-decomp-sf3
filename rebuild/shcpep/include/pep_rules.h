@@ -13,6 +13,9 @@ int pep_post_skip(int k);
 /* SWITCH_ARCADE_BRANCH / SWITCH_ARCADE_JUMP */
 int keep_branch_over_jump(int *block);
 int keep_jump_to_next(int *block);
+void pep_load_scan(void *list);
+void pep_gap_note(short jump_labno, void *dead);
+#define PEP_GAP_NOTE(j, b) pep_gap_note(j, b)
 
 /* PEP_R0_FORGET */
 int pep_r0_forget(void);
@@ -71,6 +74,7 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_post_skip(k) 0
 #define keep_branch_over_jump(block) 0
 #define keep_jump_to_next(block) 0
+#define PEP_GAP_NOTE(j, b) ((void)0)
 #define pep_keep_target_head(pred, head) 0
 #define pep_no_thread() 0
 #define pep_no_thread_here(blk, dest) 0

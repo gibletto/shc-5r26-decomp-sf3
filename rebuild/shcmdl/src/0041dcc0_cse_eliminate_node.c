@@ -2,6 +2,7 @@
 #include "imports.h"
 #include "castmul.h"
 #include "gcserules.h"
+#include "tempexpr.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cse_variables
 #define g_cse_variables (*(node_list * *)(g_sd + 0x267a4))
@@ -72,7 +73,7 @@ il_node * __cdecl cse_eliminate_node(il_node *node)
     do {
       for (pnVar2 = *ppnVar3; pnVar2 != (node_list *)0x0; pnVar2 = pnVar2->next) {
         if (((pnVar2->node == node) && (node->cse_next != (il_node *)0x0)) &&
-           (blk = cse_find_common_block(node,(uint)((node->flag2 & 8) != 0)), blk != (bblock *)0x0) && GCSE_BLOCK_OK(node,blk) && CASTMUL_OK(node,blk))
+           (blk = cse_find_common_block(node,(uint)((node->flag2 & 8) != 0)), blk != (bblock *)0x0) && GCSE_BLOCK_OK(node,blk) && CASTMUL_OK(node,blk) && TEMP_EXPR_OK(node,blk))
         {
           stmt = cse_find_using_stmt(blk,node);
           stmt = cse_replace_with_temp(stmt,node,blk);

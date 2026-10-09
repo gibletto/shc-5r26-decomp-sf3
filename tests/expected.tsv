@@ -13,6 +13,7 @@ iv	obj:0:283c953a531ba354 src:0:dae4e3003c5b8b82
 ivbase	obj:0:6f80fb5e1cef47ec src:0:fb9bd0fba48f9e93
 ivstmt	obj:0:a82a9c46ef5ea66b src:0:959e61348f2a1051
 ivtemp	obj:0:c7431b37872f61b1 src:0:f7569d7fefd5184d
+jumpnext	obj:0:1068723d35748ae2 src:0:d71b916ef85cc9e4
 jumptemp	obj:0:64584ac66563bafc src:0:0e372bc08bfee80b
 loopinv	obj:0:991eaf2e658184da src:0:6532e0f07d1f0980
 macl	obj:0:ea63b8f8925c8c40 src:0:e81de2f0b154a545
@@ -40,6 +41,7 @@ slots_pic	obj:0:1b6ce9e52dca70b2 src:0:74d92d52941a6894
 switch	obj:0:90bd8b3e0b66f63b src:0:2de4566a11b99617
 switch_opt0	obj:0:b26118052d8f233d src:0:df3fce9435ab593b
 switch_sh1	obj:0:3b6502443e2ca2e5 src:0:375ac80bc8f6ad70
+tempexpr	obj:0:b271031138c560d3 src:0:4914814c5765896c
 tested	obj:0:2ff9ac385b01bcbe src:0:3aa38d6e3d1738c6
 tested_little	obj:0:eb7187bb774231fb src:0:3aa38d6e3d1738c6
 testrepl	obj:0:446251b692648a8a src:0:41db7da2be094be4

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "tempexpr.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_f_chain
 #define g_f_chain (*(bblock * *)(g_sd + 0x26ad0))
@@ -29,7 +30,7 @@ il_node * __cdecl cse_global_tree(il_node *node,bblock *block)
      (((op_class = (&g_op_class)[(char)node->op], op_class == '\x04' || (op_class == '\b')) ||
       (op_class == '\x10')))) {
     has_temp = tree_has_temp_id(node);
-    if (has_temp != 0) {
+    if (has_temp != 0 && TEMP_EXPR_SKIP(node)) {
       return node;
     }
     node = cse_eliminate_node(node);

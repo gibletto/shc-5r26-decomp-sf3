@@ -37,16 +37,102 @@ int keep_branch_over_jump(int *target)
   return 0;
 }
 
-/* SWITCH_ARCADE_JUMP: keep a "bra L" to the next block. 1 (unset): when L is a switch case or default label (the
-   arcade's "bra pc+4" for a switch whose only label is default); 2: always */
+/* SWITCH_ARCADE_JUMP: a "bra L" to the next block, which Release 26's flow pass deletes (simplify_flow_block).
+   1: kept when L is a switch case or default label (the arcade's "bra pc+4" for a switch whose only label is
+      default);
+   2: always kept;
+   3 (unset): kept unless everything that stood between the jump and L was a bare jump under a plain label nothing
+      referred to when the function had been loaded.
+   Release 26 deletes a jump to the next label in two places: where a plain label arrives while the function is
+   loaded or cleaned up (delete_branch_to_next_label), and in the flow pass, which meets the jumps that came to
+   stand in front of their labels only later, when the code in between was deleted as unreachable
+   (build_flow_blocks). The arcade's compiler has no jump at the first kind of place and at one class of the
+   second: "if (c) { ... } else break;" (or continue, goto), where the else arm is one jump whose label lost its
+   only reference while the function was loaded, when the test was sent straight to the jump's destination
+   (rewrite_branch_target_chains). Everywhere else it has "bra pc+4":
+   - the else arm was shared with a later identical block by cross-jumping and became a jump only then
+     (debug_object_edit_move, debug_object_edit_all_char_move);
+   - the else arm is "return;" (effect_L2_init);
+   - the blocks in between began with case labels: the end of the compare chain of a switch whose cases are all
+     "goto" (set_caught_status twice, plef_at_vs_player_damage_union twice), and every place of value 1.
+   The game's C routines reach the flow pass's deletion at 71 places. 57 are jumps to a case or default label, kept
+   by value 1 as before. Of the 14 to a plain label, the arcade has no jump at 6, all "else break;"
+   (search_effect_index twice, Att_RESURRECTION, Att_RESURRECTION2, Auto_Repeat_Sub_Wife, catch_hit_check) and
+   "bra pc+4" at the 7 named above; the last, op_bg0_0008, has none where the rule keeps one, behind a case that
+   only breaks in front of "default: goto out;". Written with the code after the switch inside that case the
+   routine has no such jump and the same instructions as before. No place has a jump to the next plain label with
+   nothing deleted in between; the rule would keep it. */
+static void *bare_jump[2048];                 /* blocks that were a dead label and a JUMP when loaded */
+static int bare_jump_n;
+static unsigned char gap_other_labels[8192]; /* labels whose jump lost a block behind it that was not one of those */
+static unsigned char gap_any_labels[8192];   /* labels whose jump lost any block behind it (log only) */
+static int labbit(unsigned char *set, short l) { unsigned short u = (unsigned short)l; return l != 0 && (set[u >> 3] >> (u & 7)) & 1; }
+static void labset(unsigned char *set, short l) { unsigned short u = (unsigned short)l; set[u >> 3] |= (unsigned char)(1 << (u & 7)); }
+
+/* the block's only code record when that is a JUMP, else 0 (labels, line and switch markers do not count) */
+static psd *block_bare_jump(code_node *b)
+{
+  code_node *n;
+  psd *j = 0;
+  int i;
+  for (n = b; n; n = n->next)
+    for (i = 0; i < 15; i++) {
+      psd_op op = n->psd[i].op;
+      if (op == OP_DUMMY || op == OP_LINE || op == OP_SWBGN || op == OP_SWEND || op == OP_LABEL || op == OP_CLABEL ||
+          op == OP_DLABEL) continue;
+      if (op != OP_JUMP || j) return 0;
+      j = &n->psd[i];
+    }
+  return j;
+}
+
+/* from optimize_current_node_list, when the function has been loaded */
+void pep_load_scan(void *list)
+{
+  code_node *b;
+  symbol *y;
+  int i;
+  bare_jump_n = 0;
+  memset(gap_other_labels, 0, sizeof gap_other_labels);
+  memset(gap_any_labels, 0, sizeof gap_any_labels);
+  for (b = (code_node *)list; b; b = b->next_block) {
+    if (b->labno <= 0 || !block_bare_jump(b)) continue;
+    for (i = 0; i < 15 && b->psd[i].op == OP_DUMMY; i++) ;
+    if (i == 15 || b->psd[i].op != OP_LABEL) continue;
+    for (y = g_symbol_hash[b->labno % 0x3fd]; y && y->number != b->labno; y = y->hash_next) ;
+    if (y && y->ref_count == 0 && bare_jump_n < 2048) bare_jump[bare_jump_n++] = b;
+  }
+}
+
+/* from build_flow_blocks, which deletes the unlabelled blocks behind an unconditional jump: jump_labno is that jump's
+   label, dead the block about to be deleted */
+void pep_gap_note(short jump_labno, void *dead)
+{
+  int i;
+  if (jump_labno == 0 || !block_has_code_records((code_node *)dead)) return;   /* an empty block is nothing */
+  labset(gap_any_labels, jump_labno);
+  for (i = 0; i < bare_jump_n; i++)
+    if (bare_jump[i] == dead && block_bare_jump((code_node *)dead)) return;
+  labset(gap_other_labels, jump_labno);
+}
+
 int keep_jump_to_next(int *target)
 {
   unsigned char t;
-  int k = env_atoi("SWITCH_ARCADE_JUMP", 1);
-  if (k == 2) return 1;
-  if (k != 1 || !target || !*target) return 0;
+  short l;
+  int k = env_atoi("SWITCH_ARCADE_JUMP", 3), r;
+  char *lg;
+  if (!target || !*target) return 0;
   t = *(unsigned char *)(*target + 0x10);
-  return t == 0x19 || t == 0x1a;
+  l = *(short *)(*target + 4);
+  r = k == 2 || ((k == 1 || k == 3) && (t == 0x19 || t == 0x1a)) ||
+      (k == 3 && (labbit(gap_other_labels, l) || !labbit(gap_any_labels, l)));
+  if ((lg = getenv("JNEXT_LOG")) != 0) {
+    FILE *f = fopen(lg, "a");
+    if (f) { fprintf(f, "%s L%d op=%x gap=%d other=%d %s\n", pep_current_function(), l, t, labbit(gap_any_labels, l),
+                     labbit(gap_other_labels, l), r ? "keep" : "delete"); fclose(f); }
+  }
+  return r;
 }
 
 /* PEP_R0_FORGET: a constant in r0 is not carried into the successors of a conditional branch.
