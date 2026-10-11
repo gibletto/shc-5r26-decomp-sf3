@@ -5,7 +5,7 @@
    callee-saved register to the first of r0-r3 whose free ranges (the statements in which code generation left the
    scratch register unused) cover all of the variable's live ranges, so the function need not save that register.
 
-   GEN_CHAIN_JUMP=1 (unset: 1, the arcade rule; 0: Release 26): the jumps of a switch's compare chain
+   GEN_CHAIN_JUMP=1 (unset: 1, the arcade rule; 0: Release 26), when GEN_CHAIN_SCRATCH_R0=0: the jumps of a switch's compare chain
    (emit_switch_compare_chain) do not take r1 out of its free ranges. Release 26 counts r1, the register a
    JUMPT/JUMP would load for a jmp @r1, as used at the switch's statement for every case, although each becomes a bt
    or bra; so a constant or variable that is live from the switch head into its cases never moves to r1 and keeps
@@ -73,10 +73,25 @@ void gen_remap_log_mark(const char *what, unsigned int mask, unsigned int serial
     }
 }
 
+/* GEN_CHAIN_SCRATCH_R0 (unset: 1; 0: previous scratch choice): the selector in r0 is dead
+   on a case/default edge. Reuse it for an expanded compare-chain jump, while
+   retaining it on a conditional fallthrough to the next comparison. Account
+   for r0 even for a default-only chain, before the case-content snapshot. */
+unsigned int gen_chain_scratch_reg(void)
+{
+    static int k = -1;
+    if (k < 0) {
+        const char *v = getenv("GEN_CHAIN_SCRATCH_R0");
+        k = (v && *v) ? (atoi(v) != 0) : 1;
+    }
+    return k ? 0 : 1;
+}
+
 /* the registers a compare-chain jump adds to the chain's used mask */
 unsigned int gen_chain_jump_regs(unsigned int mask)
 {
     static int k = -1;
+    if (gen_chain_scratch_reg() == 0) return 1;
     if (k < 0) {
         const char *v = getenv("GEN_CHAIN_JUMP");
         k = (v && *v) ? atoi(v) : 1;

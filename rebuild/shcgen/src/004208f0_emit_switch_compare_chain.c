@@ -58,7 +58,7 @@ ushort __cdecl emit_switch_compare_chain(uint serial,short filno,ushort linno)
         emit_psd_record((psd *)&g_psd_scratch,0);
       }
       used_regs = used_regs | CHAIN_JUMP_REGS(2);
-      cVar3 = '\x01';
+      cVar3 = (char)CHAIN_SCRATCH_REG();
       iVar2 = 0;
       peVar1 = (ea *)0x0;
       ea1 = make_label_operand((short)case_rec[1]);
@@ -69,7 +69,7 @@ ushort __cdecl emit_switch_compare_chain(uint serial,short filno,ushort linno)
     }
   }
   if (g_switch_default_label != 0) {
-    cVar3 = '\x01';
+    cVar3 = (char)CHAIN_SCRATCH_REG();
     iVar2 = 0;
     peVar1 = (ea *)0x0;
     ea1 = make_label_operand(g_switch_default_label);
@@ -80,6 +80,5 @@ ushort __cdecl emit_switch_compare_chain(uint serial,short filno,ushort linno)
   }
   return used_regs;
 }
-
 
 

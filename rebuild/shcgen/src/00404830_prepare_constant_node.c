@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "construles.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -89,7 +90,7 @@ int __cdecl prepare_constant_node(gen_node *node)
           g_content_hit = iVar2;
           return;
         }
-        if (bVar1 == 1) {
+        if ((bVar1 == 1) && !NARROW_CONST(parent->type)) {
           g_content_hit = iVar2;
           return;
         }
@@ -144,6 +145,5 @@ int __cdecl prepare_constant_node(gen_node *node)
   g_content_hit = saved_hit;
   return;
 }
-
 
 

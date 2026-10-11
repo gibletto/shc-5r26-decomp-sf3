@@ -3,7 +3,8 @@
 Street Fighter III 3rd Strike's arcade program was built with an SHC of the same family as Release 26, but not the
 same compiler: compiled with Release 26, the game's decompiled C differs from the arcade's code in ways that no
 change to the C removes. Each difference below was traced to the stage that makes it and turned into a rule. The
-rules are on by default; setting one to 0 in the environment gives Release 26's behaviour.
+rules are on by default. Setting all 36 settings listed by `tests/parity.py` to 0 in the environment gives
+Release 26's behaviour; individual switches select the decisions described below.
 
 ## An example
 
@@ -71,10 +72,12 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=7` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w`, which extends its operands itself, so the operand's cast to `int` is dropped | keeps `mul.l` (bits 1 and 2), and keeps the cast with it (bit 4): a `short` parameter is extended before it is multiplied (`exts.w r4,r1`, `mov #21,r3`, `mul.l r3,r1`) |
 | `GEN_CHAIN_JUMP=1` | shcgen | counts r1 as used by a switch's compare chain (the register a far jump would need), so a value live from the switch head into its cases cannot move from r13/r14 to r1 at the end of the function | leaves r1 free there: the value moves to r1 and r13/r14 is not saved |
+| `GEN_CHAIN_SCRATCH_R0=1` | shcgen | uses r1 as the possible far-jump scratch register for each case and default edge of a switch compare chain | uses the selector register r0, whose value is dead on those edges; reserves its actual use before case-state restoration, including a default-only switch. The ordinary branch producers and all delay-slot dependency checks stay unchanged |
 | `GEN_JUMP_TEMP=3` | shcgen | charges the scratch register a `break` or a `continue` picks for its jump to the statement in front of it, so a value that lives through that statement (the copy of a stepped pointer in a loop body that ends in `continue`, a counter tested just before a `break`) cannot move to that scratch register at the end of the function and keeps a saved register (`mov.l r10,@-r15`, `mov r5,r10`) | does not: the value moves to the scratch register (`mov r5,r1`) and the register is not saved; `goto`, the jumps of `for` and `while` and the jump over an `else` are charged as in Release 26 |
 | `GEN_POOL_MOVLOC=4` | shcgen | without optimization, counts a load or store of a local as 6 bytes when deciding where a literal pool goes | counts it as 4, so the pools of unoptimized files come later |
 | `GEN_RELOAD=1` | shcgen | reads a variable kept in the frame from the scratch register an assignment or load left it in, whichever reference it is (`exts.w r0,r7` next to the store of a `short`) | does not for the variable's last reference, which reads the frame slot again (`mov.w r0,@(12,r15)`, `mov.w @(12,r15),r0`, `mov r0,r7`); earlier references, globals and locals whose address is taken still take the register |
 | `GEN_EVICT_ORDER=1` | shcgen | when a register that is noted as holding a constant is noted as holding a variable instead (an array's address just loaded), forgets the register's own note first, so the note of one other register always survives | first forgets the older of the two notes when another register has one, so after an array's address is loaded the register that held an earlier address or constant counts as free |
+| `GEN_NARROW_CONST=1` | shcgen | refuses a live cached constant as the right operand of an ADD/SUB when the left is a register, preserving a possible address displacement | permits reuse for byte/short integer results, which the later address-folding pass excludes; wide integers, pointers, arrays, label handling and template constraints keep their old decisions |
 | `GEN_MEM_INDEX=11` | shcgen | when the address of an access is the sum of an operand that is still in memory and one that is not, loads an operand so that the access is indexed: a pointer read from memory (a row of a table of pointers, `table[a]` in `table[a][b]`; a pointer kept in the frame or in a global) beside an index in a register goes to r0 (`mov.l @(r0,r3),r0`, `mov.l @(r0,r2),r3`); a scaled index kept in the frame beside an array's address is loaded and the address goes to r0 (`mov.l @r15,r2`, `mov.l left,r0`, `mov.w @(r0,r2),r1`); a pointer read from memory beside an index already in r0 goes to a scratch register (`mov.l @r2,r3`, `mov.w @(r0,r3),r1`) | leaves the sum to an add in all three (bits 1, 2 and 8): `mov.l @(r0,r3),r3`, `add r3,r2`, `mov.l @r2,r1`; `mov.l left,r2`, `mov.l @r15,r1`, `add r2,r1`, `mov.w @r1,r3`; `add r3,r0`, `mov.w @r0,r1`. The access is still indexed when the pointer lands in r0 because the value is wanted there. Two operands both in memory (bit 4) stay as in Release 26: no place in the game decides it |
 | `GEN_R0VAR=2` | shcgen | when one variable is the index of several arrays in a statement, copies it into r0 once and uses every array as a base (`exts.w r14,r0`, `mov.b @(r0,r8),r3`, `mov.b r3,@(r0,r9)`) | has no such variable: the index stays where it is, and each access either takes its array's address into r0 (`mov r8,r0`, `mov.b @(r0,r4),r3`) or adds (`add r4,r2`, `mov.b r3,@r2`) |
 | `MDL_ARG_CONST=b` | shcmdl | doesn't count constants passed to calls when choosing register variables | counts them, so a constant used by several calls is kept in a register |
@@ -95,20 +98,41 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=3` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier |
 
-0 gives Release 26 for each; the value shown is the default. `ASM_SPECREG` fixes a fault in Release 26 itself:
+The value shown is the default. `GEN_CHAIN_SCRATCH_R0=0` restores the previous scratch choice and lets
+`GEN_CHAIN_JUMP` control its old r1 reservation; with scratch-r0 enabled, the actual r0 use is always charged.
+Large case constants still require r1 for the real comparison. `ASM_SPECREG` fixes a fault in Release 26 itself:
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
 Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,797 compile to the arcade's instructions with
-Release 26 and 9,726 with the rules; byte for byte, literal pools included, 1,882 and 9,624.
+Release 26 and 9,753 with the rules; byte for byte, literal pools included, 1,884 and 9,655.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcgen/src/_poolrules.c`, `rebuild/shcgen/src/_reloadrules.c`, `rebuild/shcgen/src/_evictrules.c`,
-`rebuild/shcgen/src/_memindexrules.c`, `rebuild/shcgen/src/_r0varrules.c`,
+`rebuild/shcgen/src/_memindexrules.c`, `rebuild/shcgen/src/_r0varrules.c`, `rebuild/shcgen/src/_construles.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_castmulrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
 `rebuild/shcmdl/src/_ivrules.c`, `rebuild/shcmdl/src/_looprules.c`, `rebuild/shcmdl/src/_maskrules.c`,
 `rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
 `tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
+
+The switch-selector rule was checked over all 460 C modules of the round-21 source: nine direct producers
+improved, none moved away from the arcade, and unchanged sites are nondiscriminating. Five direct routines
+became byte-exact; two more gained from corrected branch distances after two default-only switches grew to
+their arcade sizes. The selector survives conditional fallthrough to the next comparison, but is no longer
+needed when a case/default edge is taken. This explains both freeing r1-dependent slots and keeping a slot
+empty when its candidate writes r0. The corpus supports the choice; it does not expose an original far-switch
+scratch-register witness. See `tests/chain_scratch.py` for executable near, far and default-only controls.
+
+The narrow-constant rule was traced over all 460 C modules: four narrowed short sums use a cached constant
+in the arcade, with no opposing narrowed site. Against a blanket bypass, 70 address consumers retain folding
+and one wide sum retains its immediate; 17 address sites remain ambiguous. The bounded rule changes only
+the four sums: `effect_32_init`, `effect_34_init` and `effect_L6_init` become byte-exact;
+`effect_A0_init` improves but retains two unmatched words. No routine loses accuracy, no section grows,
+and no non-code bytes or relocations change. The cache requires the complete value and labels to agree.
+The signedness-independent width boundary already exists in `fold_address_add_sub`; it is not a literal,
+register or function test. The arcade census has no byte/unsigned-short or SUB reuse witness. Native tests
+exercise all four byte/short ADD types and verify wide/address controls, conversions and disabled parity;
+their SUB cases execute correctly but do not trigger this choice. See `tests/narrow_const.py`.
 
 ## Diagnostics
 

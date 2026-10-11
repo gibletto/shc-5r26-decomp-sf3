@@ -1,4 +1,4 @@
-# a3f30768ab7ea9f389931f80c08da2965466c7df
+# 826768a4bcd7b7dd22e4a71fea3cb74a741be51f
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:01ad99bf207b9622
@@ -9,7 +9,7 @@ CALDIR	obj:0:96a47d66ffe2862d
 CALDIR_tbl	obj:0:254b770adbc67bdd
 CHARID	obj:0:bacbac6213667378
 CHARID_tbl	obj:0:04ef5d5a551420e6
-CHARMOVE	obj:0:fa830bc378160b78
+CHARMOVE	obj:0:0a20e74c5ee0506b
 CHARSET_tbl	obj:0:dcc67949f5968519
 CMD_MAIN	obj:0:4da268aac667088b
 CMD_MAIN_tbl	obj:0:66e09e27b9ec60ef
@@ -40,7 +40,7 @@ EFF10	obj:0:4937f70a366bf8cf
 EFF10_tbl	obj:0:40e76c54d9b2df7e
 EFF11	obj:0:6463be8e9b68c87a
 EFF11_tbl	obj:0:6a086a781ecc87b2
-EFF13	obj:0:66097d377b6a44cb
+EFF13	obj:0:4e5976ba520d1d86
 EFF13_tbl	obj:0:17985a2b319f3b8a
 EFF15	obj:0:fb44f40b79bdb71e
 EFF16	obj:0:e402c5200564839b
@@ -66,10 +66,10 @@ EFF29	obj:0:d1a2f9f62e4d59e5
 EFF29_tbl	obj:0:5f644058cb5bbfc7
 EFF30	obj:0:2c2234a0950a3832
 EFF31	obj:0:013b533c1d6600b3
-EFF32	obj:0:7d301b2078d78b5e
+EFF32	obj:0:6742212cf5519cfc
 EFF33	obj:0:5f57380dc836c143
 EFF33_tbl	obj:0:d52676164b5e82b8
-EFF34	obj:0:7143edae4cd12c65
+EFF34	obj:0:c6b2283259b68b79
 EFF37	obj:0:cdcab8d512d0773f
 EFF37_tbl	obj:0:56521852859142b8
 EFF38	obj:0:e065150d6635505d
@@ -77,7 +77,7 @@ EFF38_tbl	obj:0:5f8223d47e5fab37
 EFF40	obj:0:f48ff0377a7bb6e1
 EFF41	obj:0:62fa716e6dcb28be
 EFF41_tbl	obj:0:9c646cb179abbecd
-EFF42	obj:0:42248be40f6746cb
+EFF42	obj:0:418e5d5b457f26ea
 EFF42_tbl	obj:0:71fa529db59743d8
 EFF44	obj:0:bddb6ad011bb56a9
 EFF44_tbl	obj:0:f8921738871feb22
@@ -247,7 +247,7 @@ EFFK3	obj:0:e78e1c3f57c00c5d
 EFFK3_tbl	obj:0:06176ffb27aea877
 EFFK4	obj:0:20eb10470f61a797
 EFFK4_tbl	obj:0:4c26367660f98ff0
-EFFK5	obj:0:066ee97f8837ea82
+EFFK5	obj:0:a1bc6bf81d22cba4
 EFFK5_tbl	obj:0:63f662366a3efbd5
 EFFK7	obj:0:cba0d0d837f2e7fd
 EFFK7_tbl	obj:0:02a26c1d6df7e589
@@ -309,7 +309,7 @@ HITCHECK_tbl	obj:0:8f1577d85efb7ce1
 HITEFEF	obj:0:cb7d11e2d3ba32f8
 HITEFPL	obj:0:12e7ad6842301c76
 HITPLEF	obj:0:e39defad20ce9e64
-HITPLPL	obj:0:18f4fb0e6c0766ee
+HITPLPL	obj:0:c33166a7cb579d01
 Manage	obj:0:f7edcf95a95077a3
 Manage_tbl	obj:0:1b035355192ccb1f
 OPENING	obj:0:d1def1c1e6400b01
@@ -398,8 +398,8 @@ PLS03_tbl	obj:0:b3c50db838465020
 PLSGAUGE	obj:0:3fa22400120b6af5
 POW_DATA	obj:0:30cefe4e0b618c71
 Passive20	obj:0:7a547cf0e295a216
-RANKING	obj:0:f82345aef52618e9
-SE	obj:0:5a2fb26c5d3ab905
+RANKING	obj:0:280de7198b8d622a
+SE	obj:0:a5be5d16488ac486
 SE_tbl	obj:0:2b0fb87bf095fc37
 SE_tbl2	obj:0:50675489d831eca1
 SHELL00	obj:0:0c1aac52a1705eab
@@ -475,10 +475,10 @@ alex_char	obj:0:ac8fc0cdb8e6ed67
 alex_hitbox	obj:0:29e7903440b48c4b
 alex_move	obj:0:5a3b37b1d8d32f83
 alex_yuca	obj:0:bdb8eb7a3167486e
-appear	obj:0:3d1027eebdf61df4
+appear	obj:0:11ddfe926f067f53
 appear_tbl	obj:0:780612c7a7207db4
 asstbl	obj:0:99d3f2c221991200
-bg000	obj:0:7996c7e53305ad02
+bg000	obj:0:565a3a210c21126b
 bg0001_tbl	obj:0:015f13441a9c904d
 bg000_tbl	obj:0:c2243eb90dc5fbf1
 bg000_tbl2	obj:0:31b114d96cbc0f86
@@ -495,8 +495,8 @@ bg160	obj:0:e8881b2bef5b1dd4
 bg190	obj:0:4824b5e423d1994c
 bg_data	obj:0:04969ec807a3029e
 bg_data2	obj:0:f460a4410afe19b2
-bg_sub	obj:0:6cf310d0803e9f97
-bg_sub_2	obj:0:cddde6168c515026
+bg_sub	obj:0:f6f18317b8ee1cff
+bg_sub_2	obj:0:bee7a6208c011790
 bg_sub_tbl	obj:0:b295996aa7e9ece5
 bns_bg2	obj:0:88e5919dd866fe77
 bonus_bg	obj:0:c82cb2b24422dd65
@@ -527,7 +527,7 @@ chun_char	obj:0:e4b8389028f97020
 chun_hitbox	obj:0:681823c50d697e1e
 chun_move	obj:0:546d3fd6fe9fc94a
 chun_yuca	obj:0:09baa6d8de0531ec
-cmb_cont	obj:0:3b48c9b205b16690
+cmb_cont	obj:0:33bda830b52e86d5
 cmb_win_tbl	obj:0:0516e6fff348738e
 cmd_data	obj:0:1d4b610f03a4f800
 cmd_main_2	obj:0:abec775eab92a720
@@ -598,7 +598,7 @@ effM0_tbl	obj:0:9fd00f238a073af0
 effM5	obj:0:1af0391d4d5d56ce
 effM6	obj:0:ed7508072356437e
 effM8	obj:0:574969f2134c1660
-effa0	obj:0:fb2db850bacbe74c
+effa0	obj:0:3664349b8e02be3c
 effa5	obj:0:55098e26b33a02a7
 effa8	obj:0:44d9be69b2606594
 effa9	obj:0:52aedd0ff324f303
@@ -612,8 +612,7 @@ effd3_tbl	obj:0:782a7874adb6926c
 effd6_code	obj:0:625fd360b5ea9228
 effe3	obj:0:612b8b8715094159
 effe3_tbl	obj:0:3b904fb306249067
-effe6	obj:0:ae2ed1c2d80a85ef
-effe6_tbl	obj:0:23ae66a852d63fc9
+effe6	obj:0:7bca62285af93813
 effe9	obj:0:6e4cc57a5366e55b
 effe9_tbl	obj:0:8ab10ae621850b4b
 effect_L9_move	obj:0:1c9bed6d51b2e957
@@ -637,7 +636,7 @@ effj2_code	obj:0:54868113f4c95ceb
 effj4	obj:0:5a9266ef2903e0f5
 effj5	obj:0:1844404a723ebff6
 effl5	obj:0:647cb8cfaab3ee3b
-effl6	obj:0:cfd76a3e6739befc
+effl6	obj:0:54d588c025cfee45
 effl8	obj:0:127561743c4dbc11
 elena_attbox	obj:0:1d202b2336dbdfb2
 elena_attr	obj:0:2e5d19195d96bdd8
@@ -654,7 +653,7 @@ end_12	obj:0:7eb51af7dbe17cbe
 end_12_tbl	obj:0:fa19610305bad21b
 end_13	obj:0:0fc570443131eb99
 end_13_tbl	obj:0:41e0bd4025b7552f
-end_14	obj:0:bdc653d715b94e8c
+end_14	obj:0:564203fa056e8ff7
 end_14_tbl	obj:0:039317e4d3aa077e
 end_16	obj:0:e6e135b74db5cd41
 end_16_tbl	obj:0:15f5afa5da9cfe0b
@@ -697,7 +696,7 @@ end_sub_7b	obj:0:a2a79fac93fa81e0
 end_sub_7c	obj:0:640e3b878167b2f5
 end_sub_8	obj:0:f12939ea9cbbd3d8
 end_sub_tbl	obj:0:c7eba01c15d712a6
-entry_2	obj:0:c4ee548a9a60f55d
+entry_2	obj:0:28735601e5a745cb
 etc	obj:0:438edaae5196b312
 exchange	obj:0:03d00c89bc4f9f13
 family	obj:0:4702a8f05de19e64
@@ -752,7 +751,7 @@ makoto_char	obj:0:23ba15dc2c891716
 makoto_hitbox	obj:0:adb06fa7bdd96071
 makoto_move	obj:0:99171abbf298e278
 makoto_yuca	obj:0:2317ad76c15c95f7
-manage_2	obj:0:c86a804dd5727408
+manage_2	obj:0:736f18ae36a2580a
 meta_col	obj:0:75e78bea81cde23f
 meta_col_bcd	obj:0:36fe80214036db66
 meta_col_lib	obj:0:42a447fc5596a33f
@@ -843,10 +842,10 @@ ryu_yuca	obj:0:51891fc9462ab20a
 sc_data	obj:0:6e605b1e6ca22fac
 sc_data2	obj:0:5d4b020c09da91b2
 sc_data3	obj:0:610c7d173cdfb3e4
-sc_sub	obj:0:6adc3d611a762600
+sc_sub	obj:0:69bafc96fc903e0b
 sc_sub_2	obj:0:dd2671b5e9b0a698
 sc_sub_3	obj:0:a03df99e3f3885b9
-sc_trans	obj:0:a4413fd680b7802a
+sc_trans	obj:0:8354d88a20ccf1c4
 sc_trans_tbl	obj:0:daff2abbe04de3a4
 sc_trans_tbl2	obj:0:270164ff31e405ef
 scene_char	obj:0:52de1c25c4fb7304
@@ -860,9 +859,9 @@ sean_char	obj:0:4998c50c773d4038
 sean_hitbox	obj:0:980be6eae87d4abf
 sean_move	obj:0:a657b5b862e46aa0
 sean_yuca	obj:0:bf74e293727fd0e7
-sel_pl	obj:0:28f752921e310ffd
+sel_pl	obj:0:d10e845f9d5117c0
 sel_pl_tbl	obj:0:f14f0f661df7c9b2
-simmram_slot	obj:0:4714d7f0b89e93c6
+simmram_slot	obj:0:bba0ef2d89ef7b65
 snd_bank	obj:0:40be8261cdc59e19
 snd_seq	obj:0:ef6a6469da12b416
 sound_voice	obj:0:7c469bbea8c965d7
@@ -873,7 +872,7 @@ spgauge	obj:0:3e6a5fd05f145587
 spgauge_tbl	obj:0:ba3fe03618655d42
 spr_list	obj:0:6d1740bb1aeb96ee
 spr_pool	obj:0:7a895a12c1da706e
-spr_pool_2	obj:0:8365be48e69debff
+spr_pool_2	obj:0:913132d5319aedd3
 stage_char	obj:0:0ede1ee67afa20f6
 sys_config	obj:0:48211cf66b0b63f8
 sys_config_2	obj:0:802ec5e04d04d711
@@ -884,7 +883,7 @@ sys_test_2	obj:0:d37763e27d5dabe9
 sys_test_2a	obj:0:bbb6042aaffed228
 sys_test_2b	obj:0:c468801e2b107a1c
 sys_test_2c	obj:0:bd2d981e3e792806
-sys_test_3	obj:0:53c1ae324d4189c4
+sys_test_3	obj:0:3f5f6170b0ab6427
 sys_test_4	obj:0:54ec0c7a72b0499d
 sys_test_5	obj:0:b982296d55a0db7f
 sys_test_tbl	obj:0:db7f6fbf4ff384d7

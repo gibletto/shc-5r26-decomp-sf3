@@ -112,7 +112,8 @@ fix("00415cd0", [(r"\n([ \t]*)(" + N("00415ec0") + r"\((\w+)\);)",
 # remap_register_variables_to_scratch_registers sees
 REMAP_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "remaprules.h"\n')
 RANGES_ON = "  if ((*(short *)g_request->unknown_004 != 0) && (g_no_reg_ranges == '\\0')) {\n"
-fix("004208f0", [REMAP_INC, ("used_regs = used_regs | 2;", "used_regs = used_regs | CHAIN_JUMP_REGS(2);")])
+fix("004208f0", [REMAP_INC, ("used_regs = used_regs | 2;", "used_regs = used_regs | CHAIN_JUMP_REGS(2);"),
+                 ("cVar3 = '\\x01';", "cVar3 = (char)CHAIN_SCRATCH_REG();")])
 fix("0040b0d0", [REMAP_INC, ("  } while (scratch < 4);\n  sVar1 = *lreg;\n",
                              "  } while (scratch < 4);\n  REMAP_LOG();\n  sVar1 = *lreg;\n")])
 fix("0041bc70", [REMAP_INC, (RANGES_ON, "  if (contents == g_gpr_contents) {\n"
@@ -158,6 +159,11 @@ fix("0042baa0", [('#include "imports.h"\n', '#include "imports.h"\n#include "poo
 fix("004300d0", [('#include "imports.h"\n', '#include "imports.h"\n#include "reloadrules.h"\n'),
                  ("  lreg = node->lreg;\n", "  lreg = node->lreg;\n  if (RELOAD_LAST_USE(node)) {\n    return -1;\n  }\n")],
     once=True)
+
+# --- GEN_NARROW_CONST: narrow integer sums cannot retain a folded address displacement.
+fix("00404830", [('#include "imports.h"\n', '#include "imports.h"\n#include "construles.h"\n'),
+                 ('        if (bVar1 == 1) {\n',
+                  '        if ((bVar1 == 1) && !NARROW_CONST(parent->type)) {\n')], once=True)
 
 # --- GEN_EVICT_ORDER (src/_evictrules.c, include/evictrules.h): whether the oldest other register content is evicted
 # before or after the register's own old content is dropped (bit 1 a variable record, bit 2 a constant record), and

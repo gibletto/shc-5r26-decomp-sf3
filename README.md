@@ -28,6 +28,10 @@ holding `VC98`). `parity.py` compiles `tests/cases` with Release 26 and with the
 0 every output must be identical, with the rules on it must match `tests/expected.tsv`. `--sf3 <checkout of
 sfIII3-cps3-decomp>` does the same for the game's C modules.
 
+`tests/chain_scratch.py --matchlab <game>/tools/matchlab --work <fresh-private-directory>`
+also executes the switch-selector lifetime fixtures with the companion game's SH2 interpreter. It checks
+return values, stores and saved registers for short, medium and far branches, including default-only switches.
+
 To use the stages, copy them over the ones in a copy of `extracted/bin` and point `SHC_LIB` at it. SHC rejects
 an option value containing `-`, such as `-object=C:\my-dir\x.obj`.
 
