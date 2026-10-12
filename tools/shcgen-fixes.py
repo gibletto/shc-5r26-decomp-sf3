@@ -196,4 +196,14 @@ fix("004037e0", [('#include "imports.h"\n', '#include "imports.h"\nint shcgen_kn
                   "        iVar4 = (shcgen_knob_mul_l() & 4) ? 0 : is_16bit_multiplier_constant(other_operand,iVar4);\n")],
     once=True)
 
+# --- GEN_OR_INDEX_EARLY: defer only a proved pure, prepared indexed OR store
+# until its complete non-R0 RHS footprint is known. Default-off prototype.
+OR_INDEX_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "orindexrules.h"\n')
+fix("00406340", [OR_INDEX_INC,
+    ('  il_op op;\n', '  il_op op;\n  int or_index_owner;\n\n  or_index_owner = OR_INDEX_BEGIN(node);\n'),
+    ('  return;\n#undef local_1c', '  OR_INDEX_END(or_index_owner);\n  return;\n#undef local_1c')], once=True)
+fix("0042ab90", [OR_INDEX_INC,
+    ('  request_section *section;\n',
+     '  request_section *section;\n\n  if (OR_INDEX_HOLD(rec, pool_size))\n    return;\n')], once=True)
+
 print(f"shcgen-fixes: {n} replacements")

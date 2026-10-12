@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "orindexrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_current_section
 #define g_current_section (*(request_section * *)(g_sd + 0x1f9b8))
@@ -39,6 +40,9 @@ int __cdecl emit_psd_record(psd *rec,int pool_size)
   int new_pool_size;
   psd_op rec_op;
   request_section *section;
+
+  if (OR_INDEX_HOLD(rec, pool_size))
+    return;
   
   rec_op = rec->op;
   delete_unreachable_record(rec);
@@ -184,6 +188,5 @@ switchD_0042ae89_default:
   return;
 #undef branch_rec
 }
-
 
 

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "orindexrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -30,6 +31,9 @@ int __cdecl emit_node_code(gen_node *node)
   node_desc *desc;
   code *handler;
   il_op op;
+  int or_index_owner;
+
+  or_index_owner = OR_INDEX_BEGIN(node);
   
   if (((node->desc->usage == '\0') && ((node->desc->flags2 & 0x40) == 0)) &&
      (node->parent->op != IL_COMMA)) goto LAB_004067bd;
@@ -180,6 +184,7 @@ LAB_004067bd:
     local_18 = copy_ea((ea *)&g_ea_r15);
     emit_psd_for_node(0x60,-1,cVar4,'\x02',local_1c,local_18,(gen_node *)0x0);
   }
+  OR_INDEX_END(or_index_owner);
   return;
 #undef local_1c
 #undef local_18
@@ -189,6 +194,5 @@ LAB_004067bd:
 #undef local_8
 #undef local_4
 }
-
 
 

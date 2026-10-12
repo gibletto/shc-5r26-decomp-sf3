@@ -1,24 +1,24 @@
-# 826768a4bcd7b7dd22e4a71fea3cb74a741be51f
+# e4d329bc024f56715ea131fe21d8ce0889b35ebf
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:01ad99bf207b9622
 BBBSCOM2	obj:0:4a20120113995844
 BBBSCOM_tbl	obj:0:21ae2eedb72bb26b
 BG050	obj:0:05d23e202cd63c81
-CALDIR	obj:0:96a47d66ffe2862d
+CALDIR	obj:0:35c4425359fc0b01
 CALDIR_tbl	obj:0:254b770adbc67bdd
 CHARID	obj:0:bacbac6213667378
 CHARID_tbl	obj:0:04ef5d5a551420e6
 CHARMOVE	obj:0:0a20e74c5ee0506b
 CHARSET_tbl	obj:0:dcc67949f5968519
-CMD_MAIN	obj:0:4da268aac667088b
+CMD_MAIN	obj:0:592ed7d22e9f2962
 CMD_MAIN_tbl	obj:0:66e09e27b9ec60ef
 Ck_Pass	obj:0:9b1a20dcd38552eb
 Ck_Pass_tbl	obj:0:83821928e904bfe5
 Com_Data	obj:0:845b3c8a3ebcaff7
 Com_Pl	obj:0:cb506ce0882baf09
 Com_Pl_tbl	obj:0:0edadb96505e589e
-Com_Sub	obj:0:6520768956f3a942
+Com_Sub	obj:0:bc5468f1b2b8b589
 Com_Sub_tbl	obj:0:ea1aa01ff6960efa
 DEMO02	obj:0:943e3a41a4746176
 DEMO_tbl	obj:0:00e7feba529f4517
@@ -26,7 +26,7 @@ EFF00	obj:0:658cf5d84311f9c6
 EFF00_tbl	obj:0:a687b63c6285ea16
 EFF01	obj:0:568c118398af2946
 EFF01_code	obj:0:13a7431f8b99ebd8
-EFF02	obj:0:d659723c6919f9b0
+EFF02	obj:0:363141c7ec3f0164
 EFF02_tbl	obj:0:74cbbd8a94d975f0
 EFF03	obj:0:3ab01b776f3eb49e
 EFF03_tbl	obj:0:b1da7ab7c82b407b
@@ -101,7 +101,7 @@ EFF62_tbl	obj:0:bf456732657302f5
 EFF63	obj:0:097861f080797cde
 EFF63_tbl	obj:0:540571bb2f22aea9
 EFF67_tbl	obj:0:2bfb1f1487924211
-EFF68	obj:0:76cee896e029c38c
+EFF68	obj:0:7a7db1c9781f8520
 EFF68_tbl	obj:0:30889d36b0a9a351
 EFF69	obj:0:51f3a340bf5fb437
 EFF69_tbl	obj:0:57fd9ff86e8ee48a
@@ -119,7 +119,7 @@ EFF78	obj:0:b1cd5bd3f07e5c67
 EFF78_tbl	obj:0:629bce9c4769cfa6
 EFF82	obj:0:6acd953aa9d64f0d
 EFF83	obj:0:b41d8eab84c9766e
-EFF84	obj:0:e3524cc47444b1ec
+EFF84	obj:0:c18e7d691a3e1bfc
 EFF84_tbl	obj:0:4eeb1381ea751486
 EFF85	obj:0:1edbf0189ce07bd5
 EFF85_tbl	obj:0:8827c2b6077a279a
@@ -150,7 +150,7 @@ EFFB5_INIT	obj:0:d0ff58af4b4dee32
 EFFB6	obj:0:4e5798c35bc0aa33
 EFFB6_tbl	obj:0:7e02ba8a8f6606ff
 EFFB7	obj:0:0ef4ac2f2d67ed8b
-EFFB8	obj:0:68da96dc3c0ab86f
+EFFB8	obj:0:cefd00827afcb9e0
 EFFC0	obj:0:394dfa2c351888d0
 EFFC0_tbl	obj:0:6835e4d9b4c15a01
 EFFC1	obj:0:6ae8f1393a66609c
@@ -187,7 +187,7 @@ EFFE5	obj:0:3e3b0964cd42c5c6
 EFFE5_tbl	obj:0:b61f10f3afe041e3
 EFFE7	obj:0:ed824f526e27d75b
 EFFE8	obj:0:cb16419178efcb3b
-EFFECT	obj:0:8f5b841896984d1a
+EFFECT	obj:0:8fb5e9d81487ae9e
 EFFECT_tbl	obj:0:2974295c7559a785
 EFFF1	obj:0:3fcd47c67ab4ed64
 EFFF1_tbl	obj:0:89b46dd73affd034
@@ -274,7 +274,7 @@ Eff59	obj:0:cf9b72c2d33fe4a3
 Eff59_tbl	obj:0:208bcd3849e2a742
 Eff76	obj:0:5b0292c8b6f1fce8
 Eff76_tbl	obj:0:13623360850af4e1
-Eff79	obj:0:42cb3afd0f9c5482
+Eff79	obj:0:3100cda833457a57
 Eff79_tbl	obj:0:49f6547158eba79b
 Eff80	obj:0:bedef917201d32dd
 Eff81	obj:0:a290d0a14a81003b
@@ -349,7 +349,7 @@ PLMAIN2_tbl	obj:0:fd9adfea4b4ce8c3
 PLMAIN_tbl	obj:0:66580a3e79e5ce3d
 PLNORMAL	obj:0:6b3750b6b62508a7
 PLPAT	obj:0:ddee7bd86059308f
-PLPAT00	obj:0:d75f735e5c57def1
+PLPAT00	obj:0:badfb175c739662a
 PLPAT00_tbl	obj:0:c988583dcb237ee0
 PLPAT01	obj:0:e3dde96b0998025b
 PLPAT01_tbl	obj:0:9eeba0645e51c4ae
@@ -373,7 +373,7 @@ PLPAT11	obj:0:592adc323c04ed29
 PLPAT11_tbl	obj:0:f05cdce360c8f729
 PLPAT12	obj:0:80321bf2c0d8cf2d
 PLPAT12_tbl	obj:0:c7707dce50fcabbd
-PLPAT13	obj:0:4f4fd4272f9b8761
+PLPAT13	obj:0:8f8ae93d9b02d707
 PLPAT13_tbl	obj:0:05dfd5f74c69fbe3
 PLPATUNI	obj:0:18e075f8e338c8ee
 PLPATUNI_tbl	obj:0:c5835e5cb39012bc
@@ -478,7 +478,7 @@ alex_yuca	obj:0:bdb8eb7a3167486e
 appear	obj:0:11ddfe926f067f53
 appear_tbl	obj:0:780612c7a7207db4
 asstbl	obj:0:99d3f2c221991200
-bg000	obj:0:565a3a210c21126b
+bg000	obj:0:2a2e63cfc11640f9
 bg0001_tbl	obj:0:015f13441a9c904d
 bg000_tbl	obj:0:c2243eb90dc5fbf1
 bg000_tbl2	obj:0:31b114d96cbc0f86
@@ -530,7 +530,7 @@ chun_yuca	obj:0:09baa6d8de0531ec
 cmb_cont	obj:0:33bda830b52e86d5
 cmb_win_tbl	obj:0:0516e6fff348738e
 cmd_data	obj:0:1d4b610f03a4f800
-cmd_main_2	obj:0:abec775eab92a720
+cmd_main_2	obj:0:c3a222982bcc89e7
 coin_cont	obj:0:f7b52344141f4852
 coin_sw	obj:0:01314ba848e5cc94
 coin_sw_2	obj:0:fd0a1c89310b7c3b
@@ -598,7 +598,7 @@ effM0_tbl	obj:0:9fd00f238a073af0
 effM5	obj:0:1af0391d4d5d56ce
 effM6	obj:0:ed7508072356437e
 effM8	obj:0:574969f2134c1660
-effa0	obj:0:3664349b8e02be3c
+effa0	obj:0:d6c1706d4fb30747
 effa5	obj:0:55098e26b33a02a7
 effa8	obj:0:44d9be69b2606594
 effa9	obj:0:52aedd0ff324f303
@@ -702,7 +702,7 @@ exchange	obj:0:03d00c89bc4f9f13
 family	obj:0:4702a8f05de19e64
 fifo	obj:0:9ed59c0d1bfd2618
 game_config_en	obj:0:52285aaa57cc2ed8
-game_config_jp	obj:0:8a46810c99f6ca74
+game_config_jp	obj:0:2d589e32ec138546
 game_config_main	obj:0:6971b121c383e963
 gameover	obj:0:dabf58efc970e833
 gauge	obj:0:b83ae1fed946a37e
@@ -751,7 +751,7 @@ makoto_char	obj:0:23ba15dc2c891716
 makoto_hitbox	obj:0:adb06fa7bdd96071
 makoto_move	obj:0:99171abbf298e278
 makoto_yuca	obj:0:2317ad76c15c95f7
-manage_2	obj:0:736f18ae36a2580a
+manage_2	obj:0:5d24aea3502938d4
 meta_col	obj:0:75e78bea81cde23f
 meta_col_bcd	obj:0:36fe80214036db66
 meta_col_lib	obj:0:42a447fc5596a33f
@@ -820,7 +820,7 @@ plpat19_tbl	obj:0:278659bd6bbbcbdd
 plpat20	obj:0:1d6b664c0181088d
 plpat20_tbl	obj:0:3f9dc0ce94e3f6f1
 poly_que	obj:0:79ebd7f19f5d8ef5
-pow_pow	obj:0:27cc79d89f2801e2
+pow_pow	obj:0:dfabc19a67cc5c83
 q_attbox	obj:0:fd854ceccdee0b10
 q_attr	obj:0:4ec002b9c816e16d
 q_char	obj:0:ee0d81de00bc2c68
@@ -880,7 +880,7 @@ sys_config_3	obj:0:4e4c6ca9a47626cf
 sys_config_tbl	obj:0:fc75161fb0dcf2f7
 sys_test	obj:0:1740a2f47d47b913
 sys_test_2	obj:0:d37763e27d5dabe9
-sys_test_2a	obj:0:bbb6042aaffed228
+sys_test_2a	obj:0:2559f752c301a9bb
 sys_test_2b	obj:0:c468801e2b107a1c
 sys_test_2c	obj:0:bd2d981e3e792806
 sys_test_3	obj:0:3f5f6170b0ab6427
@@ -907,7 +907,7 @@ vbl_hook	obj:0:263a80c31871af8b
 vectors	obj:0:0db17cc2c9c90189
 vs_shell	obj:0:3b924d7f1a6db021
 win_2	obj:0:83aaea7801c48906
-win_pl	obj:0:e7ecf937fbbea954
+win_pl	obj:0:71114b9db447f164
 win_pl_tbl	obj:0:626e735ee4ede18e
 work	obj:0:9f87f4bea5c36093
 work_b	obj:0:50219e21e6bff56f

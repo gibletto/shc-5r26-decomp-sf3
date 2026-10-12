@@ -3,7 +3,7 @@
 Street Fighter III 3rd Strike's arcade program was built with an SHC of the same family as Release 26, but not the
 same compiler: compiled with Release 26, the game's decompiled C differs from the arcade's code in ways that no
 change to the C removes. Each difference below was traced to the stage that makes it and turned into a rule. The
-rules are on by default. Setting all 36 settings listed by `tests/parity.py` to 0 in the environment gives
+rules are on by default. Setting all 37 settings listed by `tests/parity.py` to 0 in the environment gives
 Release 26's behaviour; individual switches select the decisions described below.
 
 ## An example
@@ -78,6 +78,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `GEN_RELOAD=1` | shcgen | reads a variable kept in the frame from the scratch register an assignment or load left it in, whichever reference it is (`exts.w r0,r7` next to the store of a `short`) | does not for the variable's last reference, which reads the frame slot again (`mov.w r0,@(12,r15)`, `mov.w @(12,r15),r0`, `mov r0,r7`); earlier references, globals and locals whose address is taken still take the register |
 | `GEN_EVICT_ORDER=1` | shcgen | when a register that is noted as holding a constant is noted as holding a variable instead (an array's address just loaded), forgets the register's own note first, so the note of one other register always survives | first forgets the older of the two notes when another register has one, so after an array's address is loaded the register that held an earlier address or constant counts as free |
 | `GEN_NARROW_CONST=1` | shcgen | refuses a live cached constant as the right operand of an ADD/SUB when the left is a register, preserving a possible address displacement | permits reuse for byte/short integer results, which the later address-folding pass excludes; wide integers, pointers, arrays, label handling and template constraints keep their old decisions |
+| `GEN_OR_INDEX_EARLY=1` | shcgen | a constant OR marks r0 as potentially clobbered, so an indexed word store loads its displacement after the OR | once the prepared assignment proves a pure register OR leaving r0 untouched, emits the independent displacement load first; quiet operands, fixed templates and the complete four-record footprint are required |
 | `GEN_MEM_INDEX=11` | shcgen | when the address of an access is the sum of an operand that is still in memory and one that is not, loads an operand so that the access is indexed: a pointer read from memory (a row of a table of pointers, `table[a]` in `table[a][b]`; a pointer kept in the frame or in a global) beside an index in a register goes to r0 (`mov.l @(r0,r3),r0`, `mov.l @(r0,r2),r3`); a scaled index kept in the frame beside an array's address is loaded and the address goes to r0 (`mov.l @r15,r2`, `mov.l left,r0`, `mov.w @(r0,r2),r1`); a pointer read from memory beside an index already in r0 goes to a scratch register (`mov.l @r2,r3`, `mov.w @(r0,r3),r1`) | leaves the sum to an add in all three (bits 1, 2 and 8): `mov.l @(r0,r3),r3`, `add r3,r2`, `mov.l @r2,r1`; `mov.l left,r2`, `mov.l @r15,r1`, `add r2,r1`, `mov.w @r1,r3`; `add r3,r0`, `mov.w @r0,r1`. The access is still indexed when the pointer lands in r0 because the value is wanted there. Two operands both in memory (bit 4) stay as in Release 26: no place in the game decides it |
 | `GEN_R0VAR=2` | shcgen | when one variable is the index of several arrays in a statement, copies it into r0 once and uses every array as a base (`exts.w r14,r0`, `mov.b @(r0,r8),r3`, `mov.b r3,@(r0,r9)`) | has no such variable: the index stays where it is, and each access either takes its array's address into r0 (`mov r8,r0`, `mov.b @(r0,r4),r3`) or adds (`add r4,r2`, `mov.b r3,@r2`) |
 | `MDL_ARG_CONST=b` | shcmdl | doesn't count constants passed to calls when choosing register variables | counts them, so a constant used by several calls is kept in a register |
@@ -104,12 +105,12 @@ Large case constants still require r1 for the real comparison. `ASM_SPECREG` fix
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,797 compile to the arcade's instructions with
-Release 26 and 9,753 with the rules; byte for byte, literal pools included, 1,884 and 9,655.
+Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,798 compile to the arcade's instructions with
+Release 26 and 9,770 with the rules; byte for byte, literal pools included, 1,898 and 9,682.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcgen/src/_poolrules.c`, `rebuild/shcgen/src/_reloadrules.c`, `rebuild/shcgen/src/_evictrules.c`,
-`rebuild/shcgen/src/_memindexrules.c`, `rebuild/shcgen/src/_r0varrules.c`, `rebuild/shcgen/src/_construles.c`,
+`rebuild/shcgen/src/_memindexrules.c`, `rebuild/shcgen/src/_r0varrules.c`, `rebuild/shcgen/src/_construles.c`, `rebuild/shcgen/src/_orindexrules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_castmulrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
 `rebuild/shcmdl/src/_ivrules.c`, `rebuild/shcmdl/src/_looprules.c`, `rebuild/shcmdl/src/_maskrules.c`,
 `rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
@@ -134,6 +135,16 @@ register or function test. The arcade census has no byte/unsigned-short or SUB r
 exercise all four byte/short ADD types and verify wide/address controls, conversions and disabled parity;
 their SUB cases execute correctly but do not trigger this choice. See `tests/narrow_const.py`.
 
+The indexed-OR rule follows a proved intermediate-file edit. Release 26's preparation conservatively marks
+every constant OR as clobbering r0; the later prepared register template can prove that this particular OR
+leaves it untouched. The rule refines emission only after that proof, retaining the original preparation,
+register choices and pool writers. It does not generally clear the earlier hazard: a cached constant can
+alias r0 in other forms. Calls, labels, stack effects, volatile stores and r0 results are excluded.
+The whole-game build changes two supported sites in `screentest_draw_crosshatch`; that routine and its
+pool neighbour `screentest_page` become exact with native relocation identities checked. All other ROM
+bytes stay unchanged. This is a sufficient mechanism supported by the arcade bytes, not a claim that the
+arcade compiler implemented the same buffering. Setting `GEN_OR_INDEX_EARLY=0` restores the preceding image.
+
 ## Diagnostics
 
 Off unless set.
@@ -147,6 +158,7 @@ Off unless set.
 | `PEP_DUMP=<file>` | shcpep | write each function's blocks and records after loading and after each pass |
 | `SHCGEN_REGTRACE=<file>` | shcgen | log every register choice |
 | `GEN_REMAP_LOG=<file>` | shcgen | log what the end-of-function move of register variables to r0-r3 sees |
+| `GEN_OR_INDEX_LOG=<file>` | shcgen | log prepared indexed-OR eligibility and emitted footprints; one `%d` expands to the process ID. Headers identify the source. Units with no emitted nodes need separate coverage checks |
 | `GEN_RELOAD_LOG=<file>` | shcgen | log each last reference that reads its frame slot again although a register holds the variable |
 | `GEN_MEM_INDEX_LOG=<file>` | shcgen | log each address sum with an operand in memory that `GEN_MEM_INDEX` is asked about: the class of the other operand and whether the sum is left to an `add` |
 | `MDL_MUL_ONE_LOG=<file>` | shcmdl | log each product by 1 that `MDL_MUL_ONE` folds: function, line and bit |

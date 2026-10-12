@@ -10,9 +10,12 @@
    no low-bit comparison, special literal, register or function is involved.
    Template-immediate exclusions and the labelled-left-operand veto stay intact.
    Across all 460 game modules, four narrowed short sums use the live constant
-   in the arcade and no narrowed site opposes reuse. A blanket bypass is opposed
-   by 70 folded address consumers and one wide immediate sum; 17 address sites
-   remain ambiguous. The rule changes only those four sums: three become exact,
+   in the arcade and no narrowed site opposes reuse. A current-source whole-ROM
+   blanket-bypass diagnostic enabled 88 additional veto sites: no byte gains,
+   13 byte-exact losses, 24 more code bytes and no non-code changes. All 62
+   indexed control sites kept their routine words; their later reuse did not
+   establish opposition to early reuse. The narrow rule changes only those
+   four sums: three become exact,
    the fourth improves, with no losses, growth or non-code changes. Byte and
    unsigned-short policy is unobserved in the arcade; native fixtures cover both.
 */
