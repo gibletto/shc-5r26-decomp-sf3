@@ -389,4 +389,26 @@ int slot_record_is_frame_access(unsigned char *rec)
       apart, and each of its eight pre-decrement stores through a register other than r15 is followed by another
       use of the register, so none needs this pass. */
 int pep_autoinc(void) { return env_int("PEP_AUTOINC", 3); }
+
+/* PEP_CASE_WORD: decide_literal_pool_placement measures the distance to the next literal pool against the long
+   reach (1020 bytes), or the word reach (510) while the code since the last branch holds a word literal. At a switch
+   jump table Release 26 starts over: it clears that flag along with the counts. The arcade's compiler leaves the
+   flag alone, so a word literal loaded just before the table still shortens the reach when the pool after the table
+   is placed (the flag is next cleared at the first branch record behind the table, which copies it to the carried
+   state). Unset: 1; 0: Release 26.
+   op_bg0_0001 (end_main.c) loads a word constant before its 50-way table; with the flag kept its third pool lands
+   after the tenth case as in the arcade instead of after the thirteenth, and the pools of the ten routines behind
+   it, which share one run of pending literals, land where the arcade has them. Ten of the 28 jump tables in the SF3
+   program follow a word literal; no routine's pools move away from the arcade's with the flag kept. */
+int pep_case_word(void) { return env_int("PEP_CASE_WORD", 1); }
+
+/* PEP_RET_MAC: a RETURN in a function that saves two or more registers is a jump to the exit, and
+   decide_literal_pool_placement counts four bytes for the exit label a far jump would load; with fewer than two the
+   epilogue is copied in place and no literal is counted. Release 26 counts MACH and MACL among the saved registers
+   for that test. The arcade's compiler does not: in a function that saves one register and MACL its returns add
+   nothing to the estimate, though they are still emitted as jumps to the exit. Unset: 1; 0: Release 26.
+   check_combo_end (r14 and MACL, six returns) is the case in the arcade program: PLCNTDAT.c's last pool sits behind
+   its fourth return, where the Release 26 estimate (476 against the limit 462) asks for it behind the third; without
+   the four exit literals it is 460. No other routine's pools move with the rule. */
+int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
 #endif

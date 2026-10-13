@@ -1,6 +1,7 @@
 # tests/cases outputs with the default rules (tests/parity.py)
 argconst	obj:0:eb362823120f996b src:0:3452e2d3f3e42645
 autoinc	obj:0:c675ffec03834995 src:0:e68a84e1cedba2bf
+casepool	obj:0:3b66ea656515d987 src:0:b2175f42198d7da5
 castmul	obj:0:c3dbf5cfcfe53593 src:0:fa9d6417a3843fb1
 casts	obj:0:4c380e76dabf1659 src:0:1d69da113bee9e78
 chainjump	obj:0:dbfab48b880503d1 src:0:30f1cac211f161c8
@@ -32,6 +33,7 @@ predec	obj:0:0b902f5ffb1bac31 src:0:8370bc02c913774b
 r0const	obj:0:649c68b5cb0accf9 src:0:e970d4ec9a56e1f8
 r0var	obj:0:4011d53299cbc3b9 src:0:872a2813aa078719
 reload	obj:0:6d58cf245b938bf4 src:0:0a52bdf81621b8c6
+retmac	obj:0:cb2b7bf0f2f5db5e src:0:73fcd2949752bce2
 rettail	obj:0:d6fdeaafa2258725 src:0:54ec15bab02b1085
 returns	obj:0:8cfe2e57273dd401 src:0:1d0122abb43f9635
 returns_size	obj:0:993cdd5394ef0547 src:0:75494ec991ac9a20

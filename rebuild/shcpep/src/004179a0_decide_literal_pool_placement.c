@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_aux_record_table
 #define g_aux_record_table (*(aux_record * *)(g_sd + 0x6d50))
@@ -145,7 +146,12 @@ LAB_00418af2:
     _g_pool_carried_literal_bytes = 0;
     g_pool_code_bytes = 0;
     _g_pool_pending_literal_bytes = 0;
-    g_pool_segment_has_word = '\0';
+    if (!pep_case_word()) {
+      g_pool_segment_has_word = '\0';
+    }
+    else {
+      PEPLOG("C", g_pool_segment_has_word);
+    }
     g_pool_carried_has_word = '\0';
     goto LAB_00418c0c;
   }
@@ -244,6 +250,11 @@ LAB_00418af2:
     goto LAB_004180c0;
   case OP_RETURN:
     sVar1 = count_saved_registers((short)g_current_aux_index);
+    if (pep_ret_mac()) {
+      if ((g_aux_record_table[g_current_aux_index].saved_mac & 1) != 0) sVar1 = sVar1 + -1;
+      if ((g_aux_record_table[g_current_aux_index].saved_mac & 2) != 0) sVar1 = sVar1 + -1;
+      PEPLOG("M", sVar1);
+    }
     if (sVar1 < 2) {
       attr_bits = g_aux_record_table[g_current_aux_index].sp_adjust +
                   g_aux_record_table[g_current_aux_index].frame_size;

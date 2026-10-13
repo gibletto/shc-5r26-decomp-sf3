@@ -28,6 +28,8 @@ castmul         castmul.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -extra=m=
 mulone          mulone.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -extra=m=8,a=8 -nortnext -optimize=1 -speed
 mulconst        mulconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 memindex        memindex.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+casepool        casepool.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+retmac          retmac.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 r0var           r0var.c      -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 rettail         rettail.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 immreg          immreg.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed

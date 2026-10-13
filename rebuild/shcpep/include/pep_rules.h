@@ -65,6 +65,12 @@ void pep_log_xj_next(int *blk, int op);
 /* PEP_AUTOINC */
 int pep_autoinc(void);
 
+/* PEP_CASE_WORD */
+int pep_case_word(void);
+
+/* PEP_RET_MAC */
+int pep_ret_mac(void);
+
 /* SLOT_NO_STACK */
 int slot_no_stack(void);
 int slot_record_is_frame_access(unsigned char *rec);
@@ -87,6 +93,8 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define PEP_DEAD_REF_KEPT(l) 0
 #define XJUMP_FILTER(mode, kind) 0
 #define pep_autoinc() 0
+#define pep_case_word() 0
+#define pep_ret_mac() 0
 #endif
 
 #endif

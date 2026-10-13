@@ -3,7 +3,7 @@
 Street Fighter III 3rd Strike's arcade program was built with an SHC of the same family as Release 26, but not the
 same compiler: compiled with Release 26, the game's decompiled C differs from the arcade's code in ways that no
 change to the C removes. Each difference below was traced to the stage that makes it and turned into a rule. The
-rules are on by default. Setting all 37 settings listed by `tests/parity.py` to 0 in the environment gives
+rules are on by default. Setting all 39 settings listed by `tests/parity.py` to 0 in the environment gives
 Release 26's behaviour; individual switches select the decisions described below.
 
 ## An example
@@ -69,6 +69,8 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `SLOT_NO_STACK=1` | shcpep | may fill a delay slot with a stack load or store | never does (pushes and pops still can) |
 | `PEP_NO_THREAD=28` | shcpep | threads jumps through labels made by merging identical code | doesn't |
 | `PEP_AUTOINC=3` | shcpep | folds a load through a pointer and a later `add` to the pointer into a post-increment load (`mov.l @r5+,r6`), and an `add` of minus the size to a pointer and a later store through it into a pre-decrement store (`mov.l r1,@-r4`) | leaves both apart; post-increments come only from `*p++` in the source, and `*--p = x` is a pre-decrement store only while `p` is used again (the last one of a run is `add #-4,r4` and `mov.l r1,@r4`) |
+| `PEP_CASE_WORD=1` | shcpep | at a switch jump table, forgets that the code before it loaded a word literal, so the next literal pool is placed by the long reach | keeps the short reach until the first branch after the table (ten routines of `end_main.c`) |
+| `PEP_RET_MAC=1` | shcpep | counts a saved MACH or MACL among the saved registers when it decides whether a `return` may need the exit label as a literal (the literal pool estimate) | leaves them out, so a function that saves one register and MACL estimates no literal for its returns (`check_combo_end`) |
 | `GEN_TST_R0=1` | shcgen | gives a value that is only tested the highest free register of r0-r3 | gives it the lowest |
 | `GEN_MUL_L=7` | shcgen | multiplies a `short` or `char` by a 16-bit constant with `muls.w`, which extends its operands itself, so the operand's cast to `int` is dropped | keeps `mul.l` (bits 1 and 2), and keeps the cast with it (bit 4): a `short` parameter is extended before it is multiplied (`exts.w r4,r1`, `mov #21,r3`, `mul.l r3,r1`) |
 | `GEN_CHAIN_JUMP=1` | shcgen | counts r1 as used by a switch's compare chain (the register a far jump would need), so a value live from the switch head into its cases cannot move from r13/r14 to r1 at the end of the function | leaves r1 free there: the value moves to r1 and r13/r14 is not saved |
@@ -105,8 +107,8 @@ Large case constants still require r1 for the real comparison. `ASM_SPECREG` fix
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,798 compile to the arcade's instructions with
-Release 26 and 9,770 with the rules; byte for byte, literal pools included, 1,898 and 9,682.
+Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,803 compile to the arcade's instructions with
+Release 26 and 9,814 with the rules; byte for byte, literal pools included, 1,911 and 9,767.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcgen/src/_poolrules.c`, `rebuild/shcgen/src/_reloadrules.c`, `rebuild/shcgen/src/_evictrules.c`,
