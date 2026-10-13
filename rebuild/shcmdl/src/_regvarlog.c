@@ -5,11 +5,34 @@
    register: its register (1-4 r4-r7, 5-11 r14-r8, < 0 a memory id, 0 none), set (0 constant, 1 variable web,
    3 deleted), weight (priori), profit, how many lregs it clashes with, whether a call conflicts with it (cc, the
    test for r4-r7) or lies in its life (sc), what it holds and its life ranges in program points. With
-   MDL_REGVAR_BLOCKS set, also each basic block's program points, predecessors and successors. */
+   MDL_REGVAR_BLOCKS set, also each basic block's program points, predecessors and successors; with MDL_REGVAR_PRE
+   set, each logical register's place before the profit sort (pre<n>): the sort is not stable, so the order of
+   equal profits follows from that list. */
 #include "decls.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>
+
+static lreg *s_pre[4096];
+static int s_npre;
+
+/* the order of the logical registers before the profit sort (the sort is not stable) */
+void mdl_regvar_presort(void)
+{
+    int i;
+    s_npre = g_lreg_count < 4095 ? g_lreg_count : 4095;
+    for (i = 1; i <= s_npre; i++)
+        s_pre[i] = g_lreg_table[i];
+}
+
+static int pre_index(lreg *lr)
+{
+    int i;
+    for (i = 1; i <= s_npre; i++)
+        if (s_pre[i] == lr)
+            return i;
+    return 0;
+}
 
 void mdl_regvar_log(void)
 {
@@ -53,6 +76,8 @@ void mdl_regvar_log(void)
             nclash++;
         fprintf(f, "  L%d R%d s%d w%d p%d c%d cc%d sc%d", i, lr->pregno, lr->set, lr->priori, lr->profit, nclash,
                 lr->set != 3 ? lreg_conflicts_with_call(lr) : -1, lreg_spans_call(lr));
+        if (getenv("MDL_REGVAR_PRE"))
+            fprintf(f, " pre%d", pre_index(lr));
         if (lr->set == 1 || lr->set == 3) {
             il_node *nd = ((dutbl *)lr->chain)->node;
             if (nd->op != IL_ID)

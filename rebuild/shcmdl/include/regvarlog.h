@@ -4,7 +4,10 @@
 #if SHC_REBUILD_UPDATED
 extern void mdl_regvar_log(void);
 #define REGVAR_LOG() mdl_regvar_log()
+extern void mdl_regvar_presort(void);
+#define REGVAR_PRESORT() mdl_regvar_presort()
 #else
 #define REGVAR_LOG()
+#define REGVAR_PRESORT()
 #endif
 #endif

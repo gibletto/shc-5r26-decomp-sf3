@@ -8,7 +8,15 @@
    MDL_GCSE=<bits> (unset: 11; 0: Release 26)
      1  no temporary for a global variable in a dominator that is none of the members' blocks when that block uses
         the variable itself: Release 26 appends tmp = variable at the end of such a block and the later uses read
-        tmp; the arcade loads the variable again at each use (end_C00_anim, bg_fam0C00).
+        tmp; the arcade loads the variable again at each use (end_C00_anim, bg_fam0C00). The block uses the
+        variable when it evaluates it on every path through it: a use in the right operand of && or || of the
+        block's condition is not one, and there the arcade makes the temporary as Release 26 does
+        (Credit_Sub_1P: if (Two_Coin_Start != 0 && Request_Break[0] == 0 && credit_1p < 2) ... else
+        status = Request_Break[0] | credit_1p; ... if (credit_1p): credit_1p is loaded once after the first test
+        for the else arm and the later use, and loaded again for the comparison; Disp_Start_Message has the same
+        shape twice). Over the Street Fighter III build (10,066 C routines) the rule refuses a temporary at four
+        places without this reading and at one with it (check_1's sw_work); the three it gives back are those
+        of the two routines above, and no other routine's code changes.
      4  the same for the other classes (memory references and operators), measured but off: the arcade agrees in
         some routines (sw_pick_up's &wcp[cmd_id] in both arms of an if) and not in others (zoom_ud_check keeps
         &bg_w.bgw[1] in r11), and no shape separates them yet (expressions that read memory against pure addresses
@@ -73,15 +81,19 @@ static int same_tree(il_node *a, il_node *b)
     return x == 0 && y == 0;
 }
 
-/* tree holds expr: for a variable any use of it, otherwise an equal subtree */
+/* tree computes expr whenever it is evaluated: for a variable any use of it, otherwise an equal subtree. Only the
+   first operand of && and || counts, since the other is evaluated on some paths only */
 static int tree_computes(il_node *tree, il_node *expr)
 {
     il_node *c;
     if (expr->op == IL_ID ? (tree->op == IL_ID && tree->symx == expr->symx) : same_tree(tree, expr))
         return 1;
-    for (c = tree->child; c; c = c->next)
+    for (c = tree->child; c; c = c->next) {
         if (tree_computes(c, expr))
             return 1;
+        if (tree->op == IL_AND || tree->op == IL_OR)
+            break;                               /* the right operand is not evaluated on every path */
+    }
     return 0;
 }
 

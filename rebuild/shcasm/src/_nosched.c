@@ -6,6 +6,8 @@
 #include "decls.h"
 #include <stdlib.h>
 
+extern int asm_mul_free_alignment(int index);
+
 int asm_sched_can_issue(int index)
 {
     static int nosched = -1;
@@ -19,5 +21,7 @@ int asm_sched_can_issue(int index)
             if (g_pipeline_window[j].rec.op != OP_DUMMY_00 && g_pipeline_window[j].next == -1)
                 return 0;
     }
+    if (asm_mul_free_alignment(index))
+        return 1;
     return can_schedule_pipeline_entry_now(index);
 }

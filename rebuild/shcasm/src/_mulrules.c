@@ -6,15 +6,19 @@
    other instruction issued counts it down. When every ready entry is held back (by that, by a load-use interlock or
    by the fetch/memory-access alignment rule), schedule_pipeline_window issues the first ready entry anyway.
 
-   ASM_MULWAIT=<bits> (unset: 3, the arcade rule; 0: Release 26)
+   ASM_MULWAIT=<bits> (unset: 7, the arcade rule; 0: Release 26)
      1  the multiplier is busy for one instruction after the multiply, not two;
-     2  when every ready entry is held back, the first one that is not waiting for the multiplier is issued.
-   Together: `muls.w r3,r4 ; mov.l @(disp,pc),r0 ; sts macl,r4` where Release 26 writes `muls.w ; sts macl ;
-   mov.l`, and the STS follows a single filler (q_em_dir, urien_dash_chk, comm_ixbw). */
+     2  when every ready entry is held back, the first one that is not waiting for the multiplier is issued;
+     4  while the multiplier is busy the fetch/memory-access alignment rule is not applied.
+   1 and 2 together: `muls.w r3,r4 ; mov.l @(disp,pc),r0 ; sts macl,r4` where Release 26 writes `muls.w ; sts macl ;
+   mov.l`, and the STS follows a single filler (q_em_dir, urien_dash_chk, comm_ixbw).
+   4: the filler is the first ready entry in shcpep's order, whichever half of the long word it lands in:
+   `mul.l r7,r0 ; mov r14,r0 ; sts macl,r4 ; mov.l @(disp,pc),r3` with the multiply at 2 mod 4, where the
+   alignment rule would take the literal load first (grade_get_cm_point_percentage, Check_Guard, check_13). */
 #include "decls.h"
 #include <stdlib.h>
 
-#define MULWAIT_DEFAULT 3
+#define MULWAIT_DEFAULT 7
 
 static int mulwait(void)
 {
@@ -42,6 +46,24 @@ static int waits_for_multiplier(pipeline_entry *e)
     if (op == OP_LDS && (e->rec.ea2->base == REG_MACH || e->rec.ea2->base == REG_MACL))
         return 1;
     return op == OP_STS && (e->rec.ea1->base == REG_MACH || e->rec.ea1->base == REG_MACL);
+}
+
+/* bit 4: while the multiplier is busy the alignment rule is not applied: 1 when entry `index` is one the issue test
+   would hold back for its alignment only */
+int asm_mul_free_alignment(int index)
+{
+    pipeline_entry *e = &g_pipeline_window[index];
+    char keep;
+    int ok;
+    if (!(mulwait() & 4) || !g_pipeline_mac_busy || waits_for_multiplier(e))
+        return 0;
+    if (can_schedule_pipeline_entry_now(index))
+        return 0;
+    keep = g_pipeline_code_offset;
+    g_pipeline_code_offset = keep + 2;
+    ok = can_schedule_pipeline_entry_now(index);
+    g_pipeline_code_offset = keep;
+    return ok;
 }
 
 /* nothing could issue: issue the first ready entry that is not waiting for the multiplier (1), or leave it to

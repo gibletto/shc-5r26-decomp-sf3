@@ -143,7 +143,7 @@ int mdl_castmul_ok(il_node *node, bblock *block)
     return !(castmul_bits() & bit);
 }
 
-/* MDL_MUL_ONE=<bits> (only with SHC_REBUILD_UPDATED=1; unset: 1, the arcade rule; 0: Release 26).
+/* MDL_MUL_ONE=<bits> (only with SHC_REBUILD_UPDATED=1; unset: 33, the arcade rule; 0: Release 26).
 
    The game's option -extra=m=8 switches simplify_mul off, so x * 1 stays in the tree: the index of a char array,
    chars[x], is (long)x * 1. Release 26 then takes (long)x and (long)x * 1 for two expressions. When x is read
@@ -165,6 +165,20 @@ int mdl_castmul_ok(il_node *node, bblock *block)
         arcade's and fifteen matched routines behind them lost their instruction order, which is why this was
         measured at +3 -15 and left off before. Written as the compound assignments they are, nothing is lost.
      2  x is the cast of a variable: MDL_CAST_MUL's subject; off.
+     32 x is the cast of a variable (the part of 2 the arcade's code shows): the product is the index of a
+        dereference, table[v], and the variable's first such product in the function is not the test of an if.
+        Measured one variable at a time (vh/mulone.py: each of the 309 (routine, variable) classes of the game
+        folded on its own): 15 move to or toward the arcade's instructions, 292 do not change the routine's
+        score and 2 move away, Game_Manage_9th's WINNER and Sel_Arts_Sub's PL_id; in both the first product is
+        an if's test (if (Round_Operator[WINNER]), if (Moving_Plate_Counter[PL_id])) and the bit leaves the
+        whole class alone. With it Check_Same_CPU, Clear_Disp_Ranking, setFinishType, Update_VS_Data,
+        cal_damage_vitality, cal_damage_vitality_eff, Sel_PL_1st, Sel_PL_3rd, auto_n_check, setup_EJG_index,
+        distance2speed and get_cjdR become the arcade's bytes (15 routines with those behind them), and
+        grade_add_onaji_waza, Setup_Pos_76 (845 -> 841 instructions, the arcade's count), EFF76_WAIT and
+        combo_window_push come closer; no routine that matched loses. Where the folded index meets a table
+        address kept in the frame the sum loads the address into its target (Setup_Pos_76's &My_char[Champion]:
+        mov.l @r15,r13; add r0,r13 for mov r0,r13; mov.l @r15,r3; add r3,r13). A product that is not under a
+        dereference keeps its temporary ((u8 *)dst + ofs in tilemap_print_script_seq moves away with the fold).
      16 x is the cast of anything else ((long)(n * 32)): off, the arcade keeps this product's temporary
         (debug_set_body_box and its five siblings leave the arcade's code with it).
      4  x is anything else that is not a variable, 8 x is a variable: off; with 1 | 2 | 4 | 8 | 16 it is +3 -24.
@@ -172,7 +186,7 @@ int mdl_castmul_ok(il_node *node, bblock *block)
    places where its code shows the fold, not a mechanism read from its code.
    MDL_MUL_ONE_LOG=<file> (a diagnostic, off unless set; a %d in the name is replaced by the process id) lists each
    product folded: function, line and the bit. */
-#define MUL_ONE_DEFAULT 1
+#define MUL_ONE_DEFAULT 33
 
 il_node *mdl_mul_one_fold(il_node *node)
 {
@@ -202,6 +216,26 @@ il_node *mdl_mul_one_fold(il_node *node)
         bit = 16;
     else
         bit = 4;
+    if (bit == 2 && !(k & 2) && (k & 32)) {
+        /* bit 32: the variable case, for an index under a dereference, decided for the whole function by the
+           variable's first product: not when that one is the test of an if */
+        static il_node *cur_func;
+        static struct { short symx; char nofold; } seen[512];
+        static int n_seen;
+        il_node *par = node->parent, *gp = par->parent;
+        short symx = x->child->symx;
+        int i;
+        if (cur_func != g_func_node) { cur_func = g_func_node; n_seen = 0; }
+        for (i = 0; i < n_seen && seen[i].symx != symx; i++)
+            ;
+        if (i == n_seen && n_seen < 512) {
+            seen[i].symx = symx;
+            seen[i].nofold = gp != 0 && gp->op == IL_ASTER && gp->parent != 0 && gp->parent->op == IL_IF;
+            n_seen++;
+        }
+        if (i < n_seen && !seen[i].nofold && gp != 0 && gp->op == IL_ASTER)
+            bit = 32;
+    }
     if (!(k & bit))
         return node;
     {

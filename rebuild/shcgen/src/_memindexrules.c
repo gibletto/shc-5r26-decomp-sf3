@@ -55,15 +55,32 @@
 
    Not changed, for want of a place in the game that decides it: both operands in memory (bit 4; Release 26 loads
    one into r0 and the other into a register). Only Setup_PL_Color reaches it, and there the arcade has no memory
-   operand: it sets the two pointers later, in registers. A number beside a memory operand is a displacement and
-   is not asked about. The game's unoptimized files have no such sum either, so the rule is not measured there.
+   operand: it sets the two pointers later, in registers. The game's unoptimized files have no such sum either, so
+   the rule is not measured there.
 
-   GEN_MEM_INDEX=<bits> (unset: 11, the arcade rule; 0: Release 26): the sum is left to the add template when the
+   A number (bit 16). The memory operand is a temporary of the optimizer that is kept in the frame: the address of
+   an array in a structure that two elements of one statement share, `w->old` in f(w, w->old[3], w->x, w->old[2])
+   when its register is wanted for an argument. Release 26 loads the temporary into the scratch register the
+   chooser gives it and reads the element with a displacement, through r0 (mov.l @(12,r15),r3; mov.w @(6,r3),r0;
+   mov r0,r5); the arcade leaves the sum to the add template, which loads the temporary into the register the
+   value is wanted in and adds the number there (mov.l @(12,r15),r5; add #6,r5; mov.w @r5,r5), or reads with the
+   displacement when that register is r0 (mov.l @(4,r15),r0; mov.w @(6,r0),r0 in check_result_extra). Stores go
+   the same way (setup_bs_scrrrl_bs: add #2,r2; add #2,r3; mov.w @r3,r3; sub r3,r1; mov.w r1,@r2). Over every C
+   routine of the game the case arises at 15 places in 8 routines: eff48_1000, effl3_0001 and check_result_extra
+   become the arcade's bytes, check_10 (8 places), crow_fuss_move and Setup_Pos_76 come closer, effect_J0_move
+   has the arcade's add at the place, and cal_move_quantity2's instructions do not change. A source variable kept
+   in the frame, or a pointer read through a structure, beside a number is a displacement in the arcade as in
+   Release 26 (sprite_template_chain_init 5 places, effect_14_move 3, sound_voice_volume_compute 1: with the bit
+   applied to those too, each moves away from the arcade), so the bit asks for an identifier with a logical
+   register and no symbol of its own.
+
+   GEN_MEM_INDEX=<bits> (unset: 27, the arcade rule; 0: Release 26): the sum is left to the add template when the
    operand beside the memory operand is
      1  a register other than r0
      2  an address constant
      4  a memory operand too (off)
      8  r0
+    16  a number, and the memory operand is a temporary of the optimizer
    GEN_MEM_INDEX_LOG=<file> (a diagnostic, off unless set; a %d in the name is replaced by the process id) logs
    each such sum with the class of the other operand and what was decided. */
 #if SHC_REBUILD_UPDATED
@@ -97,7 +114,7 @@ static int mem_index_mode(void)
     static int mode = -1;
     if (mode < 0) {
         const char *p = getenv("GEN_MEM_INDEX");
-        mode = (p && *p) ? atoi(p) : 11;
+        mode = (p && *p) ? atoi(p) : 27;
     }
     return mode;
 }
@@ -109,6 +126,11 @@ int gen_mem_index_plain(gen_node *node, gen_node *left, gen_node *right, int oth
     int mode = mem_index_mode(), bit;
     FILE *f;
     bit = other == 7 ? 1 : other == 1 ? 2 : other == 8 ? 4 : other == 6 ? 8 : 0;
+    if (other == 3) {
+        gen_node *m = left->op != IL_CONST ? left : right;      /* the memory operand */
+        if (m->op == IL_ID && m->symx < 0 && m->lreg != 0)
+            bit = 16;
+    }
     f = mem_index_log_file();
     if (f) {
         gen_node *parent = node->parent;
@@ -116,6 +138,15 @@ int gen_mem_index_plain(gen_node *node, gen_node *left, gen_node *right, int oth
                 gen_function_name ? gen_function_name : "?", node->line, other, (mode & bit) ? "add" : "r26",
                 (unsigned char)left->op, (unsigned char)right->op, parent->type,
                 parent->desc ? parent->desc->usage : -1);
+        {
+            gen_node *m = (other == 3 && left->op != IL_CONST) ? left : right;      /* the memory operand */
+            gen_node *k = m == left ? right : left;
+            fprintf(f, "   D %s other %d mem op %02x lreg %d symx %d type %02x ea %02x/%d/%d cls %d | num %d | node pref %04x tgt %04x parent pref %04x tgt %04x pp op %02x\n",
+                gen_function_name ? gen_function_name : "?", other,
+                (unsigned char)m->op, (int)(short)m->lreg, (int)m->symx, m->type, m->desc->value.type, m->desc->value.base, m->desc->value.disp, m->desc->opnd_class,
+                (int)k->val, node->desc->pref_regs, node->desc->target_regs, parent->desc ? parent->desc->pref_regs : 0, parent->desc ? parent->desc->target_regs : 0,
+                parent->parent ? (unsigned char)parent->parent->op : 0);
+        }
         fflush(f);
     }
     return (mode & bit) != 0;

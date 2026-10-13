@@ -50,3 +50,7 @@ multiply_sh4    multiply.c   -cpu=sh4 -optimize=1 -speed
 switch_sh1      switch.c     -cpu=sh1 -optimize=1 -speed
 slots_pic       slots.c      -cpu=sh2 -pic=1 -optimize=1 -speed
 tested_little   tested.c     -cpu=sh2 -endian=little -optimize=1 -speed
+condload        condload.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+tempbase        tempbase.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+idxvar          idxvar.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -extra=m=8,a=8 -nortnext -optimize=1 -speed
+mulalign        mulalign.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "regvarlog.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_lreg_list
 #define g_lreg_list (*(lreg * *)(g_sd + 0x16264))
@@ -30,6 +31,7 @@ int __cdecl sort_lregs_by_profit(void)
     } while (lr != (lreg *)0x0);
   }
   g_lreg_count = n + -1;
+  REGVAR_PRESORT();
   sort_lregs(1,2,g_lreg_count);
   return;
 }
