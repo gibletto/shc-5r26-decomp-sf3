@@ -52,3 +52,4 @@ tested	obj:0:2ff9ac385b01bcbe src:0:3aa38d6e3d1738c6
 tested_little	obj:0:eb7187bb774231fb src:0:3aa38d6e3d1738c6
 testrepl	obj:0:446251b692648a8a src:0:41db7da2be094be4
 threads	obj:0:47679f9ebfd2f2be src:0:a699898070d32999
+xorconst	obj:0:52fce8967aac808e src:0:d3bed5d15eb59695

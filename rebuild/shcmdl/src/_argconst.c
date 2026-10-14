@@ -189,16 +189,18 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
    A class whose first member is such a zero is still no candidate (Game01_Sub stores win_mark_rno[0] plainly with
    zero in r14: there the first long zero of the block is the index of an array).
 
-   MDL_IMM_REG=<bits> (unset: 15; 0: Release 26), for the weight counter and the rewriters only
+   MDL_IMM_REG=<bits> (unset: 31; 0: Release 26), for the weight counter and the rewriters only
      1  a zero operand of an add or a subtract is not an immediate
      2  the constant of a bit-and is not an immediate
      4  a nonzero constant added to or subtracted from a local variable is not an immediate
      8  the constant of an add- or subtract-assignment is not an immediate
+     16 the constant of a bit-xor is not an immediate (`x->rl_flag ^ 1` with 1 kept in r11 is xor r11,r0 in
+        eff09_11000; whole build: that routine alone changes)
    The evidence over the Street Fighter III build is in tools/public/SF3.md and notes/shcmdl.md.
    What the arcade's compiler asks instead is not known; the bits are the operators its code decides.
    MDL_IMM_LOG=<file> (a diagnostic, off unless set) lists each answer the rule changes: function, asker (g1
    weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
-#define IMM_REG_DEFAULT 15
+#define IMM_REG_DEFAULT 31
 
 static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
 {
@@ -216,6 +218,9 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
             return r;
     } else if (parent->op == IL_B_AND) {
         if (!(bits & 2))
+            return r;
+    } else if (parent->op == IL_B_XOR) {
+        if (!(bits & 16))
             return r;
     } else if (value == 0) {
         if (!(bits & 1))
@@ -244,7 +249,7 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
     if (log) {
         fprintf(log, "%s\tg%d\t%s\tty=%02x\tv=%d\tline=%d\n", g_symtab[g_func_node->symx].name, group,
                 parent->op == IL_ADD ? "ADD" : parent->op == IL_SUB ? "SUB" : parent->op == IL_A_ADD ? "A_ADD" :
-                parent->op == IL_A_SUB ? "A_SUB" : "B_AND", parent->type, (int)value,
+                parent->op == IL_A_SUB ? "A_SUB" : parent->op == IL_B_XOR ? "B_XOR" : "B_AND", parent->type, (int)value,
                 (int)parent->line);
         fflush(log);
     }
@@ -258,7 +263,7 @@ int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, co
     if (parent->op == IL_MUL || parent->op == IL_A_MUL)
         return mul_fit(group, parent, pos, value);
     if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND || parent->op == IL_A_ADD
-        || parent->op == IL_A_SUB)
+        || parent->op == IL_A_SUB || parent->op == IL_B_XOR)
         return immreg_fit(group, parent, pos, value);
     if (!(bits & group) || parent->op != IL_ARG)
         return is_immediate_operand(parent, pos, value);
