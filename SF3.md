@@ -107,8 +107,8 @@ Large case constants still require r1 for the real comparison. `ASM_SPECREG` fix
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
 
-Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,798 compile to the arcade's instructions with
-Release 26 and 9,908 with the rules; byte for byte, literal pools included, 1,906 and 9,889.
+Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,807 compile to the arcade's instructions with
+Release 26 and 9,936 with the rules; byte for byte, literal pools included, 1,910 and 9,920.
 
 The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcgen/src/_regknobs.c`, `rebuild/shcgen/src/_remaprules.c`,
 `rebuild/shcgen/src/_poolrules.c`, `rebuild/shcgen/src/_reloadrules.c`, `rebuild/shcgen/src/_evictrules.c`,
