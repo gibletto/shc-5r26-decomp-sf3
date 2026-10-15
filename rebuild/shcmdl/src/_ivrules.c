@@ -1,9 +1,15 @@
 /* Induction-variable rules (only with SHC_REBUILD_UPDATED=1).
 
-   MDL_IV=<bits> (unset: 3, the arcade rule; 0: Release 26).
+   MDL_IV=<bits> (unset: 11, the arcade rule; 0: Release 26).
      1  scan_derived_induction_expr: a cast that narrows an induction variable keeps the variable's number, so
         (char)(i * 6) derives from i like i * 6 does (Release 26 drops the number at any narrowing cast).
         With 2 only a cast to char, with 4 only a cast to short (both: both).
+     8  try_auto_increment_access: no auto-increment or auto-decrement access for a structure. Release 26 makes
+        the destination of a block move in a loop counting down a pre-decrement (and the source of one counting
+        up a post-increment), although SH has no such form for a block move: the pointer is set one element
+        further before the loop and stepped before the copy. The arcade's compiler steps it after the copy, as
+        for any other use (insert_ranking_cpu_grade, effB6_pos_data_set; push_image_buff's
+        `image_buff[i] = image_buff[i - 1]`; debug_hit_a_judgement_edit_grid's `pat[i] = pat[i - 1]`).
 
    MDL_IV_BASE=<bits> (unset: 3, the arcade rule; 0: Release 26). hoist_invariants_in_tree marks what does not
    change in a loop. It runs twice: before the induction variables are found (g_licm_pass 0, marking only) and
@@ -54,7 +60,7 @@ int mdl_iv_rules(void)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("MDL_IV");
-        k = v ? atoi(v) : 3;
+        k = v ? atoi(v) : 11;
     }
     return k;
 }

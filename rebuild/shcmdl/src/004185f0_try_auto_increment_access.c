@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_iv_update_stmt
 #define g_iv_update_stmt (*(il_node * *)(g_sd + 0x26ac4))
@@ -44,6 +45,10 @@ int __cdecl try_auto_increment_access(il_node *expr,il_node *temp,iv_use *use)
         piVar1 = parent->parent;
       }
     }
+  }
+  if (piVar1 != (il_node *)0x0 && (IV_RULES() & 8) && (piVar1->type & 0xe0) == 0x60) {
+    free_tree(node);           /* a structure (block move): no auto-increment access (MDL_IV bit 8) */
+    return 1;
   }
   if (piVar1 != (il_node *)0x0) {
     iVar3 = induction_step(g_iv_update_stmt);

@@ -55,3 +55,4 @@ tempbase        tempbase.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 idxvar          idxvar.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -extra=m=8,a=8 -nortnext -optimize=1 -speed
 mulalign        mulalign.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 xorconst        xorconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+structstep      structstep.c -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
