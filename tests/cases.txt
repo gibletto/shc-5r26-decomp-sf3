@@ -56,3 +56,4 @@ idxvar          idxvar.c     -cpu=sh2 -division=cpu -endian=big -pic=0 -extra=m=
 mulalign        mulalign.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 xorconst        xorconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 structstep      structstep.c -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+unszero         unszero.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed

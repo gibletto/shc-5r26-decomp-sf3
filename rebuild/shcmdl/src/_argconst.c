@@ -189,18 +189,27 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
    A class whose first member is such a zero is still no candidate (Game01_Sub stores win_mark_rno[0] plainly with
    zero in r14: there the first long zero of the block is the index of an array).
 
-   MDL_IMM_REG=<bits> (unset: 31; 0: Release 26), for the weight counter and the rewriters only
+   MDL_IMM_REG=<bits> (unset: 63; 0: Release 26), for the weight counter and the rewriters only (bit 32 also for
+   collect_register_candidate)
      1  a zero operand of an add or a subtract is not an immediate
      2  the constant of a bit-and is not an immediate
      4  a nonzero constant added to or subtracted from a local variable is not an immediate
      8  the constant of an add- or subtract-assignment is not an immediate
      16 the constant of a bit-xor is not an immediate (`x->rl_flag ^ 1` with 1 kept in r11 is xor r11,r0 in
         eff09_11000; whole build: that routine alone changes)
+     32 a zero compared unsigned (<, <=, >, >= whose zero operand has an unsigned type) against a converted value
+        (the other operand a cast) is not an immediate, for collect_register_candidate too: the SH has no unsigned
+        compare with an immediate, and Release 26 reads the relational node's own type, which is always a signed
+        int, so it calls such a zero an immediate and shcgen copies the zero's register before the compare
+        (mov r4,r3, cmp/hs r10,r3). The arcade's compiler compares the zero's register itself (cmp/hs r10,r4 in
+        strstr, `i < n` with u32 i and s32 n, the entry test that loop inversion copies in front of the loop with
+        i folded to 0). One witness: strstr. Without the cast condition the rule costs seven exact routines whose
+        compares are unsigned on both sides (tilemap_put_block, hex_to_bcd, ...).
    The evidence over the Street Fighter III build is in tools/public/SF3.md and notes/shcmdl.md.
    What the arcade's compiler asks instead is not known; the bits are the operators its code decides.
    MDL_IMM_LOG=<file> (a diagnostic, off unless set) lists each answer the rule changes: function, asker (g1
    weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
-#define IMM_REG_DEFAULT 31
+#define IMM_REG_DEFAULT 63
 
 static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
 {
@@ -256,6 +265,27 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
     return 0;
 }
 
+/* MDL_IMM_REG bit 32: the zero of an unsigned compare against a cast is no immediate (all three groups) */
+static int relzero_fit(il_node *parent, int pos, unsigned int value)
+{
+    static int bits = -1;
+    il_node *zero, *other;
+    int r = is_immediate_operand(parent, pos, value);
+    if (r == 0 || value != 0)
+        return r;
+    if (bits < 0) {
+        const char *v = getenv("MDL_IMM_REG");
+        bits = (v && *v) ? atoi(v) : IMM_REG_DEFAULT;
+    }
+    if (!(bits & 32))
+        return r;
+    zero = nth_operand(pos, parent);
+    other = nth_operand(pos == 1 ? 2 : 1, parent);
+    if (!zero || (zero->type & 0xe0) != 0 || !(zero->type & 4) || !other || other->op != IL_CAST)
+        return r;
+    return 0;
+}
+
 /* occ: the occurrence record ({next, block, node}) of the node being weighed or rewritten, 0 for group 4 */
 int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, const_use *occ)
 {
@@ -265,6 +295,8 @@ int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, co
     if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND || parent->op == IL_A_ADD
         || parent->op == IL_A_SUB || parent->op == IL_B_XOR)
         return immreg_fit(group, parent, pos, value);
+    if (parent->op == IL_LT || parent->op == IL_LE || parent->op == IL_GT || parent->op == IL_GE)
+        return relzero_fit(parent, pos, value);
     if (!(bits & group) || parent->op != IL_ARG)
         return is_immediate_operand(parent, pos, value);
     if ((bits & 8) && occ && occ->block->lptbl != 0)
