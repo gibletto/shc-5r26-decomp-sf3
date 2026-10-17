@@ -10,7 +10,7 @@ for tests/cases, to assembler source:
 
   off   Release 26 (extracted/bin) against the rebuilt stages with every rule set to 0: must be identical
   on    the rebuilt stages with the rules unset (the defaults), against tests/expected.tsv (tests/cases) or
-        tests/sf3-expected.tsv (--sf3; the tree's commit is in its first line)
+        tests/sf3-expected.tsv (--sf3; its first line holds a digest of the game sources it was made from)
 
 --each-rule lists, for each rule, the inputs whose output it changes on its own. --write-expected rewrites the
 expected file of the inputs run from the 'on' outputs. An object's compile date (and the checksum of each
@@ -69,6 +69,20 @@ def sf3_inputs(tree):
         if m:
             out.append((Path(m.group(1).replace("\\", "/")).stem, Path(tree), m.group(1), m.group(2), False))
     return out
+
+
+def sf3_digest(tree):
+    """The game sources the expected outputs come from: the C modules (not the graphics tables, which only the
+    development tree compiles) and the headers, line endings ignored. The same in every copy of the tree, whatever
+    its git history."""
+    h = hashlib.sha1()
+    tree = Path(tree)
+    files = sorted({src.replace("\\", "/") for name, _, src, _, _ in sf3_inputs(tree)
+                    if not re.fullmatch(r"cg_[0-9A-F]000", name)})
+    files += sorted(f"include/{p.name}" for p in (tree / "include").glob("*.h"))
+    for f in files:
+        h.update(f.encode() + b"\0" + (tree / f).read_bytes().replace(b"\r\n", b"\n") + b"\0")
+    return h.hexdigest()
 
 
 def output_argument(out, cwd):
@@ -199,10 +213,11 @@ def main():
                 k, v = line.split("\t")
                 expected[k] = v
     if a.sf3:
-        head = subprocess.run(["git", "-C", a.sf3, "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+        head = "sources " + sf3_digest(a.sf3)
         want = exp_file.read_text().split("\n")[0][2:].strip() if exp_file.exists() else ""
-        if want and head and head != want:
-            print(f"note: tests/sf3-expected.tsv is for commit {want}, the tree is at {head}: 'on' rows may differ")
+        if want and want != head:
+            print(f"note: tests/sf3-expected.tsv is for other game sources ({want}; this tree: {head}): "
+                  "'on' rows may differ")
 
     try:
         work = create_work_dir(a.work_dir, inputs)
