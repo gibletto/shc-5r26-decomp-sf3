@@ -10,9 +10,11 @@
      1  the weight counter (weigh_common_expression_candidates)
      2  the rewriters that make the occurrences read the register (materialize_constant_lreg, write_lreg_numbers)
      4  collect_register_candidate
-     8  with 1 or 2: keep the stock answer for an occurrence inside a loop (its block has an lptbl)
-   A set bit answers 0 ("not an immediate") for a constant whose parent is a call argument. Unset: b (weight and
-   rewriters, not in loops: the arcade behaviour); 0: Release 26.
+     8  with 1 or 2: keep the stock answer for an occurrence inside a loop (its block has an lptbl). Retired
+        2026-10-16 (no longer in the default): in the arcade's load_player_color the zero passed to
+        polygon2d_submit_quad inside a loop comes from a register (`mov r14,r7`), as outside loops.
+   A set bit answers 0 ("not an immediate") for a constant whose parent is a call argument. Unset: 3 (weight and
+   rewriters: the arcade behaviour; b until 2026-10-16); 0: Release 26.
    MDL_ARG_CALL=<hex digit>, the same groups (unset: 0), a diagnostic: narrows the 0 answer to a constant whose call
    also passes the same value in an argument is_immediate_operand does not take as an immediate (a stack argument). */
 #include "decls.h"
@@ -21,7 +23,7 @@
 #include <string.h>
 #include <process.h>
 
-#define ARG_CONST_DEFAULT 0xb
+#define ARG_CONST_DEFAULT 0x3
 
 /* the variable's first character as a hex digit ('0'-'9', 'a'-'f'); dflt when unset */
 static int knob(const char *name, int dflt)

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_debug_flags
 #define g_debug_flags (*(unsigned char *)(g_sd + 0x267c0))
@@ -79,7 +80,9 @@ il_node * __cdecl reassociate_expression(il_node *expr)
     g_negation_count = 0;
     g_reassoc_side_effect = (uint)((expr->flag & 2) != 0);
     operand_index(expr);
+    IV_LITERAL_KEPT_SET(expr);
     result = collect_reassociation_terms(expr,sVar2,0,expr->op);
+    IV_LITERAL_KEPT_CLEAR();
     if (result == -1) {
       free_term_list();
     }

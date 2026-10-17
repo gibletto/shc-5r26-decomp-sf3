@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "gen_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -112,7 +113,7 @@ LAB_0040da60:
     if (((uVar4 & (int)(short)right->desc->need_regs) == 0) &&
        ((uVar3 = (int)g_current_function >> 0x1f,
         (g_symbol_table[((int)g_current_function ^ uVar3) - uVar3].attr & 0x18) == 0 ||
-        ((uVar4 & 0x7f00) == 0)))) {
+        ((uVar4 & 0x7f00) == 0))) && !ASSIGN_NO_COND_HANDOVER(right)) {
       right->desc->pref_regs = 1 << (bVar1 & 0x1f);
       mask_ptr = &right->desc->busy_regs;
       *mask_ptr = *mask_ptr ^ 1 << ((left->desc->value).base & 0x1fU);

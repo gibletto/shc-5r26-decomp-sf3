@@ -1,6 +1,12 @@
 #include "decls.h"
 #include "imports.h"
 #include "r0varrules.h"
+#if SHC_REBUILD_UPDATED
+void ctrace_event(char kind, int reg, unsigned ra, int extra);
+#define CTRACE(k, r, x) do { unsigned ra_; __asm { mov eax,[ebp+4] } __asm { mov ra_,eax } ctrace_event(k, r, ra_, x); } while (0)
+#else
+#define CTRACE(k, r, x)
+#endif
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -60,7 +66,9 @@ LAB_0041ac86:
   } while (ofs < 0x60);
   g_stmt_invalidate_mask = 0;
   g_content_hit = 0;
+  CTRACE('S', -1, stmt->op);
   dispatch_and_finalize_code_node(stmt);
+  CTRACE('E', -1, 0);
   g_stmt_temp_regs = g_stmt_temp_regs | stmt->desc->temp_regs;
   if ((*(short *)g_request->unknown_004 != 0) && (g_no_reg_ranges == '\0')) {
     if (g_r0_variable != 0) {
@@ -81,6 +89,7 @@ LAB_0041ac86:
     invalidate_register_contents(1);
   }
   emit_node_code(stmt);
+  CTRACE('F', -1, g_stmt_invalidate_mask);
   invalidate_register_contents((int)g_stmt_invalidate_mask);
   free_node_descriptor_tree(stmt);
   g_used_gpr_mask = g_used_gpr_mask | saved_gpr_mask;

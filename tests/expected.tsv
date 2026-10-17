@@ -55,3 +55,9 @@ threads	obj:0:47679f9ebfd2f2be src:0:a699898070d32999
 xorconst	obj:0:52fce8967aac808e src:0:d3bed5d15eb59695
 structstep	obj:0:ce1b7e26269e1606 src:0:96298ed7f369ee36
 unszero	obj:0:9ea31aff138c890e src:0:0c8fc683c74d8cab
+castmask	obj:0:def75c5a8ba90358 src:0:8193ca9aa4a2c802
+ivstart	obj:0:b8ad85bcb48f7eee src:0:85aec85b22ba30ba
+maskasg	obj:0:d4f2066d14d92426 src:0:5cb44bcd0219de51
+rightfirst	obj:0:6dcbaa6fa959f1c4 src:0:a1ce6222d0c2bc7e
+storeidx	obj:0:40153422874cf76e src:0:a66b52c23dd0c43d
+condpref	obj:0:e24b587dc1af8add src:0:5a9b35b01163e1d5

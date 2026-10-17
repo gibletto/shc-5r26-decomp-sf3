@@ -1,5 +1,7 @@
 #include "decls.h"
 #include "imports.h"
+#include "evictrules.h"
+#include "gen_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -199,7 +201,9 @@ LAB_004222a6:
   if (bVar8) {
     select_node_template(node,select,operand_count,'\0',&node->desc->tmpl);
   }
+  RIGHT_FIRST_IN_OPERATOR(1);
   reselect = resolve_operand_register_conflicts(node,left_opnd,right);
+  RIGHT_FIRST_IN_OPERATOR(0);
   op = node->op;
   if (((('7' < (char)op) && ((char)op < '>')) || (('O' < (char)op && ((char)op < '`')))) &&
      ((((op != IL_ASSIGN && (left_opnd->op != IL_B_QUALIFY)) &&
@@ -316,6 +320,7 @@ LAB_004222a6:
   }
   if (((node->op == IL_ADD) || (node->op == IL_SUB)) &&
      (sVar4 = fold_address_add_sub(node,left_opnd,right), sVar4 != 0)) {
+    RIGHT_FIRST_DROP_PENDING();
     return;
   }
   if (g_r0_variable != 0) goto LAB_00423356;
@@ -694,9 +699,11 @@ LAB_00423356:
   if (reselect == 1) {
     select_node_template(node,select,operand_count,'\0',&node->desc->tmpl);
   }
+  NARROW_NORMALIZE(node);
   left_opnd = node;
   uVar6 = result_reg_exclusion_mask(node);
   apply_template_to_node(node,node->desc->tmpl,'\x10',(ea *)0x0,(ea *)0x0,uVar6,left_opnd);
+  RIGHT_FIRST_DROP_PENDING();
   if ((node->op == IL_B_AND) && (node->desc->usage == '\x01')) {
     flag_byte = &node->desc->flags2;
     *flag_byte = *flag_byte | 0x20;

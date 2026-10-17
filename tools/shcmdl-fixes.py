@@ -187,10 +187,12 @@ fix("0040eb60", [(INCLUDES, INCLUDES + '\n#include "castmul.h"'),
                   "  if (((byte)g_debug_flags & 8) != 0) {\n    return MUL_ONE_FOLD(node);\n  }\n")])
 
 # --- MDL_MASK_AND (src/_maskrules.c, include/maskrules.h; only with SHC_REBUILD_UPDATED=1): the simplifier asks before
-# it turns a mask by 0xff into casts, for `x & 0xff` (simplify_bitand_bitor) and `v &= 0xff` (simplify_and_or_assign)
+# it turns a mask by 0xff into casts, for `x & 0xff` (simplify_bitand_bitor) and `v &= 0xff` (simplify_and_or_assign);
+# bit 4: where simplify_bitand_bitor leaves the and, it may take the operand without its widening cast
 fix("0040f190", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
-                 (r"(uVar6 = is_const_value\((\w+),0xff,node->type\), uVar6 == 0\)\) \{\s*return node;\s*\}\n)",
-                  r"\1      if (MASK_TO_CAST(node,\2,1) == 0) {\n        return node;\n      }\n")], regex=True)
+                 (r"(uVar6 = is_const_value\((\w+),0xff,node->type\), uVar6 == 0\)\) \{\s*)return node;(\s*\}\n)",
+                  r"\1return MASK_DROP_CAST(node);\3      if (MASK_TO_CAST(node,\2,1) == 0) {\n"
+                  r"        return MASK_DROP_CAST(node);\n      }\n")], regex=True)
 fix("0040e780", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
                  (r"if \(\(node->child->flag & 2\) == 0\) \{(\s*\w+ = is_const_value\((\w+),0xffff,node->type\);)",
                   r"if (((node->child->flag & 2) == 0) && (MASK_TO_CAST(node,\2,2) != 0)) {\1")], regex=True)
@@ -199,5 +201,14 @@ fix("0040e780", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
 # assign_physical_registers chose
 fix("0041af70", [(INCLUDES, INCLUDES + '\n#include "regvarlog.h"'),
                  ("  add_memory_lregs((short)iVar1);", "  REGVAR_LOG();\n  add_memory_lregs((short)iVar1);")])
+
+# --- MDL_FRAME_EXC (src/_frameexc.c): an owner-approved per-function exception, not a rule. After the memory-slot
+# records are sorted by frequency, attack_hit_check's equal-frequency `boxes` and `lp2` are ordered boxes first
+fix("00414220", [(INCLUDES, INCLUDES + "
+void mdl_frame_exception(void);"),
+                 ("  sort_reflect_list_by_frequency();
+", "  sort_reflect_list_by_frequency();
+  mdl_frame_exception();
+")])
 
 print(n, "fixes")

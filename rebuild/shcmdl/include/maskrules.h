@@ -4,8 +4,11 @@
 #define MASKRULES_H
 #if SHC_REBUILD_UPDATED
 extern int mdl_mask_to_cast(il_node *node, il_node *mask, int bit);
+extern il_node *mdl_mask_drop_cast(il_node *node);
 #define MASK_TO_CAST(node, mask, bit) mdl_mask_to_cast(node, mask, bit)
+#define MASK_DROP_CAST(node) mdl_mask_drop_cast(node)
 #else
 #define MASK_TO_CAST(node, mask, bit) 1
+#define MASK_DROP_CAST(node) (node)
 #endif
 #endif

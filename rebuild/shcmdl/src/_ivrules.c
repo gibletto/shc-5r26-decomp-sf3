@@ -1,6 +1,6 @@
 /* Induction-variable rules (only with SHC_REBUILD_UPDATED=1).
 
-   MDL_IV=<bits> (unset: 11, the arcade rule; 0: Release 26).
+   MDL_IV=<bits> (unset: 27, the arcade rule; 0: Release 26).
      1  scan_derived_induction_expr: a cast that narrows an induction variable keeps the variable's number, so
         (char)(i * 6) derives from i like i * 6 does (Release 26 drops the number at any narrowing cast).
         With 2 only a cast to char, with 4 only a cast to short (both: both).
@@ -10,6 +10,16 @@
         further before the loop and stepped before the copy. The arcade's compiler steps it after the copy, as
         for any other use (insert_ranking_cpu_grade, effB6_pos_data_set; push_image_buff's
         `image_buff[i] = image_buff[i - 1]`; debug_hit_a_judgement_edit_grid's `pat[i] = pat[i - 1]`).
+    16  reassociate_expression: in the value of an assignment the strength reduction made (a stepped temporary's
+        start or step: an assignment to a compiler temporary marked as an induction update), a literal keeps its
+        place among the terms. The start of a pointer that steps from base + 16 (the counter starts at 1) is
+        built as i * 16 + base; once i * 16 has become the literal 16, Release 26 puts the literal after every
+        other term of the sum if another pass of opt_exp reaches it, and base + 16 comes out as `mov base,rN`,
+        `add #16,rN`; without that pass 16 + base stays, `mov #16,rN`, `add base,rN`. The arcade's compiler
+        keeps 16 + base in both cases (debug_hit_a_judgement_build_table's ixkey[i * 4] and ixtbl[i] for i
+        from 1). The step (t = t + k) has its literal last already.
+   MDL_IV_LIT_LOG=<file> (a diagnostic, off unless set) lists each such sum: function, line, operator, type, the
+   terms in order (operator/type, # a literal) and whether bit 16 applied.
 
    MDL_IV_BASE=<bits> (unset: 3, the arcade rule; 0: Release 26). hoist_invariants_in_tree marks what does not
    change in a loop. It runs twice: before the induction variables are found (g_licm_pass 0, marking only) and
@@ -60,9 +70,39 @@ int mdl_iv_rules(void)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("MDL_IV");
-        k = v ? atoi(v) : 11;
+        k = v ? atoi(v) : 27;
     }
     return k;
+}
+
+/* bit 16: is expr the value of an assignment the strength reduction made (reduce_induction_variable's t = start and
+   insert_induction_increment's t = t + step, both marked 0x4000)? reassociate_expression asks before it collects
+   the terms of expr, collect_reassociation_terms reads the answer. */
+int mdl_iv_literal_kept;
+
+void mdl_iv_literal_kept_set(il_node *expr)
+{
+    static FILE *f;
+    static int tried;
+    il_node *p = expr->parent, *c;
+    int iv = p->op == IL_ASSIGN && (p->flag & 0x4000) && p->child->op == IL_ID && p->child->symx < 0 &&
+             p->child->next == expr;
+    mdl_iv_literal_kept = iv && (mdl_iv_rules() & 16);
+    if (!tried) {
+        const char *v = getenv("MDL_IV_LIT_LOG");      /* diagnostic: each sum the bit is asked about */
+        tried = 1;
+        if (v && *v)
+            f = fopen(v, "a");
+    }
+    if (f && iv) {
+        fprintf(f, "%s line=%u op=%02x type=%02x terms:", g_symtab[g_func_node->symx].name, (unsigned)p->line,
+                (unsigned)(unsigned char)expr->op, (unsigned)expr->type);
+        for (c = expr->child; c; c = c->next)
+            fprintf(f, " %02x/%02x%s", (unsigned)(unsigned char)c->op, (unsigned)c->type,
+                    c->op == IL_CONST ? "#" : "");
+        fprintf(f, " kept=%d\n", mdl_iv_literal_kept);
+        fflush(f);
+    }
 }
 
 #define IV_BASE_DEFAULT 3

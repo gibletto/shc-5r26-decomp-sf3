@@ -1,6 +1,12 @@
 #include "decls.h"
 #include "imports.h"
 #include "evictrules.h"
+#if SHC_REBUILD_UPDATED
+void ctrace_event(char kind, int reg, unsigned ra, int extra);
+#define CTRACE(k, r, x) do { unsigned ra_; __asm { mov eax,[ebp+4] } __asm { mov ra_,eax } ctrace_event(k, r, ra_, x); } while (0)
+#else
+#define CTRACE(k, r, x)
+#endif
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_lreg_table
 #define g_lreg_table (*(short * *)(g_sd + 0x1fa10))
@@ -111,6 +117,7 @@ LAB_0042f967:
     if ((is_r0_variable) && (reg == 0)) {
       contents->flags = contents->flags | 0x20;
     }
+    CTRACE('V', reg, node->symx);
     desc = node->desc;
     if (is_fpr) {
       uVar2 = 1 << (bVar1 & 0x1f);

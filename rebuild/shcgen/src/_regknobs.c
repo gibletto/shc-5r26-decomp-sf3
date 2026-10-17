@@ -168,3 +168,38 @@ void regtrace_chooser_exit(unsigned short p1, unsigned short p2, char p3, short 
   rt_site = 0;
   rt_node = 0;
 }
+
+/* SHCGEN_CTRACE=1 (with SHCGEN_REGTRACE): a "CE" line in the trace for each change of the r0-r3 content records:
+   statement start (S), a record made (V variable / C constant), a record dropped (I, with the dropping call's
+   return address), a content hit (H) and the records after it. Diagnostic only. */
+void ctrace_event(char kind, int reg, unsigned ra, int extra)
+{
+  static int on = -1;
+  FILE *f;
+  int r;
+  if (on < 0) {
+    char *p = getenv("SHCGEN_CTRACE");
+    on = (p && *p && *p != '0');
+  }
+  if (!on) return;
+  f = regtrace_file();
+  if (!f) return;
+  fprintf(f, "CE %c r%d ra=%08x x=%x ser=%u hit=%d |", kind, reg, ra, extra, g_stmt_serial,
+          g_content_hit);
+  for (r = 0; r < 4; r++) {
+    int *rec = (int *)(SD(0x0045ff00) + r * 0x18);
+    fprintf(f, " r%d:%x/%x/%x", r, rec[0], ((unsigned char *)rec)[9], rec[3]);
+  }
+  if (getenv("SHCGEN_CTRACE_BT")) {
+    unsigned *fp;
+    __asm { mov fp,ebp }
+    fprintf(f, " bt");
+    for (r = 0; r < 14 && fp; r++) {
+      fprintf(f, " %x", fp[1]);
+      fp = (unsigned *)fp[0];
+    }
+  }
+  fprintf(f, "\n");
+  fflush(f);
+}
+

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "evictrules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -54,8 +55,13 @@ short __cdecl try_evaluate_right_operand_first(gen_node *node,gen_node *left,gen
              ((left->desc->fpscr_pr == '\x01' && (right->desc->fpscr_pr == '\x01')))))))) {
           flags_ptr = &node->desc->flags2;
           *flags_ptr = *flags_ptr | 0x80;
-          invalidate_register_contents
-                    ((int)(short)(left->desc->temp_regs & right->desc->cached_regs));
+          if (RIGHT_FIRST_DEFER()) {
+            RIGHT_FIRST_PEND(left->desc->temp_regs & right->desc->cached_regs);
+          }
+          else {
+            invalidate_register_contents
+                      ((int)(short)(left->desc->temp_regs & right->desc->cached_regs));
+          }
           swapped = 1;
         }
       }

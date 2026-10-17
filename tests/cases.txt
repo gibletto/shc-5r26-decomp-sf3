@@ -57,3 +57,9 @@ mulalign        mulalign.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext
 xorconst        xorconst.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 structstep      structstep.c -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
 unszero         unszero.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+castmask        castmask.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+ivstart         ivstart.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+maskasg         maskasg.c    -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+rightfirst      rightfirst.c -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+storeidx        storeidx.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed
+condpref        condpref.c   -cpu=sh2 -division=cpu -endian=big -pic=0 -nortnext -optimize=1 -speed

@@ -1,5 +1,11 @@
 #include "decls.h"
 #include "imports.h"
+#if SHC_REBUILD_UPDATED
+void ctrace_event(char kind, int reg, unsigned ra, int extra);
+#define CTRACE(k, r, x) do { unsigned ra_; __asm { mov eax,[ebp+4] } __asm { mov ra_,eax } ctrace_event(k, r, ra_, x); } while (0)
+#else
+#define CTRACE(k, r, x)
+#endif
 
 // entry: 0042fcb0
 // name : invalidate_register_contents
@@ -14,6 +20,9 @@ int __cdecl invalidate_register_contents(uint mask)
   uint pending;
   short i;
   
+  for (i = 0; i < 4; i++) {
+    if ((mask & (1 << i)) && ((g_gpr_contents[i].flags & 0x40) != 0 || g_gpr_contents[i].value != 0)) CTRACE('I', i, mask);
+  }
   bit = 1;
   pending = mask & 0xf;
   for (i = 0; (pending != 0 && (i < 4)); i = i + 1) {

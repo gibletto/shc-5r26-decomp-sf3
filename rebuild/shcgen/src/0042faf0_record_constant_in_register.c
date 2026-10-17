@@ -1,6 +1,12 @@
 #include "decls.h"
 #include "imports.h"
 #include "evictrules.h"
+#if SHC_REBUILD_UPDATED
+void ctrace_event(char kind, int reg, unsigned ra, int extra);
+#define CTRACE(k, r, x) do { unsigned ra_; __asm { mov eax,[ebp+4] } __asm { mov ra_,eax } ctrace_event(k, r, ra_, x); } while (0)
+#else
+#define CTRACE(k, r, x)
+#endif
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -100,6 +106,7 @@ LAB_0042fbe8:
   }
   slot->stamp = g_stmt_serial;
   slot->flags = '@';
+  CTRACE('C', reg, value->disp);
   if (is_fpr) {
     mask = 1 << (bVar1 & 0x1f);
     cached = &node->desc->fcached_regs;

@@ -166,6 +166,9 @@ hooks("00401000", [
     (r"(\w+) = simplify_flow_block\((\w+)\);(\n\s+\w+ = \2->next;)", r"\1 = pep_post_skip(8) ? 0 : simplify_flow_block(\2);\3"),
     (r"if \((\w+)->preds != \(flow_edge \*\)0x0\) \{", r"if (\1->preds != (flow_edge *)0x0 && !pep_post_skip(6)) {"),
     (r"if \((\w+)\) \{(\n\s+delete_repeated_r0_constant_loads)", r"if (\1 && !pep_post_skip(7)) {\2")])
+# PEP_XOR_TEST: after existing flow mutations, before final graph disposal/slot filling.
+hooks("00401000", [(r"(\n    free_flow_block\(\(flow_block \*\)0x0\);\n  }\n  return;)",
+                    r"\n    PEP_XOR_TEST_FOLD();\1")])
 # SWITCH_ARCADE_JUMP / SWITCH_ARCADE_BRANCH; PEP_NO_THREAD 2 (no simplification), 1/8/16 (no threading)
 hooks("00401a10", [
     (r"(\n  \w+ = '\\0';\n)(  if \(\(\(block == )", r"\1  if (pep_no_thread() & 2) return 0;\n\2"),

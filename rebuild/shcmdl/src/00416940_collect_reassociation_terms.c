@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef PTR_PTR_00433afc
 #define PTR_PTR_00433afc (*(unsigned char * *)(g_sd + 0x1afc))
@@ -140,6 +141,11 @@ LAB_00416a93:
       other_node = cur->node;
       next = cur;
       new_head = entry;
+      if (other_node->op == IL_CONST && piVar2->op != IL_CONST && IV_LITERAL_KEPT()) {
+        next = cur->next;      /* a stepped temporary's start or step: the literal keeps its place (MDL_IV bit 16) */
+        prev = cur;
+        continue;
+      }
       if (g_reassoc_side_effect == 0) {
         if ((char)other_node->nodes < (char)piVar2->nodes) {
 LAB_00416ccb:

@@ -1,6 +1,7 @@
 #include "decls.h"
 #include "imports.h"
 #include "memindexrules.h"
+#include "gen_rules.h"
 
 // entry: 004187b0
 // name : fold_address_add
@@ -118,6 +119,7 @@ short __cdecl fold_address_add(gen_node *node,gen_node *left,gen_node *right)
     }
     g_content_hit = saved_content_hit;
   }
+  STORE_INDEX_TRACE(node,left,right,left_class,right_class,(&g_add_fold_kind)[(int)right_class + left_class * 9]);
   switch((&g_add_fold_kind)[(int)right_class + left_class * 9]) {
   default:
     report_codegen_message(0x1221,g_msg_filn,(uint)g_msg_line,(int)g_msg_listno,(char *)0x0);
@@ -254,7 +256,8 @@ joined_r0x00418d24:
       if (pgVar9->desc->usage == '\x03') {
         grandparent = pgVar9->parent;
         op = grandparent->op;
-        if ((op == IL_ASSIGN) && ((grandparent->desc->flags7 & 0x20) != 0)) {
+        if ((op == IL_ASSIGN) && ((grandparent->desc->flags7 & 0x20) != 0) &&
+           (!STORE_INDEX_LATE(node,left,right,grandparent))) {
           return 0;
         }
         if (((('7' < (char)op) && ((char)op < '>')) || (('O' < (char)op && ((char)op < '`')))) &&

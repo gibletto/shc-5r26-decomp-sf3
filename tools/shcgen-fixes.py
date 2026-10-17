@@ -190,6 +190,31 @@ fix("004187b0", [('#include "imports.h"\n', '#include "imports.h"\n#include "mem
         + R0_INDEX.format(side=side)) for side in ("left", "right")]
     + [(BOTH_MEM, "    if (MEM_INDEX_PLAIN(node,left,right,8)) {\n      return 0;\n    }\n" + BOTH_MEM)], once=True)
 
+# --- GEN_STORE_INDEX (src/_storeindex.c, include/gen_rules.h): fold_address_add's case 7 under a store whose right
+# side takes r0 asks the rule before giving up the indexed access (only when every r0 taker is a division or modulo);
+# GEN_STORE_INDEX_LOG traces every case with its operand classes
+fix("004187b0", [('#include "memindexrules.h"\n', '#include "memindexrules.h"\n#include "gen_rules.h"\n'),
+                 ("  switch((&g_add_fold_kind)[(int)right_class + left_class * 9]) {\n",
+                  "  STORE_INDEX_TRACE(node,left,right,left_class,right_class,(&g_add_fold_kind)[(int)right_class + left_class * 9]);\n"
+                  "  switch((&g_add_fold_kind)[(int)right_class + left_class * 9]) {\n"),
+                 ("        if ((op == IL_ASSIGN) && ((grandparent->desc->flags7 & 0x20) != 0)) {\n",
+                  "        if ((op == IL_ASSIGN) && ((grandparent->desc->flags7 & 0x20) != 0) &&\n"
+                  "           (!STORE_INDEX_LATE(node,left,right,grandparent))) {\n")], once=True)
+
+# --- GEN_COND_PREF (src/_condpref.c, include/gen_rules.h): generate_assign_node does not hand the destination's
+# register to a conditional right side as a preference (bit 1); generate_conditional_node's test takes no preference
+# (bit 2, a diagnostic)
+GEN_RULES_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "gen_rules.h"\n')
+fix("0040d9e0", [GEN_RULES_INC,
+                 ("        ((uVar4 & 0x7f00) == 0)))) {\n",
+                  "        ((uVar4 & 0x7f00) == 0))) && !ASSIGN_NO_COND_HANDOVER(right)) {\n")], once=True)
+fix("0040e050", [GEN_RULES_INC,
+                 ("  if ((desc->pref_regs == 0) && (desc->fpref_regs == 0)) {\n    desc->pref_regs = node->desc->pref_regs;\n"
+                  "    cond->desc->fpref_regs = node->desc->fpref_regs;\n",
+                  "  if ((desc->pref_regs == 0) && (desc->fpref_regs == 0) && !COND_TEST_NO_PREF(node)) {\n"
+                  "    desc->pref_regs = node->desc->pref_regs;\n    cond->desc->fpref_regs = node->desc->fpref_regs;\n")],
+    once=True)
+
 # --- GEN_MUL_L bit 4: prepare_cast_node asks the 16-bit-multiplier question of the narrow operand's cast as well
 fix("004037e0", [('#include "imports.h"\n', '#include "imports.h"\nint shcgen_knob_mul_l(void);\n'),
                  ("        iVar4 = is_16bit_multiplier_constant(other_operand,iVar4);\n",
@@ -205,5 +230,10 @@ fix("00406340", [OR_INDEX_INC,
 fix("0042ab90", [OR_INDEX_INC,
     ('  request_section *section;\n',
      '  request_section *section;\n\n  if (OR_INDEX_HOLD(rec, pool_size))\n    return;\n')], once=True)
+
+# --- GEN_NARROW_NORMALIZE: after child evaluation, before applying the cast.
+fix("00422180", [('#include "imports.h"\n', '#include "imports.h"\n#include "gen_rules.h"\n'),
+                 ('  left_opnd = node;\n  uVar6 = result_reg_exclusion_mask(node);\n',
+                  '  NARROW_NORMALIZE(node);\n  left_opnd = node;\n  uVar6 = result_reg_exclusion_mask(node);\n')], once=True)
 
 print(f"shcgen-fixes: {n} replacements")

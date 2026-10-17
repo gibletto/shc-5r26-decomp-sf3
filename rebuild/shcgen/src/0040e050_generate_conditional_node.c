@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "gen_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -177,7 +178,7 @@ LAB_0040e3d9:
   puVar1 = &cond->desc->flags7;
   *puVar1 = *puVar1 | node->desc->flags7 & 0x40;
   desc = cond->desc;
-  if ((desc->pref_regs == 0) && (desc->fpref_regs == 0)) {
+  if ((desc->pref_regs == 0) && (desc->fpref_regs == 0) && !COND_TEST_NO_PREF(node)) {
     desc->pref_regs = node->desc->pref_regs;
     cond->desc->fpref_regs = node->desc->fpref_regs;
   }

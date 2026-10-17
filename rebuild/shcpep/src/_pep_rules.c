@@ -411,4 +411,12 @@ int pep_case_word(void) { return env_int("PEP_CASE_WORD", 1); }
    its fourth return, where the Release 26 estimate (476 against the limit 462) asks for it behind the third; without
    the four exit literals it is 460. No other routine's pools move with the rule. */
 int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
+
+/* PEP_XOR_TEST: XOR followed by a self-TST can become CMP/EQ only when the XOR
+   result is dead on every successor. The proof runs on actual final flow records,
+   with ordinary ABI metadata, explicit return/reserved-register exclusions and
+   a conservative whitelist of unconditional full-width kills. Unknown control,
+   calls, operations, abnormal metadata and cycles reject. Branch temporaries are
+   MAY clobbers, never kills. Unset: 1; 0: unchanged Release 26 flow behavior. */
+int pep_xor_test(void) { return env_int("PEP_XOR_TEST", 1); }
 #endif

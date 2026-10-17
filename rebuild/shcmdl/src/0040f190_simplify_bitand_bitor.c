@@ -82,10 +82,10 @@ il_node * __cdecl simplify_bitand_bitor(il_node *node)
       }
       uVar5 = is_const_value(piVar4,0xffff,node->type);
       if ((uVar5 == 0) && (uVar6 = is_const_value(piVar4,0xff,node->type), uVar6 == 0)) {
-        return node;
+        return MASK_DROP_CAST(node);
       }
       if (MASK_TO_CAST(node,piVar4,1) == 0) {
-        return node;
+        return MASK_DROP_CAST(node);
       }
       piVar4 = copy_tree(0,node->child);
       piVar4 = make_node(IL_CAST,(-(uVar5 == 0) & 0xf8U) + 0xc,piVar4,(il_node *)0x0,(il_node *)0x0)

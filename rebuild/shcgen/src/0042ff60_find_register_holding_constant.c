@@ -1,5 +1,11 @@
 #include "decls.h"
 #include "imports.h"
+#if SHC_REBUILD_UPDATED
+void ctrace_event(char kind, int reg, unsigned ra, int extra);
+#define CTRACE(k, r, x) do { unsigned ra_; __asm { mov eax,[ebp+4] } __asm { mov ra_,eax } ctrace_event(k, r, ra_, x); } while (0)
+#else
+#define CTRACE(k, r, x)
+#endif
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -79,6 +85,7 @@ LAB_00430075:
   }
   truncate_register_ranges_at_serial(reg,contents[reg].stamp,contents);
   g_content_hit = 1;
+  CTRACE('H', reg, value->disp);
   if (!is_fpr) {
     g_content_hit = 1;
     return reg;

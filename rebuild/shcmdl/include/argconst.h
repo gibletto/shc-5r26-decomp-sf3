@@ -37,6 +37,11 @@ extern int mdl_iv_test_replace(void);
 #define IV_TEST_REPLACE() mdl_iv_test_replace()
 extern int mdl_iv_test_use(unsigned int use_size, int test_size);
 #define IV_TEST_USE(n, t) mdl_iv_test_use(n, t)
+extern int mdl_iv_literal_kept;
+extern void mdl_iv_literal_kept_set(il_node *expr);
+#define IV_LITERAL_KEPT_SET(e) mdl_iv_literal_kept_set(e)
+#define IV_LITERAL_KEPT_CLEAR() (mdl_iv_literal_kept = 0)
+#define IV_LITERAL_KEPT() mdl_iv_literal_kept
 #else
 #define IV_RULES() 0
 #define IV_LICM_PASS(bit) g_licm_pass
@@ -44,6 +49,9 @@ extern int mdl_iv_test_use(unsigned int use_size, int test_size);
 #define IV_SKIP_USE(e) 0
 #define IV_TEST_REPLACE() 0
 #define IV_TEST_USE(n, t) 1
+#define IV_LITERAL_KEPT_SET(e)
+#define IV_LITERAL_KEPT_CLEAR()
+#define IV_LITERAL_KEPT() 0
 #endif
 
 /* MDL_LOOP_INV and MDL_LOOP_LOG (src/_looprules.c), with SHC_REBUILD_UPDATED=1: does this place of

@@ -26,6 +26,31 @@
    serial, the register and its old record (value/flags/type/stamp), the other register and its record, the label
    of each constant record (or the other record's lreg), and the variable recorded (symx/type/lreg). Second line
    (variable records): the node's size and its four nearest ancestors as op/type(operand ops[their operand ops]). */
+/* GEN_RIGHT_FIRST_DROP (only with SHC_REBUILD_UPDATED=1): when the notes of an operator's right operand are
+   forgotten after the stage decides to evaluate that operand first.
+
+   generate_operator_by_template asks resolve_operand_register_conflicts how to order the operands; when the left
+   operand's scratch registers would destroy a value of the right one, try_evaluate_right_operand_first lets the
+   right operand go first and forgets every note the right operand made in a register the left operand uses for
+   its own work (left temp_regs & right cached_regs). Release 26 does that at once. The registers really change
+   only when the left operand's code runs, which is emitted after the right's, and the operator's template
+   (apply_template_to_node) still loads its own constants, a base address for an @(r0,Rn) operand for example.
+
+   With the setting the forgetting waits until the operator's template has been applied (or until the address
+   fold that replaces it). In between, a new note made by the template still counts the right operand's note
+   when it makes room (evict_oldest_register_content keeps at most two notes), so the oldest other note goes
+   instead of surviving. Afterwards the same registers are forgotten as in Release 26. Other callers of
+   resolve_operand_register_conflicts (assignments, calls, argument lists) keep Release 26's order.
+
+   Arcade evidence: `G = A[i] + B[i][0];` after an earlier store through a global's address in r0-r3. The add
+   evaluates A[i] (r0 = &A) first; B's base address is noted for @(r0,Rn) while the r0 note still counts, so the
+   older note of the earlier global's address goes and the store's address takes that register, as in the arcade
+   (Check_Short_Ending, set_result_target_loser with a plain statement). Over the SF3 build (r36-next 981ace2e) the
+   setting changes Check_Short_Ending only: byte-exact, image 418 -> 408 halfwords from the arcade; with
+   set_result_target_loser written plainly as well, 405 and both byte-exact. Measured in round 49 (r49M,
+   r36/integ/tmp/egM49).
+
+   GEN_RIGHT_FIRST_DROP=1 (unset: 1; owner-approved 2026-10-17): forget after the template; 0: Release 26. */
 #if SHC_REBUILD_UPDATED
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +69,19 @@ int gen_evict_order(void)
   }
   return v;
 }
+
+int gen_right_first_drop(void)
+{
+  static int v = -1;
+  if (v < 0) {
+    const char *p = getenv("GEN_RIGHT_FIRST_DROP");
+    v = (p && *p) ? atoi(p) : 1;
+  }
+  return v;
+}
+
+unsigned short g_right_first_pending;   /* the registers whose notes wait for the end of the operator */
+char g_right_first_in_operator;         /* resolve_operand_register_conflicts called by generate_operator_by_template */
 
 static int holds(reg_content *c)
 {
