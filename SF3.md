@@ -5,7 +5,7 @@ same compiler: compiled with Release 26, the game's decompiled C differs from th
 change to the C removes. Each difference below was traced to the stage that makes it and turned into a rule. The
 rules are on by default. The two new optimizations have general safety arguments and whole-program tests;
 their single observed applications do not establish the historical compiler's implementation.
-Setting all 45 settings listed by `tests/parity.py` to 0 in the environment gives
+Setting all 44 settings listed by `tests/parity.py` to 0 in the environment gives
 Release 26's behaviour; individual switches select the decisions described below.
 
 ## An example
@@ -105,7 +105,6 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `MDL_IV_TEMP=117` | shcmdl | when an expression derived from the loop variable is used more than once and so already sits in a temporary (`t = i * 2`, `t = &a[i]`), always makes that temporary the one that steps | does so only for an address that another argument of the same call takes again (`f(a[i].x, a[i].y)`) or that is used again in the same test, and for an address that a later statement uses while the variable counts down by one (`b[i].x = b[i - 1].x; b[i].y = b[i - 1].y;`); for a scaled index, whichever way the variable counts (`p->a[i] = p->b[i]`, `t[0][i] = t[0][i - 1]; t[1][i] = t[1][i - 1];`), for an address used again by a later statement while the variable counts up (`a[i].x = 0; a[i].y = 0;`) and for an address used again inside the assignment that first takes it (`r[j + 1] = r[j]` for a record, `x[i].m = k ^ x[i].n`) steps a new temporary and copies it into the first on each pass (`mov r4,r7`): the first use reads the new one, later uses the copy; the index of a `char` array, `(long)i * 1`, is not stepped at all (`exts.w r4,r6` on each pass, `i` stays the counter) |
 | `MDL_TEST_REPLACE=13` | shcmdl | keeps the counter of a loop beside the pointers it steps (`add #1,r14`, `cmp/hs r13,r14`): the code that rewrites the loop's test is there but no option switches it on | when every use of an `int` or `long` counter has become a stepped address (at most three) and the test reads the counter, compares one of the addresses with the end of the table (`mov.w` of the size and `add` before the loop, `cmp/hs r14,r4` in it) and drops the counter; a `short` or `char` counter, and a loop where only an integer multiple of the counter is stepped, keep the counter |
 | `MDL_LOOP_INV=31` | shcmdl | with `-speed`, copies the test of every loop whose trip count it does not know in front of the loop (`for`/`while` become `if (c) do ... while (c)`) | does so only where it would without `-speed`: when the test compares two local variables or constants and the loop holds no other loop; every other loop keeps one test, at the bottom, entered by a jump |
-| `MDL_FRAME_EXC=1` | shcmdl | an exception for one function, not a rule: in attack_hit_check, the stack variables `boxes` and `lp2` have equal frame-slot frequency, and the arcade gives `boxes` the earlier slot | orders records of equal frequency by the sorted register-candidate table, which here puts `lp2` first, so the two exchange stack offsets. A census of 335 other equal-frequency pairs in byte-exact routines found every one in Release 26's order, and every general ordering rule tried changed between 8 and 508 routines, so this one site is recorded by name |
 | `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
 | `ASM_MULWAIT=7` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one, and a forced issue skips instructions waiting on the multiplier; while the multiplier is busy the rule that keeps memory accesses at 0 mod 4 and the rest at 2 mod 4 is not applied (bit 4), so the first ready instruction is issued in either half: `mul.l r7,r0`, `mov r14,r0`, `sts macl,r4`, `mov.l @(disp,pc),r3` with the multiply at 2 mod 4, where Release 26's alignment takes the literal load first |
 
@@ -125,7 +124,7 @@ The rules' code is in `rebuild/shcpep/src/_pep_rules.c`, `rebuild/shcpep/src/_xo
 `rebuild/shcgen/src/_memindexrules.c`, `rebuild/shcgen/src/_r0varrules.c`, `rebuild/shcgen/src/_construles.c`, `rebuild/shcgen/src/_orindexrules.c`,
 `rebuild/shcmdl/src/_argconst.c`, `rebuild/shcmdl/src/_castrules.c`, `rebuild/shcmdl/src/_castmulrules.c`, `rebuild/shcmdl/src/_gcserules.c`,
 `rebuild/shcmdl/src/_ivrules.c`, `rebuild/shcmdl/src/_looprules.c`, `rebuild/shcmdl/src/_maskrules.c`,
-`rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`; the exception's in `rebuild/shcmdl/src/_frameexc.c`;
+`rebuild/shcasm/src/_mulrules.c` and `tools/shcasm-fixes.py`;
 `tools/<stage>-fixes.py` puts the calls into the generated functions. `python tests/parity.py --each-rule` lists which test cases each rule changes.
 
 The switch-selector rule was checked over all 460 C modules of the round-21 source: nine direct producers

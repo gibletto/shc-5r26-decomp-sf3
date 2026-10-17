@@ -202,13 +202,4 @@ fix("0040e780", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
 fix("0041af70", [(INCLUDES, INCLUDES + '\n#include "regvarlog.h"'),
                  ("  add_memory_lregs((short)iVar1);", "  REGVAR_LOG();\n  add_memory_lregs((short)iVar1);")])
 
-# --- MDL_FRAME_EXC (src/_frameexc.c): an owner-approved per-function exception, not a rule. After the memory-slot
-# records are sorted by frequency, attack_hit_check's equal-frequency `boxes` and `lp2` are ordered boxes first
-fix("00414220", [(INCLUDES, INCLUDES + "
-void mdl_frame_exception(void);"),
-                 ("  sort_reflect_list_by_frequency();
-", "  sort_reflect_list_by_frequency();
-  mdl_frame_exception();
-")])
-
 print(n, "fixes")

@@ -1,6 +1,5 @@
 #include "decls.h"
 #include "imports.h"
-void mdl_frame_exception(void);
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_debug_flags
 #define g_debug_flags (*(unsigned char *)(g_sd + 0x267c0))
@@ -45,7 +44,6 @@ int __cdecl reflect_register_numbers(void)
   }
   mem_no = -1;
   sort_reflect_list_by_frequency();
-  mdl_frame_exception();
   pmVar1 = g_mem_freq_list;
   if (((*(unsigned char *)((char *)&g_debug_flags + 3)) & 2) != 0) {
     FID_conflict__wprintf(s__________reflect_start__________004355f0);
