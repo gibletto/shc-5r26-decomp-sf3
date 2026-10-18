@@ -121,7 +121,7 @@ def main():
     ap.add_argument('--production', type=Path, help='old complete tool bundle')
     ap.add_argument('--r26', type=Path, help='original Release26 tool bundle')
     ap.add_argument('--matchlab', type=Path, help="the game tree's tools/matchlab (its SH2 interpreter)")
-    ap.add_argument('--work', type=Path, required=True)
+    ap.add_argument('--work', type=Path, help='fresh private work directory (required unless the test skips)')
     ap.add_argument('--readback', action='store_true', help='audit retained compiles without invoking any native tool')
     ap.add_argument('--diagnostic-work', type=Path, help='retained default-off trial fixture output, for default-vs-enabled parity')
     args = ap.parse_args()
@@ -133,6 +133,8 @@ def main():
         print('SKIP: needs --matchlab, the tools/matchlab directory of the game development tree '
               '(diff_exec.py, msearch_module.py)')
         return 0
+    if not args.work:
+        ap.error('--work is required')
     work = args.work.resolve()
     if args.readback:
         assert work.is_dir(), 'retained work path required'

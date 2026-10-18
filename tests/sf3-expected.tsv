@@ -1,4 +1,4 @@
-# sources 33f34c9e0effb4f12fb602393062b37dd9e54849
+# sources 8d6096a08b4a2fe4e20ad14ea23439ad2e6d4855
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:257aea307b9bf874
@@ -439,7 +439,7 @@ SYS_sub	obj:0:b5c2df721bc8a715
 SYS_sub2	obj:0:83654b653424259e
 SYS_sub_tbl	obj:0:3f07df48e923cbb9
 Se_Data	obj:0:f8a8c4d09f96f771
-Sel_Data	obj:0:e6329984a96bf724
+Sel_Data	obj:0:94a29d8fa728447a
 VITAL	obj:0:80f25515d103f112
 VITAL_tbl	obj:0:02c7e38171fcb20b
 Win	obj:0:1c4093dc168598a7
@@ -540,7 +540,7 @@ chun_move	obj:0:546d3fd6fe9fc94a
 chun_yuca	obj:0:09baa6d8de0531ec
 cmb_cont	obj:0:04ac1a70204f650a
 cmb_win_tbl	obj:0:0516e6fff348738e
-cmd_data	obj:0:5837fae89a2dcdeb
+cmd_data	obj:0:1bb4e8b6bfead550
 cmd_main_2	obj:0:1dd7b1139a25ea42
 coin_cont	obj:0:f7b52344141f4852
 coin_sw	obj:0:32a031be879f07f6
@@ -688,7 +688,7 @@ end_3_tbl	obj:0:6d5226ff1a151a0e
 end_3_tbl_b	obj:0:79c1b5ae628eeb7d
 end_4	obj:0:3c0256b03c2f9039
 end_4_tbl	obj:0:176f917a0c606706
-end_5	obj:0:318d7e0c2198561f
+end_5	obj:0:2e6a23f451b26c7e
 end_5_tbl	obj:0:7e90b8cdab24a2f3
 end_5_tbl_b	obj:0:4445a612aa48b769
 end_6	obj:0:9bb5765a0b3daecb
@@ -702,7 +702,7 @@ end_9_tbl	obj:0:1557d0047fa79c1b
 end_data	obj:0:37aa5780dcfcc2c3
 end_main	obj:0:e270ed9c606646f1
 end_main_tbl	obj:0:89b7072ecdca47a7
-end_main_tbl2	obj:0:1b8b0ab6cd3cd2f6
+end_main_tbl2	obj:0:2c2d5dd73191345e
 end_main_tbl_b	obj:0:c3ba335b6bc65eae
 end_sub	obj:0:9b6b4cd8dce569e6
 end_sub_2	obj:0:52dc66e5e8c5e98c

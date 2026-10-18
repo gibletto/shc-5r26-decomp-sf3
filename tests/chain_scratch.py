@@ -64,11 +64,13 @@ def main():
     parser.add_argument('--exes', type=Path, default=ROOT / 'build/msvc')
     parser.add_argument('--r26', type=Path, default=ROOT / 'extracted/bin')
     parser.add_argument('--matchlab', type=Path, help="the game tree's tools/matchlab (its SH2 interpreter)")
-    parser.add_argument('--work', type=Path, required=True)
+    parser.add_argument('--work', type=Path, help='fresh private work directory (required unless the test skips)')
     args = parser.parse_args()
     if not args.matchlab or not (args.matchlab / 'diff_exec.py').is_file():
         print('SKIP: needs --matchlab, the tools/matchlab directory of the game development tree (diff_exec.py)')
         return 0
+    if not args.work:
+        parser.error('--work is required')
     work = args.work.resolve()
     assert not work.exists(), 'use a fresh work directory'
     work.mkdir(parents=True)
