@@ -5,19 +5,13 @@
    temporary, assigned in the common dominator of its members that cse_find_common_block returns, so a value used in
    several blocks is computed once.
 
-   MDL_GCSE=<bits> (unset: 11; 0: Release 26)
-     1  no temporary for a global variable in a dominator that is none of the members' blocks when that block uses
-        the variable itself: Release 26 appends tmp = variable at the end of such a block and the later uses read
-        tmp; the arcade loads the variable again at each use (end_C00_anim, bg_fam0C00). The block uses the
-        variable when it evaluates it on every path through it: a use in the right operand of && or || of the
-        block's condition is not one, and there the arcade makes the temporary as Release 26 does
-        (Credit_Sub_1P: if (Two_Coin_Start != 0 && Request_Break[0] == 0 && credit_1p < 2) ... else
-        status = Request_Break[0] | credit_1p; ... if (credit_1p): credit_1p is loaded once after the first test
-        for the else arm and the later use, and loaded again for the comparison; Disp_Start_Message has the same
-        shape twice). Over the Street Fighter III build (10,066 C routines) the rule refuses a temporary at four
-        places without this reading and at one with it (check_1's sw_work); the three it gives back are those
-        of the two routines above, and no other routine's code changes.
-     4  the same for the other classes (memory references and operators), measured but off: the arcade agrees in
+   MDL_GCSE=<bits> (unset: 10; 0: Release 26)
+     1  retired (round 50, 2026-10-18): no temporary for a global variable in a dominator that is none of the
+        members' blocks when that block uses the variable itself. Its witnesses (end_C00_anim, bg_fam0C00, check_1,
+        then CMD_MAIN) all compile to the arcade's code with Release 26's temporary from their present sources, so
+        the bit is gone and a global variable's class is handled as in Release 26.
+     4  no temporary for the other classes (memory references and operators) in a dominator that is none of the
+        members' blocks when that block computes the expression itself, measured but off: the arcade agrees in
         some routines (sw_pick_up's &wcp[cmd_id] in both arms of an if) and not in others (zoom_ud_check keeps
         &bg_w.bgw[1] in r11), and no shape separates them yet (expressions that read memory against pure addresses
         loses plcnt_b_die and comm_rapp2).
@@ -52,13 +46,13 @@
         instruction order or to a register assignment that moves as a whole (Name_In_Sub, sound_driver_tick,
         effect_F0_move), the others are in routines below 86% (debug_pattern_entry_copy_dual, stngauge_control,
         EFF69_SLIDE_IN, Setup_Command_Name, combo_window_trans, Auto_Repeat_Sub_Wife) and decide nothing.
-   MDL_GCSE_LOG=<file> (a diagnostic, off unless set) lists each temporary rules 1 and 4 refuse. */
+   MDL_GCSE_LOG=<file> (a diagnostic, off unless set) lists each temporary rule 4 refuses. */
 #include "decls.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define GCSE_DEFAULT 11
+#define GCSE_DEFAULT 10
 
 static int gcse_bits(void)
 {
@@ -81,12 +75,12 @@ static int same_tree(il_node *a, il_node *b)
     return x == 0 && y == 0;
 }
 
-/* tree computes expr whenever it is evaluated: for a variable any use of it, otherwise an equal subtree. Only the
-   first operand of && and || counts, since the other is evaluated on some paths only */
+/* tree computes expr whenever it is evaluated: it holds an equal subtree. Only the first operand of && and ||
+   counts, since the other is evaluated on some paths only */
 static int tree_computes(il_node *tree, il_node *expr)
 {
     il_node *c;
-    if (expr->op == IL_ID ? (tree->op == IL_ID && tree->symx == expr->symx) : same_tree(tree, expr))
+    if (same_tree(tree, expr))
         return 1;
     for (c = tree->child; c; c = c->next) {
         if (tree_computes(c, expr))
@@ -120,7 +114,7 @@ int mdl_gcse_block_ok(il_node *node, bblock *block)
 {
     il_node *member;
     node_list *item;
-    if (!(gcse_bits() & (node->op == IL_ID ? 1 : 4)))
+    if (node->op == IL_ID || !(gcse_bits() & 4))
         return 1;
     for (member = node; member != 0; member = member->cse_next)
         if (member->cse_block == block)
@@ -136,7 +130,8 @@ int mdl_gcse_block_ok(il_node *node, bblock *block)
 /* diagnostics for rule 2: MDL_GCSE2_LOG=<file> lists each dropped class head (function, event number in the
    function, whether Release 26's reinsertion was kept, operator, type, symbol, the head's block and line, the
    members left);
-   MDL_GCSE2_EXC=<file> holds "function event" lines at which Release 26's reinsertion is kept. */
+   MDL_GCSE2_EXC=<file> (diagnostic builds only, SHC_REBUILD_DIAG=1) holds "function event" lines at which
+   Release 26's reinsertion is kept. */
 static int gcse2_event(il_node *rest, il_node *head)
 {
     static FILE *log = (FILE *)1;
@@ -151,6 +146,7 @@ static int gcse2_event(il_node *rest, il_node *head)
         count = 0;
     }
     count++;
+#if SHC_REBUILD_DIAG
     if (exc == (char *)1) {
         const char *p = getenv("MDL_GCSE2_EXC");
         FILE *f = (p && *p) ? fopen(p, "r") : 0;
@@ -170,6 +166,7 @@ static int gcse2_event(il_node *rest, il_node *head)
         sprintf(key, "\n%.200s %d\n", name, count);
         keep = strstr(exc, key) != 0;
     }
+#endif
     if (log == (FILE *)1) {
         const char *p = getenv("MDL_GCSE2_LOG");
         log = (p && *p) ? fopen(p, "a") : 0;
@@ -204,7 +201,8 @@ void mdl_gcse_reinsert(il_node *rest, il_node *head)
 
 /* diagnostics for rule 8, as for rule 2: MDL_GCSE8_LOG=<file> lists each set of members taken out of a class
    (function, event number in the function, whether Release 26's new class was kept, operator, type, symbol, the
-   members); MDL_GCSE8_EXC=<file> holds "function event" lines at which Release 26's new class is kept. */
+   members); MDL_GCSE8_EXC=<file> (diagnostic builds only, SHC_REBUILD_DIAG=1) holds "function event" lines at
+   which Release 26's new class is kept. */
 static int gcse8_event(il_node *head)
 {
     static FILE *log = (FILE *)1;
@@ -219,6 +217,7 @@ static int gcse8_event(il_node *head)
         count = 0;
     }
     count++;
+#if SHC_REBUILD_DIAG
     if (exc == (char *)1) {
         const char *p = getenv("MDL_GCSE8_EXC");
         FILE *f = (p && *p) ? fopen(p, "r") : 0;
@@ -238,6 +237,7 @@ static int gcse8_event(il_node *head)
         sprintf(key, "\n%.200s %d\n", name, count);
         keep = strstr(exc, key) != 0;
     }
+#endif
     if (log == (FILE *)1) {
         const char *p = getenv("MDL_GCSE8_LOG");
         log = (p && *p) ? fopen(p, "a") : 0;

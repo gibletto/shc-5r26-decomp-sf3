@@ -1,4 +1,4 @@
-/* GEN_CHAIN_JUMP, GEN_CHAIN_SCRATCH_R0, GEN_JUMP_TEMP and GEN_REMAP_LOG (src/_remaprules.c), compiled in with SHC_REBUILD_UPDATED=1;
+/* GEN_CHAIN_SCRATCH_R0, GEN_JUMP_TEMP and GEN_REMAP_LOG (src/_remaprules.c), compiled in with SHC_REBUILD_UPDATED=1;
    otherwise Release 26's. */
 #ifndef REMAPRULES_H
 #define REMAPRULES_H

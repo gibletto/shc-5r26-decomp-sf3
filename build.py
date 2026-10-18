@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Build the four rebuilt stages: build/<toolchain>/<stage>.exe (with the rules; see SF3.md).
 
-Usage: python build.py [stage ...] [--toolchain msvc|vc6] [--msvc-version V] [--stock] [--jobs N]
+Usage: python build.py [stage ...] [--toolchain msvc|vc6] [--msvc-version V] [--stock | --diag] [--jobs N]
 
 msvc: Visual Studio (Build Tools are enough) with the x86 C compiler: the newest install vswhere finds, or VS_DIR.
 vc6: Visual C++ 6, VC6_DIR = the directory holding VC98 and COMMON.
 --stock builds without the rules' code (SHC_REBUILD_UPDATED=0): the stages are then Release 26 only.
+--diag also builds the diagnostic overrides (SHC_REBUILD_DIAG=1; SF3.md, "Diagnostics") into build/<toolchain>-diag.
+The default build leaves them out, so no setting outside the rules can change its output.
 
 Each stage needs src/_stockdata.c, made from your Release 26 by tools/setup.py. src/_relocs.c maps stock
 function addresses to the rebuild's; it is copied into the build directory, filled in from the link map and
@@ -64,10 +66,10 @@ def toolchain(name, msvc_version=None):
     return env, [cl], cflags, [ln], lflags
 
 
-def compile_one(tc, src, obj, inc, mode):
+def compile_one(tc, src, obj, inc, mode, diag=0):
     env, cc, cflags, _, _ = tc
     p = subprocess.run(cc + ["/nologo", "/c", "/W0", "/MT", "/Od", *cflags, "/I", str(inc),
-                             f"/DSHC_REBUILD_UPDATED={mode}", f"/Fo{obj}", str(src)],
+                             f"/DSHC_REBUILD_UPDATED={mode}", f"/DSHC_REBUILD_DIAG={diag}", f"/Fo{obj}", str(src)],
                        capture_output=True, text=True, env=env)
     return src.name, p.returncode, (p.stdout + p.stderr).strip()
 
@@ -111,7 +113,7 @@ def resync_relocs(map_path, relocs):
     return moved
 
 
-def build_stage(tc, stage, out, mode, jobs):
+def build_stage(tc, stage, out, mode, jobs, diag=0):
     R = ROOT / "rebuild" / stage
     if not (R / "src/_stockdata.c").exists():
         sys.exit(f"{stage}: src/_stockdata.c is missing: run python tools/setup.py first")
@@ -121,7 +123,7 @@ def build_stage(tc, stage, out, mode, jobs):
     shutil.copy(R / "src/_relocs.c", out / "_relocs.c")
     srcs = [s for s in sorted((R / "src").glob("*.c")) if s.name != "_relocs.c"] + [out / "_relocs.c"]
     with ThreadPoolExecutor(jobs) as ex:
-        res = list(ex.map(lambda s: compile_one(tc, s, out / (s.stem + ".obj"), R / "include", mode), srcs))
+        res = list(ex.map(lambda s: compile_one(tc, s, out / (s.stem + ".obj"), R / "include", mode, diag), srcs))
     bad = [(n, msg) for n, rc, msg in res if rc]
     for n, msg in bad[:10]:
         print(f"{stage}: {n} failed:\n{msg[-1500:]}")
@@ -133,7 +135,7 @@ def build_stage(tc, stage, out, mode, jobs):
             sys.exit(f"{stage}: link failed\n" + "\n".join(l for l in msg.splitlines() if "error" in l.lower())[:3000])
         if resync_relocs(out / f"{stage}.map", out / "_relocs.c") == 0:
             break
-        n, rc, msg = compile_one(tc, out / "_relocs.c", out / "_relocs.obj", R / "include", mode)
+        n, rc, msg = compile_one(tc, out / "_relocs.c", out / "_relocs.obj", R / "include", mode, diag)
         if rc:
             sys.exit(msg)
     else:
@@ -146,14 +148,19 @@ def main():
     ap.add_argument("stages", nargs="*", default=STAGES)
     ap.add_argument("--toolchain", default="msvc", choices=["msvc", "vc6"])
     ap.add_argument("--stock", action="store_true")
+    ap.add_argument("--diag", action="store_true", help="with the diagnostic overrides (SHC_REBUILD_DIAG=1)")
     ap.add_argument("--msvc-version", help="an installed MSVC toolset other than the newest (vcvars -vcvars_ver, e.g. 14.16)")
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
+    if a.stock and a.diag:
+        sys.exit("--stock and --diag: the diagnostics are part of the rules' code")
     tc = toolchain(a.toolchain, a.msvc_version)
     for s in a.stages:
         if s not in STAGES:
             sys.exit(f"unknown stage {s}")
-        build_stage(tc, s, ROOT / "build" / (a.toolchain + (a.msvc_version or "") + ("-stock" if a.stock else "")) / s, 0 if a.stock else 1, a.jobs)
+        kind = "-stock" if a.stock else "-diag" if a.diag else ""
+        build_stage(tc, s, ROOT / "build" / (a.toolchain + (a.msvc_version or "") + kind) / s, 0 if a.stock else 1,
+                    a.jobs, int(a.diag))
 
 
 if __name__ == "__main__":

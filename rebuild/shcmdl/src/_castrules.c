@@ -10,16 +10,16 @@
      2  the array name under such a cast is no register-variable candidate (hash_common_expression_candidate).
      4  only casts to an integer type. A pointer cast ((u8 *)table) stays an address, and the arcade keeps it in
         a register as Release 26 does.
-   MDL_ARG_CAST=<bits> (unset: 6, the arcade rule; 0: Release 26). lreg_conflicts_with_call lets a variable keep its
+   MDL_ARG_CAST=<bits> (unset: 2, the arcade rule; 0: Release 26). lreg_conflicts_with_call lets a variable keep its
    argument register across a call only when the call takes the variable itself as that argument.
      2  an argument written &p->m, m at offset 0 (which is p), counts as p: f(&p->first) no longer sends p to a
         callee-saved register;
-     4  with 2, only for a declared variable, not a compiler temporary. */
+     4  with 2, only for a declared variable, not a compiler temporary (off: the game shows no routine that needs it (per-bit ablation over every module, 2026-10-17)). */
 #include "decls.h"
 #include <stdlib.h>
 
 #define CAST_CSE_DEFAULT 7
-#define ARG_CAST_DEFAULT 6
+#define ARG_CAST_DEFAULT 2
 
 static int setting(const char *name, int dflt)
 {

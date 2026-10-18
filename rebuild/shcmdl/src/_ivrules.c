@@ -21,7 +21,7 @@
    MDL_IV_LIT_LOG=<file> (a diagnostic, off unless set) lists each such sum: function, line, operator, type, the
    terms in order (operator/type, # a literal) and whether bit 16 applied.
 
-   MDL_IV_BASE=<bits> (unset: 3, the arcade rule; 0: Release 26). hoist_invariants_in_tree marks what does not
+   MDL_IV_BASE=<bits> (unset: 1, the arcade rule; 0: Release 26). hoist_invariants_in_tree marks what does not
    change in a loop. It runs twice: before the induction variables are found (g_licm_pass 0, marking only) and
    later to move invariant expressions in front of the loop (g_licm_pass 1). Release 26 lets the address of a
    member reached through a pointer (p->a: IL_QUALIFY over IL_ASTER of a struct) count as invariant in the
@@ -30,9 +30,10 @@
    first run as in the second: p->a is not invariant, only i * size is reduced, and p + offset is added to it on
    each pass. A static array's address (a[i], a[i][j]) is invariant in both.
      1  IL_QUALIFY and IL_B_QUALIFY: the first run answers as the second
-     2  IL_ASTER of a struct: the same
+   (Bit 2, the same at IL_ASTER of a struct, is retired: with bit 1 the member is never invariant in the first run
+   either, and no game module needs both, round 50.)
 
-   MDL_IV_TEMP=<bits> (unset: 117, the arcade rule; 0: Release 26). An expression used more than once in a loop
+   MDL_IV_TEMP=<bits> (unset: 101, the arcade rule; 0: Release 26). An expression used more than once in a loop
    body is computed into a temporary at its first use (t = expr). When expr is derived from an induction
    variable, Release 26's reduce_induction_variable makes t itself the stepping variable: t is set before the
    loop and stepped with the variable, and the assignment in the body goes away. The arcade's compiler does
@@ -52,13 +53,13 @@
         address of a variable that counts down)
     16  expr is a product by 1 (t = (long)i * 1, the index of a char array, which MDL_CAST_MUL keeps in a
         temporary): it is not reduced at all, t is computed from i on each pass and i stays the counter
-        (Release 26 steps t beside i)
+        (Release 26 steps t beside i). Off: the game shows no routine that needs it (per-bit ablation over every module, 2026-10-17).
    MDL_IV_TEMP_LOG=<file> (a %d in the name is replaced by the process id) lists each such place: function,
    line, class, the variable's step, whether the next reference is in another statement, the number of
    references, the operators above the assignment and at the statement's root, the expression's type and
    operator, whether the rule applied, where each later reference is (S the statement of t = expr, p the
    statement of the reference before it, D another), and the number of the place within its function.
-   MDL_IV_TEMP_FORCE="fn:n=v,fn:n=v" (diagnostic) answers v (1 a new temporary, 0 Release 26) at place n of
+   MDL_IV_TEMP_FORCE="fn:n=v,fn:n=v" (diagnostic builds only) answers v (1 a new temporary, 0 Release 26) at place n of
    function fn, whatever the bits say; tools use it to ask which answer the arcade gave at one place. */
 #include "decls.h"
 #include <stdlib.h>
@@ -105,9 +106,9 @@ void mdl_iv_literal_kept_set(il_node *expr)
     }
 }
 
-#define IV_BASE_DEFAULT 3
+#define IV_BASE_DEFAULT 1
 
-/* the pass number hoist_invariants_in_tree asks at a member (bit 1) or at a struct dereference (bit 2) */
+/* the pass number hoist_invariants_in_tree asks at a member (bit 1) */
 int mdl_iv_licm_pass(int pass, int bit)
 {
     static int k = -1;
@@ -118,7 +119,7 @@ int mdl_iv_licm_pass(int pass, int bit)
     return (k & bit) ? 1 : pass;
 }
 
-#define IV_TEMP_DEFAULT 117
+#define IV_TEMP_DEFAULT 101
 
 #undef g_iv_update_stmt
 #define g_iv_update_stmt (*(il_node * *)(g_sd + 0x26ac4))
@@ -126,9 +127,11 @@ int mdl_iv_licm_pass(int pass, int bit)
 /* reduce_induction_variable has met a derived expression that is already the value of an assignment to a
    compiler temporary (t = expr, made when the expression is used more than once). Does it step t itself, as
    Release 26 always does (1), or a new temporary, leaving t = new in the loop (0)? */
-/* MDL_IV_TEMP_FORCE: the answer forced at place n of function fn, or -1 */
+/* MDL_IV_TEMP_FORCE (diagnostic builds only, SHC_REBUILD_DIAG=1): the answer forced at place n of function fn,
+   or -1 */
 static int iv_force(const char *fn, int n)
 {
+#if SHC_REBUILD_DIAG
     const char *v = getenv("MDL_IV_TEMP_FORCE");
     while (v && *v) {
         int k = 0;
@@ -146,6 +149,7 @@ static int iv_force(const char *fn, int n)
         if (*v == ',')
             v++;
     }
+#endif
     return -1;
 }
 

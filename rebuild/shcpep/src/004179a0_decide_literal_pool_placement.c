@@ -25,10 +25,15 @@
 #if SHC_REBUILD_UPDATED
 #include <stdio.h>
 #include <stdlib.h>
+#if SHC_REBUILD_DIAG
 static int pepk(const char *name, int dflt) {
     char *v = getenv(name);
     return v ? (int)strtol(v, 0, 0) : dflt;
 }
+#define PEPK(n, d) pepk("PEP_" #n, d)
+#else
+#define PEPK(n, d) (d)
+#endif
 static void peplog(const char *kind, int op, int c68, int c64, int l4, int i11, int c70, int c6c, int lim, int dec) {
     static FILE *lf; static int opened;
     if (!opened) { char *p = getenv("PEP_LOG"); opened = 1; if (p) lf = fopen(p, "a"); }
@@ -38,7 +43,6 @@ static void peplog(const char *kind, int op, int c68, int c64, int l4, int i11, 
    word (long) literal instead of from the last pool. pep_segw/l: offset in the current branch segment of the first
    such reference (-1 none); pep_w/l: its offset from the window start once the segment is behind a kept branch */
 static int pep_w = -1, pep_l = -1, pep_segw = -1, pep_segl = -1;
-#define PEPK(n, d) pepk("PEP_" #n, d)
 #define PEPLOG(k, dec) peplog(k, rec->op, g_pool_code_bytes, _g_pool_pending_literal_bytes, local_4, literal_bytes, g_pool_carried_code_bytes, _g_pool_carried_literal_bytes, iVar2, dec)
 static int pepadj(int word, int c70) {
     int f;

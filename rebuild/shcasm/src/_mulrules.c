@@ -6,9 +6,10 @@
    other instruction issued counts it down. When every ready entry is held back (by that, by a load-use interlock or
    by the fetch/memory-access alignment rule), schedule_pipeline_window issues the first ready entry anyway.
 
-   ASM_MULWAIT=<bits> (unset: 7, the arcade rule; 0: Release 26)
+   ASM_MULWAIT=<bits> (unset: 5, the arcade rule; 0: Release 26)
      1  the multiplier is busy for one instruction after the multiply, not two;
-     2  when every ready entry is held back, the first one that is not waiting for the multiplier is issued;
+     2  when every ready entry is held back, the first one that is not waiting for the multiplier is issued
+        (off: with 4 on, the game shows no routine that needs it (per-bit ablation over every module, 2026-10-17));
      4  while the multiplier is busy the fetch/memory-access alignment rule is not applied.
    1 and 2 together: `muls.w r3,r4 ; mov.l @(disp,pc),r0 ; sts macl,r4` where Release 26 writes `muls.w ; sts macl ;
    mov.l`, and the STS follows a single filler (q_em_dir, urien_dash_chk, comm_ixbw).
@@ -18,7 +19,7 @@
 #include "decls.h"
 #include <stdlib.h>
 
-#define MULWAIT_DEFAULT 7
+#define MULWAIT_DEFAULT 5
 
 static int mulwait(void)
 {

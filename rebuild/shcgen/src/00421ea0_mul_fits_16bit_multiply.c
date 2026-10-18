@@ -106,7 +106,7 @@ int __cdecl mul_fits_16bit_multiply(gen_node *node)
         ) || (iVar1 = 0, type_bits == 0x40)) {
       iVar1 = 1;
     }
-    iVar1 = (shcgen_knob_mul_l() & 2) ? 0 : is_16bit_multiplier_constant(left,iVar1);
+    iVar1 = is_16bit_multiplier_constant(left,iVar1);
     if (iVar1 != 0) {
       return 1;
     }

@@ -27,9 +27,27 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 STAGES = ["shcmdl", "shcgen", "shcpep", "shcasm"]
 RULES = ["SWITCH_ARCADE_BRANCH", "SWITCH_ARCADE_JUMP", "XJUMP_OFF", "PEP_R0_FORGET", "SLOT_NO_STACK",
-         "PEP_NO_THREAD", "GEN_TST_R0", "GEN_MUL_L", "MDL_ARG_CONST", "MDL_CAST_CSE", "MDL_ARG_CAST", "MDL_GCSE", "GEN_CHAIN_JUMP", "ASM_SPECREG", "ASM_MULWAIT",
+         "PEP_NO_THREAD", "GEN_TST_R0", "GEN_MUL_L", "MDL_ARG_CONST", "MDL_CAST_CSE", "MDL_ARG_CAST", "MDL_GCSE", "ASM_SPECREG", "ASM_MULWAIT",
          "PEP_AUTOINC", "MDL_IV", "GEN_POOL_MOVLOC", "MDL_LOOP_INV", "GEN_RELOAD", "GEN_EVICT_ORDER", "MDL_CAST_MUL", "MDL_MUL_CONST",
-         "GEN_MEM_INDEX", "GEN_R0VAR", "PEP_RET_R0", "MDL_IMM_REG", "MDL_MASK_AND", "MDL_IV_BASE", "MDL_IV_TEMP", "GEN_JUMP_TEMP", "MDL_TEST_REPLACE", "MDL_MUL_ONE", "MDL_TEMP_EXPR", "GEN_CHAIN_SCRATCH_R0", "GEN_NARROW_CONST", "GEN_OR_INDEX_EARLY", "PEP_CASE_WORD", "PEP_RET_MAC", "PEP_XOR_TEST", "GEN_NARROW_NORMALIZE", "GEN_RIGHT_FIRST_DROP", "GEN_STORE_INDEX", "GEN_COND_PREF"]
+         "GEN_MEM_INDEX", "GEN_R0VAR", "PEP_RET_R0", "MDL_IMM_REG", "MDL_MASK_AND", "MDL_IV_BASE", "MDL_IV_TEMP", "GEN_JUMP_TEMP", "MDL_TEST_REPLACE", "MDL_MUL_ONE", "MDL_TEMP_EXPR", "GEN_CHAIN_SCRATCH_R0", "GEN_NARROW_CONST", "GEN_OR_INDEX_EARLY", "PEP_CASE_WORD", "PEP_RET_MAC", "GEN_NARROW_NORMALIZE", "GEN_RIGHT_FIRST_DROP", "GEN_STORE_INDEX", "GEN_COND_PREF"]
+# every setting the stages read (the rules, their logs and the diagnostics): none may reach a compile from the
+# environment parity was started in. stage_settings() checks that the pattern covers every name the stages read.
+SETTING = re.compile(r"(?:GEN|MDL|PEP|ASM|SWITCH|XJUMP|SLOT|JNEXT|SHCGEN)_\w+|SHC_ALIGN_FILE")
+
+
+def stage_settings():
+    """the environment variables the rebuilt stages read, from their sources: getenv("X") and the settings helpers
+    (a name as the first argument of a call), and shcpep's PEPK(name, ...) knobs"""
+    names = set()
+    for s in STAGES:
+        for f in (ROOT / "rebuild" / s / "src").glob("*.c"):
+            t = f.read_text(encoding="latin-1")
+            if "getenv" not in t or f.name == "_stockdata.c":
+                continue
+            names |= set(re.findall(r'\b\w+\(\s*"([A-Z][A-Z0-9_]+)"', t))
+            names |= {"PEP_" + m for m in re.findall(r"\bPEPK\((\w+),", t)}
+    names.discard("PEP_")
+    return names
 
 
 def normalize(obj):
@@ -152,7 +170,7 @@ class Runner:
             raise ValueError(f"temporary directory escaped the private work directory: {tmp}")
         shutil.rmtree(tmp, ignore_errors=True)
         tmp.mkdir()
-        env = {k: v for k, v in os.environ.items() if k not in RULES}
+        env = {k: v for k, v in os.environ.items() if not SETTING.fullmatch(k)}
         env.update(rules, SHC_LIB=str(lib), SHC_TMP=str(tmp) + "\\", TMP=str(tmp), TEMP=str(tmp))
         args = [str(lib / "shc.exe"), src, *opts.split(), "-object=" + object_arg]
         if asm:
@@ -200,6 +218,10 @@ def main():
                                       "instead of the expected file")
     ap.add_argument("--only", nargs="*")
     a = ap.parse_args()
+    missed = sorted(n for n in stage_settings() if not SETTING.fullmatch(n))
+    if missed:
+        print(f"parity: settings the stages read that the environment scrub misses: {' '.join(missed)}", file=sys.stderr)
+        return 1
     inputs = sf3_inputs(a.sf3) if a.sf3 else cases()
     if a.only:
         inputs = [i for i in inputs if i[0] in a.only]

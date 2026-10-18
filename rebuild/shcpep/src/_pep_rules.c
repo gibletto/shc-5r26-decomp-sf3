@@ -20,8 +20,14 @@ static int env_atoi(const char *name, int dflt)   /* decimal only */
   return v ? atoi(v) : dflt;
 }
 
+/* PEP_SKIP / PEP_POST_SKIP=<bits> (diagnostic builds only, SHC_REBUILD_DIAG=1): skip passes */
+#if SHC_REBUILD_DIAG
 int pep_skip(int k) { return (env_int("PEP_SKIP", 0) >> k) & 1; }
 int pep_post_skip(int k) { return (env_int("PEP_POST_SKIP", 0) >> k) & 1; }
+#else
+int pep_skip(int k) { return 0; }
+int pep_post_skip(int k) { return 0; }
+#endif
 
 /* SWITCH_ARCADE_BRANCH: keep "bt L; bra D; L:" instead of turning it into "bf D". 1: always; 2 (unset): when L is
    a switch case or default label (CLABEL 0x19, DLABEL 0x1a) */
@@ -155,9 +161,10 @@ int pep_keep_target_head(int pred, unsigned char *head)
 
 /* PEP_NO_THREAD, bits: 1 no jump threading in simplify_flow_block (the predecessors of a block that only jumps on
    keep their target); 2 simplify_flow_block never runs; 4 no predecessor retargeting in
-   remove_target_prefix_executed_by_preds; 8 no threading through a jump-only block whose label the cross-jumping
-   pass (make_common_code_block) made; 16 none to a destination label it made. Unset = 28 */
-int pep_no_thread(void) { return env_int("PEP_NO_THREAD", 28); }
+   remove_target_prefix_executed_by_preds; 16 no threading to a destination label the cross-jumping pass
+   (make_common_code_block) made. Bit 8 (none through a jump-only block whose label that pass made) is retired:
+   no game module needs it (round 50). Unset = 20 */
+int pep_no_thread(void) { return env_int("PEP_NO_THREAD", 20); }
 
 static unsigned char xj_labels[8192];      /* the labels make_common_code_block made in this function, a bit each */
 static unsigned char dead_ref_labels[8192]; /* the labels unreachable code still refers to (PEP_RET_R0 bit 8) */
@@ -172,7 +179,6 @@ int pep_no_thread_here(int *blk, int *dest)
 {
   int k = pep_no_thread();
   if (k & 1) return 1;
-  if ((k & 8) && pep_xj_label_made(*(short *)(*blk + 4))) return 1;
   if ((k & 16) && dest && *dest && pep_xj_label_made(*(short *)(*dest + 4))) return 1;
   return 0;
 }
@@ -254,11 +260,11 @@ int pep_exit_kept(void *fb)
    8 LABEL; none = all) and bits 4-5 the mode (16 mode 1, 32 mode 2; none = both); 64 leaves tails with a call
    merged. Unset: 0 with PEP_RET_R0 (the tails the arcade does not merge fall out of the return's temporary), 2
    without it (no RETURN tail merges, the rule PEP_RET_R0 replaces).
-   XJUMP_MIN=n: tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (the function, kind,
+   XJUMP_MIN=n (diagnostic builds only): tails of n records or more still merge. XJUMP_LOG=<file>: a line per match (the function, kind,
    mode, count, verdict, the tail's records last first as op:source>destination, jt= the jump temporaries of the
    two final records, pv= the record in front of the tail in each block (0: the tail is the whole block), sw= the
-   switches open, # the match's number in the function). XJUMP_FLIP=<function>:<n>[,...] turns the verdict of that
-   match round. */
+   switches open, # the match's number in the function). XJUMP_FLIP=<function>:<n>[,...] (diagnostic builds only)
+   turns the verdict of that match round. */
 char xjump_tail[1024];
 int xjump_jt_a, xjump_jt_b;
 
@@ -312,9 +318,13 @@ static int xj_switch_depth(void)
   return d;
 }
 
-/* XJUMP_FLIP=<function>:<n>[,...] (diagnostic): the verdict of the function's n-th match (from 0) is turned round */
+/* XJUMP_FLIP=<function>:<n>[,...] (diagnostic builds only, SHC_REBUILD_DIAG=1): the verdict of the function's
+   n-th match (from 0) is turned round */
 static int xjump_flip(const char *fn, int n)
 {
+#if !SHC_REBUILD_DIAG
+  return 0;
+#else
   char *v = getenv("XJUMP_FLIP"), key[160];
   size_t k;
   if (!v) return 0;
@@ -323,6 +333,7 @@ static int xjump_flip(const char *fn, int n)
   for (; v && *v; v = strchr(v, ','), v = v ? v + 1 : v)
     if (strncmp(v, key, k) == 0 && (v[k] == ',' || v[k] == 0)) return 1;
   return 0;
+#endif
 }
 
 int xjump_reject(char kind, int mode, int count)
@@ -340,7 +351,9 @@ int xjump_reject(char kind, int mode, int count)
                       (kind == 0x18 && (kinds & 8))) &&
                      (modes == 0 || (mode == 1 && (modes & 16)) || (mode == 2 && (modes & 32))));
   }
+#if SHC_REBUILD_DIAG
   if (r && env_int("XJUMP_MIN", 0) > 0 && count >= env_int("XJUMP_MIN", 0)) r = 0;
+#endif
   if (r && (v & 0x40) && strstr(xjump_tail, "23:")) r = 0;
   if (!r && kind == '"' && mode == 2 && (pep_ret_r0() & 2) && xjump_prev_a >= 0x18 && xjump_prev_a <= 0x1a &&
       xj_switch_depth() > 0) r = 1;
@@ -411,12 +424,4 @@ int pep_case_word(void) { return env_int("PEP_CASE_WORD", 1); }
    its fourth return, where the Release 26 estimate (476 against the limit 462) asks for it behind the third; without
    the four exit literals it is 460. No other routine's pools move with the rule. */
 int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
-
-/* PEP_XOR_TEST: XOR followed by a self-TST can become CMP/EQ only when the XOR
-   result is dead on every successor. The proof runs on actual final flow records,
-   with ordinary ABI metadata, explicit return/reserved-register exclusions and
-   a conservative whitelist of unconditional full-width kills. Unknown control,
-   calls, operations, abnormal metadata and cycles reject. Branch temporaries are
-   MAY clobbers, never kills. Unset: 1; 0: unchanged Release 26 flow behavior. */
-int pep_xor_test(void) { return env_int("PEP_XOR_TEST", 1); }
 #endif

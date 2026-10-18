@@ -1,13 +1,13 @@
 /* Loop inversion rule (only with SHC_REBUILD_UPDATED=1).
 
-   MDL_LOOP_INV=<bits> (unset: 31, the arcade rule; 0: Release 26).
+   MDL_LOOP_INV=<bits> (unset: 27, the arcade rule; 0: Release 26).
    select_loops_to_invert turns a loop whose trip count is not known into a guarded do-loop
    (for/while -> if (cond) do ... while (cond)). Release 26 asks the -speed option at five places, and with
    -speed it inverts every such loop. A set bit makes that place answer as without -speed, so the loop keeps
    its jump to the test at the bottom:
      1  a loop that contains another loop
      2  the condition is not a comparison
-     4  a floating-point comparison
+     4  a floating-point comparison (off since round 50: no game loop tests a floating-point value)
      8  a comparison whose left operand is a local or a constant and whose right operand is not
     16  a comparison whose left operand is not a local or a constant
    A comparison of two locals or constants is inverted with or without -speed.
@@ -27,7 +27,7 @@ static int mdl_loop_inv(void)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("MDL_LOOP_INV");
-        k = v ? atoi(v) : 31;
+        k = v ? atoi(v) : 27;
     }
     return k;
 }

@@ -1,11 +1,11 @@
 #include "decls.h"
 #include "imports.h"
 
-#if SHC_REBUILD_UPDATED
+#if SHC_REBUILD_UPDATED && SHC_REBUILD_DIAG
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/* SHC_ALIGN_FILE (unset = Release 26 layout): a text file of "<function> <bytes>" lines. The named
+/* SHC_ALIGN_FILE (diagnostic builds only, SHC_REBUILD_DIAG=1; unset = Release 26 layout): a text file of "<function> <bytes>" lines. The named
    function's entry label is moved <bytes> (even, 2..30) further on, as if the code before it were that much longer:
    the first layout pass takes the bytes off its running shrink (g_layout_shrink_pass0) just before the label's position is
    corrected, so the label, everything after it in the section and the section size move together, the second pass

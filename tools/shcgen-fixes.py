@@ -88,10 +88,10 @@ fix("004289f0", [(r"(\n[ \t]*\w+ = " + N("0040d690") + r"\(\w+,[^\n]*\);\n[ \t]*
     regex=True, once=True)
 
 # GEN_MUL_L: a long multiply of a narrow value by a 16-bit constant stays MUL.L (bit 1: the first operand's
-# is-a-16-bit-multiplier test answers no, bit 2: the second's)
+# is-a-16-bit-multiplier test answers no; bit 2, the second's, is retired)
 fix("00421ea0", [(r"(\n[ \t]*(\w+) = )(" + N("00421e00") + r"\((\w+),\2\);)([\s\S]*?)(\n[ \t]*\2 = )(" + N("00421e00")
                   + r"\((\w+),\2\);)",
-                  r"\1(shcgen_knob_mul_l() & 1) ? 0 : \3\5\6(shcgen_knob_mul_l() & 2) ? 0 : \7")],
+                  r"\1(shcgen_knob_mul_l() & 1) ? 0 : \3\5\6\7")],
     regex=True, once=True)
 
 # the register chooser: SHCGEN_REGTRACE / GEN_REG_ASC_IDX / GEN_REG_TB_IDX hooks at entry (with the caller's return
@@ -107,7 +107,7 @@ fix("0041fa30", [(r"(\n\{\n(?:[^\n]*\n)*?)(  \n)",
 fix("00415cd0", [(r"\n([ \t]*)(" + N("00415ec0") + r"\((\w+)\);)",
                   r"\n\1regtrace_function((char *)\3);\n\1\2")], regex=True, once=True)
 
-# --- GEN_CHAIN_JUMP and GEN_REMAP_LOG (src/_remaprules.c, include/remaprules.h; only with SHC_REBUILD_UPDATED=1): the
+# --- GEN_CHAIN_SCRATCH_R0 and GEN_REMAP_LOG (src/_remaprules.c, include/remaprules.h; only with SHC_REBUILD_UPDATED=1): the
 # scratch register a switch's compare chain counts as used for its jumps, and the log of what
 # remap_register_variables_to_scratch_registers sees
 REMAP_INC = ('#include "imports.h"\n', '#include "imports.h"\n#include "remaprules.h"\n')

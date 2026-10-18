@@ -71,11 +71,6 @@ int pep_case_word(void);
 /* PEP_RET_MAC */
 int pep_ret_mac(void);
 
-/* PEP_XOR_TEST: full-width XOR/self-TST, with the XOR result dead on every successor. */
-int pep_xor_test(void);
-void pep_fold_dead_xor_tests(void);
-#define PEP_XOR_TEST_FOLD() pep_fold_dead_xor_tests()
-
 /* SLOT_NO_STACK */
 int slot_no_stack(void);
 int slot_record_is_frame_access(unsigned char *rec);
@@ -100,8 +95,6 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_autoinc() 0
 #define pep_case_word() 0
 #define pep_ret_mac() 0
-#define pep_xor_test() 0
-#define PEP_XOR_TEST_FOLD() ((void)0)
 #endif
 
 #endif

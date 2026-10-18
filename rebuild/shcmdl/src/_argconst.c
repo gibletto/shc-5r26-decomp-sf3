@@ -15,7 +15,7 @@
         polygon2d_submit_quad inside a loop comes from a register (`mov r14,r7`), as outside loops.
    A set bit answers 0 ("not an immediate") for a constant whose parent is a call argument. Unset: 3 (weight and
    rewriters: the arcade behaviour; b until 2026-10-16); 0: Release 26.
-   MDL_ARG_CALL=<hex digit>, the same groups (unset: 0), a diagnostic: narrows the 0 answer to a constant whose call
+   MDL_ARG_CALL=<hex digit>, the same groups (unset: 0), a diagnostic (builds with SHC_REBUILD_DIAG=1 only): narrows the 0 answer to a constant whose call
    also passes the same value in an argument is_immediate_operand does not take as an immediate (a stack argument). */
 #include "decls.h"
 #include <stdlib.h>
@@ -303,7 +303,9 @@ int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, co
         return is_immediate_operand(parent, pos, value);
     if ((bits & 8) && occ && occ->block->lptbl != 0)
         return is_immediate_operand(parent, pos, value);
+#if SHC_REBUILD_DIAG
     if (knob("MDL_ARG_CALL", 0) & group)
         return call_rule(parent, pos, value);
+#endif
     return 0;
 }

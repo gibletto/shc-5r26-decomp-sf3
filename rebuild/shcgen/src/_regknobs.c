@@ -25,7 +25,8 @@ int shcgen_knob_tst_r0(void)
   return regknob_get_d("GEN_TST_R0", &v, 1);
 }
 
-/* GEN_REG_TB_IDX / GEN_REG_ASC_IDX: comma lists of choose_general_register calls (counted from 1 per compile, as
+/* GEN_REG_TB_IDX / GEN_REG_ASC_IDX (diagnostic builds only, SHC_REBUILD_DIAG=1): comma lists of
+   choose_general_register calls (counted from 1 per compile, as
    SHCGEN_REGTRACE numbers them) that keep the last-chosen register as it was / scan in the other direction. */
 static int regknob_listed(const char *name, int *loaded, int *n, int *list, int ix)
 {
@@ -45,6 +46,7 @@ static int regknob_listed(const char *name, int *loaded, int *n, int *list, int 
   return 0;
 }
 
+#if SHC_REBUILD_DIAG
 int shcgen_knob_call_listed(int ix)
 {
   static int loaded = 0, n = 0;
@@ -58,21 +60,26 @@ int shcgen_knob_call_asc(int ix)
   static int list[64];
   return regknob_listed("GEN_REG_ASC_IDX", &loaded, &n, list, ix);
 }
+#else
+int shcgen_knob_call_listed(int ix) { return 0; }
+int shcgen_knob_call_asc(int ix) { return 0; }
+#endif
 
 /* GEN_MUL_L=<bits>: mul_fits_16bit_multiply turns an int multiply of a narrow value by a 16-bit constant (not
-   2^n, 2^n +- 1 or two set bits: is_16bit_multiplier_constant) into MULS.W/MULU.W; a set bit answers "no" for that
-   operand's test (1 the first, 2 the second), so the multiply stays MUL.L. prepare_cast_node asks the same question
+   2^n, 2^n +- 1 or two set bits: is_16bit_multiplier_constant) into MULS.W/MULU.W; bit 1 answers "no" for the first
+   operand's test, so the multiply stays MUL.L (bit 2, the same for the second operand, is retired: no game module
+   needs it, round 50). prepare_cast_node asks the same question
    of the narrow operand's cast, (int)s in s * 21, and when the answer is yes drops the cast, because MULS.W
    extends its operands itself; bit 4 answers "no" there too, so the operand of the MUL.L is extended (EXTS.W R4,R1,
-   MOV #21,R3, MUL.L R3,R1; with 3 the MUL.L reads the short as it is, MUL.L R1,R4, which is wrong when the upper
+   MOV #21,R3, MUL.L R3,R1; with bit 1 alone the MUL.L reads the short as it is, MUL.L R1,R4, which is wrong when the upper
    half of the register is not the sign: a parameter). On the game seven routines change their own instructions and
    the arcade has the extension at the multiply in each: meri_case_switch, Bonus_Cut_Sub and set_second_hop become
    the arcade's code, add_super_arts_gauge comes nearer, Pool_Score stays level, and grade_scale_to_percent and
-   add_sp_arts_gauge_hit_dm have it in another register than the arcade's. Unset = 7 */
+   add_sp_arts_gauge_hit_dm have it in another register than the arcade's. Unset = 5 */
 int shcgen_knob_mul_l(void)
 {
   static int v = -1;
-  return regknob_get_d("GEN_MUL_L", &v, 7);
+  return regknob_get_d("GEN_MUL_L", &v, 5);
 }
 
 /* SHCGEN_REGTRACE=<file>: a line per choose_general_register call (call number, return address, the node where

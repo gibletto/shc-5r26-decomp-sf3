@@ -48,7 +48,8 @@ fix("0041e5a0", [("    stock_initterm((undefined4 *)&stock_xp_a,(undefined4 *)&s
                   "    stock_initterm((undefined4 *)&stock_xp_a,(undefined4 *)&stock_xp_z);\n"
                   "    _flushall();\n")])
 # --- literal-pool diagnostics (SHC_REBUILD_UPDATED only): PEP_LOG=<file>, a line per placement decision;
-# PEP_<name>=<int>, the rule's constants and variants (defaults = Release 26). The temporaries of
+# PEP_<name>=<int>, the rule's constants and variants (defaults = Release 26; read only in builds with
+# SHC_REBUILD_DIAG=1). The temporaries of
 # decide_literal_pool_placement they use are found in the export (they are renumbered when the function's types
 # change): @SZ@ the record's literal bytes, @LIM@ the pool limit, @OP@ the record's op, @CMP@ the label-rule test
 def pool_vars(pairs):
@@ -68,10 +69,15 @@ EXP_HEAD = r'''
 #if SHC_REBUILD_UPDATED
 #include <stdio.h>
 #include <stdlib.h>
+#if SHC_REBUILD_DIAG
 static int pepk(const char *name, int dflt) {
     char *v = getenv(name);
     return v ? (int)strtol(v, 0, 0) : dflt;
 }
+#define PEPK(n, d) pepk("PEP_" #n, d)
+#else
+#define PEPK(n, d) (d)
+#endif
 static void peplog(const char *kind, int op, int c68, int c64, int l4, int i11, int c70, int c6c, int lim, int dec) {
     static FILE *lf; static int opened;
     if (!opened) { char *p = getenv("PEP_LOG"); opened = 1; if (p) lf = fopen(p, "a"); }
@@ -81,7 +87,6 @@ static void peplog(const char *kind, int op, int c68, int c64, int l4, int i11, 
    word (long) literal instead of from the last pool. pep_segw/l: offset in the current branch segment of the first
    such reference (-1 none); pep_w/l: its offset from the window start once the segment is behind a kept branch */
 static int pep_w = -1, pep_l = -1, pep_segw = -1, pep_segl = -1;
-#define PEPK(n, d) pepk("PEP_" #n, d)
 #define PEPLOG(k, dec) peplog(k, rec->op, g_pool_code_bytes, _g_pool_pending_literal_bytes, local_4, @SZ@, g_pool_carried_code_bytes, _g_pool_carried_literal_bytes, @LIM@, dec)
 static int pepadj(int word, int c70) {
     int f;
@@ -166,9 +171,6 @@ hooks("00401000", [
     (r"(\w+) = simplify_flow_block\((\w+)\);(\n\s+\w+ = \2->next;)", r"\1 = pep_post_skip(8) ? 0 : simplify_flow_block(\2);\3"),
     (r"if \((\w+)->preds != \(flow_edge \*\)0x0\) \{", r"if (\1->preds != (flow_edge *)0x0 && !pep_post_skip(6)) {"),
     (r"if \((\w+)\) \{(\n\s+delete_repeated_r0_constant_loads)", r"if (\1 && !pep_post_skip(7)) {\2")])
-# PEP_XOR_TEST: after existing flow mutations, before final graph disposal/slot filling.
-hooks("00401000", [(r"(\n    free_flow_block\(\(flow_block \*\)0x0\);\n  }\n  return;)",
-                    r"\n    PEP_XOR_TEST_FOLD();\1")])
 # SWITCH_ARCADE_JUMP / SWITCH_ARCADE_BRANCH; PEP_NO_THREAD 2 (no simplification), 1/8/16 (no threading)
 hooks("00401a10", [
     (r"(\n  \w+ = '\\0';\n)(  if \(\(\(block == )", r"\1  if (pep_no_thread() & 2) return 0;\n\2"),
@@ -188,7 +190,7 @@ hooks("004028f0", [
     (r"(\n(\s+)(\w+) = \*local_44;\n\s+if \(\(\3->flags2 & 2\) != 0\) \{\n\s+(\w+) = true;\n\s+break;\n\s+\}\n)",
      r"\1#if SHC_REBUILD_UPDATED\n\2if (pep_r0_forget() == 1 && pep_block_is_conditional((int)\3)) {\n"
      r"\2  \4 = true;\n\2  break;\n\2}\n#endif\n")])
-# PEP_NO_THREAD 8/16: the labels the cross-jumping pass makes, per function
+# PEP_NO_THREAD 16: the labels the cross-jumping pass makes, per function
 hooks("0040b860", [(r"(\n)(  g_section_end = 0;\n)", r"\1#if SHC_REBUILD_UPDATED\n  pep_xj_labels_clear();\n#endif\n\2")])
 hooks("00413ce0", [(r"(\n  \*\w+ = \(short\)(\w+);\n)", r"\1#if SHC_REBUILD_UPDATED\n  pep_xj_label_mark((short)\2);\n#endif\n")])
 # XJUMP_OFF

@@ -63,9 +63,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--exes', type=Path, default=ROOT / 'build/msvc')
     parser.add_argument('--r26', type=Path, default=ROOT / 'extracted/bin')
-    parser.add_argument('--matchlab', type=Path, required=True)
+    parser.add_argument('--matchlab', type=Path, help="the game tree's tools/matchlab (its SH2 interpreter)")
     parser.add_argument('--work', type=Path, required=True)
     args = parser.parse_args()
+    if not args.matchlab or not (args.matchlab / 'diff_exec.py').is_file():
+        print('SKIP: needs --matchlab, the tools/matchlab directory of the game development tree (diff_exec.py)')
+        return 0
     work = args.work.resolve()
     assert not work.exists(), 'use a fresh work directory'
     work.mkdir(parents=True)
@@ -78,58 +81,57 @@ def main():
         shutil.copyfile(args.exes / stage / (stage + '.exe'), binary / (stage + '.exe'))
     source = ROOT / 'tests/cases/chain_scratch.c'
     rows = []
-    for old in (0, 1):
-        for flag in (0, 1):
-            case = work / (str(old) + str(flag))
-            case.mkdir()
-            (case / 'tmp').mkdir()
-            shutil.copyfile(source, case / 'fixture.c')
-            env = {k: v for k, v in os.environ.items()
-                   if not k.startswith(('GEN_', 'PEP_', 'MDL_', 'ASM_', 'SWITCH_', 'XJUMP', 'SLOT_'))}
-            env.update(SHC_LIB=str(binary), SHC_TMP=str(case / 'tmp'),
-                       TMP=str(case / 'tmp'), TEMP=str(case / 'tmp'),
-                       GEN_CHAIN_JUMP=str(old), GEN_CHAIN_SCRATCH_R0=str(flag))
-            recorded = {k: v for k, v in env.items()
-                        if k.startswith(('GEN_', 'PEP_', 'MDL_', 'ASM_', 'SWITCH_', 'XJUMP', 'SLOT_'))
-                        or k in ('SHC_LIB', 'SHC_TMP', 'TMP', 'TEMP')}
-            write_table(case / 'environment.tsv', ['name', 'value'], sorted(recorded.items()))
-            run([str(binary / 'shc.exe'), 'fixture.c', *OPTIONS, '-object=fixture.obj',
-                 '-listfile=fixture.lst', '-show=object'], case, env, 'compile')
-            (case / 'fixture.sub').write_text('START P(06000000),B(02000000)\nINPUT fixture.obj\n'
-                                            'OUTPUT fixture.abs\nPRINT fixture.map\nFORM A\nEXIT\n')
-            run([str(binary / 'lnk.exe'), '-SUBCOMMAND=fixture.sub'], case, env, 'link')
-            run([str(binary / 'rof2bin.exe'), '-s=06000000', '-e=06010000', '-v=00',
-                 'fixture.abs'], case, env, 'image')
-            listing = (case / 'fixture.lst').read_text()
-            far = listing.split('_far_selector:')[1].split('_mid_selector:')[0]
-            assert len(re.findall(r'JMP\s+@R' + str(0 if flag else 1), far)) == 3
-            assert re.search(r'BT\s+', far) and re.search(r'CMP/EQ\s+R1,R0', far)
-            middle = listing.split('_mid_selector:')[1]
-            assert re.search(r'BF\s+', middle) and re.search(r'BRA\s+', middle)
-            assert not re.search(r'JMP\s+', middle)
-            symbols = {n: int(a, 16) for n, a in re.findall(
-                r"^_(\w+)\s+H'([0-9A-F]+)", (case / 'fixture.map').read_text(), re.M)}
-            image = dx.Image((case / 'fixture.bin').read_bytes())
-            dx.G = {}
-            live = dx.LiveIn(image)
-            for name in NAMES:
-                for x in (-300, -1, 0, 1, 2, 85, 84, 1000, 1000 ^ 85):
-                    for y in (-17, 0, 211):
-                        machine = dx.Machine(image, symbols[name], dx.BASE, image.hi,
-                                             0, [], live, lambda value: value)
-                        machine.R[4], machine.R[5] = x & 0xffffffff, y & 0xffffffff
-                        machine.wr(symbols['sink'], 4, 123)
-                        machine.trace, machine.seg = [], []
-                        machine.run()
-                        assert machine.trace and machine.trace[-1][0] == 'ret', (old, flag, name, x, y)
-                        result, store = expected(name, x, y)
-                        assert machine.trace[-1][1] == result & 0xffffffff, (old, flag, name, x, y, 'return')
-                        assert machine.rd(symbols['sink'], 4) == store & 0xffffffff, (old, flag, name, x, y, 'store')
-                        assert machine.trace[-1][2], (old, flag, name, x, y, 'callee-saved registers')
-                        assert not any(event[0] == 'call' for event in machine.trace), 'simulated external call'
-                        rows.append([old, flag, name, x, y, result & 0xffffffff, store & 0xffffffff, 'PASS'])
-            print('PASS old/new settings', old, flag, '162 executions', flush=True)
-    write_table(work / 'results.tsv', ['GEN_CHAIN_JUMP', 'GEN_CHAIN_SCRATCH_R0', 'name', 'x', 'y',
+    for flag in (0, 1):
+        case = work / str(flag)
+        case.mkdir()
+        (case / 'tmp').mkdir()
+        shutil.copyfile(source, case / 'fixture.c')
+        env = {k: v for k, v in os.environ.items()
+               if not k.startswith(('GEN_', 'PEP_', 'MDL_', 'ASM_', 'SWITCH_', 'XJUMP', 'SLOT_'))}
+        env.update(SHC_LIB=str(binary), SHC_TMP=str(case / 'tmp'),
+                   TMP=str(case / 'tmp'), TEMP=str(case / 'tmp'),
+                   GEN_CHAIN_SCRATCH_R0=str(flag))
+        recorded = {k: v for k, v in env.items()
+                    if k.startswith(('GEN_', 'PEP_', 'MDL_', 'ASM_', 'SWITCH_', 'XJUMP', 'SLOT_'))
+                    or k in ('SHC_LIB', 'SHC_TMP', 'TMP', 'TEMP')}
+        write_table(case / 'environment.tsv', ['name', 'value'], sorted(recorded.items()))
+        run([str(binary / 'shc.exe'), 'fixture.c', *OPTIONS, '-object=fixture.obj',
+             '-listfile=fixture.lst', '-show=object'], case, env, 'compile')
+        (case / 'fixture.sub').write_text('START P(06000000),B(02000000)\nINPUT fixture.obj\n'
+                                        'OUTPUT fixture.abs\nPRINT fixture.map\nFORM A\nEXIT\n')
+        run([str(binary / 'lnk.exe'), '-SUBCOMMAND=fixture.sub'], case, env, 'link')
+        run([str(binary / 'rof2bin.exe'), '-s=06000000', '-e=06010000', '-v=00',
+             'fixture.abs'], case, env, 'image')
+        listing = (case / 'fixture.lst').read_text()
+        far = listing.split('_far_selector:')[1].split('_mid_selector:')[0]
+        assert len(re.findall(r'JMP\s+@R' + str(0 if flag else 1), far)) == 3
+        assert re.search(r'BT\s+', far) and re.search(r'CMP/EQ\s+R1,R0', far)
+        middle = listing.split('_mid_selector:')[1]
+        assert re.search(r'BF\s+', middle) and re.search(r'BRA\s+', middle)
+        assert not re.search(r'JMP\s+', middle)
+        symbols = {n: int(a, 16) for n, a in re.findall(
+            r"^_(\w+)\s+H'([0-9A-F]+)", (case / 'fixture.map').read_text(), re.M)}
+        image = dx.Image((case / 'fixture.bin').read_bytes())
+        dx.G = {}
+        live = dx.LiveIn(image)
+        for name in NAMES:
+            for x in (-300, -1, 0, 1, 2, 85, 84, 1000, 1000 ^ 85):
+                for y in (-17, 0, 211):
+                    machine = dx.Machine(image, symbols[name], dx.BASE, image.hi,
+                                         0, [], live, lambda value: value)
+                    machine.R[4], machine.R[5] = x & 0xffffffff, y & 0xffffffff
+                    machine.wr(symbols['sink'], 4, 123)
+                    machine.trace, machine.seg = [], []
+                    machine.run()
+                    assert machine.trace and machine.trace[-1][0] == 'ret', (flag, name, x, y)
+                    result, store = expected(name, x, y)
+                    assert machine.trace[-1][1] == result & 0xffffffff, (flag, name, x, y, 'return')
+                    assert machine.rd(symbols['sink'], 4) == store & 0xffffffff, (flag, name, x, y, 'store')
+                    assert machine.trace[-1][2], (flag, name, x, y, 'callee-saved registers')
+                    assert not any(event[0] == 'call' for event in machine.trace), 'simulated external call'
+                    rows.append([flag, name, x, y, result & 0xffffffff, store & 0xffffffff, 'PASS'])
+        print('PASS GEN_CHAIN_SCRATCH_R0 =', flag, '162 executions', flush=True)
+    write_table(work / 'results.tsv', ['GEN_CHAIN_SCRATCH_R0', 'name', 'x', 'y',
                                       'result', 'sink', 'status'], rows)
     paths = [Path(__file__).resolve(), source, Path(dx.__file__).resolve()]
     paths += [p for p in work.rglob('*') if p.is_file() and 'tmp' not in p.relative_to(work).parts]

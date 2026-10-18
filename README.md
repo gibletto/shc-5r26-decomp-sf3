@@ -32,9 +32,6 @@ sfIII3-cps3-decomp>` does the same for the game's C modules.
 also executes the switch-selector lifetime fixtures with the companion game's SH2 interpreter. It checks
 return values, stores and saved registers for short, medium and far branches, including default-only switches.
 
-`tests/xor_test.py --work <fresh-directory>` links the built PEP objects and checks conservative
-XOR/self-test dead-result proofs, including ABI, branch and read/modify/write counterexamples.
-
 `tests/narrow_normalize_native.py --work <fresh-directory>` executes the normalization proof and
 actual setting reader/destination helper with default, zero and one settings in normal and stock modes.
 

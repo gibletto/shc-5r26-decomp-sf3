@@ -67,15 +67,15 @@ fix("004156e9", [('#include "imports.h"\n', '#include "imports.h"\n' + SPECREG_H
                   "      mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[operand->base];\n"
                   "#endif\n")])
 
-# SHC_ALIGN_FILE (a diagnostic, unset = no change): move named functions' entry labels as if earlier code were
+# SHC_ALIGN_FILE (a diagnostic, built only with SHC_REBUILD_DIAG=1; unset = no change): move named functions' entry labels as if earlier code were
 # longer, to tell alignment knock-on from content. The first layout pass (run_layout_passes) is where shcpep's
 # estimated positions become final; the bytes are taken off its running shrink just before the label is corrected.
 ALIGN_HEAD = r'''
-#if SHC_REBUILD_UPDATED
+#if SHC_REBUILD_UPDATED && SHC_REBUILD_DIAG
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/* SHC_ALIGN_FILE (unset = Release 26 layout): a text file of "<function> <bytes>" lines. The named
+/* SHC_ALIGN_FILE (diagnostic builds only, SHC_REBUILD_DIAG=1; unset = Release 26 layout): a text file of "<function> <bytes>" lines. The named
    function's entry label is moved <bytes> (even, 2..30) further on, as if the code before it were that much longer:
    the first layout pass takes the bytes off its running shrink (g_layout_shrink_pass0) just before the label's position is
    corrected, so the label, everything after it in the section and the section size move together, the second pass

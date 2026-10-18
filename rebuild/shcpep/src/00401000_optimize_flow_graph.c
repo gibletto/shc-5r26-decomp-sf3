@@ -65,7 +65,6 @@ int __cdecl optimize_flow_graph(void)
         block = next;
       }
     }
-    PEP_XOR_TEST_FOLD();
     free_flow_block((flow_block *)0x0);
   }
   return;

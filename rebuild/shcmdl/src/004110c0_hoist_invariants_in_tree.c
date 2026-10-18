@@ -47,7 +47,7 @@ int __cdecl hoist_invariants_in_tree(il_node *node)
     goto switchD_004110f2_caseD_21;
   case IL_ASTER:
     ty = node->type & 0xf0;
-    if (((ty != 0x80) && (ty != 0x90)) && ((IV_LICM_PASS(2) != 0 || ((ty != 0x60 && (ty != 0x70)))))) {
+    if (((ty != 0x80) && (ty != 0x90)) && ((g_licm_pass != 0 || ((ty != 0x60 && (ty != 0x70)))))) {
       op = node->parent->op;
       if (((('/' < (char)op) && ((char)op < '>')) || (('O' < (char)op && ((char)op < '`')))) &&
          ((node->type & 0xf8) == 0x40)) {

@@ -110,11 +110,9 @@ fix("00417b60", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
                   "    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {\n"
                   "      node->ivno = node->child->ivno;\n      return;\n    }\n    if (child_rank != rank) {\nLAB_00417c21:")])
 
-# --- MDL_IV_BASE (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the two places where
+# --- MDL_IV_BASE (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): the place where
 # hoist_invariants_in_tree asks which run it is in before it calls a member reached through a pointer invariant
 fix("004110c0", [(INCLUDES, INCLUDES + '\n#include "argconst.h"'),
-                 ("((g_licm_pass != 0 || ((ty != 0x60 && (ty != 0x70))))))",
-                  "((IV_LICM_PASS(2) != 0 || ((ty != 0x60 && (ty != 0x70))))))"),
                  ("    if ((g_licm_pass != 0) ||\n", "    if ((IV_LICM_PASS(1) != 0) ||\n")])
 
 # --- MDL_IV_TEMP (src/_ivrules.c, include/argconst.h; only with SHC_REBUILD_UPDATED=1): where
