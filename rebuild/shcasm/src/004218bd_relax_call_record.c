@@ -6,6 +6,25 @@
 #undef g_layout_section_pass1
 #define g_layout_section_pass1 (*(request_section * *)(g_sd + 0xcca4))
 
+#if SHC_REBUILD_UPDATED
+#include <stdlib.h>
+/* ASM_CALL_SLACK=<n> (2nd Impact, 6; unset or 0 = Release 26): a forward call to a label in the same section counts
+   n bytes nearer when bsr (4 bytes) or jsr through a pool literal (6 bytes plus the literal) is chosen. The choice
+   that is emitted is made in the second layout pass, which measures a forward distance with the first pass's sizes
+   for everything between the call and its target; the first pass counts some records bigger than the final code
+   (forward conditional branches at their long form, forward calls as jsr with a literal, 2 bytes of alignment per
+   literal pool), so a call whose final distance is in range can still get jsr. The 2nd Impact image has bsr where
+   Release 26 picks jsr: 2i HITCHECK setup_catch_atthit -> dm_status_copy (06080E82) measures 4100 in the second
+   pass against the 0xffe limit, so n >= 6. Same-file forward calls measured just over the limit that stay jsr in 2i
+   bound it: Cut_Cut_Cut_t (4120) and end_fade_bgm (4124), so n <= 25. Every other call of the 2i build is unchanged
+   with 6 and 8 (image byte-identical). */
+static int asm_call_slack(void) {
+    static int v = -1;
+    if (v < 0) { char *p = getenv("ASM_CALL_SLACK"); v = (p && *p) ? atoi(p) : 0; }
+    return v;
+}
+#endif
+
 
 // entry: 004218bd
 // name : relax_call_record
@@ -34,6 +53,11 @@ int __cdecl relax_call_record(layout_record *item,int pass)
     item->location = item->location - g_layout_shrink_pass1;
   }
   branch_disp = compute_branch_displacement(item,pass);
+#if SHC_REBUILD_UPDATED
+  if (branch_disp > 0 && branch_disp != 0x7fffffff) {   /* 0x7fffffff: another section or an external */
+    branch_disp = branch_disp - asm_call_slack();
+  }
+#endif
   if ((branch_disp < -0x1000) || (0xffe < branch_disp)) {
     if (g_current_request->pic == 0) {
       if (pass == 1) {

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_block_being_loaded
 #define g_block_being_loaded (*(code_node * *)(g_sd + 0x5bb4))
@@ -90,6 +91,7 @@ code_node * load_next_code_node(void)
       track_stack_pointer_travel(node,dst);
     }
     op = dst->op;
+    PEP_SWEND_RECORD(dst, op, g_block_being_loaded->labno);
     if (((op == OP_CALL) || (op == OP_MOVA_PC)) || ((op == OP_MOVI || (op == OP_MOVA_FC)))) {
       count_record_label_references(dst);
     }
@@ -112,11 +114,13 @@ code_node * load_next_code_node(void)
       }
       g_block_being_loaded->labno = *(short *)&dst->ea1;
       if (dst->op == OP_LABEL) {
+        PEP_SWEND_LABEL(g_last_block, *(short *)&dst->ea1);
         pcVar1 = find_preceding_nonempty_block(g_block_being_loaded);
         while ((pcVar1 != (code_node *)0x0 &&
                (has_code = block_has_code_records(pcVar1), has_code == '\0'))) {
           g_current_symbol = find_label_symbol_of_label_only_block(pcVar1);
           if (g_current_symbol != (symbol *)0x0) {
+            PEP_SWEND_WALK(g_current_symbol, *(short *)&dst->ea1);
             g_current_symbol->savelab = *(short *)&dst->ea1;
           }
           pcVar1 = find_preceding_nonempty_block(pcVar1);

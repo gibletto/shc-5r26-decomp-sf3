@@ -73,6 +73,14 @@ static int call_rule(il_node *parent, int pos, unsigned int value)
         that is no shift-and-add constant (100, 38) is a candidate and counts, and with three uses it is kept in a
         register and multiplied from there (`mul.l r14,r1`). This is the shcmdl side of GEN_MUL_L: the arcade's
         shcgen leaves such a multiply a mul.l, and its shcmdl does not set the constant aside for a muls.w.
+     4  (2nd Impact's compiler revision; off in the 3rd Strike build) the weight counter counts the constant of a
+        `c *= k` on a char or short (A_MUL, B) with k in -128..127 outside any loop as not an immediate, and
+     8  (with 4) collect_register_candidate takes it as not an immediate, so it can open the constant's class:
+        `ix = Game_setting.mode != 0; ix *= 2;` with 2 also stored to my_family keeps 2 in a register and
+        multiplies by it (`muls.w r7,r14`). Inside a loop, or for an index multiply (MUL), the constant stays an
+        immediate (`w_flag *= 2` in cmd_main_2's loops, the row scale 40 in test_menu_select are shifts in 2i).
+        Measured 2026-10-19 (2nd Impact, MDL_MUL_CONST=15): EFF16 effect_16_init and EFFI0's effect_H9_init
+        multiply as 2i does; no other function of the 5,916 already matched changes.
    Evidence over the Street Fighter III build (10,048 C routines, the arcade program as the reference):
      1  The rewriters meet a multiply's constant that Release 26 takes as an immediate at three places. Two are
         char multiplies by 16 (game_config_2p_round_item_jp and _en: one source line in twin routines); the
@@ -128,7 +136,7 @@ static int mul_clause(il_node *op, int pos, unsigned int value, int skip_a)
     return 'E';
 }
 
-static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
+static int mul_fit(int group, il_node *parent, int pos, unsigned int value, const_use *occ)
 {
     static FILE *log = (FILE *)1;
     static int bits = -1;
@@ -154,6 +162,12 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
         r = c != 'N';
     }
     if ((bits & 1) && group == 2 && c == 'B')
+        r = 0;
+    if ((bits & 4) && group == 1 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
+        && occ && occ->block->lptbl == 0 && count_enclosing_loops(occ->node) == 0)
+        r = 0;
+    if ((bits & 8) && group == 4 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
+        && nth_operand(pos, parent) && count_enclosing_loops(nth_operand(pos, parent)) == 0)
         r = 0;
     if (log) {
         fprintf(log, "%s\tg%d\t%s\tty=%02x\tpos=%d\tv=%d\t%c\tstock=%d\tans=%d\tline=%d\n",
@@ -199,6 +213,9 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
      8  the constant of an add- or subtract-assignment is not an immediate
      16 the constant of a bit-xor is not an immediate (`x->rl_flag ^ 1` with 1 kept in r11 is xor r11,r0 in
         eff09_11000; whole build: that routine alone changes)
+     64 (2nd Impact) with 4: a nonzero constant added to an expression of locals, parameters and constants only
+        (+, -, * and casts, no memory read): `char_index = plate_id + ix + 16` with 16 kept in a register is
+        add r5,r0 in 2i's effect_79_init (the front end puts the constant last, so the left operand is a sum).
      32 a zero compared unsigned (<, <=, >, >= whose zero operand has an unsigned type) against a converted value
         (the other operand a cast) is not an immediate, for collect_register_candidate too: the SH has no unsigned
         compare with an immediate, and Release 26 reads the relational node's own type, which is always a signed
@@ -212,6 +229,31 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value)
    MDL_IMM_LOG=<file> (a diagnostic, off unless set) lists each answer the rule changes: function, asker (g1
    weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
 #define IMM_REG_DEFAULT 63
+
+/* MDL_IMM_REG bit 64: an expression of locals, parameters and constants only (no memory read): +, -, * and casts */
+static int locals_only(il_node *n)
+{
+    il_node *c;
+    if (n == 0)
+        return 0;
+    switch (n->op) {
+    case IL_CONST:
+        return 1;
+    case IL_ID:
+        return !(n->symx > 0 && g_symtab[n->symx].sclass >= 1 && g_symtab[n->symx].sclass <= 4);
+    case IL_CAST:
+        return locals_only(n->child);
+    case IL_ADD:
+    case IL_SUB:
+    case IL_MUL:
+        for (c = n->child; c != 0; c = c->next)
+            if (!locals_only(c))
+                return 0;
+        return 1;
+    default:
+        return 0;
+    }
+}
 
 static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
 {
@@ -243,9 +285,12 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
             return r;
         while (v && v->op == IL_CAST)
             v = v->child;
-        if (!v || v->op != IL_ID)
+        if (!v)
             return r;
-        if (v->symx > 0 && g_symtab[v->symx].sclass >= 1 && g_symtab[v->symx].sclass <= 4)
+        if (v->op != IL_ID) {
+            if (!(bits & 64) || !locals_only(v))
+                return r;
+        } else if (v->symx > 0 && g_symtab[v->symx].sclass >= 1 && g_symtab[v->symx].sclass <= 4)
             return r;
     }
     if (log == (FILE *)1) {
@@ -288,17 +333,42 @@ static int relzero_fit(il_node *parent, int pos, unsigned int value)
     return 0;
 }
 
+/* The constant of a signed modulo, MDL_MOD_CONST (only with SHC_REBUILD_UPDATED=1; unset or 0: Release 26 and the 3rd
+   Strike build): a compiler revision's behaviour seen in Street Fighter III 2nd Impact.
+
+   is_immediate_operand answers 1 for the divisor of a modulo when it is one shift term (a power of two) below 0x80,
+   signed or not. shcgen still calls _modls for a signed `i % 4` and loads the 4 into r0 itself, so Release 26 counts
+   no weight for that occurrence and leaves it out of the constant's register. 2nd Impact's effg8 effect_G8_init
+   (`type = (u8)i / 4; old_rno[6] = i % 4; ... effg8_speed_tbl[i / 4]`) passes the 4 from its register to _modls as
+   to both _divls calls (`mov r14,r0`), and the third counted use gives 4 the first callee-saved register.
+
+   MDL_MOD_CONST=<bits>, the ARGCONST_FIT groups (1 the weight counter, 2 the rewriters, 4 collect_register_candidate):
+   a set bit answers 0 ("not an immediate") for the divisor of a signed modulo. 3 is the 2nd Impact setting: measured
+   2026-10-20 (si2core) the 2nd Impact build stays byte-identical (C 7039, no matched routine changes) and
+   effect_G8_init matches; 1 or 2 alone does not.
+
+   MDL_EQ_CONST=<bits>, the same groups (unset or 0: Release 26 and the 3rd Strike build): a set bit answers 0 for
+   the constant of an == or != compare. 3 is the 2nd Impact setting: `(dbg_p2sw_0 & 0x70) == 0x70` in CMD_MAIN's
+   debug_scene_outer_dispatch keeps 112 in r4 for both the and and the compare (mov #112,r4; and r4,r3;
+   cmp/eq r4,r3); measured 2026-10-20 the 2nd Impact build stays byte-identical (C 7270, no matched routine
+   changes). */
+
 /* occ: the occurrence record ({next, block, node}) of the node being weighed or rewritten, 0 for group 4 */
 int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, const_use *occ)
 {
     int bits = knob("MDL_ARG_CONST", ARG_CONST_DEFAULT);
     if (parent->op == IL_MUL || parent->op == IL_A_MUL)
-        return mul_fit(group, parent, pos, value);
+        return mul_fit(group, parent, pos, value, occ);
     if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND || parent->op == IL_A_ADD
         || parent->op == IL_A_SUB || parent->op == IL_B_XOR)
         return immreg_fit(group, parent, pos, value);
+    if ((parent->op == IL_MOD || parent->op == IL_A_MOD) && (knob("MDL_MOD_CONST", 0) & group) && pos == 2
+        && (parent->type & 4) == 0)
+        return 0;
     if (parent->op == IL_LT || parent->op == IL_LE || parent->op == IL_GT || parent->op == IL_GE)
         return relzero_fit(parent, pos, value);
+    if ((parent->op == IL_EQ || parent->op == IL_NE) && (knob("MDL_EQ_CONST", 0) & group))
+        return 0;
     if (!(bits & group) || parent->op != IL_ARG)
         return is_immediate_operand(parent, pos, value);
     if ((bits & 8) && occ && occ->block->lptbl != 0)

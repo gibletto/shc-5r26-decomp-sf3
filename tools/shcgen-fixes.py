@@ -236,4 +236,24 @@ fix("00422180", [('#include "imports.h"\n', '#include "imports.h"\n#include "gen
                  ('  left_opnd = node;\n  uVar6 = result_reg_exclusion_mask(node);\n',
                   '  NARROW_NORMALIZE(node);\n  left_opnd = node;\n  uVar6 = result_reg_exclusion_mask(node);\n')], once=True)
 
+# --- GEN_OR_LEFT_KEEP: 2nd Impact's compiler revision. The code-less register pick of a condition comparison that is
+# the left operand of `x == K || y != 0` does not stay the last chosen register (src/_orleftkeep.c; default off).
+EXCL, CHOOSE = N("00432110"), N("0041fa30")
+fix("00401c90", [('#include "imports.h"\n', '#include "imports.h"\n#include "orleftkeep.h"\n'),
+                 ('  ushort *regs_p;\n', '  ushort *regs_p;\n  char or_left_last;\n'),
+                 (f"    excluded = {EXCL}(node);\n"
+                  f"    reg = {CHOOSE}((ushort)excluded,mask,cVar2);\n"
+                  f"    if (reg == -1) {{\n"
+                  f"      reg = {CHOOSE}(0,node->desc->pref_regs,'\\0');\n"
+                  f"    }}\n",
+                  f"    excluded = {EXCL}(node);\n"
+                  f"    or_left_last = g_last_chosen_reg;\n"
+                  f"    reg = {CHOOSE}((ushort)excluded,mask,cVar2);\n"
+                  f"    if (reg == -1) {{\n"
+                  f"      reg = {CHOOSE}(0,node->desc->pref_regs,'\\0');\n"
+                  f"    }}\n"
+                  f"    if (OR_LEFT_KEEP(node)) {{\n"
+                  f"      g_last_chosen_reg = or_left_last;\n"
+                  f"    }}\n")], once=True)
+
 print(f"shcgen-fixes: {n} replacements")

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+unsigned short gen_store_addr_avoid(gen_node *node);
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -492,6 +493,7 @@ LAB_00425751:
     uVar5 = ea_register_mask(opnd_ea);
     g_avoid_reg_mask = g_avoid_reg_mask | (ushort)uVar5;
   }
+  g_avoid_reg_mask = g_avoid_reg_mask | gen_store_addr_avoid(node);
   g_avoid_reg_mask = g_avoid_reg_mask & 0xf;
   if (g_avoid_reg_mask != 0xf) {
     return;

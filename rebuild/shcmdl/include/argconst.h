@@ -42,8 +42,22 @@ extern void mdl_iv_literal_kept_set(il_node *expr);
 #define IV_LITERAL_KEPT_SET(e) mdl_iv_literal_kept_set(e)
 #define IV_LITERAL_KEPT_CLEAR() (mdl_iv_literal_kept = 0)
 #define IV_LITERAL_KEPT() mdl_iv_literal_kept
+extern int mdl_iv_autoinc_rules(void);
+#define IV_AUTOINC_RULES() mdl_iv_autoinc_rules()
+extern int mdl_iv_addr_stop(il_node *node, il_node *inv);
+#define IV_ADDR_STOP(n, i) mdl_iv_addr_stop(n, i)
+extern void mdl_iv_addr_order(il_node *temp);
+#define IV_ADDR_ORDER(t) mdl_iv_addr_order(t)
+extern void mdl_iv_web_note(void *entry, short symx, int tempcls);
+extern void mdl_iv_web_reorder(void);
+#define IV_WEB_NOTE(e, t, c) mdl_iv_web_note(e, t, c)
+#define IV_WEB_REORDER() mdl_iv_web_reorder()
 #else
+#define IV_WEB_NOTE(e, t, c) ((void)0)
+#define IV_WEB_REORDER() ((void)0)
 #define IV_RULES() 0
+#define IV_ADDR_STOP(n, i) 0
+#define IV_ADDR_ORDER(t) ((void)0)
 #define IV_LICM_PASS(bit) g_licm_pass
 #define IV_REUSE_TEMP(a) 1
 #define IV_SKIP_USE(e) 0
@@ -52,6 +66,7 @@ extern void mdl_iv_literal_kept_set(il_node *expr);
 #define IV_LITERAL_KEPT_SET(e)
 #define IV_LITERAL_KEPT_CLEAR()
 #define IV_LITERAL_KEPT() 0
+#define IV_AUTOINC_RULES() 0
 #endif
 
 /* MDL_LOOP_INV and MDL_LOOP_LOG (src/_looprules.c), with SHC_REBUILD_UPDATED=1: does this place of

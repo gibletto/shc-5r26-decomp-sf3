@@ -251,6 +251,22 @@ LAB_0041696e:
     accumulate_special_register_masks(cand);
     selected = delay_slot_masks_disjoint();
 #if SHC_REBUILD_UPDATED
+    {
+      /* SLOT_LOG=<file> (diagnostic): each candidate the slot filler weighs, with its masks and the verdict */
+      char *lg = getenv("SLOT_LOG");
+      if (lg) {
+        FILE *f = fopen(lg, "a");
+        if (f) {
+          fprintf(f, "%s op=%x e1=%x e2=%x def=%x/%x use=%x/%x bdef=%x/%x buse=%x/%x sel=%d\n", pep_current_function(),
+                  cand->op, cand->ea1 ? cand->ea1->type : 0xff, cand->ea2 ? cand->ea2->type : 0xff, g_rec_def_mask_lo,
+                  g_rec_def_mask_hi, g_rec_use_mask_lo, g_rec_use_mask_hi, g_branch_defs_lo, g_branch_defs_hi,
+                  g_branch_uses_lo, g_branch_uses_hi, selected);
+          fclose(f);
+        }
+      }
+    }
+#endif
+#if SHC_REBUILD_UPDATED
     if (selected == 1 && slot_no_stack() != 0 && slot_record_is_frame_access((unsigned char *)cand)) {
       if (slot_no_stack() == 2) {
         return 0;

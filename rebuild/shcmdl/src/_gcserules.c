@@ -46,6 +46,14 @@
         instruction order or to a register assignment that moves as a whole (Name_In_Sub, sound_driver_tick,
         effect_F0_move), the others are in routines below 86% (debug_pattern_entry_copy_dual, stngauge_control,
         EFF69_SLIDE_IN, Setup_Command_Name, combo_window_trans, Auto_Repeat_Sub_Wife) and decide nothing.
+    16  (2nd Impact, off for 3rd Strike) in a function where unroll_counted_loops unrolled a loop, no temporary
+        for a cast of a local variable (storage class 5/6) when every member of the class is in a loop: the
+        2nd Impact compiler shares no such cast across the unrolled copies, so each copy extends the variable
+        itself. Witness: sel_pl Setup_EFF75_Order, `for (i = 15; i <= 20; i++) if (i != skip)` with s16 skip,
+        where 2i keeps skip raw in r12 and has exts.w r12 at each of the unrolled compares (Release 26 gives
+        (int)skip one temporary before the loop). Without the unrolled-function condition the bit changes 33
+        matched routines (cmd_main_2's check_N, Check_Dash_Hit); with it the 2nd Impact build stays
+        byte-identical (C 7400, 2026-10-20). The 2nd Impact setting is MDL_GCSE=26.
    MDL_GCSE_LOG=<file> (a diagnostic, off unless set) lists each temporary rule 4 refuses. */
 #include "decls.h"
 #include <stdio.h>
@@ -53,6 +61,9 @@
 #include <string.h>
 
 #define GCSE_DEFAULT 10
+
+/* set by unroll_loop_by_four, cleared by optimize_function: a loop of this function was unrolled (rule 16) */
+int mdl_gcse_unrolled;
 
 static int gcse_bits(void)
 {
@@ -114,6 +125,15 @@ int mdl_gcse_block_ok(il_node *node, bblock *block)
 {
     il_node *member;
     node_list *item;
+    if ((gcse_bits() & 16) && mdl_gcse_unrolled && node->op == IL_CAST && node->child != 0 &&
+        node->child->op == IL_ID && node->child->symx > 0 &&
+        (g_symtab[node->child->symx].sclass == 5 || g_symtab[node->child->symx].sclass == 6)) {
+        for (member = node; member != 0; member = member->cse_next)
+            if (member->cse_block == 0 || member->cse_block->lptbl == 0)
+                break;
+        if (member == 0)
+            return 0;
+    }
     if (node->op == IL_ID || !(gcse_bits() & 4))
         return 1;
     for (member = node; member != 0; member = member->cse_next)

@@ -1,5 +1,7 @@
 #include "decls.h"
 #include "imports.h"
+extern int mdl_gcse_unrolled;
+void mdl_iv_start0(void);
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_debug_flags
 #define g_debug_flags (*(unsigned char *)(g_sd + 0x267c0))
@@ -20,6 +22,7 @@
 int __cdecl optimize_function(void)
 
 {
+  mdl_gcse_unrolled = 0;
   g_suppress_no_effect_warning = '\0';
   opt_exp_all_blocks();
   g_suppress_no_effect_warning = '\x01';
@@ -143,6 +146,7 @@ int __cdecl optimize_function(void)
       rebuild_cfg_and_leaves();
     }
   }
+  mdl_iv_start0();  /* MDL_IV_START0 (_ivstart0rules.c) */
   count_global_expressions();
   g_cse_changed = '\0';
   common_subexpression_elimination();

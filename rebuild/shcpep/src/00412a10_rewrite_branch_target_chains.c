@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_current_block
 #define g_current_block (*(code_node * *)(g_sd + 0x5c38))
@@ -228,6 +229,7 @@ int __cdecl rewrite_branch_target_chains(psd *rec)
 LAB_00413018:
           label_rec = (psd *)0x0;
           g_current_symbol = find_label_symbol_of_label_only_block(pred_block);
+          if (g_current_symbol != (symbol *)0x0 && PEP_SWEND_KEPT(g_current_symbol->number)) break;
           if (g_current_symbol != (symbol *)0x0) {
             g_current_symbol->savelab = cur_block->target_labno;
             label_rec = g_current_symbol->label_psd;

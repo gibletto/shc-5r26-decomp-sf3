@@ -1,6 +1,7 @@
 #include "decls.h"
 #include "imports.h"
 #include "regvarlog.h"
+#include "argconst.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_lreg_list
 #define g_lreg_list (*(lreg * *)(g_sd + 0x16264))
@@ -19,6 +20,7 @@ int __cdecl sort_lregs_by_profit(void)
   lreg *lr;
   int n;
   
+  IV_WEB_REORDER();
   n = 1;
   if (g_lreg_list != (lreg *)0x0) {
     slot = g_lreg_table;

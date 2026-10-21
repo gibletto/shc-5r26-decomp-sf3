@@ -193,6 +193,14 @@ hooks("004028f0", [
 # PEP_NO_THREAD 16: the labels the cross-jumping pass makes, per function
 hooks("0040b860", [(r"(\n)(  g_section_end = 0;\n)", r"\1#if SHC_REBUILD_UPDATED\n  pep_xj_labels_clear();\n#endif\n\2")])
 hooks("00413ce0", [(r"(\n  \*\w+ = \(short\)(\w+);\n)", r"\1#if SHC_REBUILD_UPDATED\n  pep_xj_label_mark((short)\2);\n#endif\n")])
+# PEP_SWITCH_END: each loaded record, each loaded label, the load-time savelab walk; the WCP walk stops at a kept label
+hooks("0040cb60", [
+    (r"(\n    op = dst->op;\n)(    if \(\(\(op == OP_CALL\))", r"\1    PEP_SWEND_RECORD(dst, op, g_block_being_loaded->labno);\n\2"),
+    (r"(\n      if \(dst->op == OP_LABEL\) \{\n)(        \w+ = find_preceding_nonempty_block\(g_block_being_loaded\);)",
+     r"\1        PEP_SWEND_LABEL(g_last_block, *(short *)&dst->ea1);\n\2"),
+    (r"(\n(\s+))(g_current_symbol->savelab = \*\(short \*\)&dst->ea1;)", r"\1PEP_SWEND_WALK(g_current_symbol, *(short *)&dst->ea1);\1\3")])
+hooks("00412a10", [(r"(\n(\s+)g_current_symbol = find_label_symbol_of_label_only_block\(pred_block\);\n)",
+                    r"\1\2if (g_current_symbol != (symbol *)0x0 && PEP_SWEND_KEPT(g_current_symbol->number)) break;\n")])
 # XJUMP_OFF
 hooks("004131d0", [(r"((\w+) = find_block_with_common_tail\([^()]*\),)", r"\1 XJUMP_FILTER(\2, rec->op),")])
 hooks("00413850", [(r"(\n  \w+ = 0;\n)(  local_8 = )", r"\1#if SHC_REBUILD_UPDATED\n  xjump_tail[0] = 0;\n#endif\n\2"),

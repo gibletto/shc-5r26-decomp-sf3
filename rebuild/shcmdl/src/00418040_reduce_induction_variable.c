@@ -115,6 +115,9 @@ int __cdecl reduce_induction_variable(iv_entry *entry)
     }
     else {
       temp = new_temp_id(ty);
+      IV_WEB_NOTE(entry,temp->symx,
+                  ((*parent_link)->op == IL_ASSIGN && (*parent_link)->child->op == IL_ID &&
+                   (*parent_link)->child->symx < 0));
 LAB_00418195:
       piVar3 = (il_node *)0x0;
     }
@@ -158,6 +161,7 @@ LAB_0041821a:
       penalty = penalty + '\x01';
     }
     replace_node(node,temp);
+    IV_ADDR_ORDER(temp);
     temp_assign = new_node(IL_ASSIGN,ty);
     temp_assign->filn = node->filn;
     temp_assign->line = node->line;

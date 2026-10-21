@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+int gen_store_value_first(gen_node *node);
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -130,7 +131,8 @@ LAB_00402c4e:
         else {
           uVar3 = (uint)ref->labno1;
         }
-        if ((g_symbol_table[(uVar3 ^ (int)uVar3 >> 0x1f) - ((int)uVar3 >> 0x1f)].attr & 3) != 0) {
+        if ((g_symbol_table[(uVar3 ^ (int)uVar3 >> 0x1f) - ((int)uVar3 >> 0x1f)].attr & 3) != 0
+            || (node->parent != 0 && gen_store_value_first(node->parent))) {
           if (cVar6 == '\x02') goto LAB_00402c37;
           goto LAB_00402c4e;
         }

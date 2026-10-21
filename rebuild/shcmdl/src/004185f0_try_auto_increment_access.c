@@ -46,6 +46,10 @@ int __cdecl try_auto_increment_access(il_node *expr,il_node *temp,iv_use *use)
       }
     }
   }
+  if (piVar1 != (il_node *)0x0 && piVar1->op == IL_CAST && (IV_AUTOINC_RULES() & 1)) {
+    free_tree(node);           /* a widened load: no auto-increment access (MDL_IV_AUTOINC bit 1, 2nd Impact) */
+    return 1;
+  }
   if (piVar1 != (il_node *)0x0 && (IV_RULES() & 8) && (piVar1->type & 0xe0) == 0x60) {
     free_tree(node);           /* a structure (block move): no auto-increment access (MDL_IV bit 8) */
     return 1;

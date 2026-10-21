@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_current_node_list
 #define g_current_node_list (*(code_node * *)(g_sd + 0x6d70))
@@ -58,6 +59,10 @@ int __cdecl delete_dead_labels_from_node_list(void)
       _printf(s_dellab_end__labno__d_004276f8,(int)block->labno);
     }
   }
+#if SHC_REBUILD_UPDATED
+  if (pep_dead_block_refs() != 0)
+    delete_dead_labels_from_node_list();
+#endif
   return;
 }
 

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+extern int mdl_gcse_unrolled;
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_cur_loop
 #define g_cur_loop (*(loop * *)(g_sd + 0x26ac8))
@@ -58,6 +59,7 @@ int __cdecl unroll_loop_by_four(loop *lp)
               free_tree(piVar2);
               piVar1 = copy_tree(0,g_cur_loop->node);
               piVar1 = replicate_loop_body(piVar1);
+              mdl_gcse_unrolled = 1;
               insert_before(g_cur_loop->node,piVar1);
               if ((g_cur_loop->flag & 0x10) != 0) {
                 g_unroll_label_added = '\x01';

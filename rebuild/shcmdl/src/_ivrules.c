@@ -60,11 +60,31 @@
    operator, whether the rule applied, where each later reference is (S the statement of t = expr, p the
    statement of the reference before it, D another), and the number of the place within its function.
    MDL_IV_TEMP_FORCE="fn:n=v,fn:n=v" (diagnostic builds only) answers v (1 a new temporary, 0 Release 26) at place n of
-   function fn, whatever the bits say; tools use it to ask which answer the arcade gave at one place. */
+   function fn, whatever the bits say; tools use it to ask which answer the arcade gave at one place.
+
+   MDL_IV_AUTOINC=<bits> (unset or 0: Release 26 and the 3rd Strike build): a compiler revision's behaviour seen in
+   Street Fighter III 2nd Impact.
+     1  try_auto_increment_access: no auto-increment access when the load through the stepped temporary is widened
+        (a cast above the IL_ASTER). In `x += a[i]` with x short and a a char array (RANKING Setup_Wins:
+        `Rank_Pos_X += Wins_Pos_X_Data[i]`) Release 26 makes the load a post-increment (IL_POI) of the temporary,
+        whose web then weighs 5 and goes to the frame; 2nd Impact keeps a separate step (`mov.b @r9,r2`,
+        `add #1,r9`), the temporary weighs 13 and gets r9. Measured 2026-10-20 (si2core): the 2nd Impact build
+        stays byte-identical (C 6971, no matched routine changes) and Setup_Wins matches. 1 is the 2nd Impact
+        setting. */
 #include "decls.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <process.h>
+
+int mdl_iv_autoinc_rules(void)
+{
+    static int k = -1;
+    if (k < 0) {
+        const char *v = getenv("MDL_IV_AUTOINC");
+        k = (v && *v) ? atoi(v) : 0;
+    }
+    return k;
+}
 
 int mdl_iv_rules(void)
 {

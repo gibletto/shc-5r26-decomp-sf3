@@ -260,6 +260,9 @@ joined_r0x00418d24:
            (!STORE_INDEX_LATE(node,left,right,grandparent))) {
           return 0;
         }
+        if (STORE_RHS_INDEX(node,grandparent)) {
+          return 0;
+        }
         if (((('7' < (char)op) && ((char)op < '>')) || (('O' < (char)op && ((char)op < '`')))) &&
            ((tmpl = grandparent->desc->tmpl, tmpl != (tmpl_header *)0x0 &&
             ((tmpl->excluded & 1) != 0)))) {

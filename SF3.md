@@ -154,6 +154,39 @@ pool neighbour `screentest_page` become exact with native relocation identities 
 bytes stay unchanged. This is a sufficient mechanism supported by the arcade bytes, not a claim that the
 arcade compiler implemented the same buffering. Setting `GEN_OR_INDEX_EARLY=0` restores the preceding image.
 
+## Another compiler revision: Street Fighter III 2nd Impact
+
+2nd Impact ([gibletto/sfIII2-cps3-decomp](https://github.com/gibletto/sfIII2-cps3-decomp)) was built by a slightly
+different revision of the arcade compiler. Its build (`tools/build2i.py`, `REVISION`) sets sixteen settings, and
+compiles its `-optimize=0` modules with `GEN_NARROW_CONST=0`; with those, every one of its 7,902 C routines compiles
+to the arcade's exact bytes and the program is byte-identical. The settings that only 2nd Impact uses are off unless
+set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default. Several rest on one
+routine so far, as noted.
+
+| Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
+|---|---|---|---|
+| `MDL_MUL_CONST=15` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` with an 8-bit k outside loops |
+| `MDL_IMM_REG=127` | shcmdl | 63 | bit 64: a nonzero constant added to an expression of locals, parameters and constants only is no immediate (effect_79_init) |
+| `MDL_TEMP_EXPR=1` | shcmdl | 3 | the bit-2 guard of the temporary-expression rule is off (sel_pl Sel_Command_Check) |
+| `MDL_GCSE=26` | shcmdl | 10 | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a local whose members are all in loops (sel_pl Setup_EFF75_Order) |
+| `MDL_IV=31` | shcmdl | 27 | bit 1 also for `short` narrowing casts (textsound_2 sound_init) |
+| `MDL_IV_AUTOINC=1` | shcmdl | off | no auto-increment access for a widened load through a stepped temporary (RANKING Setup_Wins) |
+| `MDL_MOD_CONST=3` | shcmdl | off | the divisor of a signed `% 4` counts as a register use (effg8 effect_G8_init) |
+| `MDL_EQ_CONST=3` | shcmdl | off | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch) |
+| `MDL_IV_START0=6` | shcmdl | off | a stepped temporary that starts at `0 + p` starts at `p`, not for parameters (2) or variables assigned more than once (4) (EffE0 effect_E0_init; sc_trans tilemap_clear_rect keeps `0 + line`) |
+| `MDL_IV_ADDR=1` | shcmdl | off | an integer sum whose invariant operand is a cast of an array's address does not extend a derived induction expression, and the address goes first after reduction (sc_trans player_name_trans) |
+| `MDL_IV_WEB_ORDER=1` | shcmdl | off | in a loop holding a call, when the reduction made two or more `MDL_IV_TEMP` temporaries (one per arm of an if), a plain use's temporary enters the register candidate list right after the first of them met: the unstable profit sort then gives 2i's frame slots (textsound_2 sound_seq_start; one routine) |
+| `GEN_STORE_RHS_INDEX=1` | shcgen | off | a store through a sum of two registers goes to the add template when its right side reads through an indexed sum sharing a variable with it; a store nested in the right side is not a read (EM_Cand Initialize_EM_Candidate, aboutspr init_char_gfx_tables) |
+| `GEN_LAST_IDX=4` | shcgen | off | a template-slot pick of r4 for the extension of a K&R `short` parameter that only indexes a store leaves the last-chosen register as it was (sel_pl Sel_Arts_Sub; one routine) |
+| `XJUMP_2I=62` | shcpep | off | cross-jumping keeps tails 2nd Impact keeps: mov-only label tails with a register move, one-call and JMP tails outside switches, tails of two or more records only, a dead block's jump gives its label back, move tails behind labels, call-plus-slot label tails (entry_2, sc_trans, EFFB8, VITAL) |
+| `PEP_SWITCH_END=1` | shcpep | off | the break label of a nested switch with two or more case bodies that ends an if arm, whose end label heads a block starting with the outer break's jump, stays a label for threading (end_2 end_200_3000 / end_201_3000) |
+| `ASM_CALL_SLACK=6` | shcasm | off | a forward call to a label in the same section counts 6 bytes nearer for the `bsr`/`jsr` choice (HITCHECK setup_catch_atthit; one routine) |
+
+Each was measured on the whole 2nd Impact build (byte-identical with it) and, where it is off for 3rd Strike, the
+3rd Strike build is unchanged. `GEN_OR_LEFT_KEEP` and `GEN_STORE_ADDR_AVOID`, settings of an earlier stage of the
+2nd Impact work, are no longer used: they imitated a source difference (2nd Impact's `Suicide` is a scalar, not
+3rd Strike's `s8 Suicide[8]`); their code stays, off.
+
 ## Diagnostics
 
 Off unless set. The logs and traces only write files; they never change the output. The settings marked **diag**

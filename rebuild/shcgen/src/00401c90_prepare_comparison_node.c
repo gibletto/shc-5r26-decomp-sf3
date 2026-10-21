@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "orleftkeep.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -25,6 +26,7 @@ int __cdecl prepare_comparison_node(gen_node *node)
   node_desc *desc;
   il_op op;
   ushort *regs_p;
+  char or_left_last;
   
   child = node->child;
   op = node->op;
@@ -129,9 +131,13 @@ LAB_00401d35:
     mask = desc->pref_regs;
     cVar2 = '\0';
     excluded = result_reg_exclusion_mask(node);
+    or_left_last = g_last_chosen_reg;
     reg = choose_general_register((ushort)excluded,mask,cVar2);
     if (reg == -1) {
       reg = choose_general_register(0,node->desc->pref_regs,'\0');
+    }
+    if (OR_LEFT_KEEP(node)) {
+      g_last_chosen_reg = or_left_last;
     }
   }
   regs_p = &node->desc->temp_regs;

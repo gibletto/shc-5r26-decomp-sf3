@@ -169,7 +169,8 @@ int pep_no_thread(void) { return env_int("PEP_NO_THREAD", 20); }
 static unsigned char xj_labels[8192];      /* the labels make_common_code_block made in this function, a bit each */
 static unsigned char dead_ref_labels[8192]; /* the labels unreachable code still refers to (PEP_RET_R0 bit 8) */
 static int pep_ret_merged;
-void pep_xj_labels_clear(void) { memset(xj_labels, 0, sizeof xj_labels); memset(dead_ref_labels, 0, sizeof dead_ref_labels); pep_ret_merged = 0; }
+static void pep_swend_clear(void);
+void pep_xj_labels_clear(void) { pep_swend_clear(); memset(xj_labels, 0, sizeof xj_labels); memset(dead_ref_labels, 0, sizeof dead_ref_labels); pep_ret_merged = 0; }
 void pep_xj_label_mark(short l) { unsigned short u = (unsigned short)l; xj_labels[u >> 3] |= (unsigned char)(1 << (u & 7)); }
 static int pep_xj_label_made(short l) { unsigned short u = (unsigned short)l; return l != 0 && (xj_labels[u >> 3] >> (u & 7)) & 1; }
 int pep_xj_label_was_made(short l) { return pep_xj_label_made(l); }
@@ -180,6 +181,8 @@ int pep_no_thread_here(int *blk, int *dest)
   int k = pep_no_thread();
   if (k & 1) return 1;
   if ((k & 16) && dest && *dest && pep_xj_label_made(*(short *)(*dest + 4))) return 1;
+  /* PEP_SWITCH_END: no threading past a kept switch break label */
+  if (blk && *blk && PEP_SWEND_KEPT(*(short *)(*blk + 4))) return 1;
   return 0;
 }
 
@@ -336,6 +339,19 @@ static int xjump_flip(const char *fn, int n)
 #endif
 }
 
+/* the common tail holds a mov between two registers (a "40:1.n>1.m;" record in xjump_tail) */
+static int xj_reg_move(void)
+{
+  const char *p;
+  int a, b;
+  int any = 0;
+  for (p = xjump_tail; *p; p = strchr(p, ';') ? strchr(p, ';') + 1 : p + strlen(p)) {
+    if (strncmp(p, "40:", 3) != 0) return 0;          /* every record of the tail is a mov */
+    if (sscanf(p, "40:1.%d>1.%d;", &a, &b) == 2) any = 1;
+  }
+  return any;
+}
+
 int xjump_reject(char kind, int mode, int count)
 {
   static char last_fn[160];
@@ -355,6 +371,39 @@ int xjump_reject(char kind, int mode, int count)
   if (r && env_int("XJUMP_MIN", 0) > 0 && count >= env_int("XJUMP_MIN", 0)) r = 0;
 #endif
   if (r && (v & 0x40) && strstr(xjump_tail, "23:")) r = 0;
+  /* XJUMP_2I (2nd Impact's compiler revision, default off): tails the 2nd Impact pep does not merge.
+     bit 2: a label tail (mode 1, jt=2,-1, no switch open) holding a register-to-register move (entry_2
+            Entry_01_Sub: `Ignore_Entry[0] = 0; Ignore_Entry[1] = 0;` in both arms of an if/else), two or more
+            records long (sc_trans sa_stock_trans merges its one-record `mov r4,r14` tail);
+     bit 4: a tail of one call outside switches, label kind with pv=60,60 (sc_trans max_mark_write) or jump kind
+            jt=2,2 pv=2a,2a (sc_trans break_into_banner_trans).
+     bit 8: a dead block's jump gives its label reference back (pep_dead_block_refs below), so the epilogue behind
+            two kept one-call JMP tails goes as unreachable (sc_trans break_into_banner_trans).
+     bit 16: a jump tail (mode 2) outside switches, two or more records of moves holding a register-to-register
+            move, both behind a label (pv=18,18; EFFB8 effect_B8_init's Super_Arts cases `mov r6,r4; bra end;
+            mov.w r4,@r5`, jt=2,3); bgst100 bg090_demo_check's pv=0,0 tail of the same shape is merged.
+     bit 32: a label tail (mode 1, jt=3,-1, pv=60,60, no switch open) of a call and its delay-slot move (VITAL
+            vital_control: the three if/else arms each keep their tilemap_put_cell jsr).
+     Bit 1 (every jt=2,-1 label tail outside switches) is a diagnostic: it moves 448 objects. */
+  if (!r) {
+    int x2 = env_int("XJUMP_2I", 0), sw = xj_switch_depth();
+    if ((x2 & 1) && kind == 0x18 && mode == 1 && xjump_jt_a == 2 && xjump_jt_b == -1 && sw == 0) r = 1;
+    if ((x2 & 2) && kind == 0x18 && mode == 1 && count >= 2 && xjump_jt_a == 2 && xjump_jt_b == -1 && sw == 0 &&
+        xj_reg_move())
+      r = 1;
+    if ((x2 & 32) && kind == 0x18 && mode == 1 && count == 2 && sw == 0 && xjump_jt_a == 3 && xjump_jt_b == -1 &&
+        xjump_prev_a == 0x60 && xjump_prev_b == 0x60 && strncmp(xjump_tail, "23:", 3) == 0)
+      r = 1;
+    if ((x2 & 16) && kind == '$' && mode == 2 && count >= 2 && sw == 0 && xjump_prev_a == 0x18 &&
+        xjump_prev_b == 0x18 && xj_reg_move())
+      r = 1;
+    if ((x2 & 4) && count == 1 && strncmp(xjump_tail, "23:", 3) == 0 && sw == 0 &&
+        ((kind == 0x18 && mode == 1 && xjump_jt_a == 2 && xjump_jt_b == -1 && xjump_prev_a == 0x60 &&
+          xjump_prev_b == 0x60) ||
+         (kind == '$' && mode == 2 && xjump_jt_a == 2 && xjump_jt_b == 2 && xjump_prev_a == 0x2a &&
+          xjump_prev_b == 0x2a)))
+      r = 1;
+  }
   if (!r && kind == '"' && mode == 2 && (pep_ret_r0() & 2) && xjump_prev_a >= 0x18 && xjump_prev_a <= 0x1a &&
       xj_switch_depth() > 0) r = 1;
   if (xjump_flip(fn, seq)) r = !r;
@@ -424,4 +473,131 @@ int pep_case_word(void) { return env_int("PEP_CASE_WORD", 1); }
    its fourth return, where the Release 26 estimate (476 against the limit 462) asks for it behind the third; without
    the four exit literals it is 460. No other routine's pools move with the rule. */
 int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
+/* XJUMP_2I bit 8: a block that only a deleted label reached, behind a block that ends in a return or a tail jump,
+   gives its jump's label reference back, so delete_dead_labels_from_node_list can drop the label it jumps to and
+   the records behind that label go as unreachable. Release 26 leaves the reference: when bit 4 keeps two one-call
+   JMP tails (sc_trans break_into_banner_trans), the switch's end block `L: bra end` becomes dead after the tail
+   calls are expanded, but `end` keeps a count of 1 and the dead epilogue `end: lds.l @r15+,pr; rts` stays; 2nd
+   Impact has no such epilogue. Measured 2026-10-20 (si2core): with XJUMP_2I=14 the 2nd Impact build stays
+   byte-identical (C 6998, no matched routine changes); 14 is the 2nd Impact setting. */
+#define XJ_NODE_LIST (*(code_node * *)(g_sd + 0x6d70))
+/* the ops of a block's last two records (0: none) */
+static int xj_last_op(code_node *b, int *before)
+{
+  code_node *n;
+  int i, cnt, op = 0, prev = 0;
+  for (n = b; n != 0; n = n->next) {
+    cnt = n->next != 0 ? 15 : b->psd_count;
+    for (i = 0; i < cnt; i++)
+      if (n->psd[i].op != OP_DUMMY) {
+        prev = op;
+        op = n->psd[i].op;
+      }
+  }
+  if (before)
+    *before = prev;
+  return op;
+}
+static int xj_uncond(int op) { return op == OP_JUMP || op == OP_RETURN || op == OP_EXIT || op == OP_JMP; }
+int pep_dead_block_refs(void)
+{
+  code_node *b, *real = 0;
+  int n = 0, op;
+  if (!(env_int("XJUMP_2I", 0) & 8))
+    return 0;
+  for (b = XJ_NODE_LIST; b != 0; b = b->next_block) {
+    op = xj_last_op(b, 0);
+    if (real != 0 && b->labno == 0 && b->target_labno != 0 && op == OP_JUMP) {
+      int rprev, rop = xj_last_op(real, &rprev);
+      if (xj_uncond(rop) || (real->flags & 1)
+          || (real->target_labno != 0 && rop != OP_JUMPT && rop != OP_JUMPF)) {
+        decrement_label_ref_count(b->target_labno);
+        b->target_labno = 0;
+        n++;
+      }
+    }
+    if (op != 0 || b->labno != 0)
+      real = b;
+  }
+  return n;
+}
+/* PEP_SWITCH_END=1 (si2fx2's probe, 2nd Impact end_2's two end_200_3000-like routines): the break label of a switch
+   nested in another switch, with two case bodies or more, that ends the arm of an if whose end label heads a block
+   starting with the outer break's JUMP, stays a label of its own for threading: the load-time walk's savelab is put
+   back, the walk over predecessor label-only blocks in rewrite_branch_target_chains stops at it, and
+   simplify_flow_block does not thread its predecessors past it. 2i keeps the inner breaks on the label and the
+   literal pool goes behind the last but one case. Our Release 26 threads them to the outer break target.
+   The switch shape: the block in front of the label holds only the SWEND marker; a case body is a run of case
+   labels at the switch's own depth. Off by default. */
+int pep_switch_end(void) { return env_int("PEP_SWITCH_END", 0); }
+static unsigned char swend_noted[8192], swend_kept[8192], swend_ctarget[8192];
+static symbol *swend_pend_sym; static short swend_pend_old, swend_pend_next;
+#define SWEND_BIT(t, l) (((t)[(unsigned short)(l) >> 3] >> ((unsigned short)(l) & 7)) & 1)
+#define SWEND_SET(t, l) ((t)[(unsigned short)(l) >> 3] |= (unsigned char)(1 << ((unsigned short)(l) & 7)))
+static void pep_swend_clear(void)
+{
+  memset(swend_noted, 0, sizeof swend_noted); memset(swend_kept, 0, sizeof swend_kept);
+  memset(swend_ctarget, 0, sizeof swend_ctarget); swend_pend_sym = 0;
+}
+int pep_swend_kept(short l) { return l != 0 && SWEND_BIT(swend_kept, l); }
+
+/* the number of case bodies of the switch closed last in the function being loaded */
+static int swend_last_bodies(void)
+{
+  code_node *b, *n; int i, d = 0, last = 0; unsigned char runs[64]; psd_op prev = OP_DUMMY;
+  for (b = g_current_node_list; ; b = b->next_block) {
+    for (n = b ? b : g_current_block; n; n = n->next)
+      for (i = 0; i < 15; i++) {
+        psd_op op = n->psd[i].op;
+        if (op == OP_DUMMY || op == OP_LINE) continue;
+        if (op == OP_SWBGN) { if (d < 64) runs[d] = 0; d++; }
+        else if (op == OP_SWEND) { if (d > 0) d--; last = d < 64 ? runs[d] : 0; }
+        else if (op == OP_CLABEL && prev != OP_CLABEL && d > 0 && d <= 64 && runs[d - 1] < 100) runs[d - 1]++;
+        prev = op;
+      }
+    if (!b) break;
+  }
+  return last;
+}
+
+/* each record loaded: conditional branch targets; the first code record of the block after a pending label */
+void pep_swend_record(void *rec, int op, short labno)
+{
+  psd *r = (psd *)rec;
+  if (!pep_switch_end()) return;
+  if ((op == OP_JUMPT || op == OP_JUMPF) && r->ea1 != 0 && r->ea1->labels != 0 && r->ea1->labels->labno1 != 0)
+    SWEND_SET(swend_ctarget, r->ea1->labels->labno1);
+  if (swend_pend_sym != 0 && op != OP_LABEL && op != OP_CLABEL && op != OP_DLABEL && op != OP_FLABEL &&
+      op != OP_LINE && op != OP_DUMMY) {
+    if (op == OP_JUMP && labno == swend_pend_next) {
+      SWEND_SET(swend_kept, swend_pend_sym->number);
+      swend_pend_sym->savelab = swend_pend_old;
+    }
+    swend_pend_sym = 0;
+  }
+}
+
+/* a label loaded: is it the break label of a nested switch with two case bodies or more */
+void pep_swend_label(void *prev_block, short l)
+{
+  code_node *n; int i, sw = 0;
+  if (!pep_switch_end() || !prev_block || l == 0) return;
+  for (n = (code_node *)prev_block; n; n = n->next)
+    for (i = 0; i < 15; i++) {
+      psd_op op = n->psd[i].op;
+      if (op == OP_SWEND) sw = 1;
+      else if (op != OP_DUMMY && op != OP_LINE) return;
+    }
+  if (sw && xj_switch_depth() > 0 && swend_last_bodies() >= 2) SWEND_SET(swend_noted, l);
+}
+
+/* the load-time walk gives a noted label the savelab l: pending when l ends an if (a conditional branch goes to it) */
+void pep_swend_walk(void *sym, short l)
+{
+  symbol *s = (symbol *)sym;
+  if (!pep_switch_end() || s == 0 || s->number == 0 || !SWEND_BIT(swend_noted, s->number) || !SWEND_BIT(swend_ctarget, l))
+    return;
+  swend_pend_sym = s; swend_pend_old = s->savelab; swend_pend_next = l;
+}
+
 #endif

@@ -148,6 +148,9 @@ LAB_00417cb8:
     if ((first_ivno == 0) || ((short)operand->next->invno < g_cur_loop->lpnumber))
     goto LAB_00417cb8;
   }
+  if (IV_ADDR_STOP(node, first_ivno == 0 ? node->child : node->child->next)) {
+    return;
+  }
   if (first_ivno == 0) {
     operand = operand->next;
   }

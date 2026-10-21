@@ -1,6 +1,9 @@
 #include "decls.h"
 #include "imports.h"
 #include "r0varrules.h"
+#if SHC_REBUILD_UPDATED
+int gen_last_idx_keep(gen_node *node, int chosen, unsigned int excluded);
+#endif
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_template_extra_operands
 #define g_template_extra_operands (*(ea * *)(g_sd + 0x18aa0))
@@ -423,8 +426,17 @@ LAB_0042696b:
           if ((uVar2 & 0x1000000) == 0) {
             ascending = spec_kind != 0x180000;
             local_28 = (uint)(short)uVar5;
+#if SHC_REBUILD_UPDATED
+            {
+            char last_before = g_last_chosen_reg;   /* GEN_LAST_IDX (_lastidxrules.c) */
+#endif
             (*(unsigned short *)((char *)&local_2c + 0)) =
                  choose_general_register((ushort)(operand_regs | uVar10),uVar5,ascending);
+#if SHC_REBUILD_UPDATED
+            if (gen_last_idx_keep(node, (short)(ushort)local_2c, (operand_regs | uVar10) & 0xffff))
+              g_last_chosen_reg = last_before;
+            }
+#endif
             if ((ushort)local_2c == -1) {
               (*(unsigned short *)((char *)&local_2c + 0)) = choose_general_register((ushort)uVar10,uVar5,ascending);
               if ((ushort)local_2c == -1) {

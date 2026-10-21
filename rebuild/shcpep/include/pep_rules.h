@@ -31,6 +31,7 @@ void pep_xj_label_mark(short l);
 /* XJUMP_OFF / XJUMP_MIN / XJUMP_LOG */
 extern char xjump_tail[];
 int xjump_reject(char kind, int mode, int count);
+int pep_dead_block_refs(void);
 /* in merge_common_block_tails: a rejected match's mode becomes 0 (no merge) */
 #define XJUMP_FILTER(mode, kind)   ((mode) != 0 && xjump_reject((char)(kind), (mode), g_common_tail_count) ? ((mode) = 0) : 0)
 void xjump_tail_add(unsigned char *rec);
@@ -41,6 +42,17 @@ extern int xjump_jt_a, xjump_jt_b;
 #define XJ_JT(a, b) (xjump_jt_a = (a), xjump_jt_b = (b))
 void xjump_prev(void *ba, void *ta, void *bb, void *tb);
 #define XJ_PREV(ba, ta, bb, tb) xjump_prev(ba, ta, bb, tb)
+
+/* PEP_SWITCH_END */
+int pep_switch_end(void);
+void pep_swend_record(void *rec, int op, short labno);
+void pep_swend_label(void *prev_block, short l);
+void pep_swend_walk(void *sym, short l);
+int pep_swend_kept(short l);
+#define PEP_SWEND_RECORD(rec, op, labno) pep_swend_record(rec, op, labno)
+#define PEP_SWEND_LABEL(prev, l) pep_swend_label(prev, l)
+#define PEP_SWEND_WALK(sym, l) pep_swend_walk(sym, l)
+#define PEP_SWEND_KEPT(l) (pep_switch_end() && pep_swend_kept(l))
 
 /* PEP_RET_R0 */
 int pep_ret_r0(void);
@@ -95,6 +107,10 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_autoinc() 0
 #define pep_case_word() 0
 #define pep_ret_mac() 0
+#define PEP_SWEND_RECORD(rec, op, labno) ((void)0)
+#define PEP_SWEND_LABEL(prev, l) ((void)0)
+#define PEP_SWEND_WALK(sym, l) ((void)0)
+#define PEP_SWEND_KEPT(l) 0
 #endif
 
 #endif
