@@ -528,16 +528,22 @@ int pep_dead_block_refs(void)
    simplify_flow_block does not thread its predecessors past it. 2i keeps the inner breaks on the label and the
    literal pool goes behind the last but one case. Our Release 26 threads them to the outer break target.
    The switch shape: the block in front of the label holds only the SWEND marker; a case body is a run of case
-   labels at the switch's own depth. Off by default. */
+   labels at the switch's own depth.
+   Bit 2 keeps the label between adjacent nested switch ends, even when the marker-only
+   block carries another plain label. No executable record may intervene. Off by default. */
 int pep_switch_end(void) { return env_int("PEP_SWITCH_END", 0); }
 static unsigned char swend_noted[8192], swend_kept[8192], swend_ctarget[8192];
 static symbol *swend_pend_sym; static short swend_pend_old, swend_pend_next;
+/* Bit 2 preserves a label between consecutive switch-end markers. The load-time branch
+   walk stops at these structured boundaries; the later flow pass must not thread through
+   the empty block left when its markers are removed. */
+static short swend_pair_label;
 #define SWEND_BIT(t, l) (((t)[(unsigned short)(l) >> 3] >> ((unsigned short)(l) & 7)) & 1)
 #define SWEND_SET(t, l) ((t)[(unsigned short)(l) >> 3] |= (unsigned char)(1 << ((unsigned short)(l) & 7)))
 static void pep_swend_clear(void)
 {
   memset(swend_noted, 0, sizeof swend_noted); memset(swend_kept, 0, sizeof swend_kept);
-  memset(swend_ctarget, 0, sizeof swend_ctarget); swend_pend_sym = 0;
+  memset(swend_ctarget, 0, sizeof swend_ctarget); swend_pend_sym = 0; swend_pair_label = 0;
 }
 int pep_swend_kept(short l) { return l != 0 && SWEND_BIT(swend_kept, l); }
 
@@ -565,6 +571,11 @@ void pep_swend_record(void *rec, int op, short labno)
 {
   psd *r = (psd *)rec;
   if (!pep_switch_end()) return;
+  if ((pep_switch_end() & 2) && swend_pair_label && op != OP_LABEL && op != OP_CLABEL && op != OP_DLABEL &&
+      op != OP_FLABEL && op != OP_LINE && op != OP_DUMMY) {
+    if (op == OP_SWEND) SWEND_SET(swend_kept, swend_pair_label);
+    swend_pair_label = 0;
+  }
   if ((op == OP_JUMPT || op == OP_JUMPF) && r->ea1 != 0 && r->ea1->labels != 0 && r->ea1->labels->labno1 != 0)
     SWEND_SET(swend_ctarget, r->ea1->labels->labno1);
   if (swend_pend_sym != 0 && op != OP_LABEL && op != OP_CLABEL && op != OP_DLABEL && op != OP_FLABEL &&
@@ -580,8 +591,19 @@ void pep_swend_record(void *rec, int op, short labno)
 /* a label loaded: is it the break label of a nested switch with two case bodies or more */
 void pep_swend_label(void *prev_block, short l)
 {
-  code_node *n; int i, sw = 0;
+  code_node *n; int i, sw = 0, only_marker = 1;
   if (!pep_switch_end() || !prev_block || l == 0) return;
+  if (pep_switch_end() & 2) {
+    for (n = (code_node *)prev_block; n; n = n->next)
+      for (i = 0; i < 15; i++) {
+        psd_op op = n->psd[i].op;
+        if (op == OP_SWEND) sw = 1;
+        else if (op != OP_DUMMY && op != OP_LINE && op != OP_LABEL) only_marker = 0;
+      }
+    swend_pair_label = sw && only_marker ? l : 0;
+    sw = 0;
+  }
+  if (!(pep_switch_end() & 1)) return;
   for (n = (code_node *)prev_block; n; n = n->next)
     for (i = 0; i < 15; i++) {
       psd_op op = n->psd[i].op;
@@ -598,6 +620,46 @@ void pep_swend_walk(void *sym, short l)
   if (!pep_switch_end() || s == 0 || s->number == 0 || !SWEND_BIT(swend_noted, s->number) || !SWEND_BIT(swend_ctarget, l))
     return;
   swend_pend_sym = s; swend_pend_old = s->savelab; swend_pend_next = l;
+}
+
+/* PEP_RETURN_EXIT: deleting a return to the adjacent epilogue leaves its literal
+   as the last real record of a separate block. Treat a bare adjacent exit as
+   its continuation for candidate eligibility; all motion and dependency checks
+   remain in fill_cond_branch_slot_from_target. Unset preserves Release 26. */
+int pep_terminal_literal_exit(void *block_ptr, void *rec_ptr)
+{
+  code_node *block = (code_node *)block_ptr;
+  psd *rec = (psd *)rec_ptr;
+  code_node *node;
+  psd *part;
+  int i, saw_exit = 0, saw_label = 0;
+  if (!env_int("PEP_RETURN_EXIT", 0)) return 0;
+  if (!block || !rec || block->target_labno || (block->flags & 1)) return 0;
+  if (rec->op != OP_MOVI || !rec->ea1 || !rec->ea2) return 0;
+  if ((rec->ea1->type & 31) != 7 || rec->ea1->labels) return 0;
+  if ((rec->ea2->type & 31) != 1 || rec->ea2->base < 0 || rec->ea2->base > 15) return 0;
+  if (find_next_psd_record(block, rec)) return 0;
+  node = block->next_block;
+  if (!node || node->target_labno) return 0;
+  for (; node; node = node->next) {
+    for (i = 0, part = node->psd; i < 15; ++i, ++part) {
+      switch (part->op) {
+      case OP_DUMMY: case OP_LINE: case OP_BBGN: case OP_BEND:
+        break;
+      case OP_LABEL:
+        if (saw_exit || saw_label) return 0;
+        saw_label = 1;
+        break;
+      case OP_EXIT:
+        if (saw_exit) return 0;
+        saw_exit = 1;
+        break;
+      default:
+        return 0;
+      }
+    }
+  }
+  return saw_exit;
 }
 
 #endif

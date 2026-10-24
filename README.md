@@ -5,7 +5,8 @@ generator), `shcpep` (peephole optimizer) and `shcasm` (scheduler and assembler)
 decompilation of the original programs, using the name and type tables in `ghidra/names`.
 
 With every rule setting at 0, the stages give the same output as Release 26. By default they also follow the
-rules of the compiler that built the arcade game Street Fighter III 3rd Strike: see [SF3.md](SF3.md).
+rules of the compiler that built the arcade game Street Fighter III 3rd Strike: see [SF3.md](SF3.md). SF3.md also lists the
+settings the 2nd Impact and New Generation builds turn on.
 
 No Renesas files are included. The stages' data and the rest of the compiler come from your copy of Release 26,
 the archive decomp.me hosts.

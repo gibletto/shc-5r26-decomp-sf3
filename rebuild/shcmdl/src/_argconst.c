@@ -216,6 +216,9 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value, cons
      64 (2nd Impact) with 4: a nonzero constant added to an expression of locals, parameters and constants only
         (+, -, * and casts, no memory read): `char_index = plate_id + ix + 16` with 16 kept in a register is
         add r5,r0 in 2i's effect_79_init (the front end puts the constant last, so the left operand is a sum).
+     128 with 4: a nonzero constant added to an arithmetic expression of identifiers and constants
+        (+, -, * and casts) is not an immediate, including expressions whose identifiers are globals.
+        A direct global load, indirect read or call still follows the existing eligibility rules.
      32 a zero compared unsigned (<, <=, >, >= whose zero operand has an unsigned type) against a converted value
         (the other operand a cast) is not an immediate, for collect_register_candidate too: the SH has no unsigned
         compare with an immediate, and Release 26 reads the relational node's own type, which is always a signed
@@ -254,6 +257,32 @@ static int locals_only(il_node *n)
         return 0;
     }
 }
+/* Arithmetic expressions can reuse an existing constant even when scalar inputs have global storage.
+   Direct loads, indirect accesses and calls do not qualify through this path. Off unless bit 128 is set. */
+static int arithmetic_only(il_node *n)
+{
+    il_node *c;
+    if (n == 0)
+        return 0;
+    switch (n->op) {
+    case IL_CONST:
+        return 1;
+    case IL_ID:
+        return 1;
+    case IL_CAST:
+        return arithmetic_only(n->child);
+    case IL_ADD:
+    case IL_SUB:
+    case IL_MUL:
+        for (c = n->child; c != 0; c = c->next)
+            if (!arithmetic_only(c))
+                return 0;
+        return 1;
+    default:
+        return 0;
+    }
+}
+
 
 static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
 {
@@ -288,7 +317,7 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
         if (!v)
             return r;
         if (v->op != IL_ID) {
-            if (!(bits & 64) || !locals_only(v))
+            if ((!(bits & 64) || !locals_only(v)) && (!(bits & 128) || !arithmetic_only(v)))
                 return r;
         } else if (v->symx > 0 && g_symtab[v->symx].sclass >= 1 && g_symtab[v->symx].sclass <= 4)
             return r;

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "ready_wave.h"
 
 // entry: 004157b7
 // name : reset_pipeline_state
@@ -12,6 +13,7 @@ int __cdecl reset_pipeline_state(void)
 {
   short i;
   
+  READY_WAVE_RESET();
   g_pipeline_first_scheduled = -1;
   g_pipeline_last_scheduled = -1;
   g_pipeline_end_of_stream = 0;

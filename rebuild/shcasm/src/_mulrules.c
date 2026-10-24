@@ -18,6 +18,7 @@
    alignment rule would take the literal load first (grade_get_cm_point_percentage, Check_Guard, check_13). */
 #include "decls.h"
 #include <stdlib.h>
+#include "ready_wave.h"
 
 #define MULWAIT_DEFAULT 5
 
@@ -71,10 +72,11 @@ int asm_mul_free_alignment(int index)
    Release 26's loop (0) */
 int asm_mul_force_pick(int last_index)
 {
-    int i;
+    int i, position;
     if (!(mulwait() & 2))
         return 0;
-    for (i = 0; i <= last_index; i++) {
+    for (position = 0; position < READY_WAVE_COUNT(last_index); position++) {
+        i = READY_WAVE_INDEX(position);
         pipeline_entry *e = &g_pipeline_window[i];
         if (e->count == 0 && e->next == -1 && e->rec.op != OP_DUMMY_00 && !waits_for_multiplier(e)) {
             commit_scheduled_pipeline_entry(i);

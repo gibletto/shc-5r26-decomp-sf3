@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "ready_wave.h"
 
 // entry: 00416574
 // name : release_pipeline_entry_successors
@@ -25,5 +26,6 @@ int __cdecl release_pipeline_entry_successors(short index)
       }
     }
   }
+  READY_WAVE_PROMOTE(index);
   return;
 }

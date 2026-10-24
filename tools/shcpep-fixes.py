@@ -253,4 +253,9 @@ hooks("00401190", [(r"(\n(\s+)while \(\(next_code != \(code_node \*\)0x0 && \(no
                     r"\1\2  PEP_GAP_NOTE(block->code->target_labno, next_code);\n")])
 hooks("0040b860", [(r'(\n(\s+)pep_dump\("load", g_current_node_list\);\n)',
                     r"\n\2pep_load_scan(g_current_node_list);\1")])
+# PEP_RETURN_EXIT: the block-local scanner does not see an adjacent bare epilogue.
+hooks("004175b0", [
+    (r"found = find_next_psd_record\(block,rec\), found == \(psd \*\)0x0",
+     r"found = find_next_psd_record(block,rec), found == (psd *)0x0 && !pep_terminal_literal_exit(block,rec)")])
+
 print(n, "fixes")

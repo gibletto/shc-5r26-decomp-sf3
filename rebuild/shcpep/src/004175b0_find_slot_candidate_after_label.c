@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "pep_rules.h"
 
 // entry: 004175b0
 // name : find_slot_candidate_after_label
@@ -94,7 +95,7 @@ psd * __cdecl find_slot_candidate_after_label(code_node *block,psd *label_rec)
             return (psd *)0x0;
           }
           if (((rec->op == OP_MOVI) && (rec->ea1->labels == (label_ref *)0x0)) &&
-             (found = find_next_psd_record(block,rec), found == (psd *)0x0)) {
+             (found = find_next_psd_record(block,rec), found == (psd *)0x0 && !pep_terminal_literal_exit(block,rec))) {
             return (psd *)0x0;
           }
         }

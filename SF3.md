@@ -8,6 +8,15 @@ its single observed application does not establish the historical compiler's imp
 Setting all 42 settings listed by `tests/parity.py` to 0 in the environment gives
 Release 26's behaviour; individual switches select the decisions described below.
 
+`ASM_READY_WAVES` is an additional optional scheduler mode, **off by default**.
+Value 1 uses stable dependency-ready frontiers with FIFO promotion on predecessor
+retirement; the existing phase/hazard chooser operates within each frontier.
+It applies to the whole invocation, has no routine selectors, and is available
+in normal updated builds. Leave it unset or 0 for existing game profiles. The
+observed decoder result does not identify the historical compiler revision;
+the model also changes a held pitch routine adversely. See `notes/shcasm.md` and
+the separate native execution controls in `tests/ready_wave.py`.
+
 ## An example
 
 ```c
@@ -186,6 +195,41 @@ Each was measured on the whole 2nd Impact build (byte-identical with it) and, wh
 3rd Strike build is unchanged. `GEN_OR_LEFT_KEEP` and `GEN_STORE_ADDR_AVOID`, settings of an earlier stage of the
 2nd Impact work, are no longer used: they imitated a source difference (2nd Impact's `Suicide` is a scalar, not
 3rd Strike's `s8 Suicide[8]`); their code stays, off.
+
+## A third revision: Street Fighter III New Generation
+
+New Generation ([gibletto/sfIII-cps3-decomp](https://github.com/gibletto/sfIII-cps3-decomp)) was built by a revision
+close to 2nd Impact's. Its build (`tools/buildng.py`, `REVISION`) sets 2nd Impact's sixteen settings with two of them
+widened, adds one more, and gives one module its own scheduler profile. All of them are off unless set, so the 2nd
+Impact and 3rd Strike builds are unchanged.
+
+| Setting (New Generation) | Stage | 2nd Impact | What New Generation's revision does, and the routine that shows it |
+|---|---|---|---|
+| `MDL_IMM_REG=255` | shcmdl | 127 | bit 128: with bit 4, a `+`, `-` or `*` tree of identifiers, constants and casts may reuse a nonzero constant already kept in a register, global scalars included; a bare global, an indirect access or a call keeps the previous rule (RANKING Setup_grade; one routine) |
+| `PEP_SWITCH_END=3` | shcpep | 1 | bit 2: consecutive nested switch ends also keep their break labels for threading (`tests/switch_end.py`) |
+| `PEP_RETURN_EXIT=1` | shcpep | off | see below (EFFD7 effD7_select_end) |
+| `PEP_AUTOINC=0`, `ASM_READY_WAVES=1` | shcpep, shcasm | default, off | for one module only, `sound_voice_3` (the sequence decoder): no auto-increment folding, and the stable-frontier scheduler described at the top |
+
+The game's `-optimize=0` modules also take `GEN_NARROW_CONST=0`, as in 2nd Impact. New Generation's sound driver
+(`textsound_2`, `sound_voice`, `sound_voice_2`) was built by a much older SHC release than any available; its
+routines are built from assembler in the game repository, and no setting here models that compiler.
+
+## New Generation return epilogues
+
+`PEP_RETURN_EXIT` is off by default. At 1, a terminal numeric literal becomes a
+conditional-slot candidate when its block has no outgoing target and falls
+through directly to a block containing only metadata and one `EXIT`. The
+existing stack-add exclusion, diamond/reference checks, call barriers and masks
+for the branch and every instruction of both arms remain unchanged. No literal
+value, destination register, routine name or address selects the behavior.
+
+New Generation's `EFFD7:effD7_select_end` shows this boundary: removing its branch
+to the adjacent epilogue leaves the return literal terminal to the block-local
+scanner. With 1, the canonical complete 17-routine unit matches, including all
+linked pools. New Generation opts in; 2nd Impact and 3rd Strike keep 0. Disabled
+objects match the prior compiler, and the setting changes none of the 380
+previously landed New Generation modules. `tests/return_exit*.py` cover the
+native guard, structural exclusions and SH2 execution.
 
 ## Diagnostics
 

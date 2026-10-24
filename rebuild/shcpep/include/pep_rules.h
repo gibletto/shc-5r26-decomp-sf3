@@ -83,6 +83,9 @@ int pep_case_word(void);
 /* PEP_RET_MAC */
 int pep_ret_mac(void);
 
+/* PEP_RETURN_EXIT (default 0): a terminal literal may precede an adjacent bare exit. */
+int pep_terminal_literal_exit(void *block, void *rec);
+
 /* SLOT_NO_STACK */
 int slot_no_stack(void);
 int slot_record_is_frame_access(unsigned char *rec);
@@ -107,6 +110,7 @@ int slot_record_is_frame_access(unsigned char *rec);
 #define pep_autoinc() 0
 #define pep_case_word() 0
 #define pep_ret_mac() 0
+#define pep_terminal_literal_exit(block, rec) 0
 #define PEP_SWEND_RECORD(rec, op, labno) ((void)0)
 #define PEP_SWEND_LABEL(prev, l) ((void)0)
 #define PEP_SWEND_WALK(sym, l) ((void)0)
