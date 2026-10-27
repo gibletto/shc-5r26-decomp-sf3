@@ -1,6 +1,6 @@
 /* Induction-variable rules (only with SHC_REBUILD_UPDATED=1).
 
-   MDL_IV=<bits> (unset: 27, the arcade rule; 0: Release 26).
+   MDL_IV=<bits> (unset: 11, the arcade rule; 0: Release 26).
      1  scan_derived_induction_expr: a cast that narrows an induction variable keeps the variable's number, so
         (char)(i * 6) derives from i like i * 6 does (Release 26 drops the number at any narrowing cast).
         With 2 only a cast to char, with 4 only a cast to short (both: both).
@@ -17,7 +17,8 @@
         other term of the sum if another pass of opt_exp reaches it, and base + 16 comes out as `mov base,rN`,
         `add #16,rN`; without that pass 16 + base stays, `mov #16,rN`, `add base,rN`. The arcade's compiler
         keeps 16 + base in both cases (debug_hit_a_judgement_build_table's ixkey[i * 4] and ixtbl[i] for i
-        from 1). The step (t = t + k) has its literal last already.
+        from 1). The step (t = t + k) has its literal last already. Off by default: the pass that moved the
+        literal was set off by two dead stores the decompiled routine had and the arcade's source did not.
    MDL_IV_LIT_LOG=<file> (a diagnostic, off unless set) lists each such sum: function, line, operator, type, the
    terms in order (operator/type, # a literal) and whether bit 16 applied.
 
@@ -91,7 +92,7 @@ int mdl_iv_rules(void)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("MDL_IV");
-        k = v ? atoi(v) : 27;
+        k = v ? atoi(v) : 11;
     }
     return k;
 }
@@ -269,14 +270,18 @@ int mdl_iv_skip_use(il_node *expr)
     return (a->op == IL_CONST && a->val == 1) || (b && b->op == IL_CONST && b->val == 1);
 }
 
-/* MDL_TEST_REPLACE=<bits> (unset: 13, the arcade rule; 0: Release 26).
+/* MDL_TEST_REPLACE=<bits> (unset: 0, Release 26; 13 was the arcade rule before the option below was found).
+
+   The option that raises that bit is the stock -aggressive=1 (shcprm's table lists it between inline and
+   size): the games build the modules whose loops need the rewrite (Entry; 2nd Impact's textsound_2) with it,
+   and no setting is needed.
 
    reduce_induction_variable ends by rewriting the loop's test: when every use of the counter has become a stepped
    temporary (at most three) and the test reads the counter, the test compares one of the temporaries with the
    limit scaled the same way and the counter goes away (replace_loop_test; for (i = 0; i < 8; i++) over
    task_tbl[i] becomes a pointer that stops at task_tbl + 8, `mov.w #H'200,r14`, `add r7,r14` before the loop and
    `cmp/hs r14,r4` in it). Release 26 holds that code behind a flag (g_test_replace_ok) that only bit 0 of the
-   option record raises, which no command-line option sets, so it never runs: the counter stays beside the
+   option record raises, so without -aggressive it never runs: the counter stays beside the
    stepped pointers (`add #1,r14`, `cmp/hs r13,r14`). The arcade's compiler runs it:
      1  the flag is raised before each induction variable, as that option bit does
      4  only an address may take the test over (use size 8), never an integer multiple of the counter: with a
@@ -292,7 +297,7 @@ int mdl_iv_skip_use(il_node *expr)
    which a short counter in the source takes out of the rule's reach.
    MDL_TEST_LOG=<file> (a diagnostic, off unless set) lists each stepped temporary the rule is asked about:
    function, use size, the test's operand size, operator and type, the flag, and the answer. */
-#define TEST_REPLACE_DEFAULT 13
+#define TEST_REPLACE_DEFAULT 0
 
 static int test_replace_bits(void)
 {
