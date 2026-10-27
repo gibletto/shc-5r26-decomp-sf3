@@ -1,4 +1,4 @@
-# sources 8d6096a08b4a2fe4e20ad14ea23439ad2e6d4855
+# sources e7740619ba845a66fb1c1061822c502c3cdf97c7
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:257aea307b9bf874
@@ -515,22 +515,6 @@ bonus_char	obj:0:70231e3f610e9ea7
 boot_task	obj:0:4e019b8185e00ec8
 buttobi	obj:0:a01d44deab2a24a5
 cd_volume	obj:0:0bcd31546ca9c967
-cg_0000	obj:0:409d5e820f989bf1
-cg_1000	obj:0:6bea03f644d596cd
-cg_2000	obj:0:d922ca7eba393a56
-cg_3000	obj:0:4dacc7683f5f60a1
-cg_4000	obj:0:7810b5cf22eeda41
-cg_5000	obj:0:4a882d5d372edf23
-cg_6000	obj:0:c59086fc1b786dba
-cg_7000	obj:0:32fed9291c34a2df
-cg_8000	obj:0:2909d8ce2b6005b1
-cg_9000	obj:0:e02c44e57b555594
-cg_A000	obj:0:d3e7031b611a3cf1
-cg_B000	obj:0:fd95a7aac99b08f7
-cg_C000	obj:0:cf152837aa256d56
-cg_D000	obj:0:1f82718454d96291
-cg_E000	obj:0:0adef4b5d48f3833
-cg_F000	obj:0:dd03874cc869fc28
 chr_data	obj:0:63831ba2351e1c75
 chun_attbox	obj:0:501a81c29cdc802d
 chun_attr	obj:0:100645ecdb43ccf8
