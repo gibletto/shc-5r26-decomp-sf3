@@ -12,11 +12,13 @@
    combo_window_trans: &cst_read[PL] and cmst_buff[PL] in r9 and r8 beside PL and PL * 112;
    Hi_Jump_Command_Attack_Term: a mask of a converted variable shared by two calls).
 
-   MDL_TEMP_EXPR=<bits> (unset: 3; 0: Release 26)
+   MDL_TEMP_EXPR=<bits> (unset: 1; 0: Release 26)
      1  the head of a class of two or more equal expressions is numbered also when its tree holds a temporary.
         A class one of whose other members assigns a temporary is left alone under every setting: the member's tree
         is thrown away when the class's temporary takes its place.
-     2  a guard, not an arcade decision (mdl_temp_expr_ok below).
+   (Bit 2, a guard that kept Release 26's answer where the code generator lost the copy of a global's address
+   to a temporary (Flash_Please), is retired: no game module needs it once the dead reads of that routine are
+   written as the call of an empty display routine, round 52.)
    Evidence over the Street Fighter III build (10,064 C routines, game tree r8-snd-rule 3e739340, the rule off
    against on): the score of 76 routines changes. 54 come closer to the arcade and 17 match it outright
    (Sel_PL_Sub_CR, _CL, _CU, _CD, scr_11_21, scr_12_21, debug_priority_swap, bbbs_com_execute2,
@@ -39,7 +41,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TEMP_EXPR_DEFAULT 3
+#define TEMP_EXPR_DEFAULT 1
 
 static int temp_expr_bits(void)
 {
@@ -79,74 +81,6 @@ static int assigns_temp(il_node *n)
         if (assigns_temp(c))
             return 1;
     return 0;
-}
-
-/* is the temporary an operand of an address sum under a dereference in the tree: *(tmp + index) */
-static int temp_in_address(il_node *n, int symx)
-{
-    il_node *c;
-    if (n->op == IL_ADD && n->parent != 0 && n->parent->op == IL_ASTER)
-        for (c = n->child; c != 0; c = c->next)
-            if (c->op == IL_ID && c->symx == symx)
-                return 1;
-    for (c = n->child; c != 0; c = c->next)
-        if (temp_in_address(c, symx))
-            return 1;
-    return 0;
-}
-
-/* the statement copies a global's address to a temporary (tmp = table) and uses the temporary as an operand of an
-   address sum: switch ((tmp = table), *(tmp + index)) */
-static int copies_address_for_index(il_node *n, il_node *stmt)
-{
-    il_node *c;
-    if (n->op == IL_ASSIGN && n->child != 0 && n->child->op == IL_ID && n->child->symx < 0 && n->child->next != 0 &&
-        n->child->next->op == IL_ID && n->child->next->symx > 0 && temp_in_address(stmt, n->child->symx))
-        return 1;
-    for (c = n->child; c != 0; c = c->next)
-        if (copies_address_for_index(c, stmt))
-            return 1;
-    return 0;
-}
-
-static int holds_temp(il_node *n)
-{
-    il_node *c;
-    if (n->op == IL_ID && n->symx < 0)
-        return 1;
-    for (c = n->child; c != 0; c = c->next)
-        if (holds_temp(c))
-            return 1;
-    return 0;
-}
-
-/* cse_eliminate_node found the block for a class's temporary. 0: give the class up.
-   Bit 2 is a guard, not an arcade decision: when the temporary of a class that holds a temporary would be
-   appended to a block (none of its members is there) whose last statement copies a global's
-   address to a temporary and indexes through the temporary, the code generator loses that copy (Flash_Please: the switch on F_No3[PL_id] holds
-   tmp = F_No3, the new temporary is F_Timer + PL_id * 2 for the two cases that count the timer down; shcgen with
-   GEN_R0VAR=2 then takes F_No3 into r0 for the switch and never copies it to the temporary's register, which case
-   0 reads; with GEN_R0VAR=0 the copy is there). The arcade has both (mov r7,r1 in front of the switch load,
-   add r5,r6 in the delay slot of the first case branch), so with the guard this place stays as Release 26
-   makes it. */
-int mdl_temp_expr_ok(il_node *node, bblock *block)
-{
-    il_node *member;
-    node_list *item;
-    if ((temp_expr_bits() & 3) != 3 || !holds_temp(node))
-        return 1;
-    for (member = node; member != 0; member = member->cse_next)
-        if (member->cse_block == block)
-            return 1;
-    item = block->ilnode;
-    if (item == 0)
-        return 1;
-    while (item->next != 0)
-        item = item->next;
-    if (item->node->op == IL_ASSIGN && item->node->child != 0 && item->node->child->op == IL_ID &&
-        item->node->child->symx < 0)
-        return 1;                       /* a temporary appended before this one: a statement of its own */
-    return copies_address_for_index(item->node, item->node) ? 0 : 1;
 }
 
 /* cse_global_tree met a tree that holds a temporary. 1: leave it alone (Release 26); 0: number it.

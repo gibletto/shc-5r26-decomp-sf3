@@ -5,10 +5,7 @@
 #if SHC_REBUILD_UPDATED
 extern int mdl_temp_expr_skip(il_node *node);
 #define TEMP_EXPR_SKIP(node) mdl_temp_expr_skip(node)
-extern int mdl_temp_expr_ok(il_node *node, bblock *block);
-#define TEMP_EXPR_OK(node, block) mdl_temp_expr_ok(node, block)
 #else
 #define TEMP_EXPR_SKIP(node) 1
-#define TEMP_EXPR_OK(node, block) 1
 #endif
 #endif

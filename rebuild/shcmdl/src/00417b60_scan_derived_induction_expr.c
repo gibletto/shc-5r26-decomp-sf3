@@ -57,7 +57,7 @@ int __cdecl scan_derived_induction_expr(il_node *node,il_node *copy)
       node->ivno = node->child->ivno;
       return;
     }
-    if (child_rank > rank && (IV_RULES() & 1) && ((IV_RULES() & 6) == 0 || (IV_RULES() & (rank == 1 ? 2 : 4)))) {
+    if (child_rank > rank && (IV_RULES() & 1)) {
       node->ivno = node->child->ivno;
       return;
     }

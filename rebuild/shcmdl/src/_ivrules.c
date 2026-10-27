@@ -1,9 +1,10 @@
 /* Induction-variable rules (only with SHC_REBUILD_UPDATED=1).
 
-   MDL_IV=<bits> (unset: 11, the arcade rule; 0: Release 26).
+   MDL_IV=<bits> (unset: 9, the arcade rule; 0: Release 26).
      1  scan_derived_induction_expr: a cast that narrows an induction variable keeps the variable's number, so
         (char)(i * 6) derives from i like i * 6 does (Release 26 drops the number at any narrowing cast).
-        With 2 only a cast to char, with 4 only a cast to short (both: both).
+        (Bits 2 and 4, which narrowed this to a cast to char or to short, are retired: every game takes both,
+        2nd Impact's and New Generation's sound_init the short one, round 52.)
      8  try_auto_increment_access: no auto-increment or auto-decrement access for a structure. Release 26 makes
         the destination of a block move in a loop counting down a pre-decrement (and the source of one counting
         up a post-increment), although SH has no such form for a block move: the pointer is set one element
@@ -92,7 +93,7 @@ int mdl_iv_rules(void)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("MDL_IV");
-        k = v ? atoi(v) : 11;
+        k = v ? atoi(v) : 9;
     }
     return k;
 }

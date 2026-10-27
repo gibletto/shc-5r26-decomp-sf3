@@ -91,7 +91,7 @@ unsigned int gen_chain_jump_regs(unsigned int mask)
     return gen_chain_scratch_reg() == 0 ? 1 : mask;
 }
 
-/* GEN_JUMP_TEMP=<bits> (unset: 3, the arcade rule; 0: Release 26). Every statement that jumps picks a free scratch
+/* GEN_JUMP_TEMP=<bits> (unset: 2, the arcade rule; 0: Release 26). Every statement that jumps picks a free scratch
    register for the jump (a far jump would be mov.l #label,rN and jmp @rN; the peephole stage makes nearly all of
    them a bra) and takes it out of that register's free ranges at the current statement serial, so
    remap_register_variables_to_scratch_registers cannot move a register variable that is live there to it. A
@@ -99,7 +99,7 @@ unsigned int gen_chain_jump_regs(unsigned int mask)
    it, which the jump has nothing to do with, and a value that lives through that statement (the copy of a
    stepped pointer in a loop that ends in continue, a counter tested before a break) stays in r8-r14 and is saved.
    The arcade's compiler does not charge it.
-     1  continue
+     1  continue (retired: no game module decides once the source is cleaned up, round 52)
      2  break
      4  goto (off: no site in the game decides)
      8  a for loop's jump to its test, 16 a for loop without a test, 64 a while loop's jump to its test (off: these
@@ -110,7 +110,7 @@ unsigned int gen_jump_temp_regs(int bit, unsigned int mask)
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("GEN_JUMP_TEMP");
-        k = (v && *v) ? atoi(v) : 3;
+        k = (v && *v) ? atoi(v) : 2;
     }
     return (k & bit) ? 0 : mask;
 }
