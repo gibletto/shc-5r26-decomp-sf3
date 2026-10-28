@@ -559,21 +559,26 @@ void pep_swend_walk(void *sym, short l)
 /* PEP_RETURN_EXIT: deleting a return to the adjacent epilogue leaves its literal
    as the last real record of a separate block. Treat a bare adjacent exit as
    its continuation for candidate eligibility; all motion and dependency checks
-   remain in fill_cond_branch_slot_from_target. Unset preserves Release 26. */
+   remain in fill_cond_branch_slot_from_target. Unset preserves Release 26.
+   Bit 2: any block the literal's block falls through into is its continuation
+   (3rd Strike EM_Cand Check_EM_Buff: a loop's constant, alone in the preheader
+   that the branch over `step = -1` targets, fills that branch's slot); it covers
+   bit 1's adjacent exit too. */
 int pep_terminal_literal_exit(void *block_ptr, void *rec_ptr)
 {
   code_node *block = (code_node *)block_ptr;
   psd *rec = (psd *)rec_ptr;
   code_node *node;
   psd *part;
-  int i, saw_exit = 0, saw_label = 0;
-  if (!env_int("PEP_RETURN_EXIT", 0)) return 0;
+  int i, saw_exit = 0, saw_label = 0, mode = env_int("PEP_RETURN_EXIT", 0);
+  if (!mode) return 0;
   if (!block || !rec || block->target_labno || (block->flags & 1)) return 0;
   if (rec->op != OP_MOVI || !rec->ea1 || !rec->ea2) return 0;
   if ((rec->ea1->type & 31) != 7 || rec->ea1->labels) return 0;
   if ((rec->ea2->type & 31) != 1 || rec->ea2->base < 0 || rec->ea2->base > 15) return 0;
   if (find_next_psd_record(block, rec)) return 0;
   node = block->next_block;
+  if (node && (mode & 2)) return 1;
   if (!node || node->target_labno) return 0;
   for (; node; node = node->next) {
     for (i = 0, part = node->psd; i < 15; ++i, ++part) {

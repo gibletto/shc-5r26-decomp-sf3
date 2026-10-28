@@ -180,7 +180,7 @@ different revision of the arcade compiler. Its build (`tools/build2i.py`, `REVIS
 compiles its `-optimize=0` modules with `GEN_NARROW_CONST=0`; with those, every one of its 7,902 C routines compiles
 to the arcade's exact bytes and the program is byte-identical. The settings that only 2nd Impact uses are off unless
 set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default, and 3rd Strike's
-`build.bat` sets `MDL_EQ_CONST=3` and `MDL_IV_WEB_ORDER=1` as 2nd Impact does. Several rest on one routine so far, as noted.
+`build.bat` sets `MDL_EQ_CONST=3` and `MDL_IV_WEB_ORDER=1` as 2nd Impact does, and `PEP_RETURN_EXIT=2` (see New Generation return epilogues). Several rest on one routine so far, as noted.
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
@@ -216,7 +216,7 @@ Impact and 3rd Strike builds are unchanged.
 |---|---|---|---|
 | `MDL_IMM_REG=255` | shcmdl | 127 | bit 128: with bit 4, a `+`, `-` or `*` tree of identifiers, constants and casts may reuse a nonzero constant already kept in a register, global scalars included; a bare global, an indirect access or a call keeps the previous rule (RANKING Setup_grade; one routine) |
 | `PEP_SWITCH_END=3` | shcpep | 1 | bit 2: consecutive nested switch ends also keep their break labels for threading (`tests/switch_end.py`) |
-| `PEP_RETURN_EXIT=1` | shcpep | off | see below (EFFD7 effD7_select_end) |
+| `PEP_RETURN_EXIT=1` | shcpep | 2 (build.bat) | see below (EFFD7 effD7_select_end; bit 2, 3rd Strike EM_Cand Check_EM_Buff) |
 | `PEP_AUTOINC=0`, `ASM_READY_WAVES=1` | shcpep, shcasm | default, off | for one module only, `sound_voice_3` (the sequence decoder): no auto-increment folding, and the stable-frontier scheduler described at the top |
 
 The game's `-optimize=0` modules also take `GEN_NARROW_CONST=0`, as in 2nd Impact. New Generation's sound driver
@@ -239,6 +239,16 @@ linked pools. New Generation opts in; 2nd Impact and 3rd Strike keep 0. Disabled
 objects match the prior compiler, and the setting changes none of the 380
 previously landed New Generation modules. `tests/return_exit*.py` cover the
 native guard, structural exclusions and SH2 execution.
+
+Bit 2 widens the boundary: a terminal numeric literal is a candidate whenever its
+block has no outgoing target and falls through into a next block, whatever that
+block holds; the adjacent exit of bit 1 is one such block. 3rd Strike's
+`EM_Cand:Check_EM_Buff` shows it: `step = random_16_com() & 1; if (step == 0)
+step = -1;` before a `while (1)` loop whose bounds use 15 leaves `mov #15,r13`
+alone in the preheader the branch over `step = -1` targets, and the arcade has
+it in that branch's slot (`bf/s`). 3rd Strike's `build.bat` sets 2; 2nd Impact
+and New Generation (with 2 in place of its 1) stay byte-identical, so New
+Generation's `EFFD7:effD7_select_end` is covered by the same setting.
 
 ## Diagnostics
 
