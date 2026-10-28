@@ -31,7 +31,6 @@ void pep_xj_label_mark(short l);
 /* XJUMP_OFF / XJUMP_MIN / XJUMP_LOG */
 extern char xjump_tail[];
 int xjump_reject(char kind, int mode, int count);
-int pep_dead_block_refs(void);
 /* in merge_common_block_tails: a rejected match's mode becomes 0 (no merge) */
 #define XJUMP_FILTER(mode, kind)   ((mode) != 0 && xjump_reject((char)(kind), (mode), g_common_tail_count) ? ((mode) = 0) : 0)
 void xjump_tail_add(unsigned char *rec);

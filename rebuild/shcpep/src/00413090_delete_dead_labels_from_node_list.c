@@ -59,10 +59,6 @@ int __cdecl delete_dead_labels_from_node_list(void)
       _printf(s_dellab_end__labno__d_004276f8,(int)block->labno);
     }
   }
-#if SHC_REBUILD_UPDATED
-  if (pep_dead_block_refs() != 0)
-    delete_dead_labels_from_node_list();
-#endif
   return;
 }
 
