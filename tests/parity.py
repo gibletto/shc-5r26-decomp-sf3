@@ -10,7 +10,8 @@ for tests/cases, to assembler source:
 
   off   Release 26 (extracted/bin) against the rebuilt stages with every rule set to 0: must be identical
   on    the rebuilt stages with the rules unset (the defaults), against tests/expected.tsv (tests/cases) or
-        tests/sf3-expected.tsv (--sf3; its first line holds a digest of the game sources it was made from)
+        tests/sf3-expected.tsv (--sf3; its first line holds a digest of the game sources it was made from). With
+        --sf3 the settings build.bat sets (set NAME=VALUE) are in the environment, as the game's build has them
 
 --each-rule lists, for each rule, the inputs whose output it changes on its own. --write-expected rewrites the
 expected file of the inputs run from the 'on' outputs. An object's compile date (and the checksum of each
@@ -86,6 +87,16 @@ def sf3_inputs(tree):
         m = re.match(r"\s*shc\s+(\S+\.c)\s+(.*?)\s+-object=\S+", line)
         if m:
             out.append((Path(m.group(1).replace("\\", "/")).stem, Path(tree), m.group(1), m.group(2), False))
+    return out
+
+
+def sf3_settings(tree):
+    """the settings of the stages that the tree's build.bat sets (set NAME=VALUE)"""
+    out = {}
+    for line in (Path(tree) / "build.bat").read_text().splitlines():
+        m = re.match(r"\s*set\s+(\w+)=(\S*)\s*$", line)
+        if m and SETTING.fullmatch(m.group(1)):
+            out[m.group(1)] = m.group(2)
     return out
 
 
@@ -252,12 +263,15 @@ def main():
         print(f"parity setup failed: {error}; work retained at {work}", file=sys.stderr)
         return 1
     off = {r: "0" for r in RULES}
+    game = sf3_settings(a.sf3) if a.sf3 else {}
+    if game:
+        print("build.bat settings: " + " ".join(f"{k}={v}" for k, v in game.items()))
 
     def one(i, slot):
         stock = run.outputs(run.stock, {}, i, slot)
-        res = {"off": run.outputs(run.ours, off, i, slot), "on": run.outputs(run.ours, {}, i, slot)}
+        res = {"off": run.outputs(run.ours, off, i, slot), "on": run.outputs(run.ours, game, i, slot)}
         if run.other:
-            res["against"] = run.outputs(run.other, {}, i, slot)
+            res["against"] = run.outputs(run.other, game, i, slot)
         if a.each_rule:
             for r in RULES:                     # this rule at its default, the others 0
                 res[r] = run.outputs(run.ours, {k: v for k, v in off.items() if k != r}, i, slot)

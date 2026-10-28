@@ -179,8 +179,8 @@ arcade compiler implemented the same buffering. Setting `GEN_OR_INDEX_EARLY=0` r
 different revision of the arcade compiler. Its build (`tools/build2i.py`, `REVISION`) sets fourteen settings, and
 compiles its `-optimize=0` modules with `GEN_NARROW_CONST=0`; with those, every one of its 7,902 C routines compiles
 to the arcade's exact bytes and the program is byte-identical. The settings that only 2nd Impact uses are off unless
-set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default. Several rest on one
-routine so far, as noted.
+set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default, and 3rd Strike's
+`build.bat` sets `MDL_EQ_CONST=3` as 2nd Impact does. Several rest on one routine so far, as noted.
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
@@ -189,7 +189,7 @@ routine so far, as noted.
 | `MDL_GCSE=26` | shcmdl | 10 | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a local whose members are all in loops (sel_pl Setup_EFF75_Order) |
 | `MDL_IV_AUTOINC=1` | shcmdl | off | no auto-increment access for a widened load through a stepped temporary (RANKING Setup_Wins) |
 | `MDL_MOD_CONST=3` | shcmdl | off | the divisor of a signed `% 4` counts as a register use (effg8 effect_G8_init) |
-| `MDL_EQ_CONST=3` | shcmdl | off | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch) |
+| `MDL_EQ_CONST=3` | shcmdl | 3 (build.bat) | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch; in 3rd Strike cmb_cont combo_window_trans) |
 | `MDL_IV_START0=6` | shcmdl | off | a stepped temporary that starts at `0 + p` starts at `p`, not for parameters (2) or variables assigned more than once (4) (EffE0 effect_E0_init; sc_trans tilemap_clear_rect keeps `0 + line`) |
 | `MDL_IV_ADDR=1` | shcmdl | off | an integer sum whose invariant operand is a cast of an array's address does not extend a derived induction expression, and the address goes first after reduction (sc_trans player_name_trans) |
 | `MDL_IV_WEB_ORDER=1` | shcmdl | off | in a loop holding a call, when the reduction made two or more `MDL_IV_TEMP` temporaries (one per arm of an if), a plain use's temporary enters the register candidate list right after the first of them met: the unstable profit sort then gives 2i's frame slots (textsound_2 sound_seq_start; one routine) |

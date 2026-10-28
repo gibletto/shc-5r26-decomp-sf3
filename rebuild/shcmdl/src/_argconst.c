@@ -376,11 +376,13 @@ static int relzero_fit(il_node *parent, int pos, unsigned int value)
    2026-10-20 (si2core) the 2nd Impact build stays byte-identical (C 7039, no matched routine changes) and
    effect_G8_init matches; 1 or 2 alone does not.
 
-   MDL_EQ_CONST=<bits>, the same groups (unset or 0: Release 26 and the 3rd Strike build): a set bit answers 0 for
-   the constant of an == or != compare. 3 is the 2nd Impact setting: `(dbg_p2sw_0 & 0x70) == 0x70` in CMD_MAIN's
-   debug_scene_outer_dispatch keeps 112 in r4 for both the and and the compare (mov #112,r4; and r4,r3;
+   MDL_EQ_CONST=<bits>, the same groups (unset or 0: Release 26): a set bit answers 0 for the constant of an == or
+   != compare. 3 is the 2nd Impact and the 3rd Strike setting: `(dbg_p2sw_0 & 0x70) == 0x70` in 2nd Impact's
+   CMD_MAIN debug_scene_outer_dispatch keeps 112 in r4 for both the and and the compare (mov #112,r4; and r4,r3;
    cmp/eq r4,r3); measured 2026-10-20 the 2nd Impact build stays byte-identical (C 7270, no matched routine
-   changes). */
+   changes). 3rd Strike's cmb_cont combo_window_trans `(end_flag[PL] & 3) == 3` does the same with 3 (mov #3,r4;
+   and r4,r3; cmp/eq r4,r3, where unset gives and #3,r0; cmp/eq #3,r0); measured 2026-10-28 the full 3rd Strike
+   build stays byte-identical with it (964 modules, the program's SHA-1). */
 
 /* occ: the occurrence record ({next, block, node}) of the node being weighed or rewritten, 0 for group 4 */
 int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, const_use *occ)
