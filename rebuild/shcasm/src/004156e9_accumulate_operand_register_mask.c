@@ -9,7 +9,7 @@ static int asm_specreg(void) {
     return v;
 }
 static unsigned int specreg_index(unsigned int reg) {
-    return (asm_specreg() && reg >= 0x61 && reg <= 0x7f) ? reg - 0x20 : reg;
+    return (asm_specreg() && reg >= 0x41 && reg <= 0x7f) ? 0x41 + (reg - 0x41) % 32 : reg;
 }
 #endif
 /* the types Ghidra's decompiler used for these globals in this function */
@@ -42,7 +42,11 @@ int __cdecl accumulate_operand_register_mask(uint *mask,ea *operand)
         *mask = *mask | g_register_bit_masks[(char)operand->index];
       }
       else {
+#if SHC_REBUILD_UPDATED
+        mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[specreg_index((char)operand->index)];
+#else
         mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[(char)operand->index];
+#endif
       }
     }
   }

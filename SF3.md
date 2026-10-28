@@ -111,7 +111,7 @@ Release 26's peephole stage folds the `bt`/`bra` pair into one `bf`. This is `pi
 | `MDL_IV_BASE=1` | shcmdl | when it looks for induction variables, takes the address of a member reached through a pointer, `p->a`, as unchanging in the loop, so `p->a[i]` becomes a pointer that steps by the element size | takes it as it does when it moves expressions out of loops, as possibly changing: only `i * size` is stepped, and `p` and the member offset are added to it on each pass; the element of a static array, `a[i]`, still becomes a stepping pointer |
 | `MDL_IV_TEMP=101` | shcmdl | when an expression derived from the loop variable is used more than once and so already sits in a temporary (`t = i * 2`, `t = &a[i]`), always makes that temporary the one that steps | does so only for an address that another argument of the same call takes again (`f(a[i].x, a[i].y)`) or that is used again in the same test, and for an address that a later statement uses while the variable counts down by one (`b[i].x = b[i - 1].x; b[i].y = b[i - 1].y;`); for a scaled index, whichever way the variable counts (`p->a[i] = p->b[i]`, `t[0][i] = t[0][i - 1]; t[1][i] = t[1][i - 1];`), for an address used again by a later statement while the variable counts up (`a[i].x = 0; a[i].y = 0;`) and for an address used again inside the assignment that first takes it (`r[j + 1] = r[j]` for a record, `x[i].m = k ^ x[i].n`) steps a new temporary and copies it into the first on each pass (`mov r4,r7`): the first use reads the new one, later uses the copy |
 | `MDL_LOOP_INV=27` | shcmdl | with `-speed`, copies the test of every loop whose trip count it does not know in front of the loop (`for`/`while` become `if (c) do ... while (c)`) | does so only where it would without `-speed`: when the test compares two local variables or constants and the loop holds no other loop; every other loop keeps one test, at the bottom, entered by a jump, except a floating-point comparison, which is inverted as Release 26 does |
-| `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does |
+| `ASM_SPECREG=1` | shcasm | can schedule `sts macl` above the multiply it reads (a bug) | never does: the dependency lookup of Release 31 (and 32 and 5.1), which with every other stage of Release 26 compiles every routine of the three games exactly as Release 26 with this setting alone |
 | `ASM_MULWAIT=5` | shcasm | holds `sts macl` back for two instructions after a multiply, and when nothing can issue without a stall issues the first ready instruction | holds it back for one; while the multiplier is busy the rule that keeps memory accesses at 0 mod 4 and the rest at 2 mod 4 is not applied (bit 4), so the first ready instruction is issued in either half: `mul.l r7,r0`, `mov r14,r0`, `sts macl,r4`, `mov.l @(disp,pc),r3` with the multiply at 2 mod 4, where Release 26's alignment takes the literal load first |
 
 The value shown is the default. `GEN_CHAIN_SCRATCH_R0=0` restores Release 26's r1 reservation for a compare
@@ -119,6 +119,17 @@ chain's jumps; with scratch-r0 enabled, the actual r0 use is always charged.
 Large case constants still require r1 for the real comparison. `ASM_SPECREG` fixes a fault in Release 26 itself:
 since SH-4 support moved the special registers' numbers, its scheduler sees no dependency through MACL, so for
 example `x = (x * 60) / 100` can read MACL before the `mul.l` that sets it. `tests/cases/macl.c` shows it.
+Release 28 has the same fault; Release 31 fixed it, and the setting is that fix: Release 31's
+`accumulate_operand_register_mask` takes a register from 0x41 on as bit `(reg - 0x41) % 32` of the mask's second
+word, for an operand's register and its index register alike (Release 10, older, already gives the special
+registers at 0x61 the same bits). Release 31's driver and `shcasm` with Release 26's `shcmdl`, `shcgen` and
+`shcpep` compile all 10,048 routines of 3rd Strike, 7,585 of 2nd Impact and 5,458 of New Generation exactly
+as the rebuilt stages do with every setting 0 but `ASM_SPECREG=1`. Its other stages are no model for the
+games: its `shcmdl` and `shcgen` give Release 26's output, and its `shcpep` (548 routines of 3rd Strike
+differ) is farther from the arcade in 389 of them and closer in 88, 51 of these only in a literal's
+displacement or a pool's alignment that its own changes shift (it drops a tail `bra` to the next function,
+and makes `add #-4,r15; mov.l r4,@r15` in a delay slot a push: so `backup_RO_PT` and `swallow_sprize_check`
+match, while the arcade keeps that `bra` and that add and store).
 
 Of the game's 10,066 C routines (sfIII3-cps3-decomp), 3,782 compile to the arcade's instructions with
 Release 26 and all 10,066 with the rules; byte for byte, literal pools included, 1,883 and 10,066. With the

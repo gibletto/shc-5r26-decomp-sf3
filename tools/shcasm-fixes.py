@@ -39,13 +39,17 @@ fix("00435320", [("    stock_initterm((undefined4 *)&stock_xp_a,(undefined4 *)&s
                   "    _flushall();\n")])
 
 # --- the rule (SHC_REBUILD_UPDATED only; otherwise Release 26)
-# ASM_SPECREG (unset or 1 = the fix, 0 = Release 26): the list scheduler loses every dependency through a special
+# ASM_SPECREG (unset or 1 = Release 31, 0 = Release 26): the list scheduler loses every dependency through a special
 # register. Release 26 inserted the SH-4 XF/XD registers at 0x40..0x5f, moving SR, GBR, VBR, MACH, MACL, PR, ...
 # TBIT from 0x41.. to 0x61.., but accumulate_operand_register_mask still looks an operand register's high-word mask
 # up as 0x43ccfc + reg*4, a table built for the specials at 0x41..0x60; for 0x61+ it reads unrelated globals, so
 # build_pipeline_dependency_graph finds no common bit and STS MACL can be scheduled above the MUL feeding it.
-# The fix maps 0x61..0x7f down by 0x20 before the lookup (the operand's own register; the index register of an
-# @(r0,Rn) operand is looked up as before).
+# The fix is Release 31's own lookup (accumulate_operand_register_mask at 0x41c690 of Release 31's shcasm; Release
+# 32's gives the same output): a register from 0x41 on is bit (reg - 0x41) % 32 of the high word, that is
+# g_register_bit_masks[(reg - 0x41) % 32] (0x43ccfc + 0x41 * 4 = 0x43ce00), for the operand's own register and for
+# the index register of an indexed operand alike: 0x41..0x60 as before, 0x61..0x7f down by 0x20. Registers
+# 0x20..0x40 (SH-4 floating point, for which Release 31 reads in front of the table) never occur in SH-2 code and
+# are looked up as before.
 SPECREG_HEAD = r'''
 #if SHC_REBUILD_UPDATED
 #include <stdlib.h>
@@ -55,7 +59,7 @@ static int asm_specreg(void) {
     return v;
 }
 static unsigned int specreg_index(unsigned int reg) {
-    return (asm_specreg() && reg >= 0x61 && reg <= 0x7f) ? reg - 0x20 : reg;
+    return (asm_specreg() && reg >= 0x41 && reg <= 0x7f) ? 0x41 + (reg - 0x41) % 32 : reg;
 }
 #endif
 '''
@@ -65,6 +69,12 @@ fix("004156e9", [('#include "imports.h"\n', '#include "imports.h"\n' + SPECREG_H
                   "      mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[specreg_index(operand->base)];\n"
                   "#else\n"
                   "      mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[operand->base];\n"
+                  "#endif\n"),
+                 ("        mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[(char)operand->index];\n",
+                  "#if SHC_REBUILD_UPDATED\n"
+                  "        mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[specreg_index((char)operand->index)];\n"
+                  "#else\n"
+                  "        mask[1] = mask[1] | (uint)(&PTR_s__sta_sftrl12_0043ccfc)[(char)operand->index];\n"
                   "#endif\n")])
 
 # SHC_ALIGN_FILE (a diagnostic, built only with SHC_REBUILD_DIAG=1; unset = no change): move named functions' entry labels as if earlier code were
