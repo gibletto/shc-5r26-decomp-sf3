@@ -29,18 +29,12 @@ int pep_skip(int k) { return 0; }
 int pep_post_skip(int k) { return 0; }
 #endif
 
-/* SWITCH_ARCADE_BRANCH: keep "bt L; bra D; L:" instead of turning it into "bf D". 1: always; 2 (unset): when L is
-   a switch case or default label (CLABEL 0x19, DLABEL 0x1a) */
+/* SWITCH_ARCADE_BRANCH: keep "bt L; bra D; L:" instead of turning it into "bf D". 1 (unset): always; 0: Release 26.
+   Value 2 (kept only when L is a switch case or default label) is retired: every C module of 3rd Strike, 2nd Impact
+   and New Generation compiles to the same object with 1, so the label's kind decides nothing in the games. */
 int keep_branch_over_jump(int *target)
 {
-  int k = env_atoi("SWITCH_ARCADE_BRANCH", 2);
-  unsigned char t;
-  if (k == 1) return 1;
-  if (k == 2 && target && *target) {
-    t = *(unsigned char *)(*target + 0x10);
-    return t == 0x19 || t == 0x1a;
-  }
-  return 0;
+  return env_atoi("SWITCH_ARCADE_BRANCH", 1) != 0;
 }
 
 /* SWITCH_ARCADE_JUMP: a "bra L" to the next block, which Release 26's flow pass deletes (simplify_flow_block).
