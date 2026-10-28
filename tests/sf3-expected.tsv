@@ -1,4 +1,4 @@
-# sources e7740619ba845a66fb1c1061822c502c3cdf97c7
+# sources 0b4b0f3ca82e856a19f192f1da38e143590f099e
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:257aea307b9bf874
@@ -515,7 +515,7 @@ bonus_char	obj:0:70231e3f610e9ea7
 boot_task	obj:0:4e019b8185e00ec8
 buttobi	obj:0:a01d44deab2a24a5
 cd_volume	obj:0:0bcd31546ca9c967
-chr_data	obj:0:63831ba2351e1c75
+chr_data	obj:0:d9667303b8016653
 chun_attbox	obj:0:501a81c29cdc802d
 chun_attr	obj:0:100645ecdb43ccf8
 chun_char	obj:0:e4b8389028f97020
@@ -584,7 +584,7 @@ eff94_tbl	obj:0:ed971621b080ebb5
 eff94_tbl_b	obj:0:b1d221edbef3669f
 eff97	obj:0:4d80f34dd9e00ae4
 effJ6	obj:0:6758ffcfe74d1362
-effJ6_tbl	obj:0:967bf24b70fd3103
+effJ6_tbl	obj:0:46bb67c7ea2e6c26
 effL2	obj:0:3682bccb3a82f0a6
 effL2_tbl	obj:0:47b8caab987afbfc
 effL3	obj:0:f29fc0678ea547a5
@@ -700,7 +700,7 @@ end_sub_7c	obj:0:f0a687f9ed8259a5
 end_sub_8	obj:0:a9cede34ce4cb804
 end_sub_tbl	obj:0:58484d6c7af1aff9
 end_sub_tbl_b	obj:0:c4a1f157d9968618
-end_sub_tbl_c	obj:0:c93350def35561e7
+end_sub_tbl_c	obj:0:9c775611d5304963
 entry_2	obj:0:e3757022d24f67d0
 etc	obj:0:438edaae5196b312
 exchange	obj:0:03d00c89bc4f9f13
@@ -839,6 +839,7 @@ remy_char	obj:0:4cc438647eda38c2
 remy_hitbox	obj:0:253b1cb190f28621
 remy_move	obj:0:884b9f31ad7ce7ea
 remy_yuca	obj:0:0dc81a9c542c5d44
+reset	obj:0:70b5dbc909dc43dc
 ryu_attbox	obj:0:5febb73516162aa5
 ryu_attr	obj:0:1f4fafd2c9a4a4b6
 ryu_char	obj:0:0610f09251659b9d
