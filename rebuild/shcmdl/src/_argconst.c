@@ -222,12 +222,14 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value, cons
      8  the constant of an add- or subtract-assignment is not an immediate
      16 the constant of a bit-xor is not an immediate (`x->rl_flag ^ 1` with 1 kept in r11 is xor r11,r0 in
         eff09_11000; whole build: that routine alone changes)
-     64 (2nd Impact) with 4: a nonzero constant added to an expression of locals, parameters and constants only
-        (+, -, * and casts, no memory read): `char_index = plate_id + ix + 16` with 16 kept in a register is
-        add r5,r0 in 2i's effect_79_init (the front end puts the constant last, so the left operand is a sum).
      128 with 4: a nonzero constant added to an arithmetic expression of identifiers and constants
         (+, -, * and casts) is not an immediate, including expressions whose identifiers are globals.
         A direct global load, indirect read or call still follows the existing eligibility rules.
+        `char_index = plate_id + ix + 16` with 16 kept in a register is add r5,r0 in 2nd Impact's effect_79_init
+        (the front end puts the constant last, so the left operand is a sum); RANKING Setup_grade in New
+        Generation (2nd Impact and New Generation: 191). The full 3rd Strike build is byte-identical with it too.
+        (Bit 64, the same for expressions of locals, parameters and constants only, is retired: bit 128 covers it,
+        and 2nd Impact builds byte-identical with 191 in place of 127, 2026-10-29.)
      32 a zero compared unsigned (<, <=, >, >= whose zero operand has an unsigned type) against a converted value
         (the other operand a cast) is not an immediate, for collect_register_candidate too: the SH has no unsigned
         compare with an immediate, and Release 26 reads the relational node's own type, which is always a signed
@@ -242,30 +244,6 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value, cons
    weight, g2 rewriters), operator, value and source line. The process id is appended to the name. */
 #define IMM_REG_DEFAULT 63
 
-/* MDL_IMM_REG bit 64: an expression of locals, parameters and constants only (no memory read): +, -, * and casts */
-static int locals_only(il_node *n)
-{
-    il_node *c;
-    if (n == 0)
-        return 0;
-    switch (n->op) {
-    case IL_CONST:
-        return 1;
-    case IL_ID:
-        return !(n->symx > 0 && g_symtab[n->symx].sclass >= 1 && g_symtab[n->symx].sclass <= 4);
-    case IL_CAST:
-        return locals_only(n->child);
-    case IL_ADD:
-    case IL_SUB:
-    case IL_MUL:
-        for (c = n->child; c != 0; c = c->next)
-            if (!locals_only(c))
-                return 0;
-        return 1;
-    default:
-        return 0;
-    }
-}
 /* Arithmetic expressions can reuse an existing constant even when scalar inputs have global storage.
    Direct loads, indirect accesses and calls do not qualify through this path. Off unless bit 128 is set. */
 static int arithmetic_only(il_node *n)
@@ -326,7 +304,7 @@ static int immreg_fit(int group, il_node *parent, int pos, unsigned int value)
         if (!v)
             return r;
         if (v->op != IL_ID) {
-            if ((!(bits & 64) || !locals_only(v)) && (!(bits & 128) || !arithmetic_only(v)))
+            if (!(bits & 128) || !arithmetic_only(v))
                 return r;
         } else if (v->symx > 0 && g_symtab[v->symx].sclass >= 1 && g_symtab[v->symx].sclass <= 4)
             return r;
