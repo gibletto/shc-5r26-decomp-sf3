@@ -184,7 +184,7 @@ set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd S
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
-| `MDL_MUL_CONST=15` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` with an 8-bit k outside loops |
+| `MDL_MUL_CONST=31` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` with an 8-bit k outside loops; bit 16: the constant of a `short`/`char` multiply in an expression with an 8-bit k outside loops counts toward keeping it in a register (effect_79_init `pl_id * 3` with 3 also stored to my_family: `muls r6,r3`; one routine) |
 | `MDL_IMM_REG=127` | shcmdl | 63 | bit 64: a nonzero constant added to an expression of locals, parameters and constants only is no immediate (effect_79_init) |
 | `MDL_GCSE=26` | shcmdl | 10 | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a local whose members are all in loops (sel_pl Setup_EFF75_Order) |
 | `MDL_IV_AUTOINC=1` | shcmdl | off | no auto-increment access for a widened load through a stepped temporary (RANKING Setup_Wins) |

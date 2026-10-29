@@ -81,6 +81,12 @@ static int call_rule(il_node *parent, int pos, unsigned int value)
         immediate (`w_flag *= 2` in cmd_main_2's loops, the row scale 40 in test_menu_select are shifts in 2i).
         Measured 2026-10-19 (2nd Impact, MDL_MUL_CONST=15): EFF16 effect_16_init and EFFI0's effect_H9_init
         multiply as 2i does; no other function of the 5,916 already matched changes.
+    16  (2nd Impact's compiler revision) the weight counter also counts the constant of a char or short multiply
+        in an expression (MUL, B) with k in -128..127 outside any loop as not an immediate; it opens no class.
+        With the constant in a register for a store, it then stays there for the multiply: effect_79_init's
+        `my_family = 3` and `plate_id + pl_id * 3 + 16` keep 3 in r6 and multiply by it (`muls r6,r3`).
+        Measured 2026-10-29: in 2nd Impact the answer changes at that one place; 3rd Strike and New Generation
+        with bit 16 (19) build byte-identical.
    Evidence over the Street Fighter III build (10,048 C routines, the arcade program as the reference):
      1  The rewriters meet a multiply's constant that Release 26 takes as an immediate at three places. Two are
         char multiplies by 16 (game_config_2p_round_item_jp and _en: one source line in twin routines); the
@@ -164,6 +170,9 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value, cons
     if ((bits & 1) && group == 2 && c == 'B')
         r = 0;
     if ((bits & 4) && group == 1 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
+        && occ && occ->block->lptbl == 0 && count_enclosing_loops(occ->node) == 0)
+        r = 0;
+    if ((bits & 16) && group == 1 && c == 'B' && parent->op == IL_MUL && (int)value >= -128 && (int)value <= 127
         && occ && occ->block->lptbl == 0 && count_enclosing_loops(occ->node) == 0)
         r = 0;
     if ((bits & 8) && group == 4 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
