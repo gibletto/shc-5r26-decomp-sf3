@@ -74,7 +74,7 @@ static int call_rule(il_node *parent, int pos, unsigned int value)
         register and multiplied from there (`mul.l r14,r1`). This is the shcmdl side of GEN_MUL_L: the arcade's
         shcgen leaves such a multiply a mul.l, and its shcmdl does not set the constant aside for a muls.w.
      4  (2nd Impact's compiler revision; off in the 3rd Strike build) the weight counter counts the constant of a
-        `c *= k` on a char or short (A_MUL, B) with k in -128..127 outside any loop as not an immediate, and
+        `c *= k` on a char or short (A_MUL, B) outside any loop as not an immediate, and
      8  (with 4) collect_register_candidate takes it as not an immediate, so it can open the constant's class:
         `ix = Game_setting.mode != 0; ix *= 2;` with 2 also stored to my_family keeps 2 in a register and
         multiplies by it (`muls.w r7,r14`). Inside a loop, or for an index multiply (MUL), the constant stays an
@@ -82,11 +82,14 @@ static int call_rule(il_node *parent, int pos, unsigned int value)
         Measured 2026-10-19 (2nd Impact, MDL_MUL_CONST=15): EFF16 effect_16_init and EFFI0's effect_H9_init
         multiply as 2i does; no other function of the 5,916 already matched changes.
     16  (2nd Impact's compiler revision) the weight counter also counts the constant of a char or short multiply
-        in an expression (MUL, B) with k in -128..127 outside any loop as not an immediate; it opens no class.
+        in an expression (MUL, B) as not an immediate, in a loop too; it opens no class.
         With the constant in a register for a store, it then stays there for the multiply: effect_79_init's
         `my_family = 3` and `plate_id + pl_id * 3 + 16` keep 3 in r6 and multiply by it (`muls r6,r3`).
         Measured 2026-10-29: in 2nd Impact the answer changes at that one place; 3rd Strike and New Generation
         with bit 16 (19) build byte-identical.
+   Bits 4, 8 and 16 take any constant k (they asked for k in -128..127 before), and bit 16 no longer asks that the
+   multiply be outside every loop: the full 3rd Strike, 2nd Impact and New Generation builds are byte-identical
+   without those conditions (2026-10-29).
    Evidence over the Street Fighter III build (10,048 C routines, the arcade program as the reference):
      1  The rewriters meet a multiply's constant that Release 26 takes as an immediate at three places. Two are
         char multiplies by 16 (game_config_2p_round_item_jp and _en: one source line in twin routines); the
@@ -169,13 +172,12 @@ static int mul_fit(int group, il_node *parent, int pos, unsigned int value, cons
     }
     if ((bits & 1) && group == 2 && c == 'B')
         r = 0;
-    if ((bits & 4) && group == 1 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
+    if ((bits & 4) && group == 1 && c == 'B' && parent->op == IL_A_MUL
         && occ && occ->block->lptbl == 0 && count_enclosing_loops(occ->node) == 0)
         r = 0;
-    if ((bits & 16) && group == 1 && c == 'B' && parent->op == IL_MUL && (int)value >= -128 && (int)value <= 127
-        && occ && occ->block->lptbl == 0 && count_enclosing_loops(occ->node) == 0)
+    if ((bits & 16) && group == 1 && c == 'B' && parent->op == IL_MUL)
         r = 0;
-    if ((bits & 8) && group == 4 && c == 'B' && parent->op == IL_A_MUL && (int)value >= -128 && (int)value <= 127
+    if ((bits & 8) && group == 4 && c == 'B' && parent->op == IL_A_MUL
         && nth_operand(pos, parent) && count_enclosing_loops(nth_operand(pos, parent)) == 0)
         r = 0;
     if (log) {
