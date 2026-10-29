@@ -180,13 +180,13 @@ different revision of the arcade compiler. Its build (`tools/build2i.py`, `REVIS
 compiles its `-optimize=0` modules with `GEN_NARROW_CONST=0`; with those, every one of its 7,902 C routines compiles
 to the arcade's exact bytes and the program is byte-identical. The settings that only 2nd Impact uses are off unless
 set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default, and 3rd Strike's
-`build.bat` sets `MDL_EQ_CONST=3` and `MDL_IV_WEB_ORDER=1` as 2nd Impact does, and `PEP_RETURN_EXIT=2` (see New Generation return epilogues). Several rest on one routine so far, as noted.
+`build.bat` sets `MDL_EQ_CONST=3`, `MDL_IV_WEB_ORDER=1` and `MDL_GCSE=26` as 2nd Impact does, and `PEP_RETURN_EXIT=2` (see New Generation return epilogues). Several rest on one routine so far, as noted.
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
 | `MDL_MUL_CONST=31` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` with an 8-bit k outside loops; bit 16: the constant of a `short`/`char` multiply in an expression with an 8-bit k outside loops counts toward keeping it in a register (effect_79_init `pl_id * 3` with 3 also stored to my_family: `muls r6,r3`; one routine) |
 | `MDL_IMM_REG=127` | shcmdl | 63 | bit 64: a nonzero constant added to an expression of locals, parameters and constants only is no immediate (effect_79_init) |
-| `MDL_GCSE=26` | shcmdl | 10 | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a local whose members are all in loops (sel_pl Setup_EFF75_Order) |
+| `MDL_GCSE=26` | shcmdl | 26 (build.bat) | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a variable (a local or a parameter) whose members are all in loops (sel_pl Setup_EFF75_Order; in all three games PLS03 shot_data_convert, a u16 parameter extended in each unrolled copy) |
 | `MDL_IV_AUTOINC=1` | shcmdl | off | no auto-increment access for a widened load through a stepped temporary (RANKING Setup_Wins) |
 | `MDL_MOD_CONST=3` | shcmdl | off | the divisor of a signed `% 4` counts as a register use (effg8 effect_G8_init) |
 | `MDL_EQ_CONST=3` | shcmdl | 3 (build.bat) | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch; in 3rd Strike cmb_cont combo_window_trans) |
