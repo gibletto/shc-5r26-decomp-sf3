@@ -180,7 +180,7 @@ different revision of the arcade compiler. Its build (`tools/build2i.py`, `REVIS
 compiles its `-optimize=0` modules with `GEN_NARROW_CONST=0`; with those, every one of its 7,902 C routines compiles
 to the arcade's exact bytes and the program is byte-identical. The settings that only 2nd Impact uses are off unless
 set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd Strike default, and 3rd Strike's
-`build.bat` sets `MDL_EQ_CONST=3` as 2nd Impact does. Several rest on one routine so far, as noted.
+`build.bat` sets `MDL_EQ_CONST=3` and `MDL_IV_WEB_ORDER=1` as 2nd Impact does. Several rest on one routine so far, as noted.
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
@@ -192,7 +192,7 @@ set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd S
 | `MDL_EQ_CONST=3` | shcmdl | 3 (build.bat) | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch; in 3rd Strike cmb_cont combo_window_trans) |
 | `MDL_IV_START0=6` | shcmdl | off | a stepped temporary that starts at `0 + p` starts at `p`, not for parameters (2) or variables assigned more than once (4) (EffE0 effect_E0_init; sc_trans tilemap_clear_rect keeps `0 + line`) |
 | `MDL_IV_ADDR=1` | shcmdl | off | an integer sum whose invariant operand is a cast of an array's address does not extend a derived induction expression, and the address goes first after reduction (sc_trans player_name_trans) |
-| `MDL_IV_WEB_ORDER=1` | shcmdl | off | in a loop holding a call, when the reduction made two or more `MDL_IV_TEMP` temporaries (one per arm of an if), a plain use's temporary enters the register candidate list right after the first of them met: the unstable profit sort then gives 2i's frame slots (textsound_2 sound_seq_start; one routine) |
+| `MDL_IV_WEB_ORDER=1` | shcmdl | 1 (build.bat) | in a loop holding a call, when the reduction made two or more `MDL_IV_TEMP` temporaries (one per arm of an if), a plain use's temporary enters the register candidate list right after the first of them met: the unstable profit sort then gives 2i's frame slots (textsound_2 sound_seq_start, in both games) |
 | `GEN_STORE_RHS_INDEX=1` | shcgen | off | a store through a sum of two registers goes to the add template when its right side reads through an indexed sum sharing a variable with it; a store nested in the right side is not a read (EM_Cand Initialize_EM_Candidate, aboutspr init_char_gfx_tables) |
 | `GEN_LAST_IDX=4` | shcgen | off | a template-slot pick of r4 for the extension of a K&R `short` parameter that only indexes a store leaves the last-chosen register as it was (sel_pl Sel_Arts_Sub; one routine) |
 | `XJUMP_2I=18` | shcpep | off | cross-jumping keeps tails 2nd Impact keeps: mov-only label tails of two or more records with a register move, and JMP tails of moves behind labels outside switches (entry_2 Entry_01_Sub, EFFB8 effect_B8_init); bits 4, 8 and 32 (one-call tails, a dead block's label reference, call-plus-slot tails) are retired, so 62 means 18 |
