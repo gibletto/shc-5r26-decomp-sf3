@@ -17,7 +17,9 @@
         would set. `(s16)-p->x & 0x3FF` is narrowed to and(cast(int, neg.s16(p->x)), 0x3FF); with the cast gone
         there is no exts.w and the and reads the negation's register (neg r0,r0 / mov r0,r5 / and r14,r5 in
         update_all_disp_pos_ending, where Release 26 has exts.w r0,r5). Only when the operand, looking through any
-        casts inside it, is not a variable or memory read (an ID, * or member), and the and is not a condition.
+        casts inside it, is not a variable or memory read (an ID, * or member); also when the and is a condition
+        (the rule left a condition's and alone before; the full 3rd Strike, 2nd Impact and New Generation builds
+        are byte-identical without that exception, 2026-10-29).
         ONE WITNESS: update_all_disp_pos_ending (two sites), the only place the rule reaches over the SF3 build.
         The operand condition is fitted: a memory or variable operand costs no extension (the load extends), and
         dropping its cast as well costs 867 exact routines (the cast's own evaluation order and the bit tests are
@@ -107,7 +109,7 @@ il_node *mdl_mask_drop_cast(il_node *node)
         return node;
     for (inner = cast->child; inner->op == IL_CAST; inner = inner->child)
         ;
-    if (inner->op == IL_ID || inner->op == IL_ASTER || inner->op == IL_QUALIFY || is_condition_operand(node))
+    if (inner->op == IL_ID || inner->op == IL_ASTER || inner->op == IL_QUALIFY)
         return node;
     if ((mask_bits() & 8) && (inner->op == IL_ASSIGN || ((&g_op_class)[(char)inner->op] & 0x20) != 0))
         return node;
