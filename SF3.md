@@ -184,11 +184,11 @@ set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd S
 
 | Setting (2nd Impact) | Stage | 3rd Strike | What 2nd Impact's revision does, and the routine that shows it |
 |---|---|---|---|
-| `MDL_MUL_CONST=31` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` with an 8-bit k outside loops; bit 16: the constant of a `short`/`char` multiply in an expression with an 8-bit k outside loops counts toward keeping it in a register (effect_79_init `pl_id * 3` with 3 also stored to my_family: `muls r6,r3`; one routine) |
-| `MDL_IMM_REG=127` | shcmdl | 63 | bit 64: a nonzero constant added to an expression of locals, parameters and constants only is no immediate (effect_79_init) |
+| `MDL_MUL_CONST=31` | shcmdl | 3 | bits 4 and 8: a `short`/`char` `c *= k` outside loops; bit 16: the constant of a `short`/`char` multiply in an expression counts toward keeping it in a register (effect_79_init `pl_id * 3` with 3 also stored to my_family: `muls r6,r3`; one routine) |
+| `MDL_IMM_REG=191` | shcmdl | 63 | bit 128: a nonzero constant added to an arithmetic expression of identifiers and constants is no immediate (effect_79_init; RANKING Setup_grade in New Generation). Bit 64, the same for locals, parameters and constants only, is retired: 128 covers it |
 | `MDL_GCSE=26` | shcmdl | 26 (build.bat) | bit 16: where a loop was unrolled, no common-expression temporary for a cast of a variable (a local or a parameter) whose members are all in loops (sel_pl Setup_EFF75_Order; in all three games PLS03 shot_data_convert, a u16 parameter extended in each unrolled copy) |
 | `MDL_IV_AUTOINC=1` | shcmdl | off | no auto-increment access for a widened load through a stepped temporary (RANKING Setup_Wins) |
-| `MDL_MOD_CONST=3` | shcmdl | off | the divisor of a signed `% 4` counts as a register use (effg8 effect_G8_init) |
+| `MDL_MOD_CONST=3` | shcmdl | off | the divisor of a modulo (`% 4`) counts as a register use (effg8 effect_G8_init) |
 | `MDL_EQ_CONST=3` | shcmdl | 3 (build.bat) | the constant of an `==`/`!=` compare is not an immediate for the weights and rewriters (CMD_MAIN debug_scene_outer_dispatch; in 3rd Strike cmb_cont combo_window_trans) |
 | `MDL_IV_START0=6` | shcmdl | off | a stepped temporary that starts at `0 + p` starts at `p`, not for parameters (2) or variables assigned more than once (4) (EffE0 effect_E0_init; sc_trans tilemap_clear_rect keeps `0 + line`) |
 | `MDL_IV_ADDR=1` | shcmdl | off | an integer sum whose invariant operand is a cast of an array's address does not extend a derived induction expression, and the address goes first after reduction (sc_trans player_name_trans) |
@@ -196,7 +196,7 @@ set (`0`: Release 26 and the 3rd Strike build); the shared ones change the 3rd S
 | `GEN_STORE_RHS_INDEX=1` | shcgen | off | a store through a sum of two registers goes to the add template when its right side reads through an indexed sum sharing a variable with it; a store nested in the right side is not a read (EM_Cand Initialize_EM_Candidate, aboutspr init_char_gfx_tables) |
 | `GEN_LAST_IDX=4` | shcgen | off | a template-slot pick of r4 for the extension of a K&R `short` parameter that only indexes a store leaves the last-chosen register as it was (sel_pl Sel_Arts_Sub; one routine) |
 | `XJUMP_2I=18` | shcpep | off | cross-jumping keeps tails 2nd Impact keeps: mov-only label tails of two or more records with a register move, and JMP tails of moves behind labels outside switches (entry_2 Entry_01_Sub, EFFB8 effect_B8_init); bits 4, 8 and 32 (one-call tails, a dead block's label reference, call-plus-slot tails) are retired, so 62 means 18 |
-| `PEP_SWITCH_END=1` | shcpep | off | the break label of a nested switch with two or more case bodies that ends an if arm, whose end label heads a block starting with the outer break's jump, stays a label for threading (end_2 end_200_3000 / end_201_3000) |
+| `PEP_SWITCH_END=1` | shcpep | off | the break label of a nested switch with two or more case bodies, whose following label heads a block starting with the outer break's jump, stays a label for threading (end_2 end_200_3000 / end_201_3000) |
 | `ASM_CALL_SLACK=6` | shcasm | off | a forward call to a label in the same section counts 6 bytes nearer for the `bsr`/`jsr` choice (HITCHECK setup_catch_atthit; one routine) |
 
 Each was measured on the whole 2nd Impact build (byte-identical with it) and, where it is off for 3rd Strike, the
@@ -214,9 +214,9 @@ Impact and 3rd Strike builds are unchanged.
 
 | Setting (New Generation) | Stage | 2nd Impact | What New Generation's revision does, and the routine that shows it |
 |---|---|---|---|
-| `MDL_IMM_REG=255` | shcmdl | 127 | bit 128: with bit 4, a `+`, `-` or `*` tree of identifiers, constants and casts may reuse a nonzero constant already kept in a register, global scalars included; a bare global, an indirect access or a call keeps the previous rule (RANKING Setup_grade; one routine) |
+| `MDL_IMM_REG=191` | shcmdl | 191 | bit 128 (the same value as 2nd Impact's now): with bit 4, a `+`, `-` or `*` tree of identifiers, constants and casts may reuse a nonzero constant already kept in a register, global scalars included; a bare global, an indirect access or a call keeps the previous rule (RANKING Setup_grade; one routine) |
 | `PEP_SWITCH_END=3` | shcpep | 1 | bit 2: consecutive nested switch ends also keep their break labels for threading (`tests/switch_end.py`) |
-| `PEP_RETURN_EXIT=1` | shcpep | 2 (build.bat) | see below (EFFD7 effD7_select_end; bit 2, 3rd Strike EM_Cand Check_EM_Buff) |
+| `PEP_RETURN_EXIT=1` | shcpep | 2 (build.bat) | see below (EFFD7 effD7_select_end; 3rd Strike EM_Cand Check_EM_Buff); 1 and 2 are the same rule |
 | `PEP_AUTOINC=0`, `ASM_READY_WAVES=1` | shcpep, shcasm | default, off | for one module only, `sound_voice_3` (the sequence decoder): no auto-increment folding, and the stable-frontier scheduler described at the top |
 
 The game's `-optimize=0` modules also take `GEN_NARROW_CONST=0`, as in 2nd Impact. New Generation's sound driver
@@ -225,30 +225,25 @@ routines are built from assembler in the game repository, and no setting here mo
 
 ## New Generation return epilogues
 
-`PEP_RETURN_EXIT` is off by default. At 1, a terminal numeric literal becomes a
-conditional-slot candidate when its block has no outgoing target and falls
-through directly to a block containing only metadata and one `EXIT`. The
-existing stack-add exclusion, diamond/reference checks, call barriers and masks
-for the branch and every instruction of both arms remain unchanged. No literal
-value, destination register, routine name or address selects the behavior.
+`PEP_RETURN_EXIT` is off by default. Any nonzero value makes a terminal numeric
+literal a conditional-slot candidate when its block has no outgoing target and
+falls through into a next block, whatever that block holds. The existing
+stack-add exclusion, diamond/reference checks, call barriers and masks for the
+branch and every instruction of both arms remain unchanged. No literal value,
+destination register, routine name or address selects the behavior.
 
-New Generation's `EFFD7:effD7_select_end` shows this boundary: removing its branch
-to the adjacent epilogue leaves the return literal terminal to the block-local
-scanner. With 1, the canonical complete 17-routine unit matches, including all
-linked pools. New Generation opts in; 2nd Impact and 3rd Strike keep 0. Disabled
-objects match the prior compiler, and the setting changes none of the 380
-previously landed New Generation modules. `tests/return_exit*.py` cover the
-native guard, structural exclusions and SH2 execution.
-
-Bit 2 widens the boundary: a terminal numeric literal is a candidate whenever its
-block has no outgoing target and falls through into a next block, whatever that
-block holds; the adjacent exit of bit 1 is one such block. 3rd Strike's
-`EM_Cand:Check_EM_Buff` shows it: `step = random_16_com() & 1; if (step == 0)
-step = -1;` before a `while (1)` loop whose bounds use 15 leaves `mov #15,r13`
-alone in the preheader the branch over `step = -1` targets, and the arcade has
-it in that branch's slot (`bf/s`). 3rd Strike's `build.bat` sets 2; 2nd Impact
-and New Generation (with 2 in place of its 1) stay byte-identical, so New
-Generation's `EFFD7:effD7_select_end` is covered by the same setting.
+New Generation's `EFFD7:effD7_select_end` shows it: removing its branch to the
+adjacent epilogue leaves the return literal terminal to the block-local scanner,
+and the canonical complete 17-routine unit matches, including all linked pools.
+3rd Strike's `EM_Cand:Check_EM_Buff` shows the wider case: `step =
+random_16_com() & 1; if (step == 0) step = -1;` before a `while (1)` loop whose
+bounds use 15 leaves `mov #15,r13` alone in the preheader the branch over `step =
+-1` targets, and the arcade has it in that branch's slot (`bf/s`). 3rd Strike's
+`build.bat` sets 2, New Generation 1; 2nd Impact builds byte-identical with or
+without it. Value 1 once asked for the next block to hold only metadata and one
+`EXIT`; the three full builds are byte-identical with the wider rule, so that
+walk is retired. Disabled objects match the prior compiler. `tests/return_exit*.py`
+cover the native guard, structural exclusions and SH2 execution.
 
 ## Diagnostics
 
