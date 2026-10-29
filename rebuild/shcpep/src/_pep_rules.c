@@ -456,8 +456,8 @@ int pep_case_word(void) { return env_int("PEP_CASE_WORD", 1); }
    the four exit literals it is 460. No other routine's pools move with the rule. */
 int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
 /* PEP_SWITCH_END=1 (si2fx2's probe, 2nd Impact end_2's two end_200_3000-like routines): the break label of a switch
-   nested in another switch, with two case bodies or more, that ends the arm of an if whose end label heads a block
-   starting with the outer break's JUMP, stays a label of its own for threading: the load-time walk's savelab is put
+   nested in another switch, with two case bodies or more, whose following label heads a block starting with the
+   outer break's JUMP, stays a label of its own for threading: the load-time walk's savelab is put
    back, the walk over predecessor label-only blocks in rewrite_branch_target_chains stops at it, and
    simplify_flow_block does not thread its predecessors past it. 2i keeps the inner breaks on the label and the
    literal pool goes behind the last but one case. Our Release 26 threads them to the outer break target.
@@ -466,7 +466,7 @@ int pep_ret_mac(void) { return env_int("PEP_RET_MAC", 1); }
    Bit 2 keeps the label between adjacent nested switch ends, even when the marker-only
    block carries another plain label. No executable record may intervene. Off by default. */
 int pep_switch_end(void) { return env_int("PEP_SWITCH_END", 0); }
-static unsigned char swend_noted[8192], swend_kept[8192], swend_ctarget[8192];
+static unsigned char swend_noted[8192], swend_kept[8192];
 static symbol *swend_pend_sym; static short swend_pend_old, swend_pend_next;
 /* Bit 2 preserves a label between consecutive switch-end markers. The load-time branch
    walk stops at these structured boundaries; the later flow pass must not thread through
@@ -477,7 +477,7 @@ static short swend_pair_label;
 static void pep_swend_clear(void)
 {
   memset(swend_noted, 0, sizeof swend_noted); memset(swend_kept, 0, sizeof swend_kept);
-  memset(swend_ctarget, 0, sizeof swend_ctarget); swend_pend_sym = 0; swend_pair_label = 0;
+  swend_pend_sym = 0; swend_pair_label = 0;
 }
 int pep_swend_kept(short l) { return l != 0 && SWEND_BIT(swend_kept, l); }
 
@@ -503,15 +503,12 @@ static int swend_last_bodies(void)
 /* each record loaded: conditional branch targets; the first code record of the block after a pending label */
 void pep_swend_record(void *rec, int op, short labno)
 {
-  psd *r = (psd *)rec;
   if (!pep_switch_end()) return;
   if ((pep_switch_end() & 2) && swend_pair_label && op != OP_LABEL && op != OP_CLABEL && op != OP_DLABEL &&
       op != OP_FLABEL && op != OP_LINE && op != OP_DUMMY) {
     if (op == OP_SWEND) SWEND_SET(swend_kept, swend_pair_label);
     swend_pair_label = 0;
   }
-  if ((op == OP_JUMPT || op == OP_JUMPF) && r->ea1 != 0 && r->ea1->labels != 0 && r->ea1->labels->labno1 != 0)
-    SWEND_SET(swend_ctarget, r->ea1->labels->labno1);
   if (swend_pend_sym != 0 && op != OP_LABEL && op != OP_CLABEL && op != OP_DLABEL && op != OP_FLABEL &&
       op != OP_LINE && op != OP_DUMMY) {
     if (op == OP_JUMP && labno == swend_pend_next) {
@@ -547,11 +544,13 @@ void pep_swend_label(void *prev_block, short l)
   if (sw && xj_switch_depth() > 0 && swend_last_bodies() >= 2) SWEND_SET(swend_noted, l);
 }
 
-/* the load-time walk gives a noted label the savelab l: pending when l ends an if (a conditional branch goes to it) */
+/* the load-time walk gives a noted label the savelab l: pending (the rule asked as well that l end an if, a
+   conditional branch going to it; the full 2nd Impact and New Generation builds are byte-identical without that
+   condition, 2026-10-29) */
 void pep_swend_walk(void *sym, short l)
 {
   symbol *s = (symbol *)sym;
-  if (!pep_switch_end() || s == 0 || s->number == 0 || !SWEND_BIT(swend_noted, s->number) || !SWEND_BIT(swend_ctarget, l))
+  if (!pep_switch_end() || s == 0 || s->number == 0 || !SWEND_BIT(swend_noted, s->number))
     return;
   swend_pend_sym = s; swend_pend_old = s->savelab; swend_pend_next = l;
 }
