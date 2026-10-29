@@ -10,14 +10,15 @@
 
        mov.l @(8,r15),r3 / mov.l #sc_chr_data,r2 / add r3,r2 / mov.l r2,@r13
 
-   With the rule, (1) an integer sum whose invariant operand is a cast of an array's address (or of an address
-   taken with &) does not extend the derived expression, and (2) after reduce_induction_variable puts the
+   With the rule, (1) an integer sum whose invariant operand is a cast of an array's address does not extend the derived expression, and (2) after reduce_induction_variable puts the
    temporary in place, a sum of the temporary (or its cast) and such a cast is rebuilt with the address first,
    which is the order the 2i code evaluates. Pointer sums (`My_char[i]`, a dereferenced &table + i) are not
    integer sums and keep Release 26's reduction.
 
    Measured on the 2nd Impact build (private full tree): byte-identical with the rule on (also with (2) alone);
-   sc_trans player_name_trans becomes exact.
+   sc_trans player_name_trans becomes exact. An address taken with & counted as such a cast too before; the full
+   3rd Strike, 2nd Impact and New Generation builds with the rule on are byte-identical without that case
+   (2026-10-29).
 
    MDL_IV_ADDR=<n> (unset or 0: Release 26; 1: the rule). */
 #if SHC_REBUILD_UPDATED
@@ -36,11 +37,10 @@ int mdl_iv_addr(void)
     return k;
 }
 
-/* a cast of an array's address, or of an address taken with & */
+/* a cast of an array's address */
 static int cast_of_address(il_node *n)
 {
-    return n != 0 && n->op == IL_CAST && n->child != 0 &&
-           ((n->child->op == IL_ID && (n->child->type & 0xe0) == 0x80) || n->child->op == IL_AMPER);
+    return n != 0 && n->op == IL_CAST && n->child != 0 && n->child->op == IL_ID && (n->child->type & 0xe0) == 0x80;
 }
 
 /* scan_derived_induction_expr, a sum of an induction operand and the invariant inv: 1 stops the derived expression */
