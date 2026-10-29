@@ -74,7 +74,9 @@ int __cdecl generate_for_statement(gen_node *stmt)
     report_codegen_message(0xce6,stmt->filn,(uint)stmt->line,(int)stmt->listno,(char *)0x0);
   }
   body = (gen_node *)0x0;
+  LOOP_BODY_ENTER();
   generate_statement(pgVar3);
+  LOOP_BODY_LEAVE();
   if (stmt->child != (gen_node *)0x0) {
     body = stmt->child->next;
   }

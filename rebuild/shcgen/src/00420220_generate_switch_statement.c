@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_ilb_file
 #define g_ilb_file (*(FILE * *)(g_sd + 0x1f980))
@@ -75,6 +76,7 @@ LAB_0042034f:
   if (g_switch_default_label == 0) {
     g_switch_default_label = g_break_label;
   }
+  CHAIN_SWITCH(default_label != 0);
   if (use_compare_chain) {
     uVar2 = emit_switch_compare_chain(serial,filno,uVar2);
   }

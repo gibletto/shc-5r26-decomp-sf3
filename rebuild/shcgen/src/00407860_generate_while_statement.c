@@ -55,7 +55,9 @@ int __cdecl generate_while_statement(gen_node *node)
   if ((g_request->cpu == 4) && (g_request->unknown_155[2] == '\0')) {
     g_fpscr_pr = '\x02';
   }
+  LOOP_BODY_ENTER();
   generate_statement(pgVar2);
+  LOOP_BODY_LEAVE();
   pgVar2 = node->child;
   pgVar3 = pgVar2->child;
   while (pgVar3 != (gen_node *)0x0) {

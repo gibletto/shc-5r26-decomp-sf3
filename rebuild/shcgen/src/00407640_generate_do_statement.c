@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "remaprules.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_ilb_file
 #define g_ilb_file (*(FILE * *)(g_sd + 0x1f980))
@@ -40,7 +41,9 @@ int __cdecl generate_do_statement(gen_node *node)
   if (pgVar1 == (gen_node *)0x0) {
     report_codegen_message(0xce6,node->filn,(uint)node->line,(int)node->listno,(char *)0x0);
   }
+  LOOP_BODY_ENTER();
   generate_statement(pgVar1);
+  LOOP_BODY_LEAVE();
   pgVar1 = node->child;
   pgVar2 = pgVar1->child;
   while (pgVar2 != (gen_node *)0x0) {

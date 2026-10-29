@@ -8,16 +8,24 @@ extern void gen_remap_log_mark(const char *what, unsigned int mask, unsigned int
 extern unsigned int gen_chain_jump_regs(unsigned int mask);
 extern unsigned int gen_chain_scratch_reg(void);
 extern unsigned int gen_jump_temp_regs(int bit, unsigned int mask);
+extern void gen_chain_switch(int has_default);
+extern int gen_loop_depth;
 #define REMAP_LOG() gen_remap_log()
 #define REMAP_MARK(what, mask, serial) gen_remap_log_mark(what, mask, serial)
 #define CHAIN_JUMP_REGS(mask) gen_chain_jump_regs(mask)
 #define CHAIN_SCRATCH_REG() gen_chain_scratch_reg()
 #define JUMP_TEMP_REGS(bit, mask) gen_jump_temp_regs(bit, mask)
+#define CHAIN_SWITCH(has_default) gen_chain_switch(has_default)
+#define LOOP_BODY_ENTER() (gen_loop_depth++)
+#define LOOP_BODY_LEAVE() (gen_loop_depth--)
 #else
 #define REMAP_LOG()
 #define REMAP_MARK(what, mask, serial)
 #define CHAIN_JUMP_REGS(mask) (mask)
 #define CHAIN_SCRATCH_REG() 1
 #define JUMP_TEMP_REGS(bit, mask) (mask)
+#define CHAIN_SWITCH(has_default)
+#define LOOP_BODY_ENTER()
+#define LOOP_BODY_LEAVE()
 #endif
 #endif

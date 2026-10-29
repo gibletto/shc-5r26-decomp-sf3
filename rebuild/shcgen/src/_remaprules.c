@@ -71,18 +71,33 @@ void gen_remap_log_mark(const char *what, unsigned int mask, unsigned int serial
     }
 }
 
-/* GEN_CHAIN_SCRATCH_R0 (unset: 1; 0: previous scratch choice): the selector in r0 is dead
-   on a case/default edge. Reuse it for an expanded compare-chain jump, while
-   retaining it on a conditional fallthrough to the next comparison. Account
-   for r0 even for a default-only chain, before the case-content snapshot. */
-unsigned int gen_chain_scratch_reg(void)
+/* GEN_CHAIN_SCRATCH_R0=<bits> (unset: 3; 0: Release 26's r1). Bit 1: the selector in r0 is dead on a case/default
+   edge. Reuse it for an expanded compare-chain jump, while retaining it on a conditional fallthrough to the next
+   comparison. Account for r0 even for a default-only chain, before the case-content snapshot. Bit 2: not for a
+   switch inside a loop whose default edge is its own end (no default label): that chain keeps Release 26's r1, so
+   a value that lives through the loop is not moved to r1 (fade_cont_init's loop bound stays in r10). */
+int gen_loop_depth;            /* loop bodies being generated around the current statement */
+static int chain_keeps_r1;     /* the switch being generated keeps Release 26's r1 */
+
+static int chain_scratch_setting(void)
 {
     static int k = -1;
     if (k < 0) {
         const char *v = getenv("GEN_CHAIN_SCRATCH_R0");
-        k = (v && *v) ? (atoi(v) != 0) : 1;
+        k = (v && *v) ? atoi(v) : 3;
     }
-    return k ? 0 : 1;
+    return k;
+}
+
+void gen_chain_switch(int has_default)
+{
+    int k = chain_scratch_setting();
+    chain_keeps_r1 = (k & 2) && gen_loop_depth > 0 && !has_default;
+}
+
+unsigned int gen_chain_scratch_reg(void)
+{
+    return ((chain_scratch_setting() & 1) && !chain_keeps_r1) ? 0 : 1;
 }
 
 /* the registers a compare-chain jump adds to the chain's used mask: r0 with GEN_CHAIN_SCRATCH_R0, else Release 26's */
