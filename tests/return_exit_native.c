@@ -37,6 +37,8 @@ static void check(const char* name,int eligible) {
     printf("PASS %s %s\n",name,eligible?"accept":"reject"); ++count;
 }
 #define NEG(name,change) do {setup();change;check(name,0);} while(0)
+/* the next block may hold anything: the rule asks only that the literal's block fall through into one */
+#define ANY(name,change) do {setup();change;check(name,enabled);} while(0)
 int main(int argc,char** argv) {
     int i,j;
     const int values[3]={0,-7,42};
@@ -54,15 +56,15 @@ int main(int argc,char** argv) {
     NEG("candidate-outgoing-target",join_block.target_labno=7);
     NEG("candidate-no-fallthrough",join_block.flags=1);
     NEG("missing-successor",join_block.next_block=0);
-    NEG("intervening-block",join_block.next_block=&intervening;intervening.next_block=&exit_block);
-    NEG("successor-outgoing-target",exit_block.target_labno=7);
-    NEG("successor-not-exit",exit_block.psd[1].op=OP_MOV);
-    NEG("missing-exit",exit_block.psd[1].op=OP_DUMMY);
-    NEG("second-exit",exit_block.psd[2].op=OP_EXIT);
-    NEG("late-second-exit",exit_block.next=&continuation;continuation.psd[14].op=OP_EXIT);
-    NEG("late-real-record",exit_block.next=&continuation;continuation.psd[14].op=OP_MOV);
-    NEG("label-after-exit",exit_block.next=&continuation;continuation.psd[14].op=OP_LABEL);
-    NEG("second-label",exit_block.psd[1].op=OP_LABEL;exit_block.psd[2].op=OP_EXIT);
+    ANY("intervening-block",join_block.next_block=&intervening;intervening.next_block=&exit_block);
+    ANY("successor-outgoing-target",exit_block.target_labno=7);
+    ANY("successor-not-exit",exit_block.psd[1].op=OP_MOV);
+    ANY("missing-exit",exit_block.psd[1].op=OP_DUMMY);
+    ANY("second-exit",exit_block.psd[2].op=OP_EXIT);
+    ANY("late-second-exit",exit_block.next=&continuation;continuation.psd[14].op=OP_EXIT);
+    ANY("late-real-record",exit_block.next=&continuation;continuation.psd[14].op=OP_MOV);
+    ANY("label-after-exit",exit_block.next=&continuation;continuation.psd[14].op=OP_LABEL);
+    ANY("second-label",exit_block.psd[1].op=OP_LABEL;exit_block.psd[2].op=OP_EXIT);
     NEG("non-immediate-source",immediate.type=2);
     NEG("memory-destination",destination.type=8);
     NEG("special-register-destination",destination.base=16);

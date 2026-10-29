@@ -82,7 +82,7 @@ int pep_case_word(void);
 /* PEP_RET_MAC */
 int pep_ret_mac(void);
 
-/* PEP_RETURN_EXIT (default 0): a terminal literal may precede an adjacent bare exit. */
+/* PEP_RETURN_EXIT (default 0): a terminal literal may fill a conditional slot when its block falls through. */
 int pep_terminal_literal_exit(void *block, void *rec);
 
 /* SLOT_NO_STACK */
