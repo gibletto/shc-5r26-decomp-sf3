@@ -361,7 +361,9 @@ static int relzero_fit(il_node *parent, int pos, unsigned int value)
    to both _divls calls (`mov r14,r0`), and the third counted use gives 4 the first callee-saved register.
 
    MDL_MOD_CONST=<bits>, the ARGCONST_FIT groups (1 the weight counter, 2 the rewriters, 4 collect_register_candidate):
-   a set bit answers 0 ("not an immediate") for the divisor of a signed modulo. 3 is the 2nd Impact setting: measured
+   a set bit answers 0 ("not an immediate") for the divisor of a modulo, signed or not (the rule asked for a signed
+   modulo before; no unsigned modulo of the three games decides, and their full builds are byte-identical without
+   that condition, 2026-10-29). 3 is the 2nd Impact setting: measured
    2026-10-20 (si2core) the 2nd Impact build stays byte-identical (C 7039, no matched routine changes) and
    effect_G8_init matches; 1 or 2 alone does not.
 
@@ -382,8 +384,7 @@ int mdl_argconst_fit(int group, il_node *parent, int pos, unsigned int value, co
     if (parent->op == IL_ADD || parent->op == IL_SUB || parent->op == IL_B_AND || parent->op == IL_A_ADD
         || parent->op == IL_A_SUB || parent->op == IL_B_XOR)
         return immreg_fit(group, parent, pos, value);
-    if ((parent->op == IL_MOD || parent->op == IL_A_MOD) && (knob("MDL_MOD_CONST", 0) & group) && pos == 2
-        && (parent->type & 4) == 0)
+    if ((parent->op == IL_MOD || parent->op == IL_A_MOD) && (knob("MDL_MOD_CONST", 0) & group) && pos == 2)
         return 0;
     if (parent->op == IL_LT || parent->op == IL_LE || parent->op == IL_GT || parent->op == IL_GE)
         return relzero_fit(parent, pos, value);
