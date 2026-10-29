@@ -1,7 +1,8 @@
 """Execute arithmetic constant-reuse controls and check disabled output parity.
 
 All tools, inputs and outputs are copied into a fresh private work directory.
-The byte-parity inventory stays unchanged; this test covers explicit bit 128.
+The byte-parity inventory stays unchanged; this test covers explicit bit 128 (which covers the retired bit 64:
+63 against 191, and the previous bundle's 255 against 255 and 191).
 """
 import argparse
 import hashlib
@@ -16,8 +17,8 @@ import parity
 
 ROOT = Path(__file__).resolve().parent.parent
 CHANGED = ('difference', 'sum', 'product', 'cast_difference', 'difference_seven',
-           'difference_negative', 'product_sixteen')
-CONTROLS = ('plain_global', 'local_sum', 'indirect_difference', 'call_difference',
+           'difference_negative', 'product_sixteen', 'local_sum')
+CONTROLS = ('plain_global', 'indirect_difference', 'call_difference',
             'outside_imm8', 'zero_offset')
 NAMES = CHANGED + CONTROLS
 SEEDS = (-128, -127, -1, 0, 1, 126, 127)
@@ -96,9 +97,9 @@ def main():
             shutil.copyfile(args.trial, bins[label] / 'shcmdl.exe')
     modes = [('stock', 'stock', {}), ('alloff', 'trial', dict.fromkeys(parity.RULES, '0')),
              ('old63', 'old', {}), ('unset', 'trial', {}),
-             ('old127', 'old', {'MDL_IMM_REG': '127'}),
-             ('off127', 'trial', {'MDL_IMM_REG': '127'}),
-             ('on255', 'trial', {'MDL_IMM_REG': '255'})]
+             ('old255', 'old', {'MDL_IMM_REG': '255'}),
+             ('on255', 'trial', {'MDL_IMM_REG': '255'}),
+             ('on191', 'trial', {'MDL_IMM_REG': '191'})]
     outputs, parsed, rows = {}, {}, []
     source = ROOT / 'tests/cases/imm_expr.c'
     for label, bundle, settings in modes:
@@ -126,9 +127,10 @@ def main():
             r"^_(\w+)\s+H'([0-9A-F]+)", (case / 'fixture.map').read_text(), re.M)}
         execute(dx, dx.Image((case / 'fixture.bin').read_bytes()), symbols, label, rows)
         print('PASS semantic', label, flush=True)
-    for a, b in [('stock', 'alloff'), ('old63', 'unset'), ('old127', 'off127')]:
+    # 255 held the retired bit 64 beside 128 in the previous bundle; 128 covers it, so 255 and 191 give its output
+    for a, b in [('stock', 'alloff'), ('old63', 'unset'), ('old255', 'on255'), ('old255', 'on191')]:
         assert outputs[a] == outputs[b], ('disabled native/listing parity', a, b)
-    off, on = parsed['off127'], parsed['on255']
+    off, on = parsed['unset'], parsed['on191']
     assert off.frozen_data() == on.frozen_data(), 'non-code data changed'
     changes = []
     for name in NAMES:
@@ -141,7 +143,7 @@ def main():
     paths += [p for p in work.rglob('*') if p.is_file() and 'tmp' not in p.relative_to(work).parts]
     support.table(work / 'bindings.tsv', ['path', 'sha256'],
                   [(str(p), hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(set(paths))])
-    print('PASS', len(rows), 'executions; disabled output identical; seven arithmetic changes, six controls', flush=True)
+    print('PASS', len(rows), 'executions; disabled output identical; eight arithmetic changes, five controls', flush=True)
     return 0
 
 
