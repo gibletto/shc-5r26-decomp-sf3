@@ -369,8 +369,8 @@ int xjump_reject(char kind, int mode, int count)
      bit 2: a label tail (mode 1, jt=2,-1, no switch open) holding a register-to-register move (entry_2
             Entry_01_Sub: `Ignore_Entry[0] = 0; Ignore_Entry[1] = 0;` in both arms of an if/else), two or more
             records long (sc_trans sa_stock_trans merges its one-record `mov r4,r14` tail);
-     bit 16: a jump tail (mode 2) outside switches, two or more records of moves holding a register-to-register
-            move, both behind a label (pv=18,18; EFFB8 effect_B8_init's Super_Arts cases `mov r6,r4; bra end;
+     bit 16: a jump tail (mode 2) outside switches, of moves holding a register-to-register move (any length:
+            the two-record minimum it had decides nothing in the three games), both behind a label (pv=18,18; EFFB8 effect_B8_init's Super_Arts cases `mov r6,r4; bra end;
             mov.w r4,@r5`, jt=2,3); bgst100 bg090_demo_check's pv=0,0 tail of the same shape is merged.
      Bits 4 (one-call tails outside switches), 8 (a dead block's jump gives its label reference back) and 32
      (call-plus-slot label tails) are retired: every C module of 2nd Impact and New Generation compiles to the same
@@ -382,7 +382,7 @@ int xjump_reject(char kind, int mode, int count)
     if ((x2 & 2) && kind == 0x18 && mode == 1 && count >= 2 && xjump_jt_a == 2 && xjump_jt_b == -1 && sw == 0 &&
         xj_reg_move())
       r = 1;
-    if ((x2 & 16) && kind == '$' && mode == 2 && count >= 2 && sw == 0 && xjump_prev_a == 0x18 &&
+    if ((x2 & 16) && kind == '$' && mode == 2 && sw == 0 && xjump_prev_a == 0x18 &&
         xjump_prev_b == 0x18 && xj_reg_move())
       r = 1;
   }
