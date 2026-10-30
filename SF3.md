@@ -219,7 +219,8 @@ Impact and 3rd Strike builds are unchanged.
 | `PEP_RETURN_EXIT=1` | shcpep | 2 (build.bat) | see below (EFFD7 effD7_select_end; 3rd Strike EM_Cand Check_EM_Buff); 1 and 2 are the same rule |
 | `ASM_READY_WAVES=1` and the sound unit profile below | shcasm, shcgen, shcmdl | off | for two modules only, `sound_voice_3` (the sequence decoder) and `sound_voice` (the idle voice handler): the stable-frontier scheduler described at the top and the six settings of the older compiler that built the sound driver |
 
-The game's `-optimize=0` modules also take `GEN_NARROW_CONST=0`, as in 2nd Impact. New Generation's sound driver
+Its `-optimize=0` modules build with `GEN_NARROW_CONST` at the default as well as at 0 (no opt0 module changes), so
+the build no longer sets it for them as 2nd Impact's does. New Generation's sound driver
 (`textsound_2`, `sound_voice`, `sound_voice_2`) was built by a much older SHC release than any available; its
 routines are built from assembler in the game repository, and the settings below model only part of that compiler.
 
