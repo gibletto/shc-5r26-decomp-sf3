@@ -209,4 +209,11 @@ fix("00402660", [(INCLUDES, INCLUDES + '\n#include "oldunit.h"'),
                  ("  \n  use = *(int **)((int)reg->chain + 8);\n",
                   "  \n  if (CONST_AT_ENTRY()) {\n    return;\n  }\n  use = *(int **)((int)reg->chain + 8);\n")])
 
+# --- MDL_PARAM_HOME (src/_oldunit.c, include/oldunit.h; only with SHC_REBUILD_UPDATED=1): a third behaviour of that
+# older compiler: a register parameter the function never reads keeps its memory register (a frame slot stored at the
+# entry) instead of being given its own argument register
+fix("0041c190", [('#include "argconst.h"', '#include "argconst.h"\n#include "oldunit.h"'),
+                 ("if (**(int **)((int)(*slot)->chain + 8) == 0) {",
+                  "if ((**(int **)((int)(*slot)->chain + 8) == 0) && UNUSED_PARAM_IN_ARG_REG()) {")])
+
 print(n, "fixes")

@@ -3,7 +3,10 @@
    MDL_SAVED_PRIO=<n> (unset or 0: 3, Release 26): the least priority a variable web needs for a callee-saved register
      (r8-r14) in assign_physical_registers; the older compiler gives one to a web of priority 2.
    MDL_CONST_ENTRY=1: a constant or address that becomes a register candidate is loaded once at the function's
-     entry, not at the block that dominates its uses (choose_const_dominator keeps the entry block). */
+     entry, not at the block that dominates its uses (choose_const_dominator keeps the entry block).
+   MDL_PARAM_HOME=1: a parameter passed in a register that the function never reads keeps a frame slot, and the
+     entry stores the register there; Release 26 (write_lreg_numbers) gives the memory register of a parameter whose
+     only reference is its entry self-assignment the parameter's own argument register, so it costs nothing. */
 #if SHC_REBUILD_UPDATED
 #include <stdlib.h>
 #include "decls.h"
@@ -26,5 +29,10 @@ int mdl_const_entry(void)
 {
     static int k = -99;
     return env_int("MDL_CONST_ENTRY", 0, &k) & 1;
+}
+int mdl_param_home(void)
+{
+    static int k = -99;
+    return env_int("MDL_PARAM_HOME", 0, &k) & 1;
 }
 #endif

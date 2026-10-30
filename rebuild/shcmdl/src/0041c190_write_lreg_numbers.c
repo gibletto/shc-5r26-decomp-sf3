@@ -1,6 +1,7 @@
 #include "decls.h"
 #include "imports.h"
 #include "argconst.h"
+#include "oldunit.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_symtab
 #define g_symtab (*(symbol * *)(g_sd + 0x26efc))
@@ -132,7 +133,7 @@ LAB_0041c387:
                      (g_symtab[piVar1->symx].sclass == '\b')) && (item->block->number == 1)))) {
                   iVar2 = operand_index(piVar1);
                   if (iVar2 == 2) goto LAB_0041c496;
-                  if (**(int **)((int)(*slot)->chain + 8) == 0) {
+                  if ((**(int **)((int)(*slot)->chain + 8) == 0) && UNUSED_PARAM_IN_ARG_REG()) {
                     piVar1->parent->child->next->lreg = lregno;
                     uVar3 = parameter_register_index(piVar1);
                     (*slot)->pregno = (short)uVar3;
