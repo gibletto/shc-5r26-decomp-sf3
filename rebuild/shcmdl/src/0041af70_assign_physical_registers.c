@@ -1,6 +1,7 @@
 #include "decls.h"
 #include "imports.h"
 #include "regvarlog.h"
+#include "oldunit.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_func_node
 #define g_func_node (*(il_node * *)(g_sd + 0x1e738))
@@ -89,7 +90,7 @@ int __cdecl assign_physical_registers(void)
 LAB_0041b0ff:
               if (4 < iVar2) {
 LAB_0041b104:
-                if (((*slot)->priori < 3) ||
+                if (((*slot)->priori < SAVED_PRIORITY_MIN()) ||
                    (((4 < iVar2 && (func_attr_08 != 0)) &&
                     (iVar1 = lreg_spans_call(*slot), iVar1 != 0)))) goto LAB_0041b1d8;
               }

@@ -2,6 +2,7 @@
 #include "imports.h"
 #include "evictrules.h"
 #include "gen_rules.h"
+#include "oldunit.h"
 /* the types Ghidra's decompiler used for these globals in this function */
 #undef g_request
 #define g_request (*(request * *)(g_sd + 0x1eea0))
@@ -704,7 +705,7 @@ LAB_00423356:
   uVar6 = result_reg_exclusion_mask(node);
   apply_template_to_node(node,node->desc->tmpl,'\x10',(ea *)0x0,(ea *)0x0,uVar6,left_opnd);
   RIGHT_FIRST_DROP_PENDING();
-  if ((node->op == IL_B_AND) && (node->desc->usage == '\x01')) {
+  if ((node->op == IL_B_AND) && (node->desc->usage == '\x01') && AND_TEST_FUSES()) {
     flag_byte = &node->desc->flags2;
     *flag_byte = *flag_byte | 0x20;
     flag_byte = &node->desc->flags7;

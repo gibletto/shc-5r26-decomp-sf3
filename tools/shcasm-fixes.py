@@ -149,4 +149,11 @@ fix("00415edd", [('#include "mulrules.h"\n', '#include "mulrules.h"\n#include "n
                  ("        can_issue = can_schedule_pipeline_entry_now(i);\n",
                   "        can_issue = SCHED_CAN_ISSUE(i);\n")])
 
+# --- ASM_SIDE_ORDER (src/_oldunit.c, include/oldunit.h; only with SHC_REBUILD_UPDATED=1): a behaviour of the older
+# compiler that built New Generation's sound driver, for a unit profile: a stepped-pointer access or a store through
+# a pointer gets the masks of a volatile access, so it keeps its place in the window
+fix("00414f9f", [('#include "imports.h"\n', '#include "imports.h"\n#include "oldunit.h"\n'),
+                 ("(((cur_entry->rec).flg & 0x80) != 0)))))) ||",
+                  "(((cur_entry->rec).flg & 0x80) != 0 || SIDE_ORDER_FENCE(cur_entry))))))) ||")])
+
 print(f"shcasm-fixes: {n} replacements")

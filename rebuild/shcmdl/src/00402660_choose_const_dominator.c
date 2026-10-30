@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "oldunit.h"
 
 // entry: 00402660
 // name : choose_const_dominator
@@ -23,6 +24,9 @@ int __cdecl choose_const_dominator(lreg *reg)
   undefined4 *other_use;
   loop *outer;
   
+  if (CONST_AT_ENTRY()) {
+    return;
+  }
   use = *(int **)((int)reg->chain + 8);
   other_use = (undefined4 *)*use;
   last_use = use;

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "oldunit.h"
 
 // entry: 0040d7d0
 // name : release_node_registers
@@ -125,7 +126,9 @@ int __cdecl release_node_registers(gen_node *node)
     mask_ptr = &node->desc->temp_regs;
     *mask_ptr = *mask_ptr | pgVar1->desc->temp_regs;
   }
-  g_last_chosen_reg = -1;
+  if (!RELEASE_KEEPS_LAST()) {
+    g_last_chosen_reg = -1;
+  }
   g_avoid_reg_mask = 0;
   invalidate_register_contents((int)(short)freed_mask);
   return;

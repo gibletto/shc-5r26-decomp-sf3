@@ -217,11 +217,31 @@ Impact and 3rd Strike builds are unchanged.
 | `MDL_IMM_REG=191` | shcmdl | 191 | bit 128 (the same value as 2nd Impact's now): with bit 4, a `+`, `-` or `*` tree of identifiers, constants and casts may reuse a nonzero constant already kept in a register, global scalars included; a bare global, an indirect access or a call keeps the previous rule (RANKING Setup_grade; one routine) |
 | `PEP_SWITCH_END=3` | shcpep | 1 | bit 2: consecutive nested switch ends also keep their break labels for threading (`tests/switch_end.py`) |
 | `PEP_RETURN_EXIT=1` | shcpep | 2 (build.bat) | see below (EFFD7 effD7_select_end; 3rd Strike EM_Cand Check_EM_Buff); 1 and 2 are the same rule |
-| `PEP_AUTOINC=0`, `ASM_READY_WAVES=1` | shcpep, shcasm | default, off | for one module only, `sound_voice_3` (the sequence decoder): no auto-increment folding, and the stable-frontier scheduler described at the top |
+| `ASM_READY_WAVES=1` and the sound unit profile below | shcasm, shcgen, shcmdl | off | for one module only, `sound_voice_3` (the sequence decoder): the stable-frontier scheduler described at the top and the five settings of the older compiler that built the sound driver |
 
 The game's `-optimize=0` modules also take `GEN_NARROW_CONST=0`, as in 2nd Impact. New Generation's sound driver
 (`textsound_2`, `sound_voice`, `sound_voice_2`) was built by a much older SHC release than any available; its
-routines are built from assembler in the game repository, and no setting here models that compiler.
+routines are built from assembler in the game repository, and the settings below model only part of that compiler.
+
+### New Generation's sound unit profile
+
+New Generation's sound driver was built by an older SHC than Release 26 (none is on file): the same C built by
+Release 26 is in 2nd Impact, 3rd Strike and both JoJo images, while New Generation's bytes appear in no other image.
+Five settings model what the older compiler does differently; they are off unless set, and the New Generation build
+sets them (with `ASM_READY_WAVES=1`) for `sound_voice_3` only (`tools/buildng.py`, `REVISION_BY_FLAGS['speed_stable']`),
+where the decoders are then the same C as in 2nd Impact and 3rd Strike.
+
+| Setting | Stage | Release 26 | The older compiler |
+|---|---|---|---|
+| `GEN_AND_TEST=1` | shcgen | a bit-and whose value is only tested takes the test template, `tst Rm,Rn` | computes the and into a register and tests it, `and Rm,Rn` / `tst Rn,Rn` (`if (val & 0x80)`) |
+| `GEN_LAST_KEEP=1` | shcgen | releasing a node's registers forgets the register chosen last | keeps it, so the next choice still passes over that register (the loop temporaries take `r2`/`r1` in turn) |
+| `MDL_SAVED_PRIO=2` | shcmdl | a variable web needs priority 3 for a callee-saved register | priority 2 is enough (`start` stays in `r14` and is saved) |
+| `MDL_CONST_ENTRY=1` | shcmdl | a constant or address register candidate is loaded where its uses are dominated (in its only block, or in front of the outermost loop) | it is loaded at the function's entry (`mov #127` in the delay slot of the entry test) |
+| `ASM_SIDE_ORDER=3` | shcasm | the list scheduler moves stores and post-increment accesses like any memory access | an access through a pointer that it steps (bit 1, `*p++`; the stack pointer's pushes and pops excepted) and a store through a pointer (bit 2; stores to the frame excepted) get the masks of a volatile access and keep their place |
+
+The rest of the driver (`voice_process_primary`, `voice_process_secondary`, `sound_voice_volume_compute`,
+`sound_note_to_pitch`, `sound_reg_write_verify` and the `textsound_2` routines) is still not exact under these
+settings; `voice_process_null` would need a sixth (an unused parameter still stored to its frame slot).
 
 ## New Generation return epilogues
 

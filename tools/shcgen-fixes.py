@@ -256,4 +256,16 @@ fix("00401c90", [('#include "imports.h"\n', '#include "imports.h"\n#include "orl
                   f"      g_last_chosen_reg = or_left_last;\n"
                   f"    }}\n")], once=True)
 
+# --- GEN_AND_TEST and GEN_LAST_KEEP (src/_oldunit.c, include/oldunit.h; only with SHC_REBUILD_UPDATED=1): two
+# behaviours of the older compiler that built New Generation's sound driver, for a unit profile. GEN_AND_TEST: a
+# bit-and whose value is only tested is not marked for the tst Rm,Rn template; GEN_LAST_KEEP: release_node_registers
+# leaves the chooser's last-chosen register as it is
+fix("00422180", [('#include "gen_rules.h"\n', '#include "gen_rules.h"\n#include "oldunit.h"\n'),
+                 ("  if ((node->op == IL_B_AND) && (node->desc->usage == '\\x01')) {\n",
+                  "  if ((node->op == IL_B_AND) && (node->desc->usage == '\\x01') && AND_TEST_FUSES()) {\n")], once=True)
+fix("0040d7d0", [('#include "imports.h"\n', '#include "imports.h"\n#include "oldunit.h"\n'),
+                 ("  g_last_chosen_reg = -1;\n  g_avoid_reg_mask = 0;\n",
+                  "  if (!RELEASE_KEEPS_LAST()) {\n    g_last_chosen_reg = -1;\n  }\n  g_avoid_reg_mask = 0;\n")],
+    once=True)
+
 print(f"shcgen-fixes: {n} replacements")

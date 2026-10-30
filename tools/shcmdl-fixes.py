@@ -200,4 +200,13 @@ fix("0040e780", [(INCLUDES, INCLUDES + '\n#include "maskrules.h"'),
 fix("0041af70", [(INCLUDES, INCLUDES + '\n#include "regvarlog.h"'),
                  ("  add_memory_lregs((short)iVar1);", "  REGVAR_LOG();\n  add_memory_lregs((short)iVar1);")])
 
+# --- MDL_SAVED_PRIO and MDL_CONST_ENTRY (src/_oldunit.c, include/oldunit.h; only with SHC_REBUILD_UPDATED=1): two
+# behaviours of the older compiler that built New Generation's sound driver, for a unit profile. MDL_SAVED_PRIO: the
+# least priority for a callee-saved register; MDL_CONST_ENTRY: a constant register candidate is loaded at the entry
+fix("0041af70", [('#include "regvarlog.h"', '#include "regvarlog.h"\n#include "oldunit.h"'),
+                 ("if (((*slot)->priori < 3) ||", "if (((*slot)->priori < SAVED_PRIORITY_MIN()) ||")])
+fix("00402660", [(INCLUDES, INCLUDES + '\n#include "oldunit.h"'),
+                 ("  \n  use = *(int **)((int)reg->chain + 8);\n",
+                  "  \n  if (CONST_AT_ENTRY()) {\n    return;\n  }\n  use = *(int **)((int)reg->chain + 8);\n")])
+
 print(n, "fixes")

@@ -1,5 +1,6 @@
 #include "decls.h"
 #include "imports.h"
+#include "oldunit.h"
 
 // entry: 00414f9f
 // name : compute_pipeline_opcode_masks_and_flags
@@ -78,7 +79,7 @@ int __cdecl compute_pipeline_opcode_masks_and_flags(void)
     }
     if ((((op_code == 0x9f) || (op_code == 0x86)) ||
         ((op_code == 0xa0 ||
-         (((op_code == 0x11 || (op_code == 0x10)) || (((cur_entry->rec).flg & 0x80) != 0)))))) ||
+         (((op_code == 0x11 || (op_code == 0x10)) || (((cur_entry->rec).flg & 0x80) != 0 || SIDE_ORDER_FENCE(cur_entry))))))) ||
        ((op_code == 0x8c &&
         ((((cur_entry->rec).ea2)->base == REG_SR || (((cur_entry->rec).ea2)->base == REG_VBR)))))) {
       set_mask1 = 0xffffffff;
