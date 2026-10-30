@@ -1,4 +1,4 @@
-# sources 9ce0c497dd447adeb93673d5532962666ba3ffdb
+# sources aecae3d7ae238809434ecbd3486d7c119764056c
 ACTIVE00	obj:0:292eaac30c0a40e5
 ACTIVE00_tbl	obj:0:a7d4b0499234b792
 BBBSCOM	obj:0:257aea307b9bf874
@@ -353,7 +353,7 @@ PLCNT3	obj:0:7982e90bb20f7ba2
 PLCNT3_tbl	obj:0:641a4389e60067d2
 PLCNTDAT	obj:0:c66ca4311d819725
 PLCNTSET	obj:0:387ff06e3a0139fb
-PLCNT_tbl	obj:0:e508022aee9ba467
+PLCNT_tbl	obj:0:6065ea234dcc1484
 PLMAIN	obj:0:7f90471f9b6efa15
 PLMAIN2	obj:0:f423565117b73254
 PLMAIN2_tbl	obj:0:fd9adfea4b4ce8c3
@@ -879,7 +879,7 @@ sound_voice_3	obj:0:9962c699b1f051a5
 sound_voice_tbl	obj:0:838ae99a61791c1d
 soundtest	obj:0:419b9b731a96f0ad
 spgauge	obj:0:a77c89983f49c575
-spgauge_tbl	obj:0:ba3fe03618655d42
+spgauge_tbl	obj:0:fd76228fadbcd8f3
 spr_list	obj:0:895d6f5f335f45bd
 spr_pool	obj:0:d05ecee042215739
 spr_pool_2	obj:0:913132d5319aedd3
